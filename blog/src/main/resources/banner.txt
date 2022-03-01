@@ -11,7 +11,5 @@ ${AnsiColor.GREEN}
 | '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'
 ${AnsiColor.YELLOW}
-Gitee: https://gitee.com/quequnlong/vue-admin-blog
-Gitee: https://gitee.com/quequnlong/shiyi-blog
-Gitee: https://gitee.com/quequnlong/blog-vue
+Gitee: https://gitee.com/quequnlong/shiyi-blog.git
 ${AnsiColor.BLUE}
