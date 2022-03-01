@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiyi.mapper.CommentMapper">
+
+    <select id="listComments" resultType="com.shiyi.dto.CommentDTO">
+        SELECT
+        u.nickname,
+        u.avatar,
+        c.user_id,
+        c.id,
+        c.content,
+        c.create_time
+        FROM
+        b_comment c
+        JOIN b_user_info u ON c.user_id = u.id
+        WHERE
+        <if test="articleId != null">
+            c.article_id = #{articleId}
+        </if>
+        <if test="articleId == null">
+            c.article_id IS NULL
+        </if>
+        AND c.parent_id IS NULL
+        ORDER BY
+        c.id DESC
+        LIMIT #{page},#{size}
+    </select>
+
+    <select id="listReplies" resultType="com.shiyi.dto.ReplyDTO">
+        SELECT
+            c.id,
+            c.user_id,
+            u.nickname,
+            u.avatar,
+            c.reply_user_id,
+            r.nickname AS reply_nickname,
+            c.parent_id,
+            c.content,
+            c.create_time
+        FROM b_comment c left JOIN b_user_auth u ON c.user_id = u.id
+                       left  JOIN b_user_auth r ON c.reply_user_id = r.id
+        WHERE
+            c.parent_id =#{id}
+    </select>
+
+    <select id="listReplyCountByCommentId" resultType="com.shiyi.dto.ReplyCountDTO">
+        SELECT
+        parent_id as comment_id,
+        count(1) AS reply_count
+        FROM
+        b_comment
+        WHERE
+        parent_id IN
+        (
+        <foreach collection="commentIdList" item="commentId" separator=",">
+            #{commentId}
+        </foreach>
+        )
+        GROUP BY
+        parent_id
+    </select>
+</mapper>

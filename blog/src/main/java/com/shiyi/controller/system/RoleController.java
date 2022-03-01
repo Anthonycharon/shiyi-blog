@@ -1,0 +1,64 @@
+package com.shiyi.controller.system;
+
+import com.shiyi.annotation.OperationLogger;
+import com.shiyi.common.ApiResult;
+import com.shiyi.entity.Role;
+import com.shiyi.service.RoleService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+
+@RestController
+@RequestMapping("/system/role")
+@Api(tags = "角色管理-接口")
+public class RoleController {
+
+    @Autowired
+    private RoleService roleService;
+
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    @ApiOperation(value = "角色列表", httpMethod = "GET", response = ApiResult.class, notes = "角色列表")
+    public ApiResult listRole(String name,@RequestParam(required = false) int pageNo, @RequestParam(required = false) int pageSize) {
+        return roleService.listData(name,pageNo,pageSize);
+    }
+
+    @RequestMapping(value = "queryUserRole", method = RequestMethod.GET)
+    @ApiOperation(value = "获取当前登录用户所拥有的权限", httpMethod = "GET", response = ApiResult.class, notes = "获取当前登录用户所拥有的权限")
+    public ApiResult queryByUser(HttpServletRequest request) {
+        return roleService.queryByUser(request);
+    }
+
+    @RequestMapping(value = "queryRoleId", method = RequestMethod.GET)
+    @ApiOperation(value = "获取该角色所有的权限", httpMethod = "GET", response = ApiResult.class, notes = "获取该角色所有的权限")
+    public ApiResult queryRoleId(Integer roleId) {
+        return roleService.queryRoleId(roleId);
+    }
+
+    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @ApiOperation(value = "添加角色", httpMethod = "POST", response = ApiResult.class, notes = "添加角色")
+    @OperationLogger(value = "添加角色")
+    public ApiResult create(@RequestBody Role role) {
+        return roleService.addRole(role);
+    }
+
+    @RequestMapping(value = "update", method = RequestMethod.POST)
+    @ApiOperation(value = "修改角色", httpMethod = "POST", response = ApiResult.class, notes = "修改角色")
+    @OperationLogger(value = "修改角色")
+    public ApiResult update(@RequestBody Role role) {
+        return roleService.updateRole(role);
+    }
+
+    @RequestMapping(value = "remove", method = RequestMethod.DELETE)
+    @ApiOperation(value = "删除角色", httpMethod = "DELETE", response = ApiResult.class, notes = "删除角色")
+    @OperationLogger(value = "删除角色")
+    public ApiResult remove(@RequestBody List<Integer> ids) {
+        return roleService.delete(ids);
+    }
+
+
+}

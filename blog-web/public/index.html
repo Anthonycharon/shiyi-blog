@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="keywords" content="拾壹博客,开源博客,www.shiyit.com">
+    <meta name="description" content="一个专注于技术分享的博客平台,大家以共同学习,乐于分享,拥抱开源的价值观进行学习交流">
+    <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>拾壹博客</title>
+    <script>
+      var _hmt = _hmt || [];
+    </script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" >
+    <script type="text/javascript" src="http://connect.qq.com/qc_jssdk.js"  data-appid="101995894" data-redirecturi="http://www.shiyit.com/callback/qq" charset="utf-8"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?725f624fdb6a307fa04e422db6d078fd";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </body>
+  <script>
+    /**/
+    function setClipboardText(event){
+      event.preventDefault();
+      var node = document.createElement('div');
+      node.appendChild(window.getSelection().getRangeAt(0).cloneContents());
+      var htmlData = '<div>'
+        + node.innerHTML
+        + '<br/><br/>著作权归作者所有。<br/>'
+        + '商业转载请联系作者获得授权，非商业转载请注明出处。<br/>'
+        + '作者：拾壹<br/>'
+        + '来源：http://www.shiyit.com<br/><br/>'
+        + '</div>';
+      var textData = window.getSelection().getRangeAt(0)
+        + '\n\n著作权归作者所有。\n'
+        + '商业转载请联系作者获得授权，非商业转载请注明出处。\n'
+        + '作者：拾壹\n'
+        + '来源：http://www.shiyit.com\n\n';
+      if(event.clipboardData){
+        event.clipboardData.setData("text/html", htmlData);
+        event.clipboardData.setData("text/plain",textData);
+      }
+      else if(window.clipboardData){
+        return window.clipboardData.setData("text", textData);
+      }
+    };
+
+    document.addEventListener('copy',function(e){
+      setClipboardText(e);
+    });
+  </script>
+  </html>
+
+

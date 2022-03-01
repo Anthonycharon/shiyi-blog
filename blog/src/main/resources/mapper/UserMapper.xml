@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiyi.mapper.UserMapper">
+    <insert id="insertBackId" keyProperty="id" useGeneratedKeys="true">
+        insert into b_user(username,password,nick_name,avatar,pwd,created_time) values(#{username},#{password},#{nickName}
+        ,#{avatar},#{pwd},#{createdTime})
+    </insert>
+
+    <select id="getMenuId" resultType="java.lang.Integer">
+        select menu_id from b_role_menu where role_id =
+           (select role_id from b_user_role where user_id=(select id from b_user where username=#{userName}))
+    </select>
+
+</mapper>
