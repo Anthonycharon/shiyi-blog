@@ -1,37 +1,117 @@
-## 介绍
 
+<p align="center">
+   <a target="_blank" href="https://github.com/X1192176811/blog">
+      <img src="https://img.shields.io/hexpm/l/plug.svg"/>
+      <img src="https://img.shields.io/badge/JDK-1.8+-green.svg"/>
+      <img src="https://img.shields.io/badge/springboot-2.4.1.RELEASE-green"/>
+      <img src="https://img.shields.io/badge/vue-2.5.17-green"/>
+      <img src="https://img.shields.io/badge/mysql-5.5.0-green"/>
+      <img src="https://img.shields.io/badge/mybatis--plus-3.4.0-green"/>
+      <img src="https://img.shields.io/badge/redis-6.0.5-green"/>
+      <img src="https://img.shields.io/badge/elasticsearch-7.9.2-green"/>
+   </a>
+</p>
 
-本项目是基于[vue-admin-template](https://gitee.com/panjiachen/vue-admin-template)
-模板进行改造的一个博客后台管理项目,目前是用于自己的博客管理。
-有不懂的问题可以随时私聊或者前往作者博客地址首页QQ图标与我联系。
-由于七牛云图片没有设置https，gitee无法添加图片介绍，可以前往博客首页查看文章介绍。另外欢迎star
+[在线地址](#在线地址) | [目录结构](#目录结构) | [项目特点](#项目特点) | [技术介绍](#技术介绍) | [运行环境](#运行环境)
 
-## 博客地址
+## 在线地址
 
-[拾壹博客](http://www.shiyit.com)
+**项目链接：** [拾壹博客](http://www.shiyit.com)
 
-## 后台演示地址
+**后台链接：** [拾壹博客后台管理系统](http://www.shiyit.com/admin)
 
-[拾壹博客后台管理系统](http://www.shiyit.com/admin)
 账号:test 密码:test
 
-## 新增功能
-- 文章贡献度，类似github的提交表格
-- 操作日志，记录用户在门户页面的操作记录，
+**Gitee地址：** [https  ://gitee.com/quequnlong/shiyi-blog](https://gitee.com/quequnlong/shiyi-blog)
 
-## 完成功能
+您的star是我坚持的动力，感谢大家的支持，欢迎提交pr共同改进项目。
 
-- 登录、退出
-- 首页各种统计
-- 文章管理 
-- 文章SEO
-- 标签管理
-- 友链管理
-- 留言管理
-- 配置管理
-- 菜单管理
-- 角色管理
-- 用户管理
+## 目录结构
+
+前端项目blog-web为前台，blog-admin为后台。
+
+后端项目位于blog下。
+
+SQL文件位于根目录下的shiyi-blog.sql
+
+可直接导入该项目于本地，修改后端配置文件中的数据库等连接信息，项目中使用到的关于七牛云功能和第三方授权登录等需要自行开通。
+
+当你克隆项目到本地后可使用账号：admin，密码：123456 进行登录
+
+本地访问接口文档地址：[http://127.0.0.1:8800/shiyi/swagger-ui.html](http://127.0.0.1:8800/shiyi/swagger-ui.html)
+
+**ps：请先运行后端项目，再启动前端项目，前端项目配置由后端动态加载。** 
+
+```
+blog
+├── annotation    --  自定义注解
+├── aspect        --  aop模块
+├── config        --  配置模块
+├── common        --  常量模块
+├── controller    --  控制器模块
+├── entity        --  实体类模块
+├── dto           --  dto模块
+├── enums         --  枚举模块
+├── exception     --  自定义异常模块
+├── handle        --  处理器模块
+├── mapper        --  框架核心模块
+├── service       --  服务模块
+├── strategy      --  策略模块（用于扩展第三方登录，搜索模式，上传文件模式等策略）
+├── utils         --  工具类模块
+├── task          --  定时功能模块
+├── webmagic      --  文章爬虫模块
+└── vo            --  vo模块
+```
+## 项目特点
+
+- 后台参考"vue-element-template"设计，侧边栏，历史标签，面包屑自动生成。
+- 采用Markdown编辑器，写法简单。
+- 评论支持表情输入回复等
+- 添加音乐播放器，支持在线搜索歌曲。
+- 前后端分离部署，适应当前潮流。
+- 接入第三方登录，减少注册成本。
+- 留言采用弹幕墙，更加炫酷。
+- 支持代码高亮和复制，图片预览，深色模式等功能，提升用户体验。
+- 搜索文章支持高亮分词，响应速度快。
+- 新增文章目录、推荐文章等功能，优化用户体验。
+- 新增aop注解实现日志管理
+- 支持动态权限修改，采用RBAC模型，前端菜单和后台权限实时更新。
+- 后台管理支持修改背景图片，博客配置等信息，操作简单，支持上传相册。
+- 代码支持多种搜索模式（Elasticsearch或MYSQL），可支持配置。
+- 代码遵循阿里巴巴开发规范，利于开发者学习。
+
+## 技术介绍
+
+**前端：** vue + vuex + vue-router + axios + vuetify + element + echarts
+
+**后端：** SpringBoot + nginx + docker + SpringSecurity + Swagger2 + MyBatisPlus + Mysql + Redis + elasticsearch 
+
+**其他：** 接入QQ、微博、码云第三方登录，接入七牛云对象存储
+
+## 运行环境
+
+**服务器：** 腾讯云2核4G CentOS7.6
+
+**对象存储：** 七牛云OSS
+
+**最低配置：** 1核2G服务器（关闭ElasticSearch）
+
+## 开发环境
+
+|            开发工具            |           说明            |
+| ----------------------------- | ------------------------- |
+| IDEA                          | Java开发工具IDE            |
+| VSCode                        | Vue开发工具IDE             |
+| Navicat                       | MySQL远程连接工具          |
+| Another Redis Desktop Manager | Redis远程连接工具          |
+| finalshell                    | Linux远程连接和文件上传工具 |
+
+|    开发环境    |  版本  |
+| ------------- | ----- |
+| JDK           | 1.8   |
+| MySQL         | 5.5.0 |
+| Redis         | 6.0.5 |
+| Elasticsearch | 7.9.2 |
 
 ## 安装依赖
 
