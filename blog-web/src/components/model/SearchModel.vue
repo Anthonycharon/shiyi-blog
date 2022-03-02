@@ -14,6 +14,13 @@
         <v-icon>mdi-magnify</v-icon>
         <input v-model="keywords" placeholder="输入文章标题或内容..." />
       </div>
+<!--      <div style="margin-top: 10px">
+        <span style="font-weight: bold">每日热搜</span><br/>
+        <div style="display:inline-block;background-color: #b3b3b3;color: rgb(102,102,102);border-radius: 10px;margin-left: 10px;margin-top: 8px">
+          <span style="padding: 15px">博客112</span>
+        </div>
+      </div>-->
+
       <!-- 搜索结果 -->
       <div class="search-result-wrapper">
         <hr class="divider" />

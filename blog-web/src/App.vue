@@ -41,7 +41,7 @@ import RegisterModel from "./components/model/RegisterModel";
 import ForgetModel from "./components/model/ForgetModel";
 import EmailModel from "./components/model/EmailModel";
 import Player from "./components/zw-player/player.vue";
-import ChatRoom from "./components/ChatRoom";
+//import ChatRoom from "./components/ChatRoom";
 import FeedBack from "./components/FeedBack";
 import { getWebSiteInfo,report} from './api'
 export default {
@@ -61,8 +61,7 @@ export default {
     RegisterModel,
     ForgetModel,
     EmailModel,
-    FeedBack,
-    ChatRoom
+    FeedBack
   },
   methods: {
     getBlogInfo() {
