@@ -57,7 +57,7 @@ jwt:
   # 令牌前缀
   token-start-with: Bearer
   # 使用Base64对该令牌进行编码
-  secret: isblog2021
+  secret: shiyi20212021
   # 令牌过期时间 此处单位/毫秒 四个小时
   expiration: 3600000
 IgnorePackage:
