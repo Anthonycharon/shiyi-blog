@@ -74,7 +74,7 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
             userDetailDTO = saveUserDetail(socialToken, ipAddress, ipSource,socialUserInfo);
         }
         // 判断账号是否禁用
-        Assert.isTrue(!userDetailDTO.getIsDisable().equals(Constants.ZERO),"账号已被禁用!");
+        Assert.isTrue(!userDetailDTO.getIsDisable().equals(Constants.USER_STATUS_ZERO),"账号已被禁用!");
 
         // 返回用户信息
         UserInfoDTO userInfoDTO = BeanCopyUtils.copyObject(userDetailDTO, UserInfoDTO.class);

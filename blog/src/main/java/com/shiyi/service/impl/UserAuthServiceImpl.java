@@ -143,7 +143,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
 
         User user = getByUserName(vo.getEmail());
         Assert.notNull(user,"邮箱未注册，请先注册在进行登录!!");
-        Assert.isTrue(user.getStatus() == 1,"该邮箱账号已被管理员禁止登录！！");
+        Assert.isTrue(user.getStatus() == Constants.USER_STATUS_ONE,"该邮箱账号已被管理员禁止登录！！");
 
         boolean validate = passwordEncoder.matches(vo.getPassword(), user.getPassword());
         Assert.isTrue(validate,"密码错误!!");
@@ -162,13 +162,13 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
                 .intro(auth.getIntro()).webSite(auth.getWebSite()).email(user.getUsername()).loginType(user.getLoginType()).token(token).build();
 
         //不影响用户登录 新一个线程修改登录时间 ip 地址等信息
+        String ip = IpUtils.getIp(request);
         new Thread(() ->{
-            String ip = IpUtils.getIp(request);
             user.setIpAddress(ip);
             user.setIpSource(IpUtils.getCityInfo(ip));
             user.setLastLoginTime(DateUtils.getNowDate());
             userService.updateById(user);
-        });
+        }).start();
         return ApiResult.success(userInfoDTO);
     }
 

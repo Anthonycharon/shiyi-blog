@@ -29,7 +29,6 @@ public class Constants {
      */
     public static String SALT = "shiyi2022";
 
-    public static final int HASH_ITERATIONS = 1;
 
     /**
      * 请求头 - token
@@ -56,17 +55,14 @@ public class Constants {
     /**
      * 用户状态
      */
-    public static final int USER_STATUS = 1;
+    public static final int USER_STATUS_ONE = 1;
+
+    public static final int USER_STATUS_ZERO = 0;
 
     /**
-     * 用户状态
+     * 1
      */
     public static final int ONE = 1;
-
-    /**
-     * 用户状态
-     */
-    public static final int ZERO = 0;
 
     /**
      * 未知的
@@ -88,11 +84,6 @@ public class Constants {
 
     public static final String POST_TAG = "</span>";
 
-    public static final String SITE_URL = "http://www.shiyit.com";
-
-
     public static final int USER_ROLE_ID = 2;
-
-
 
 }

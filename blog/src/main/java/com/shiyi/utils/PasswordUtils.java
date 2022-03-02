@@ -44,7 +44,7 @@ public class PasswordUtils {
                 digest.update(salt.getBytes());
             }
             byte[] hashed = digest.digest(password.getBytes());
-            int iterations = Constants.HASH_ITERATIONS - 1;
+            int iterations = Constants.ONE - 1;
             for (int i = 0; i < iterations; ++i) {
                 digest.reset();
                 hashed = digest.digest(hashed);
