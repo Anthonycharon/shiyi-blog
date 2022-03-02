@@ -94,7 +94,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Transactional(rollbackFor = Exception.class)
     public ApiResult saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setStatus(Constants.USER_STATUS);
+        user.setStatus(Constants.USER_STATUS_ONE);
         baseMapper.insert(user);
         roleMapper.insertToUserId(user.getId(),user.getRoleId());
         return ApiResult.success(user);

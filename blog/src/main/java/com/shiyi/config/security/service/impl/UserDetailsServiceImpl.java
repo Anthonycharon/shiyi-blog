@@ -69,7 +69,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         } else {
             throw new UsernameNotFoundException("用户名或密码错误，请重试！");
         }
-        if (user.getStatus()!= Constants.USER_STATUS) throw new UsernameNotFoundException("该用户已被禁用!!");
+        if (user.getStatus() == Constants.USER_STATUS_ZERO) throw new UsernameNotFoundException("该用户已被禁用!!");
         // 返回UserDetails实现类
         return new SecurityUser(user, getUserRoles(user.getId()));
     }
