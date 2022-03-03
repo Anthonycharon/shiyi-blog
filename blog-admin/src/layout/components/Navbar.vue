@@ -21,7 +21,7 @@
           <Website id="website" class="right-menu-item" />
         </el-tooltip>
         <el-tooltip content="Gitee源码" effect="dark" placement="bottom">
-          <IsBlogGit id="IsBlogGit-git" class="right-menu-item" />
+          <ShiYiGit id="ShiYiGit-git" class="right-menu-item" />
         </el-tooltip>
         <el-tooltip effect="dark" content="修改密码" placement="bottom">
           <password class="screenfull right-menu-item"></password>
@@ -59,9 +59,9 @@ import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
 import Screenfull from "@/components/Screenfull";
-import IsBlogGit from '@/components/isblog/Git'
-import Website from '@/components/isblog/Website'
-import Password from '@/components/isblog/password'
+import ShiYiGit from '@/components/Shiyi/Git'
+import Website from '@/components/Shiyi/Website'
+import Password from '@/components/Shiyi/password'
 /*import ThemePicker from "@/components/ThemePicker";
 */
 
@@ -70,7 +70,7 @@ export default {
     Breadcrumb,
     Screenfull,
     Password,
-    IsBlogGit,
+    ShiYiGit,
     Website,
     Hamburger,
   },

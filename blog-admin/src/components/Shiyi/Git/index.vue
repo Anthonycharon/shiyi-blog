@@ -6,10 +6,10 @@
 
 <script>
 export default {
-  name: 'IsBlogGit',
+  name: 'ShiYiGit',
   data() {
     return {
-      url: 'https://gitee.com/quequnlong/vue-admin-blog'
+      url: 'https://gitee.com/quequnlong/shiyi-blog'
     }
   },
   methods: {

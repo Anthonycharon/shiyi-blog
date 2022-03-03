@@ -7,13 +7,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import adminDashboard from './admin'
-import editorDashboard from './editor'
-import {getDashboard} from '@/api/home'
 import { mapMutations } from "vuex";
 
 export default {
   name: 'Dashboard',
-  components: { adminDashboard, editorDashboard },
+  components: { adminDashboard},
   data() {
     return {
       currentRole: 'adminDashboard',
