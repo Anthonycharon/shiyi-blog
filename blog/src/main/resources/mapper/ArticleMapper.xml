@@ -20,7 +20,7 @@
                 and c.tag_id=#{param.tagId}
             </if>
         </where>
-        GROUP BY a.id order by a.is_stick desc
+        GROUP BY a.id order by a.is_stick desc ,a.create_time desc
     </select>
 
     <select id="contribute" resultType="com.shiyi.dto.ContributeDTO">
