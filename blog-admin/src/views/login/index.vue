@@ -32,13 +32,14 @@
           name="password"
           tabindex="2"
           auto-complete="on"
+          ref="password"
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-      <el-form-item prop="code" >
+      <!-- <el-form-item prop="code" >
          <span class="svg-container">
            <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
         </span>
@@ -53,12 +54,11 @@
         <div class="login-code">
           <img :src="changeImage" @click="handleClickImage" class="login-code-img"/>
         </div>
-      </el-form-item>
+      </el-form-item> -->
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"  @click.native.prevent="handleLogin">
         <span v-if="!loading">登 录</span>
         <span v-else>登 录 中...</span>
       </el-button>
-
 
       <div style="position:relative">
         <div class="tips">
@@ -90,7 +90,7 @@
       class="lizi"
     >
     </vue-particles>
-    <el-dialog title="第三方登录" :visible.sync="showDialog">
+    <el-dialog :modal-append-to-body="false" title="第三方登录" :visible.sync="showDialog">
       本地不能模拟，请结合自己业务进行模拟！！！
       <br>
       <br>
@@ -99,7 +99,7 @@
     </el-dialog>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2022 shiyit.com All Rights Reserved.</span>
+      <span>Copyright © 2022 <a href="http://www.shiyit.com" target="_blank">shiyit.com</a> All Rights Reserved.</span>
     </div>
   </div>
 </template>
@@ -108,21 +108,20 @@
 import { validUsername } from '@/utils/validate'
 import {captchaImage, login} from '@/api/user'
 import SocialSign from './components/SocialSignin'
-
 export default {
   name: 'Login',
   components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('用户名由字母组成并且至少3位'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('密码不能小于6位数'))
       } else {
         callback()
       }
@@ -137,8 +136,8 @@ export default {
         code:''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur' }],
-        password: [{ required: true, trigger: 'blur' }]
+        username: [{ required: true, trigger: 'blur',validator: validateUsername }],
+        password: [{ required: true, trigger: 'blur',validator: validatePassword}]
       },
       loading: false,
       passwordType: 'password',
@@ -153,10 +152,10 @@ export default {
       immediate: true
     }
   },
-  created() {
-    this.handleClickImage();
-    this.keyupEnter()
-  },
+  // created() {
+  //   this.handleClickImage();
+  //   this.keyupEnter()
+  // },
   methods: {
     keyupEnter(){
       document.onkeydown = e =>{
@@ -187,15 +186,21 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true
-          login( this.loginForm).then(res => {
-            this.$store.dispatch('user/login',res).then(res => {
-              this.loading = false
-              this.$router.push('/' )
-            })
-          }).catch(err => {
-            this.loading = false
+          let that = this;
+          var myCaptcha = new TencentCaptcha("2088053498",function(res) {
+            if(res.ret === 0){
+                that.loading = true
+                login(that.loginForm).then(res => {
+                    that.$store.dispatch('user/login',res).then(res => {
+                    that.loading = false
+                    that.$router.push('/')
+                  })
+                }).catch(err => {
+                    that.loading = false
+                })
+            }
           })
+          myCaptcha.show()
         } else {
           console.log('error submit!!')
           return false

@@ -5,7 +5,12 @@
 </template>
 
 <script>
+import {report} from '@/api/home'
 export default {
-  name: 'App'
+  name: 'App',
+  created() {
+      // 上传访客信息
+      report();
+  },
 }
 </script>

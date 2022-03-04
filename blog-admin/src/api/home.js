@@ -21,3 +21,10 @@ export function systemInfo() {
     params:{}
   })
 }
+export function report() {
+  return request({
+    url: '/web/home/report',
+    method: 'get',
+    params:{}
+  })
+}
