@@ -70,7 +70,7 @@ public class AdminAuthenticationProcessingFilter extends AbstractAuthenticationP
             while ((inputStr = streamReader.readLine()) != null)
                 responseStrBuilder.append(inputStr);
 
-            LoginUserDTO loginUserDTO =  JSONObject.parseObject(responseStrBuilder.toString(), LoginUserDTO.class);
+         /*   LoginUserDTO loginUserDTO =  JSONObject.parseObject(responseStrBuilder.toString(), LoginUserDTO.class);
             String uuid = loginUserDTO.getUuid();
             String code = loginUserDTO.getCode();
             if(StringUtils.isEmpty(uuid)||StringUtils.isEmpty(code)){
@@ -85,7 +85,7 @@ public class AdminAuthenticationProcessingFilter extends AbstractAuthenticationP
             // 验证码错误，提醒验证码错误
             if(!code.equalsIgnoreCase(captcha)){
                 throw new AuthenticationServiceException(ErrorCode.FAIL_VERIFY_CODE.getMsg());
-            }
+            }*/
 
             // 将前端传递的数据转换成jsonBean数据格式
             User user = JSONObject.parseObject(wrappedRequest.getBodyJsonStrByJson(wrappedRequest), User.class);
