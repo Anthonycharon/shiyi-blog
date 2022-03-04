@@ -205,7 +205,6 @@
             <div class="guanzhu" id="follow-us" ref="follow">
 <!--              {{blogInfo.webSite.bulletin}}-->
               <ul>
-                <!-- <li class="sina"><a href="/" target="_blank"><span>新浪微博</span>蘑菇博客</a></li>         -->
 <!--                <li class="qqGroup">
                   <a href="javascript:void(0);">{{ blogInfo.webSite.qqNumber}}</a>
                 </li>-->
