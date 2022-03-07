@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SystemConfigService extends IService<SystemConfig> {
 
-    ApiResult getConfig(Integer userId);
+    ApiResult getConfig();
 
     ApiResult updateConfig(SystemConfig systemConfig);
 

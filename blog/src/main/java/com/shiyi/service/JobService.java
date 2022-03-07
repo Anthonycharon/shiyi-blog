@@ -22,9 +22,9 @@ public interface JobService extends IService<Job> {
 
     ApiResult info(Long jobId);
 
-    ApiResult addJob(Integer userId, Job job) throws SchedulerException, TaskException;
+    ApiResult addJob(Job job) throws SchedulerException, TaskException;
 
-    ApiResult updateJob(Integer userId, Job job) throws SchedulerException, TaskException;
+    ApiResult updateJob(Job job) throws SchedulerException, TaskException;
 
     ApiResult deleteJob(Long jobId) throws SchedulerException;
 
@@ -34,6 +34,6 @@ public interface JobService extends IService<Job> {
 
     ApiResult run(Job job) throws SchedulerException;
 
-    ApiResult changeStatus(Integer userId, Job job) throws SchedulerException;
+    ApiResult changeStatus(Job job) throws SchedulerException;
 
 }

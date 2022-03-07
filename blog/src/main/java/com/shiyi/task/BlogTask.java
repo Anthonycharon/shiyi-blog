@@ -6,7 +6,7 @@ import com.shiyi.entity.Tags;
 import com.shiyi.service.ArticleService;
 import com.shiyi.common.RedisConstants;
 import com.shiyi.service.TagsService;
-import com.shiyi.utils.QiNiuUtil;
+import com.shiyi.utils.UploadUtil;
 import com.shiyi.utils.RedisCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class BlogTask {
     @Autowired
     private ArticleService articleService;
     @Autowired
-    QiNiuUtil qiNiuUtil;
+    UploadUtil uploadUtil;
     @Autowired
     private TagsService tagsService;
 
@@ -78,7 +78,7 @@ public class BlogTask {
         long time = System.currentTimeMillis();
         Set<String> imgs = redisCache.diff(RedisConstants.ALL_IMG, RedisConstants.APPLY_IMG);
         String[] keys = imgs.toArray(new String[0]);
-        qiNiuUtil.delBatchFile(keys);
+        uploadUtil.delBatchFile(keys);
         log.info("定时清理七牛云图片结束,用时:{}ms",(System.currentTimeMillis() - time));
     }
 

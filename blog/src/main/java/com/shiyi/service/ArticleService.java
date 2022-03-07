@@ -26,9 +26,9 @@ public interface ArticleService extends IService<BlogArticle> {
 
     ApiResult info(Long id);
 
-    ApiResult addArticle(Integer userId, ArticleVO article);
+    ApiResult addArticle(ArticleVO article);
 
-    ApiResult updateArticle(Integer userId, ArticleVO article);
+    ApiResult updateArticle(ArticleVO article);
 
     ApiResult baiduSeo(List<Long> ids);
 

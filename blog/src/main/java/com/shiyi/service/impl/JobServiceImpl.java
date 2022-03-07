@@ -16,6 +16,7 @@ import com.shiyi.enums.TaskException;
 import com.shiyi.mapper.JobMapper;
 import com.shiyi.service.JobService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shiyi.utils.UserUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobDataMap;
 import org.quartz.JobKey;
@@ -102,10 +103,10 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult addJob(Integer userId, Job job) throws SchedulerException, TaskException {
+    public ApiResult addJob(Job job) throws SchedulerException, TaskException {
         checkCronIsValid(job);
 
-        User user = userMapper.selectById(userId);
+        User user = userMapper.selectById(UserUtil.getUserId());
         job.setCreateBy(user.getUsername());
         int row = baseMapper.insert(job);
         if (row > 0) ScheduleUtils.createScheduleJob(scheduler, job);
@@ -116,10 +117,10 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updateJob(Integer userId, Job job) throws SchedulerException, TaskException {
+    public ApiResult updateJob(Job job) throws SchedulerException, TaskException {
         checkCronIsValid(job);
 
-        User user = userMapper.selectById(userId);
+        User user = userMapper.selectById(UserUtil.getUserId());
         job.setUpdateBy(user.getUsername());
         Job properties = baseMapper.selectById(job.getJobId());
         int row = baseMapper.updateById(job);
@@ -202,7 +203,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult changeStatus(Integer userId, Job job) throws SchedulerException {
+    public ApiResult changeStatus(Job job) throws SchedulerException {
         String status = job.getStatus();
         Long jobId = job.getJobId();
         String jobGroup = job.getJobGroup();

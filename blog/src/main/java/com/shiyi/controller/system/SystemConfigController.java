@@ -1,7 +1,6 @@
 package com.shiyi.controller.system;
 
 
-import com.shiyi.annotation.AuthUserId;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
 import com.shiyi.entity.SystemConfig;
@@ -33,8 +32,8 @@ public class SystemConfigController {
 
     @RequestMapping(value = "/getConfig",method = RequestMethod.GET)
     @ApiOperation(value = "查询系统配置", httpMethod = "GET", response = ApiResult.class, notes = "查询系统配置")
-    public ApiResult getConfig(@AuthUserId Integer userId){
-        return systemConfigService.getConfig(userId);
+    public ApiResult getConfig(){
+        return systemConfigService.getConfig();
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)

@@ -1,7 +1,5 @@
 package com.shiyi.controller.system;
 
-
-import com.shiyi.annotation.AuthUserId;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
 import com.shiyi.entity.Job;
@@ -46,15 +44,15 @@ public class JobController {
     @PostMapping(value = "/add")
     @ApiOperation(value = "添加定时任务", httpMethod = "POST", response = ApiResult.class, notes = "添加定时任务")
     @OperationLogger(value = "添加定时任务")
-    public ApiResult add(@AuthUserId Integer userId,@RequestBody Job job) throws SchedulerException, TaskException {
-        return jobService.addJob(userId, job);
+    public ApiResult add(@RequestBody Job job) throws SchedulerException, TaskException {
+        return jobService.addJob(job);
     }
 
     @PostMapping(value = "/update")
     @ApiOperation(value = "修改定时任务", httpMethod = "POST", response = ApiResult.class, notes = "修改定时任务")
     @OperationLogger(value = "修改定时任务")
-    public ApiResult update(@AuthUserId Integer userId,@RequestBody Job job) throws SchedulerException, TaskException {
-        return jobService.updateJob(userId, job);
+    public ApiResult update(@RequestBody Job job) throws SchedulerException, TaskException {
+        return jobService.updateJob(job);
     }
 
     @GetMapping(value = "/delete")
@@ -80,8 +78,8 @@ public class JobController {
     @PostMapping(value = "/change")
     @ApiOperation(value = "修改状态", httpMethod = "POST", response = ApiResult.class, notes = "修改状态")
     @OperationLogger(value = "修改状态")
-    public ApiResult changeStatus(@AuthUserId Integer userId,@RequestBody Job job) throws SchedulerException, TaskException {
-        return jobService.changeStatus(userId, job);
+    public ApiResult changeStatus(@RequestBody Job job) throws SchedulerException, TaskException {
+        return jobService.changeStatus(job);
     }
 }
 

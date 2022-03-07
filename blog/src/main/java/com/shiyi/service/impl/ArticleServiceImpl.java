@@ -102,7 +102,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult addArticle(Integer userId, ArticleVO article) {
+    public ApiResult addArticle(ArticleVO article) {
         BlogArticle blogArticle = BeanCopyUtils.copyObject(article, BlogArticle.class);
         //添加分类
         Long categoryId = savaCategory(article.getCategoryName());
@@ -129,7 +129,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updateArticle(Integer userId, ArticleVO article) {
+    public ApiResult updateArticle(ArticleVO article) {
         BlogArticle blogArticle = baseMapper.selectById(article.getId());
         Assert.notNull(blogArticle,"数据库未存在该文章!");
 

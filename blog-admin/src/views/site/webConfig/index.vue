@@ -26,7 +26,7 @@
                   :action="uploadPictureHost"
                   :before-upload="uploadBefore"
                   :http-request="uploadSectionFile">
-                  <img style="width: 100px;height: 100px" v-if="form.logo" :src="img+form.logo" class="avatar1">
+                  <img style="width: 100px;height: 100px" v-if="form.logo" :src="form.logo" class="avatar1">
                   <i v-else class="el-icon-plus avatar-uploader-icon1"></i>
                 </el-upload>
               </el-form-item>
@@ -178,7 +178,7 @@
                   :action="uploadPictureHost"
                   :before-upload="uploadBefore"
                   :http-request="aliPayMethod">
-                  <img style="width: 100px;height: 100px" v-if="form.aliPay" :src="img+form.aliPay" class="avatar1"
+                  <img style="width: 100px;height: 100px" v-if="form.aliPay" :src="form.aliPay" class="avatar1"
                        alt="">
                   <i v-else class="el-icon-plus avatar-uploader-icon1"></i>
                 </el-upload>
@@ -195,7 +195,7 @@
                   :action="uploadPictureHost"
                   :before-upload="uploadBefore"
                   :http-request="weiXinPayMethod">
-                  <img style="width: 100px;height: 100px" v-if="form.weixinPay" :src="img+form.weixinPay" class="avatar1"
+                  <img style="width: 100px;height: 100px" v-if="form.weixinPay" :src="form.weixinPay" class="avatar1"
                        alt="">
                   <i v-else class="el-icon-plus avatar-uploader-icon1"></i>
                 </el-upload>
@@ -381,14 +381,14 @@ export default {
     touristUpload: function (file) {
       let fromData = this.initFromData(file);
       upload(fromData).then(res => {
-        this.form.touristAvatar = this.img+res.data
+        this.form.touristAvatar = res.data
         this.loading.close()
       })
     },
     authorUpload: function (file) {
       let fromData = this.initFromData(file);
       upload(fromData).then(res => {
-        this.form.authorAvatar = this.img + res.data
+        this.form.authorAvatar = res.data
         this.loading.close()
       })
     },

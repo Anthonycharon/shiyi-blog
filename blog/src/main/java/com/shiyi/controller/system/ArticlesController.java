@@ -1,13 +1,8 @@
 package com.shiyi.controller.system;
 
-import com.shiyi.annotation.IgnoreUrl;
-import com.shiyi.entity.BlogArticle;
 import com.shiyi.service.ArticleService;
-import com.shiyi.annotation.AuthUserId;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
-import com.shiyi.service.UserService;
-import com.shiyi.utils.RedisCache;
 import com.shiyi.vo.ArticleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,15 +34,15 @@ public class ArticlesController {
     @PostMapping(value = "/add")
     @ApiOperation(value = "保存文章", httpMethod = "POST", response = ApiResult.class, notes = "保存文章")
     @OperationLogger(value = "保存文章")
-    public ApiResult save(@AuthUserId Integer userId, @RequestBody ArticleVO article) {
-        return  articleService.addArticle(userId,article);
+    public ApiResult save( @RequestBody ArticleVO article) {
+        return  articleService.addArticle(article);
     }
 
     @PostMapping(value = "/update")
     @ApiOperation(value = "修改文章", httpMethod = "POST", response = ApiResult.class, notes = "修改文章")
     @OperationLogger(value = "修改文章")
-    public ApiResult update(@AuthUserId Integer userId,@RequestBody ArticleVO article) {
-        return articleService.updateArticle(userId,article);
+    public ApiResult update(@RequestBody ArticleVO article) {
+        return articleService.updateArticle(article);
     }
 
     @PostMapping(value = "/pubOrShelf")

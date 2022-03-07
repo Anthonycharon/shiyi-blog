@@ -29,6 +29,13 @@
             </el-radio>
           </el-form-item>
 
+           <!-- 用于控制文件的上传方式-->
+          <el-form-item label="图片上传方式">
+            <el-radio v-for="(item,index) in fileUploadList" :key="index" v-model="form.fileUploadWay"
+                      :label="index" border size="medium">{{ item }}
+            </el-radio>
+          </el-form-item>
+
           <!-- 仪表盘弹框通知，在用户登录后台的时候会出现，可以手动关闭 -->
           <el-form-item label="仪表盘弹框通知">
             <el-radio v-for="item in openDictList" :key="item.value" v-model="form.openDashboardNotification"
@@ -60,7 +67,33 @@
         </el-form>
       </el-tab-pane>
 
-      <el-tab-pane label="七牛云对象存储" name="tow">
+  <el-tab-pane label="本地文件存储" name="tow">
+        <span slot="label">
+          <i class="el-icon-date"></i> 本地文件存储
+        </span>
+
+        <el-form
+          style="margin-left: 20px;"
+          label-position="left"
+          :model="form"
+          label-width="120px"
+          :rules="rules"
+          ref="form"
+        >
+          <aside>
+            使用IO流将文件存储本地磁盘中
+          </aside>
+
+          <el-form-item label="本地文件域名" prop="localFileUrl">
+            <el-input v-model="form.localFileUrl" auto-complete="new-password" style="width: 400px"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button v-if="canUpdate" type="primary" @click="submitForm()">保 存</el-button>
+          </el-form-item>
+        </el-form>
+      </el-tab-pane>
+
+      <el-tab-pane label="七牛云对象存储" name="three">
         <span slot="label">
           <i class="el-icon-date"></i> 七牛云对象存储
         </span>
@@ -104,21 +137,13 @@
               </el-option>
             </el-select>
           </el-form-item>
-
-          <el-form-item label="文件上传七牛云">
-            <el-radio v-for="item in yesNoDictList" :key="item.uid" v-model="form.uploadQiNiu" :label="item.value"
-                      border size="medium">{{ item.label }}
-            </el-radio>
-          </el-form-item>
-
           <el-form-item>
             <el-button v-if="canUpdate" type="primary" @click="submitForm()">保 存</el-button>
           </el-form-item>
-
         </el-form>
       </el-tab-pane>
 
-      <el-tab-pane label="邮箱发送" name="three">
+      <el-tab-pane label="邮箱发送" name="four">
         <span slot="label">
           <i class="el-icon-date"></i> 邮箱发送
         </span>
@@ -192,6 +217,7 @@ export default {
       ], //存储区域字典
       yesNoDictList: [], //是否字典
       openDictList: [], // 开启关闭字典
+      fileUploadList: ["本地","七牛云"], // 开启关闭字典
       searchModelDictList: [], // 搜索模式字典列表
       openDictDefaultValue: null,
       rules: {

@@ -5,6 +5,10 @@ server:
     context-path: /shiyi
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
   application:
     name: shiyiblog
   datasource:
@@ -118,3 +122,5 @@ gitee:
   user-info-url: https://gitee.com/api/v5/user?access_token={access_token}
 baidu:
   url:
+file:
+  upload-folder: /usr/local/blog/file/

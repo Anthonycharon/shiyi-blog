@@ -76,6 +76,10 @@ public class SystemConfig implements Serializable {
     @ApiModelProperty(value = "启用邮箱发送")
     private int openEmail;
 
+    @ApiModelProperty(value = "本地文件地址")
+    private String localFileUrl;
+    @ApiModelProperty(value = "文件上传方式 0:本地 1：七牛云")
+    private int fileUploadWay;
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)

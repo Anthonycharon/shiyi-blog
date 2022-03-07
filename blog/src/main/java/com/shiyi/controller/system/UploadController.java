@@ -3,7 +3,7 @@ package com.shiyi.controller.system;
 import com.shiyi.annotation.IgnoreUrl;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
-import com.shiyi.utils.QiNiuUtil;
+import com.shiyi.utils.UploadUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +19,19 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadController {
 
     @Autowired
-    private QiNiuUtil qiNiuUtil;
+    private UploadUtil uploadUtil;
 
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     @ApiOperation(value = "上传图片",httpMethod = "POST", response = ApiResult.class, notes = "上传图片")
     @IgnoreUrl
     public ApiResult upload(MultipartFile multipartFile){
-        return qiNiuUtil.upload(multipartFile);
+        return uploadUtil.upload(multipartFile);
     }
 
     @RequestMapping(value = "/delBatchFile",method = RequestMethod.POST)
     @ApiOperation(value = "批量删除文件",httpMethod = "POST", response = ApiResult.class, notes = "批量删除文件")
     @OperationLogger("批量删除图片")
     public ApiResult delBatchFile(String key){
-        return qiNiuUtil.delBatchFile(key)?ApiResult.ok("删除成功"):ApiResult.ok("删除失败");
+        return uploadUtil.delBatchFile(key)?ApiResult.ok("删除成功"):ApiResult.ok("删除失败");
     }
 }
