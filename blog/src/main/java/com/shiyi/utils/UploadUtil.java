@@ -89,10 +89,10 @@ public class UploadUtil {
         qiNiuUrl = systemConfig.getQiNiuPictureBaseUrl();
         region = QiNiuAreaEnum.getRegion(systemConfig.getQiNiuArea());
 
-        return fileUploadWay == 0 ? localUpload(file,suffix) : qiNiuUpload(file);
+        return fileUploadWay == 0 ? localUpload(file,suffix) : qiNiuUpload(file,suffix);
     }
 
-    private ApiResult qiNiuUpload(MultipartFile file) {
+    private ApiResult qiNiuUpload(MultipartFile file,String suffix) {
         //构造一个带指定 Region 对象的配置类
         Configuration cfg = new Configuration(region);
         //...其他参数参考类注释
@@ -103,7 +103,7 @@ public class UploadUtil {
         FileInputStream inputStream = null;
         try {
             inputStream = (FileInputStream) file.getInputStream();
-            Response response = uploadManager.put(inputStream, null, upToken,null,null);
+            Response response = uploadManager.put(inputStream, UUIDUtil.getUuid() + suffix, upToken,null,null);
             //解析上传成功的结果
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
          /*   Set<Object> allImg = redisCache.getCacheSet(RedisConstants.ALL_IMG);

@@ -27,7 +27,7 @@
 
 **后台链接：** [拾壹博客后台管理系统](http://www.shiyit.com/admin)
 
-账号:test 密码:test
+账号:test 密码:123456
 
 **Gitee地址：** [https  ://gitee.com/quequnlong/shiyi-blog](https://gitee.com/quequnlong/shiyi-blog)
 

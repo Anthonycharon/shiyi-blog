@@ -144,14 +144,14 @@
                   <li class="reward-item">
                     <img
                       class="reward-img"
-                      :src="img + blogInfo.webSite.aliPay"
+                      :src="blogInfo.webSite.aliPay"
                     />
                     <div class="reward-desc">微信</div>
                   </li>
                   <li class="reward-item">
                     <img
                       class="reward-img"
-                      :src="img + blogInfo.webSite.weixinPay"
+                      :src="blogInfo.webSite.weixinPay"
                     />
                     <div class="reward-desc">支付宝</div>
                   </li>

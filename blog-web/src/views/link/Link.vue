@@ -38,7 +38,7 @@
         <div>网站名称：{{ blogInfo.webSite.name }}</div>
         <div>网站简介：{{ blogInfo.webSite.summary }}</div>
         <div>网站地址：{{ blogInfo.webSite.webUrl }}</div>
-        <div>网站头像：{{ img + blogInfo.webSite.logo }}</div>
+        <div>网站头像：{{blogInfo.webSite.logo }}</div>
       </blockquote>
       <div class="mt-5 mb-5">
         需要交换友链的可点击<a style="color: #409eff" @click="onclick">此处</a>💖<br/>

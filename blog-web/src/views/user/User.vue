@@ -9,7 +9,7 @@
       </div>
       <v-row class="info-wrapper">
         <v-col md="3" cols="12">
-          <button id="pick-avatar">
+<!--          <button id="pick-avatar">
             <v-avatar size="140">
               <img :src="this.$store.state.avatar" />
             </v-avatar>
@@ -17,8 +17,20 @@
           <avatar-cropper
             @uploaded="uploadAvatar"
             trigger="#pick-avatar"
-            upload-url="/api/users/avatar"
-          />
+            upload-url="http://localhost:8800/shiyi/user/updateAvatar"
+          />-->
+          <el-upload
+            class="avatar-uploader"
+            :show-file-list="false"
+            ref="upload"
+            name="filedatas"
+            :action="uploadPictureHost"
+            :before-upload="uploadBefore"
+            :http-request="uploadSectionFile"
+            multiple>
+            <img style="border-radius: 50%;width: 120px;" v-if="this.$store.state.avatar" :src="this.$store.state.avatar" class="imgAvatar">
+            <i v-else class="el-icon-plus avatar-img-icon"></i>
+          </el-upload>
         </v-col>
         <v-col md="7" cols="12">
           <v-text-field
@@ -60,7 +72,7 @@
 </template>
 
 <script>
-import {updateUser} from "../../api";
+import {updateUser,upload} from "../../api";
 import AvatarCropper from "vue-avatar-cropper";
 export default {
   metaInfo:{
@@ -75,15 +87,21 @@ export default {
   components: { AvatarCropper },
   data: function() {
     return {
+      uploadPictureHost: process.env.VUE_APP_BASE_API + "/file/upload",
+      // 加载层信息
+      loading: [],
+      files: {},
       userInfo: {
         nickname: this.$store.state.nickname,
         intro: this.$store.state.intro,
+        avatar: this.$store.state.avatar,
         webSite: this.$store.state.webSite
       }
     };
   },
   methods: {
     updateUserInfo() {
+      this.userInfo.avatar = this.$store.state.avatar,
       updateUser(this.userInfo).then(res => {
         this.$store.commit("updateUserInfo", this.userInfo);
         this.$toast({ type: "success", message: "修改成功" });
@@ -91,13 +109,31 @@ export default {
         this.$toast({ type: "error", message: err.message });
       });
     },
-    uploadAvatar(data) {
-      if (data.flag) {
-        this.$store.commit("updateAvatar", data.data);
+    uploadBefore: function (){
+      this.openLoading()
+    },
+    uploadSectionFile: function (param) {
+      this.files = param.file
+      // FormData 对象
+      var formData = new FormData()
+      // 文件对象
+      formData.append('multipartFile', this.files)
+      upload(formData).then(res => {
+        this.$store.commit("updateAvatar", res.data);
         this.$toast({ type: "success", message: "上传成功" });
-      } else {
-        this.$toast({ type: "error", message: data.message });
-      }
+      }).catch(err =>{
+        this.$toast({ type: "error", message: err.message });
+      })
+      this.loading.close()
+    },
+    // 打开加载层
+    openLoading: function () {
+      this.loading = this.$loading({
+        lock: true,
+        text: "正在加载中~",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
     },
     openEmailModel() {
       this.$store.state.emailFlag = true;

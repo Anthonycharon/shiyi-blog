@@ -69,3 +69,10 @@ export function reptile(url) {
     }
   })
 }
+export function randomImg() {
+  return request({
+    url: '/system/article/randomImg',
+    method: 'get',
+    params:{}
+  })
+}
