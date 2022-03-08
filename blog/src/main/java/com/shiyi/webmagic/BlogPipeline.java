@@ -61,11 +61,9 @@ public class BlogPipeline implements Pipeline {
         String url = MessageFormat.format("https://picsum.photos/id/{0}/info", RandomUtil.generationOneNumber(1000));
         Map map = restTemplate.getForObject(url, Map.class);
 
-        Date nowDate = DateUtils.getNowDate();
         BlogArticle entity = BlogArticle.builder().userId(SysConf.ADMIN_USER_ID).contentMd(markdown)
                 .categoryId(SysConf.OTHER_CATEGORY_ID).isOriginal(YesOrNoEnum.NO.getCode()).originalUrl(originalUrl.toString())
-                .title(title.toString()).avatar(map.get("download_url").toString()).content(newContent)
-                .createTime(nowDate).updateTime(nowDate).build();
+                .title(title.toString()).avatar(map.get("download_url").toString()).content(newContent).build();
 
         articleMapper.insert(entity);
         //为该文章添加标签

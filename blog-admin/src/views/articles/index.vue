@@ -176,7 +176,7 @@
       >
         <el-form :rules="rules" ref="dataForm" :model="article" style="margin-top: 10px">
           <el-row>
-            <el-col :span="16">
+            <el-col :span="14">
               <el-form-item label="文章名称" :label-width="formLabelWidth" prop="title">
                 <el-input v-model="article.title" auto-complete="off"></el-input>
               </el-form-item>
@@ -186,6 +186,21 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="标题图" :label-width="formLabelWidth">
+                <el-col :span="2">
+                  <el-popover
+                    placement="top"
+                    width="160"
+                    trigger="hover"
+                    v-model="visible">
+                    <p>随机获取一张图片</p>
+                    <div style="text-align: right; margin: 0">
+                      <el-button size="mini" type="text" @click="visible = false">取消</el-button>
+                      <el-button type="primary" size="mini" @click="randomImg()">确定</el-button>
+                    </div>
+                    <svg-icon slot="reference" icon-class="wenhao" />
+                  </el-popover>
+                </el-col>
+                <el-col :span="2">
                   <el-upload
                     style="width: 80px;height: 80px"
                     class="avatar-uploader"
@@ -199,6 +214,8 @@
                     <img v-if="article.avatar" :src="article.avatar" class="imgAvatar">
                     <i v-else class="el-icon-plus avatar-img-icon"></i>
                   </el-upload>
+                </el-col>
+
               </el-form-item>
             </el-col>
           </el-row>
@@ -378,7 +395,18 @@
 </template>
 
 <script>
-import {fetchArticle, remove, baiduSeo, update, save, info, reptile, deleteBatch, pubOrShelf} from '@/api/articles'
+import {
+  fetchArticle,
+  remove,
+  baiduSeo,
+  update,
+  save,
+  info,
+  reptile,
+  deleteBatch,
+  pubOrShelf,
+  randomImg
+} from '@/api/articles'
 import {upload, delBatchFile} from '@/api/imgUpload'
 import {fetchTags} from '@/api/tags'
 import {fetchCategory} from '@/api/category'
@@ -386,12 +414,13 @@ import {parseTime} from '@/utils'
 import {hasAuth} from '@/utils/auth'
 import {mapGetters} from 'vuex'
 import {getDataByDictType} from "@/api/dictData";
-import {addPicture} from "@/api/picture";
+import axios from 'axios'
 export default {
   data() {
     return {
       uploadPictureHost: process.env.VUE_APP_BASE_API + "/file/upload",
       files: {},
+      visible: false,
       isEditForm: 0,
       loadingReptile: false,
       centerDialogVisible: false,
@@ -763,6 +792,14 @@ export default {
       } else {
         done();
       }
+    },
+    randomImg: function (){
+      this.openLoading()
+      randomImg().then(res => {
+        this.article.avatar = res.data;
+        this.visible = false
+        this.loading.close()
+      });
     },
     uploadBefore: function (){
       this.openLoading()

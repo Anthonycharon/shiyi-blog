@@ -111,13 +111,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
 
         blogArticle.setCategoryId(categoryId);
 
-        //如果没有上传封面图片 则随机获取一张图片做为封面图
-        if (StringUtils.isBlank(blogArticle.getAvatar())){
-            //文章封面图片 由https://picsum.photos该网站随机获取
-            String url = MessageFormat.format("https://picsum.photos/id/{0}/info", RandomUtil.generationOneNumber(1000));
-            String imgUrl = restTemplate.getForObject(url, Map.class).get("download_url").toString();
-            blogArticle.setAvatar(imgUrl);
-        }
         baseMapper.insert(blogArticle);
         tagsMapper.saveArticleToTags(blogArticle.getId(),tagList);
         return ApiResult.ok();
@@ -194,6 +187,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         BlogArticle blogArticle = BeanCopyUtils.copyObject(article, BlogArticle.class);
         baseMapper.updateById(blogArticle);
         return ApiResult.ok();
+    }
+
+    @Override
+    public ApiResult randomImg() {
+        //文章封面图片 由https://picsum.photos该网站随机获取
+        String url = MessageFormat.format("https://picsum.photos/id/{0}/info", RandomUtil.generationOneNumber(1000));
+        String imgUrl = restTemplate.getForObject(url, Map.class).get("download_url").toString();
+        return ApiResult.success(imgUrl);
     }
 
     /**

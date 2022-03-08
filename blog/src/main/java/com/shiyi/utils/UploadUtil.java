@@ -50,7 +50,7 @@ public class UploadUtil {
     private String localFileUrl;
     private int fileUploadWay;
 
-    @PostConstruct
+   /* @PostConstruct
     private void init(){
         SystemConfig systemConfig = systemConfigService.getCustomizeOne();
         localFileUrl = systemConfig.getLocalFileUrl();
@@ -60,7 +60,7 @@ public class UploadUtil {
         bucket = systemConfig.getQiNiuBucket();
         qiNiuUrl = systemConfig.getQiNiuPictureBaseUrl();
         region = QiNiuAreaEnum.getRegion(systemConfig.getQiNiuArea());
-    }
+    }*/
 
 
 
@@ -79,6 +79,16 @@ public class UploadUtil {
         if (!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
             return ApiResult.fail("请选择jpg,jpeg,gif,png格式的图片");
         }
+
+        SystemConfig systemConfig = systemConfigService.getCustomizeOne();
+        localFileUrl = systemConfig.getLocalFileUrl();
+        fileUploadWay = systemConfig.getFileUploadWay();
+        accessKey = systemConfig.getQiNiuAccessKey();
+        secretKey = systemConfig.getQiNiuSecretKey();
+        bucket = systemConfig.getQiNiuBucket();
+        qiNiuUrl = systemConfig.getQiNiuPictureBaseUrl();
+        region = QiNiuAreaEnum.getRegion(systemConfig.getQiNiuArea());
+
         return fileUploadWay == 0 ? localUpload(file,suffix) : qiNiuUpload(file);
     }
 

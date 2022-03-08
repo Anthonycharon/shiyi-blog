@@ -1,5 +1,6 @@
 package com.shiyi.controller.system;
 
+import com.shiyi.annotation.IgnoreUrl;
 import com.shiyi.service.ArticleService;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
@@ -78,6 +79,13 @@ public class ArticlesController {
     @OperationLogger(value = "文章爬虫")
     public ApiResult reptile(String url) {
         return articleService.reptile(url);
+    }
+
+    @GetMapping(value = "/randomImg")
+    @ApiOperation(value = "随机获取一张图片", httpMethod = "GET", response = ApiResult.class, notes = "随机获取一张图片")
+    @IgnoreUrl
+    public ApiResult randomImg() {
+        return articleService.randomImg();
     }
 
 }

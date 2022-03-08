@@ -3,6 +3,7 @@ package com.shiyi.dto;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Data;
 
 /**
@@ -22,9 +23,6 @@ public class SystemUserDTO {
     @ApiModelProperty(value = "昵称")
     private String nickname;
 
-    @ApiModelProperty(value = "性别 0:男 1:女")
-    private String sex;
-
     @ApiModelProperty(value = "邮箱")
     private String email;
 
@@ -32,7 +30,7 @@ public class SystemUserDTO {
     private String avatar;
 
     @ApiModelProperty(value = "状态")
-    private String flag;
+    private Integer status;
 
     @ApiModelProperty(value = "角色Id")
     private Integer roleId;

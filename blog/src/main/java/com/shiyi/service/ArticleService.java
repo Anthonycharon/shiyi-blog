@@ -36,6 +36,9 @@ public interface ArticleService extends IService<BlogArticle> {
 
     ApiResult pubOrShelf(ArticleVO article);
 
+    ApiResult randomImg();
+
+
 
 
     //    ----------web端开始------
@@ -52,5 +55,4 @@ public interface ArticleService extends IService<BlogArticle> {
     ApiResult searchArticle(String keywords);
 
     ApiResult articleLike(Integer articleId);
-
 }
