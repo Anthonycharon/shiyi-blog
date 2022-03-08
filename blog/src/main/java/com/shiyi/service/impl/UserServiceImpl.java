@@ -63,16 +63,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public ApiResult listData(String username,Integer loginType, Integer pageNo, Integer pageSize) {
-     /*   LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
-                .select(User::getId,User::getAvatar,User::getRoleId,User::getCreateTime,User::getStatus,
-                        User::getUpdateTime,User::getLoginType,User::getNickName,User::getLastLoginTime,
-                        User::getIpSource,User::getIpAddress).orderByAsc(User::getCreateTime)
-                .like(StringUtils.isNotBlank(username),User::getUsername,username)
-                .eq(loginType != null,User::getLoginType,loginType);
-
-        Page<User> page = baseMapper.selectPage(new Page<>(pageNo, pageSize),queryWrapper);*/
-
-        Page<UserDTO> page = baseMapper.selectPageRecord(new Page<UserDTO>(pageNo, pageSize),username,loginType);
+        Page<UserDTO> page = baseMapper.selectPageRecord(new Page<>(pageNo, pageSize),username,loginType);
         return ApiResult.success(page);
     }
 
@@ -83,8 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public ApiResult info(Integer id) {
-        User user = baseMapper.selectOne(new LambdaQueryWrapper<User>()
-                .select(User::getId,User::getLoginType,User::getRoleId,User::getStatus).eq(User::getId,id));
+        User user = baseMapper.getById(id);
         return ApiResult.success(user);
     }
 

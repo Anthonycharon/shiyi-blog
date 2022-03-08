@@ -27,9 +27,6 @@ import java.util.Map;
 @Service
 public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements PhotoService {
 
-    @Autowired
-    private PhotoMapper mapper;
-
     /**
      * 照片列表
      * @param albumId
@@ -88,7 +85,7 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
     public ApiResult movePhoto(Map<String,Object> map) {
         Integer albumId = (Integer) map.get("albumId");
         List<Integer> ids = (List<Integer>) map.get("ids");
-        mapper.movePhoto(ids,albumId);
+        baseMapper.movePhoto(ids,albumId);
         return ApiResult.ok();
     }
 

@@ -14,7 +14,8 @@ import java.util.Date;
  */
 @Data
 public class UserDTO {
-    private Integer userId;
+
+    private Integer id;
 
     @ApiModelProperty(value = "状态")
     private Integer status;

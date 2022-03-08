@@ -42,8 +42,6 @@ import java.util.List;
 @Service
 public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobService {
     @Autowired
-    private JobMapper jobMapper;
-    @Autowired
     private Scheduler scheduler;
     @Autowired
     private UserMapper userMapper;
@@ -55,7 +53,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     @PostConstruct
     public void init() throws SchedulerException, TaskException {
         scheduler.clear();
-        List<Job> jobList = jobMapper.selectList(null);
+        List<Job> jobList = baseMapper.selectList(null);
         for (Job job : jobList) {
             ScheduleUtils.createScheduleJob(scheduler, job);
         }

@@ -30,4 +30,6 @@ public interface UserMapper extends BaseMapper<User> {
     Page<UserDTO> selectPageRecord(@Param("page") Page<UserDTO> page, @Param("username")String username, @Param("loginType")Integer loginType);
 
     User getOne(String username);
+
+    User getById(Integer id);
 }

@@ -39,8 +39,6 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private CommentMapper commentMapper;
-    @Autowired
     RedisCache redisCache;
     @Autowired
     UserAuthMapper userAuthMapper;
@@ -85,7 +83,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         for (Comment comment : comments) {
             User user = userMapper.selectById(comment.getUserId());
             // 根据评论id集合查询回复数据
-            replyDTOList = commentMapper.listReplies(comment.getId());
+            replyDTOList = baseMapper.listReplies(comment.getId());
             com.shiyi.dto.CommentDTO dto = new com.shiyi.dto.CommentDTO();
             dto.setId(comment.getId());
             dto.setUserId(comment.getUserId());

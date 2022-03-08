@@ -20,14 +20,14 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
+<!--        <el-button
           v-if="canAdd"
           type="primary"
           icon="el-icon-plus"
           size="small"
           @click="handleCreate"
         >新增
-        </el-button>
+        </el-button>-->
       </el-col> <el-col :span="1.5">
       <el-button
         v-if="canDel"
@@ -104,7 +104,7 @@
     <el-dialog center :title="title" :visible.sync="dialogFormVisible">
       <el-form :rules="rules" ref="dataForm" :model="form">
         <el-form-item prop="nickName" label="昵称" :label-width="formLabelWidth">
-          <el-input disabled="true" v-model="form.nickName" autocomplete="off"></el-input>
+          <el-input disabled="true" v-model="form.nickname" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="status" label="状态" :label-width="formLabelWidth">
           <div>
@@ -258,7 +258,7 @@ export default {
         id:null,
         username:'',
         password:'',
-        nickName:'',
+        nickname:'',
         avatar:'',
         roleId:'',
         status:1,

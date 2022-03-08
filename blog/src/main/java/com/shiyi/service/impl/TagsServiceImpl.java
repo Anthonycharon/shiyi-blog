@@ -38,13 +38,6 @@ import java.util.List;
 @Service
 public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements TagsService {
 
-    @Autowired
-    private ArticleMapper articleMapper;
-    @Autowired
-    private RedisCache redisCache;
-    @Autowired
-    private TagsMapper tagsMapper;
-
     /**
      * 标签列表
      * @param name
@@ -58,7 +51,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
                 .like(StringUtils.isNotBlank(name),SqlConf.NAME,name).orderByDesc(SqlConf.SORT);
         Page<Tags> list = baseMapper.selectPage(new Page<>(pageNo, pageSize), queryWrapper);
         list.getRecords().forEach(item ->{
-            int count = tagsMapper.countArticle(item.getId());
+            int count = baseMapper.countArticle(item.getId());
             item.setArticleCount(count);
         });
         return ApiResult.success(list);
