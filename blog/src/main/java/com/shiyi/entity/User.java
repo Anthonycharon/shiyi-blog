@@ -37,12 +37,6 @@ public class User implements Serializable {
     @ApiModelProperty(value = "登录密码")
     private String password;
 
-    @ApiModelProperty(value = "昵称")
-    private String nickName;
-
-    @ApiModelProperty(value = "头像")
-    private String avatar;
-
     @ApiModelProperty(value = "状态")
     private Integer status;
 
@@ -73,5 +67,7 @@ public class User implements Serializable {
     private Integer loginType;
 
     @TableField(exist = false)
-    private String roleName;
+    private String nickname;
+    @TableField(exist = false)
+    private String avatar;
 }

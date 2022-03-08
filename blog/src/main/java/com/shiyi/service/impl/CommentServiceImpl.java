@@ -91,8 +91,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             dto.setUserId(comment.getUserId());
             dto.setCommentContent(comment.getContent());
             dto.setCreateTime(comment.getCreateTime());
-            dto.setAvatar(user.getAvatar());
-            dto.setNickname(user.getNickName());
+            //dto.setAvatar(user.getAvatar());
+            //dto.setNickname(user.getNickName());
             dto.setReplyDTOList(replyDTOList);
             dto.setReplyCount(replyDTOList.size());
             commentDTOList.add(dto);

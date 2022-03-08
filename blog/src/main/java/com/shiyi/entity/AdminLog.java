@@ -96,7 +96,7 @@ public class AdminLog implements Serializable {
         if (StringUtils.isBlank(source)) this.source="未知";
         this.type = type;
         this.requestUrl = requestUrl;
-        this.username = securityUser.getCurrentUserInfo().getNickName();
+        this.username = securityUser.getCurrentUserInfo().getNickname();
         this.paramsJson = paramsJson;
         this.classPath = classPath;
         this.methodName = methodName;

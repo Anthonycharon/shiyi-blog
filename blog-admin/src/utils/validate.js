@@ -15,5 +15,5 @@ export function isExternal(path) {
  * @returns {Boolean}
  */
 export function validUsername(str) {
-  return /^[A-Za-z]+$/.test(str) && str.length > 2
+  return  str.length > 2
 }

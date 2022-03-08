@@ -50,7 +50,7 @@
             <img :src="scope.row.avatar" width="60" height="60" />
           </template>
         </el-table-column>
-        <el-table-column prop="nickName" width="150px" align="center" label="昵称"/>
+        <el-table-column prop="nickname" width="150px" align="center" label="昵称"/>
         <el-table-column prop="loginType" align="center" label="登录方式">
           <template slot-scope="scope">
             <el-tag v-for="item in dictLoginTypeList" v-if="scope.row.loginType === parseInt(item.value)" :type="item.style">
@@ -104,7 +104,7 @@
     <el-dialog center :title="title" :visible.sync="dialogFormVisible">
       <el-form :rules="rules" ref="dataForm" :model="form">
         <el-form-item prop="nickName" label="昵称" :label-width="formLabelWidth">
-          <el-input v-model="form.nickName" autocomplete="off"></el-input>
+          <el-input disabled="true" v-model="form.nickName" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="status" label="状态" :label-width="formLabelWidth">
           <div>

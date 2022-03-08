@@ -240,6 +240,14 @@ export function updatePassword(data) {
         data
     })
 }
+export function upload(data) {
+    return request({
+        url: '/file/upload',
+        method: 'POST',
+        headers:{'Content-Type': 'multipart/articles-data'},
+        data
+    })
+}
 export function updateUser(data) {
     return request({
         url: '/user/updateUser',

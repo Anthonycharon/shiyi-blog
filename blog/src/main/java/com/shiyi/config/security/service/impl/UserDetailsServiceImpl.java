@@ -61,12 +61,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 从数据库中取出用户信息
-        List<User> userList = userMapper.selectList(new QueryWrapper<User>().eq("username", username));
-        User user;
+        User user = userMapper.getOne(username);
         // 判断用户是否存在
-        if (!CollectionUtils.isEmpty(userList)) {
-            user = userList.get(0);
-        } else {
+        if (user == null) {
             throw new UsernameNotFoundException("用户名或密码错误，请重试！");
         }
         if (user.getStatus() == Constants.USER_STATUS_ZERO) throw new UsernameNotFoundException("该用户已被禁用!!");

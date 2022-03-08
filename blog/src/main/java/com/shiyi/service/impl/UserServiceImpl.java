@@ -9,6 +9,7 @@ import com.shiyi.common.Constants;
 import com.shiyi.common.RedisConstants;
 import com.shiyi.common.SqlConf;
 import com.shiyi.dto.SystemUserDTO;
+import com.shiyi.dto.UserDTO;
 import com.shiyi.exception.BusinessException;
 import com.shiyi.mapper.RoleMapper;
 import com.shiyi.entity.Menu;
@@ -62,14 +63,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public ApiResult listData(String username,Integer loginType, Integer pageNo, Integer pageSize) {
-        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
+     /*   LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
                 .select(User::getId,User::getAvatar,User::getRoleId,User::getCreateTime,User::getStatus,
                         User::getUpdateTime,User::getLoginType,User::getNickName,User::getLastLoginTime,
                         User::getIpSource,User::getIpAddress).orderByAsc(User::getCreateTime)
                 .like(StringUtils.isNotBlank(username),User::getUsername,username)
                 .eq(loginType != null,User::getLoginType,loginType);
 
-        Page<User> page = baseMapper.selectPage(new Page<>(pageNo, pageSize),queryWrapper);
+        Page<User> page = baseMapper.selectPage(new Page<>(pageNo, pageSize),queryWrapper);*/
+
+        Page<UserDTO> page = baseMapper.selectPageRecord(new Page<UserDTO>(pageNo, pageSize),username,loginType);
         return ApiResult.success(page);
     }
 
@@ -81,7 +84,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public ApiResult info(Integer id) {
         User user = baseMapper.selectOne(new LambdaQueryWrapper<User>()
-                .select(User::getId,User::getLoginType,User::getRoleId,User::getNickName,User::getStatus).eq(User::getId,id));
+                .select(User::getId,User::getLoginType,User::getRoleId,User::getStatus).eq(User::getId,id));
         return ApiResult.success(user);
     }
 
@@ -153,7 +156,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String userName = jwtUtils.getUsernameFromToken(token);
         String userToken = redisCache.getCacheObject(RedisConstants.LOGIN_PREFIX + userName);
         Assert.isTrue(!token.equals(userToken),ErrorCode.EXPIRE_TOKEN.getMsg());
-        User user = baseMapper.selectOne(new QueryWrapper<User>().eq(SqlConf.USERNAME, userName));
+        User user = baseMapper.getOne(userName);
         SystemUserDTO systemUserDTO = new SystemUserDTO();
         BeanUtils.copyProperties(user, systemUserDTO);
         return systemUserDTO;

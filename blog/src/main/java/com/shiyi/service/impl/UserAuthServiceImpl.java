@@ -94,8 +94,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         UserAuth auth = UserAuth.builder().email(vo.getEmail()).avatar(config.getTouristAvatar()).nickname(vo.getNickname()).build();
         baseMapper.insert(auth);
 
-        user = User.builder().username(vo.getEmail()).avatar(config.getTouristAvatar()).nickName(vo.getNickname())
-                .roleId(Constants.USER_ROLE_ID).userAuthId(auth.getId()).loginType(LoginTypeEnum.EMAIL.getType())
+        user = User.builder().username(vo.getEmail()).roleId(Constants.USER_ROLE_ID).userAuthId(auth.getId()).loginType(LoginTypeEnum.EMAIL.getType())
                 .password(passwordEncoder.encode(vo.getPassword())).build();
         boolean insert = userService.save(user);
 
@@ -158,7 +157,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         redisCache.setCacheObject(RedisConstants.LOGIN_PREFIX+user.getUsername(),token,1, TimeUnit.HOURS);
 
         //组装数据
-        UserInfoDTO userInfoDTO = UserInfoDTO.builder().id(user.getId()).userInfoId(auth.getId()).avatar(auth.getAvatar()).nickname(user.getNickName())
+        UserInfoDTO userInfoDTO = UserInfoDTO.builder().id(user.getId()).userInfoId(auth.getId()).avatar(auth.getAvatar()).nickname(auth.getNickname())
                 .intro(auth.getIntro()).webSite(auth.getWebSite()).email(user.getUsername()).loginType(user.getLoginType()).token(token).build();
 
         //不影响用户登录 新一个线程修改登录时间 ip 地址等信息
@@ -274,6 +273,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         userAuth.setWebSite(vo.getWebSite());
         userAuth.setEmail(vo.getEmail());
         userAuth.setIntro(vo.getIntro());
+        userAuth.setAvatar(vo.getAvatar());
 
         boolean update = updateById(userAuth);
         return update ? ApiResult.ok("修改信息成功"):ApiResult.fail(ErrorCode.ERROR_DEFAULT.getMsg());

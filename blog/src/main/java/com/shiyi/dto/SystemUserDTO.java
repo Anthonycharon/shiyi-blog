@@ -20,13 +20,10 @@ public class SystemUserDTO {
     private String username;
 
     @ApiModelProperty(value = "昵称")
-    private String nickName;
+    private String nickname;
 
     @ApiModelProperty(value = "性别 0:男 1:女")
     private String sex;
-
-    @ApiModelProperty(value = "手机号码")
-    private String phone;
 
     @ApiModelProperty(value = "邮箱")
     private String email;

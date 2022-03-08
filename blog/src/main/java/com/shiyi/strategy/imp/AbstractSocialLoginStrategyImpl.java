@@ -154,8 +154,6 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         User user = User.builder()
                 .userAuthId(userAuth.getId())
                 .username(socialToken.getOpenId())
-                .nickName(socialUserInfo.getNickname())
-                .avatar(socialUserInfo.getAvatar())
                 .password(socialToken.getAccessToken())
                 .loginType(socialToken.getLoginType())
                 .lastLoginTime(DateUtils.getNowDate())
