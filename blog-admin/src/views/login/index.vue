@@ -63,7 +63,7 @@
       <div style="position:relative">
         <div class="tips">
           <span>Username : test</span>
-          <span>Password : test</span>
+          <span>Password : 123456</span>
           <el-button style="float: right" class="thirdparty-button" type="primary" @click="showDialog=true">
           第三方登录
         </el-button>

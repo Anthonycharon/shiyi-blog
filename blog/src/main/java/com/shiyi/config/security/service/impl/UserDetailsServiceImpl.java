@@ -93,11 +93,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * @return: com.by zq.config.security.dto.SecurityUser
      */
     public SecurityUser getUserByName(String name) {
-        User user = null;
-        List<User> loginList = userMapper.selectList(new QueryWrapper<User>().eq("username", name));
-        if (!CollectionUtils.isEmpty(loginList)) {
-            user = loginList.get(0);
-        }
+        User user = userMapper.getOne(name);
         return user != null ? new SecurityUser(user, getUserRoles(user.getId())) : null;
     }
 
