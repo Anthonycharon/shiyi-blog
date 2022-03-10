@@ -23,6 +23,7 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
     @Autowired
     private ArticleMapper mapper;
 
+    @Override
     public List<ArticleSearchDTO> searchArticle(String keywords){
         // 搜索文章
         List<BlogArticle> blogArticles = mapper.selectList(new LambdaQueryWrapper<BlogArticle>()

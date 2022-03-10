@@ -11,7 +11,7 @@ public class CpuDTO implements Serializable {
     /**
      * 核心数
      */
-    private int cpuNum;
+    private Integer cpuNum;
 
     /**
      * CPU总的使用率
@@ -43,19 +43,19 @@ public class CpuDTO implements Serializable {
         return NumberUtil.round(NumberUtil.mul(total, 100), 2).doubleValue();
     }
 
-    public double getSys() {
+    public Double getSys() {
         return NumberUtil.round(NumberUtil.mul(sys / total, 100), 2).doubleValue();
     }
 
-    public double getUsed() {
+    public Double getUsed() {
         return NumberUtil.round(NumberUtil.mul(used / total, 100), 2).doubleValue();
     }
 
-    public double getWait() {
+    public Double getWait() {
         return NumberUtil.round(NumberUtil.mul(wait / total, 100), 2).doubleValue();
     }
 
-    public double getFree() {
+    public Double getFree() {
         return NumberUtil.round(NumberUtil.mul(free / total, 100), 2).doubleValue();
     }
 }

@@ -2,8 +2,14 @@ package com.shiyi.enums;
 
 public enum PublishEnum {
 
+    /**
+     * 文章发布
+     */
     PUBLISH (1, "发布"),
 
+    /**
+     * 文章下架
+     */
     NO_PUBLISH (0, "下架");
 
     //创建构造函数

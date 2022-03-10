@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ContributeDTO {
-    private int count;
+    private Integer count;
     private String date;
 }

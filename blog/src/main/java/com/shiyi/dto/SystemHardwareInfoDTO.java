@@ -19,6 +19,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * @author blue
+ */
 @Data
 public class SystemHardwareInfoDTO implements Serializable {
 

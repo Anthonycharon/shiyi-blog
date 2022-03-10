@@ -68,7 +68,7 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         User user = getUser(socialToken);
         if (Objects.nonNull(user)) {
             // 返回数据库用户信息
-            userDetailDTO = getUserDetail(user, ipAddress, ipSource);
+            userDetailDTO = getUserDetail(user, ipAddress, ipSource,socialUserInfo);
         } else {
             // 获取第三方用户信息，保存到数据库返回
             userDetailDTO = saveUserDetail(socialToken, ipAddress, ipSource,socialUserInfo);
@@ -123,13 +123,20 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
      * @param ipSource  ip源
      * @return {@link UserDetailDTO} 用户信息
      */
-    private UserDetailDTO getUserDetail(User user, String ipAddress, String ipSource) {
+    private UserDetailDTO getUserDetail(User user, String ipAddress, String ipSource,SocialUserInfoDTO socialUserInfo) {
         // 更新登录信息
         userMapper.update(new User(), new LambdaUpdateWrapper<User>()
                 .set(User::getLastLoginTime, LocalDateTime.now())
                 .set(User::getIpAddress, ipAddress)
                 .set(User::getIpSource, ipSource)
                 .eq(User::getId, user.getId()));
+
+        //更新头像和昵称
+        userAuthMapper.update(new UserAuth(),new LambdaUpdateWrapper<UserAuth>()
+                .set(UserAuth::getAvatar, socialUserInfo.getAvatar())
+                .set(UserAuth::getNickname, socialUserInfo.getNickname())
+                .eq(UserAuth::getId, user.getUserAuthId()));
+
         // 封装信息
         return userDetailsService.convertUserDetail(user, request);
     }

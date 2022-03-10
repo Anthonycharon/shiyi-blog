@@ -8,6 +8,9 @@ import com.qiniu.storage.Region;
  * @apiNote
  */
 public enum QiNiuAreaEnum {
+    /**
+     * 七牛云存储区域
+     */
     EastChina ("z0", "华东", Region.region0()),
 
     NorthChina ("z1", "华北", Region.region1()),

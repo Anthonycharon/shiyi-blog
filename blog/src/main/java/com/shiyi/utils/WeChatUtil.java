@@ -122,7 +122,7 @@ public class WeChatUtil {
         map.put("ToUserName", requestMap.get("FromUserName"));
         map.put("FromUserName",  requestMap.get("ToUserName"));
         map.put("MsgType", "text");
-        map.put("CreateTime", new Date().getTime());
+        map.put("CreateTime", System.currentTimeMillis());
         map.put("Content", content);
         return  mapToXML(map);
     }
@@ -145,7 +145,7 @@ public class WeChatUtil {
             Object value = map.get(key);
             if (null == value)
                 value = "";
-            if (value.getClass().getName().equals("java.util.ArrayList")) {
+            if ("java.util.ArrayList".equals(value.getClass().getName())) {
                 ArrayList list = (ArrayList) map.get(key);
                 sb.append("<" + key + ">");
                 for (int i = 0; i < list.size(); i++) {

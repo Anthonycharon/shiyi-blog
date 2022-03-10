@@ -28,7 +28,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
     /**
      * 线程本地变量
      */
-    private static final ThreadLocal<Date> threadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<Date> THREAD_LOCAL = new ThreadLocal<>();
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -51,7 +51,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
      * @param job  系统计划任务
      */
     protected void before(JobExecutionContext context, Job job) {
-        threadLocal.set(new Date());
+        THREAD_LOCAL.set(new Date());
     }
 
     /**
@@ -61,8 +61,8 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
      * @param job  系统计划任务
      */
     protected void after(JobExecutionContext context, Job job, Exception e) {
-        Date startTime = threadLocal.get();
-        threadLocal.remove();
+        Date startTime = THREAD_LOCAL.get();
+        THREAD_LOCAL.remove();
 
         final JobLog jobLog = new JobLog();
         jobLog.setJobId(job.getJobId());

@@ -43,6 +43,7 @@ public class AdminAuthenticationSuccessHandler implements AuthenticationSuccessH
     private  Integer expiration;
 
 
+    @SuppressWarnings("AlibabaAvoidManuallyCreateThread")
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
         SecurityUser securityUser = ((SecurityUser) auth.getPrincipal());

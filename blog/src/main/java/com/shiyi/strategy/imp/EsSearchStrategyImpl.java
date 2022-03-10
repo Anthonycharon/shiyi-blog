@@ -27,6 +27,7 @@ public class EsSearchStrategyImpl implements SearchStrategy {
     @Autowired
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
+    @Override
     public List<ArticleSearchDTO> searchArticle(String keywords) {
         if (StringUtils.isBlank(keywords)) {
             return new ArrayList<>();

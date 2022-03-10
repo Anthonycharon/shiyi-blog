@@ -1,11 +1,19 @@
 package com.shiyi.enums;
 
 public enum FriendLinkEnum {
-
+    /**
+     * 友链下架
+     */
     NOPASS(0, "下架"),
 
+    /**
+     * 友链申请
+     */
     APPLY(1, "申请"),
 
+    /**
+     * 友链上架
+     */
     PASS(2, "上架");
 
 
