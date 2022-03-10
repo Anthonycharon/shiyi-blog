@@ -2,6 +2,7 @@ package com.shiyi.controller.index;
 
 import com.shiyi.annotation.IgnoreUrl;
 import com.shiyi.common.RedisConstants;
+import com.shiyi.entity.Message;
 import com.shiyi.utils.RandomUtil;
 import com.shiyi.utils.RedisCache;
 import com.shiyi.utils.WeChatUtil;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -77,7 +79,8 @@ public class ApiWeChatController {
         // 文本消息
         if ("text".equals(msgType) && "验证码".equals(mes)) {
             String code = RandomUtil.generationNumber(6);
-            respXml=WeChatUtil.sendTextMsg(requestMap,code);
+            String msg = MessageFormat.format("您的本次验证码:{0},该验证码30分钟内有效。", code);
+            respXml=WeChatUtil.sendTextMsg(requestMap,msg);
             redisCache.setCacheObject(RedisConstants.WECHAT_CODE+code,code,30, TimeUnit.MINUTES);
         }
         return respXml;
