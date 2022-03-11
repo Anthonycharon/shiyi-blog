@@ -1,15 +1,22 @@
 import Cookies from 'js-cookie'
 
 export function getToken() {
-  return Cookies.get("token")
+  let token = localStorage.getItem("token");
+  if (token == null) token = sessionStorage.getItem("token")
+  return token
 }
-export function setToken(token) {
+export function setToken(res) {
  /* let inFifteenMinutes = new Date(new Date().getTime() + 60 * 60 * 1000);
   return Cookies.set("token", token,{expires:inFifteenMinutes})*/
-  return Cookies.set("token", token)
+  if (res.rememberMe){
+    return localStorage.setItem("token", res.token)
+  }else {
+    return sessionStorage.setItem("token", res.token)
+  }
 }
 export function removeToken() {
-  return Cookies.remove("token")
+  localStorage.removeItem("token");
+  sessionStorage.removeItem("token")
 }
 
 export function hasAuth(perms, perm) {

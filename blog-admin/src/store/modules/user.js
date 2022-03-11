@@ -45,9 +45,9 @@ const actions = {
   login({ commit }, res) {
     //const { username, password,code,uuid} = userInfo
     return new Promise((resolve, reject) => {
-      commit('SET_TOKEN', res.data)
+      commit('SET_TOKEN', res.token)
       commit('SET_ROLE', 'admin')
-      setToken(res.data)
+      setToken(res)
       resolve(res)
     })
   },

@@ -1,26 +1,15 @@
 package com.shiyi.controller.system;
 
-import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.core.date.DateUtil;
-import com.shiyi.config.satoken.MySaTokenListener;
-import com.shiyi.config.satoken.OnlineUser;
-import com.shiyi.dto.SystemUserDTO;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
-import com.shiyi.common.Constants;
 import com.shiyi.entity.User;
-import com.shiyi.service.UserAuthService;
 import com.shiyi.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -36,8 +25,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private UserAuthService userAuthService;
 
     @GetMapping(value = "/list")
     @SaCheckLogin

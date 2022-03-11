@@ -55,6 +55,11 @@
           <img :src="changeImage" @click="handleClickImage" class="login-code-img"/>
         </div>
       </el-form-item> -->
+      <div style="margin-bottom: 10px;margin-left: 2px">
+        <el-checkbox v-model="loginForm.rememberMe">
+          <span style="color: white">记住我</span>
+        </el-checkbox>
+      </div>
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"  @click.native.prevent="handleLogin">
         <span v-if="!loading">登 录</span>
         <span v-else>登 录 中...</span>
@@ -132,8 +137,7 @@ export default {
       loginForm: {
         username: '',
         password: '',
-        uuid:'',
-        code:''
+        rememberMe:true
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur',validator: validateUsername }],
@@ -192,7 +196,8 @@ export default {
             if(res.ret === 0){
                 that.loading = true
                 login(that.loginForm).then(res => {
-                    that.$store.dispatch('user/login',res).then(res => {
+                    let data = {token:res.data,rememberMe:that.loginForm.rememberMe}
+                    that.$store.dispatch('user/login',data).then(res => {
                     that.loading = false
                     that.$router.push('/')
                   })

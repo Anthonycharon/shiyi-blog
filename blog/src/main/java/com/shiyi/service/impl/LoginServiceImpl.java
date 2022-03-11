@@ -1,5 +1,6 @@
 package com.shiyi.service.impl;
 
+import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.code.kaptcha.Producer;
@@ -65,7 +66,11 @@ public class LoginServiceImpl implements LoginService {
         SystemUserDTO user = userMapper.selectNameAndPassword(vo.getUsername(),PasswordUtils.aesEncrypt(vo.getPassword()));
         Assert.isTrue(user != null, ErrorCode.ERROR_PASSWORD.getMsg());
 
-        StpUtil.login(user.getId().longValue());
+        if (vo.getRememberMe()){
+            StpUtil.login(user.getId().longValue(), new SaLoginModel().setTimeout(60 * 60 * 24 * 7));
+        }else {
+            StpUtil.login(user.getId().longValue());
+        }
         StpUtil.getSession().set(Constants.CURRENT_USER,user);
         return ApiResult.success(StpUtil.getTokenValue());
     }

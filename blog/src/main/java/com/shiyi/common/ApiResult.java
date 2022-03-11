@@ -43,15 +43,6 @@ public class ApiResult {
         return this;
     }
 
-    /***
-     * 过期
-     *
-     * @param message:
-     * @return: ApiResult
-     */
-    public static ApiResult expired(String message) {
-        return new ApiResult(ResultCode.UN_LOGIN.getCode(), message, null);
-    }
 
     public static ApiResult fail(String message) {
         return new ApiResult(ResultCode.FAILURE.getCode(), message, null);
