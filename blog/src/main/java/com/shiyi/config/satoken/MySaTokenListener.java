@@ -5,6 +5,9 @@ import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.listener.SaTokenListener;
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
+import com.shiyi.entity.User;
+import com.shiyi.entity.UserAuth;
+import com.shiyi.mapper.UserAuthMapper;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.IpUtils;
@@ -30,6 +33,8 @@ public class MySaTokenListener implements SaTokenListener {
     private UserMapper userMapper;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private UserAuthMapper userAuthMapper;
 
     @PostConstruct
     public void init() {
@@ -46,14 +51,16 @@ public class MySaTokenListener implements SaTokenListener {
         UserAgent userAgent = IpUtils.getUserAgent(request);
         //StpUtil.getTokenValue()不知道为什么获取到的是null 所以只能调用这个方法来获取token
         String token = StpUtil.getTokenValueByLoginId(loginId);
+        UserAuth auth = userAuthMapper.getByUserId(loginId);
         ONLINE_USERS.add(OnlineUser.builder()
+                .avatar(auth.getAvatar())
                 .ip(ip)
                 .city(cityInfo)
                 .loginTime(DateUtils.getNowDate())
                 .os(userAgent.getOperatingSystem().getName())
                 .userId((Long) loginId)
                 .tokenValue(token)
-                .nickName(userMapper.getById(loginId).getNickname())
+                .nickname(userMapper.getById(loginId).getNickname())
                 .browser(userAgent.getBrowser().getName()).build());
         log.info("user doLogin,useId:{},token:{}", loginId, StpUtil.getTokenValue());
         // ...

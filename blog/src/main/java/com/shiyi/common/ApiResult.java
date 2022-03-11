@@ -35,6 +35,7 @@ public class ApiResult {
     @ApiModelProperty(value = "响应数据", required = false)
     private Object data;
 
+    @ApiModelProperty(value = "响应数据", required = false)
     private Map<String,Object> extra = new HashMap<>();
 
     public ApiResult putExtra(String key, Object value) {

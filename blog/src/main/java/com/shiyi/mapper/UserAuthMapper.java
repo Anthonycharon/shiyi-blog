@@ -19,4 +19,6 @@ import java.util.List;
 public interface UserAuthMapper extends BaseMapper<UserAuth> {
 
     void deleteByUserIds(@Param("ids") List<Integer> ids);
+
+    UserAuth getByUserId(Object loginId);
 }

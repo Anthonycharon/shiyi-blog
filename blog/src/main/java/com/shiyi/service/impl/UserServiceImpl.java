@@ -170,7 +170,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 onlineUser.setLastActivityTime(DateUtil.date(lastActivityTime));
             }
         });
+        Map<String,Object> map = new HashMap<>();
+        map.put("total",userOnlineList.size());
+        map.put("records",userOnlineList);
+        return ApiResult.success(map);
+    }
 
-        return ApiResult.success(userOnlineList).putExtra("total",userOnlineList.size());
+    @Override
+    public ApiResult kick(Long userId) {
+        log.info("当前踢下线的用户id为:{}",userId);
+        StpUtil.kickout(userId);
+        return ApiResult.ok();
     }
 }

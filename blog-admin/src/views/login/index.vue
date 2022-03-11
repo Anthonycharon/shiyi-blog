@@ -188,16 +188,7 @@ export default {
         if (valid) {
 
           let that = this;
-          that.loading = true
-          login(that.loginForm).then(res => {
-            that.$store.dispatch('user/login',res).then(res => {
-              that.loading = false
-              that.$router.push('/')
-            })
-          }).catch(err => {
-            that.loading = false
-          })
-         /* var myCaptcha = new TencentCaptcha("2088053498",function(res) {
+          var myCaptcha = new TencentCaptcha("2088053498",function(res) {
             if(res.ret === 0){
                 that.loading = true
                 login(that.loginForm).then(res => {
@@ -209,7 +200,7 @@ export default {
                     that.loading = false
                 })
             }
-          })*/
+          })
           myCaptcha.show()
         } else {
           console.log('error submit!!')

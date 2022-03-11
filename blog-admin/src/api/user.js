@@ -76,3 +76,18 @@ export function editPassword(data) {
     data
   })
 }
+
+export function onlineUser(params) {
+  return request({
+    url: '/system/user/online',
+    method: 'get',
+    params:params
+  })
+}
+export function kick(params) {
+  return request({
+    url: '/system/user/kick',
+    method: 'get',
+    params:params
+  })
+}

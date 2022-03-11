@@ -16,7 +16,8 @@ import java.util.Date;
 public class OnlineUser {
     private String loginId;
     private Long userId;
-    private String nickName;
+    private String nickname;
+    private String avatar;
     private String ip;
     private String os;
     private String city;

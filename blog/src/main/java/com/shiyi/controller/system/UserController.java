@@ -105,4 +105,12 @@ public class UserController {
     public ApiResult listOnlineUsers(String keywords,int pageNo,int pageSize) {
         return userService.listOnlineUsers(keywords,pageNo,pageSize);
     }
+
+    @GetMapping(value = "/kick")
+    @SaCheckPermission("/system/user/kick")
+    @OperationLogger(value = "踢人下线")
+    @ApiOperation(value = "踢人下线", httpMethod = "GET", response = ApiResult.class, notes = "踢人下线")
+    public ApiResult kick(Long userId) {
+        return userService.kick(userId);
+    }
 }
