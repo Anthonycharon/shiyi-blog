@@ -26,7 +26,7 @@
 <script>
 import {editPassword} from "@/api/user"
 export default {
-  name: 'IsBlogPassword',
+  name: 'ShiYiPassword',
   data() {
     return {
       formLabelWidth: '120px',

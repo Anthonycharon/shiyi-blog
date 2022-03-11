@@ -17,6 +17,13 @@
         <springfox.version>2.7.0</springfox.version>
     </properties>
     <dependencies>
+        <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot-starter</artifactId>
+            <version>1.29.0</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
@@ -109,19 +116,19 @@
             <version>${springfox.version}</version>
         </dependency>
 
-        <!--Security框架-->
+      <!--  &lt;!&ndash;Security框架&ndash;&gt;
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- jwt -->
+        &lt;!&ndash; jwt &ndash;&gt;
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
-        </dependency>
-        <!--去除Spring Boot Configuration Annotation Processor not configured 爆红-->
+        </dependency>-->
+<!--        &lt;!&ndash;去除Spring Boot Configuration Annotation Processor not configured 爆红&ndash;&gt;-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -129,10 +136,16 @@
         </dependency>
 
         <!--集成redis-->
+        <!-- Sa-Token 整合 Redis （使用jackson序列化方式） -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-redis</artifactId>
-            <version>1.4.1.RELEASE</version>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-dao-redis-jackson</artifactId>
+            <version>1.29.0</version>
+        </dependency>
+        <!-- 提供Redis连接池 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
         </dependency>
 
         <!-- 验证码 -->

@@ -1,8 +1,23 @@
 package com.shiyi.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.code.kaptcha.Producer;
+import com.shiyi.common.ApiResult;
+import com.shiyi.common.Constants;
+import com.shiyi.common.SqlConf;
+import com.shiyi.dto.SystemUserDTO;
+import com.shiyi.entity.User;
+import com.shiyi.exception.ErrorCode;
+import com.shiyi.mapper.UserMapper;
 import com.shiyi.service.LoginService;
+import com.shiyi.utils.PasswordUtils;
+import com.shiyi.vo.LoginVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,6 +34,8 @@ public class LoginServiceImpl implements LoginService {
 
     @Resource(name = "captchaProducerMath")
     private Producer captchaProducerMath;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public Map<String, String> getCode(HttpServletResponse response) throws IOException {
@@ -40,5 +57,16 @@ public class LoginServiceImpl implements LoginService {
         result.put("uuid",uuid);
         result.put("img", Base64.encode(os.toByteArray()));*/
         return result;
+    }
+
+    @Override
+    public ApiResult doLogin(LoginVO vo) {
+        //校验用户名和密码
+        SystemUserDTO user = userMapper.selectNameAndPassword(vo.getUsername(),PasswordUtils.aesEncrypt(vo.getPassword()));
+        Assert.isTrue(user != null, ErrorCode.ERROR_PASSWORD.getMsg());
+
+        StpUtil.login(user.getId().longValue());
+        StpUtil.getSession().set(Constants.CURRENT_USER,user);
+        return ApiResult.success(StpUtil.getTokenValue());
     }
 }

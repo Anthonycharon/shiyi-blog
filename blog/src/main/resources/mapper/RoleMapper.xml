@@ -29,4 +29,8 @@
             ( #{roleId},#{menuId})
         </foreach>
     </insert>
+
+    <select id="selectByUserId" resultType="java.lang.String">
+        select code from b_role where id =(select role_id from b_user where id=#{loginId})
+    </select>
 </mapper>

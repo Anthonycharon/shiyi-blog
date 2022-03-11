@@ -65,7 +65,7 @@
         <el-button
           type="warning"
           plain
-          icon="el-icon-close"
+          icon="el-icon-back"
           size="mini"
           @click="handleClose"
         >返回</el-button>

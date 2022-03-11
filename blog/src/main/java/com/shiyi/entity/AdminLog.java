@@ -7,7 +7,6 @@ import java.util.Date;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shiyi.dto.SecurityUser;
 import com.shiyi.utils.DateUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -70,9 +69,6 @@ public class AdminLog implements Serializable {
     @JsonFormat(pattern = DateUtils.FORMAT_STRING)
     private Date createTime;
 
-    @TableField(exist = false)
-    private SecurityUser securityUser;
-
     public AdminLog(){}
 
     /**
@@ -81,22 +77,20 @@ public class AdminLog implements Serializable {
      * @param ip
      * @param type
      * @param requestUrl
-     * @param securityUser
      * @param paramsJson
      * @param classPath
      * @param methodName
      * @param operationName
      */
-    public AdminLog(String ip, String source, String type, String requestUrl, SecurityUser securityUser,
+    public AdminLog(String ip, String source, String type, String requestUrl, String nickname,
                     String paramsJson, String classPath,
                     String methodName, String operationName,
                  Long spendTime) {
         this.ip = ip;
-        this.source = source;
-        if (StringUtils.isBlank(source)) this.source="未知";
+        this.source = StringUtils.isBlank(source) ? "未知": source;
         this.type = type;
         this.requestUrl = requestUrl;
-        this.username = securityUser.getCurrentUserInfo().getNickname();
+        this.username = nickname;
         this.paramsJson = paramsJson;
         this.classPath = classPath;
         this.methodName = methodName;

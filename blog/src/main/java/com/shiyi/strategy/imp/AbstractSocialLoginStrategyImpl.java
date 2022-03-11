@@ -1,22 +1,24 @@
 package com.shiyi.strategy.imp;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.shiyi.config.security.service.impl.UserDetailsServiceImpl;
 import com.shiyi.dto.SocialTokenDTO;
 import com.shiyi.dto.SocialUserInfoDTO;
 import com.shiyi.dto.UserDetailDTO;
 import com.shiyi.dto.UserInfoDTO;
 import com.shiyi.common.Constants;
 import com.shiyi.common.RedisConstants;
+import com.shiyi.entity.Role;
 import com.shiyi.entity.User;
 import com.shiyi.entity.UserAuth;
 import com.shiyi.enums.LoginTypeEnum;
-import com.shiyi.exception.BusinessException;
+import com.shiyi.mapper.RoleMapper;
 import com.shiyi.mapper.UserAuthMapper;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.strategy.SocialLoginStrategy;
 import com.shiyi.utils.*;
+import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -24,9 +26,8 @@ import org.springframework.util.Assert;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -41,14 +42,12 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
     private UserAuthMapper userAuthMapper;
     @Autowired
     private UserMapper userMapper;
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
     @Resource
     private HttpServletRequest request;
     @Autowired
-    private JwtUtils jwtUtils;
-    @Autowired
     private RedisCache redisCache;
+    @Autowired
+    private RoleMapper roleMapper;
 
     @Override
     public UserInfoDTO login(String data) {
@@ -78,13 +77,8 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
 
         // 返回用户信息
         UserInfoDTO userInfoDTO = BeanCopyUtils.copyObject(userDetailDTO, UserInfoDTO.class);
-        String username = userDetailDTO.getUsername();
-        Map<String, Object> claims = new HashMap<>();
-        claims.put(RedisConstants.LOGIN_PREFIX,username);
-        String token = jwtUtils.generateToken(claims);
-        redisCache.deleteObject(RedisConstants.LOGIN_PREFIX+username);
-        redisCache.setCacheObject(RedisConstants.LOGIN_PREFIX+username,token,1, TimeUnit.HOURS);
-        userInfoDTO.setToken(token);
+        StpUtil.login(userInfoDTO.getId().longValue());
+        userInfoDTO.setToken(StpUtil.getTokenValue());
         return userInfoDTO;
     }
 
@@ -138,8 +132,9 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
                 .eq(UserAuth::getId, user.getUserAuthId()));
 
         // 封装信息
-        return userDetailsService.convertUserDetail(user, request);
+        return convertUserDetail(user);
     }
+
 
     /**
      * 新增用户信息
@@ -170,7 +165,42 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
                 .build();
         userMapper.insert(user);
 
-        return userDetailsService.convertUserDetail(user, request);
+        return convertUserDetail(user);
     }
 
+    private UserDetailDTO convertUserDetail(User user) {
+        // 查询账号信息
+        UserAuth userAuth = userAuthMapper.selectById(user.getUserAuthId());
+        // 查询账号点赞信息
+        Set<Object> articleLikeSet = redisCache.sMembers(RedisConstants.ARTICLE_USER_LIKE + userAuth.getId());
+        // 获取设备信息
+        String ipAddress = IpUtils.getIp(request);
+        String ipSource = IpUtils.getCityInfo(ipAddress);
+        UserAgent userAgent = IpUtils.getUserAgent(request);
+        // 查询账号角色
+        Role role = roleMapper.selectById(user.getRoleId());
+        List<String> roleList = new ArrayList<>();
+        roleList.add(role.getCode());
+        // 封装权限集合
+        return UserDetailDTO.builder()
+                .id(user.getId())
+                .loginType(user.getLoginType())
+                .userAuthId(userAuth.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .email(userAuth.getEmail())
+                .roleList(roleList)
+                .nickname(userAuth.getNickname())
+                .avatar(userAuth.getAvatar())
+                .intro(userAuth.getIntro())
+                .webSite(userAuth.getWebSite())
+                .articleLikeSet(articleLikeSet)
+                .ipAddress(ipAddress)
+                .ipSource(ipSource)
+                .isDisable(userAuth.getIsDisable())
+                .browser(userAgent.getBrowser().getName())
+                .os(userAgent.getOperatingSystem().getName())
+                .lastLoginTime(LocalDateTime.now(ZoneId.of("Asia/Shanghai")))
+                .build();
+    }
 }

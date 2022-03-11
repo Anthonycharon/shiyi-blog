@@ -4,4 +4,15 @@
     <select id="countArticle" resultType="com.shiyi.dto.CategoryCountDTO">
         select a.name,count(b.id) as value from b_category a left join b_article b on a.id=b.category_id GROUP BY a.id
     </select>
+
+    <select id="selectPageRecord" resultType="com.shiyi.entity.Category">
+        select a.id,a.name,a.sort,a.create_time,a.click_volume,b.articleCount from b_category a
+            left join (select category_id,count(id) as articleCount from b_article group by category_id) b on a.id=b.category_id
+        <where>
+            <if test="name != null">
+                a.name like concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+
 </mapper>

@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "zw", ignoreUnknownFields = false)
+@ConfigurationProperties(prefix = "shiyi", ignoreUnknownFields = false)
 public class MyProperties {
 
     /**

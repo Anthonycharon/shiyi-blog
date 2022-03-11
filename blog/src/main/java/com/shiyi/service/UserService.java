@@ -26,12 +26,12 @@ public interface UserService extends IService<User> {
 
     ApiResult delete(List<Integer> ids);
 
-    ApiResult logout(String token);
+    SystemUserDTO getCurrentUserInfo();
 
-    SystemUserDTO getCurrentUserInfo(String token);
+    ApiResult getUserMenu();
 
-    ApiResult getUserMenu(String header);
+    ApiResult updatePassword(Map<String, String> map);
 
-    ApiResult updatePassword(String header, Map<String, String> map);
+    ApiResult listOnlineUsers(String keywords,int pageNo,int pageSize);
 
 }

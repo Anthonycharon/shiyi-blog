@@ -144,13 +144,10 @@ export function qqLogin(data) {
     })
 }
 //qq退出
-export function logout(id) {
+export function logout() {
     return request({
-        url: '/user/logout',
-        method: 'post',
-        params: {
-            id:id
-        }
+        url: '/logout',
+        method: 'get',
     })
 }
 //gitee登录

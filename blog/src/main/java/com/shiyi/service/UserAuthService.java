@@ -32,8 +32,6 @@ public interface UserAuthService extends IService<UserAuth> {
 
     ApiResult logout();
 
-    ApiResult listOnlineUsers(String keywords,int pageNo,int pageSize);
-
     ApiResult sendEmailCode(String email);
 
     ApiResult bindEmail(UserAuthVO vo);

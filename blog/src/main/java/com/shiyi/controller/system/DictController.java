@@ -1,6 +1,8 @@
 package com.shiyi.controller.system;
 
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
 import com.shiyi.entity.Dict;
@@ -35,6 +37,7 @@ public class DictController {
     private DictService dictService;
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
+    @SaCheckLogin
     @ApiOperation(value = "字典类型列表", httpMethod = "GET", response = ApiResult.class, notes = "字典类型列表")
     public ApiResult list(String name,Integer isPublish,
                           String descColumn,String ascColumn,int pageNo,int pageSize){
@@ -42,6 +45,7 @@ public class DictController {
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @SaCheckPermission("/system/dict/add")
     @ApiOperation(value = "添加字典", httpMethod = "POST", response = ApiResult.class, notes = "添加字典")
     @OperationLogger(value = "添加字典")
     public ApiResult save(@RequestBody Dict dict){
@@ -49,6 +53,7 @@ public class DictController {
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @SaCheckPermission("/system/dict/update")
     @ApiOperation(value = "修改字典", httpMethod = "POST", response = ApiResult.class, notes = "修改字典")
     @OperationLogger(value = "修改字典")
     public ApiResult update(@RequestBody Dict dict){
@@ -56,6 +61,7 @@ public class DictController {
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
+    @SaCheckPermission("/system/dict/delete")
     @ApiOperation(value = "删除字典", httpMethod = "DELETE", response = ApiResult.class, notes = "删除字典")
     @OperationLogger(value = "删除字典")
     public ApiResult delete(int id){
@@ -63,6 +69,7 @@ public class DictController {
     }
 
     @RequestMapping(value = "/deleteBatch",method = RequestMethod.DELETE)
+    @SaCheckPermission("/system/dict/deleteBatch")
     @ApiOperation(value = "批量删除字典", httpMethod = "DELETE", response = ApiResult.class, notes = "批量删除字典")
     @OperationLogger(value = "批量删除字典")
     public ApiResult deleteBatch(@RequestBody List<Long> list){

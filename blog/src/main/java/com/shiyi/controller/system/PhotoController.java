@@ -1,6 +1,8 @@
 package com.shiyi.controller.system;
 
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
 import com.shiyi.entity.Photo;
@@ -30,18 +32,21 @@ public class PhotoController {
     private PhotoService photoService;
 
     @GetMapping(value = "/list")
+    @SaCheckLogin
     @ApiOperation(value = "照片列表", httpMethod = "GET", response = ApiResult.class, notes = "照片列表")
     public ApiResult query(Integer albumId, Integer pageNo, Integer pageSize) {
         return photoService.listData(albumId,pageNo,pageSize);
     }
 
     @GetMapping(value = "/info")
+    @SaCheckPermission("/system/photo/info")
     @ApiOperation(value = "照片详情", httpMethod = "GET", response = ApiResult.class, notes = "照片详情")
     public ApiResult infoAlbum(Integer id) {
         return photoService.infoPhoto(id);
     }
 
     @PostMapping(value = "/add")
+    @SaCheckPermission("/system/photo/add")
     @ApiOperation(value = "添加照片", httpMethod = "POST", response = ApiResult.class, notes = "添加照片")
     @OperationLogger(value = "添加照片")
     public ApiResult addAlbum(@RequestBody Photo photo) {
@@ -49,6 +54,7 @@ public class PhotoController {
     }
 
     @PostMapping(value = "/update")
+    @SaCheckPermission("/system/photo/update")
     @ApiOperation(value = "修改照片", httpMethod = "POST", response = ApiResult.class, notes = "修改照片")
     @OperationLogger(value = "修改照片")
     public ApiResult updateAlbum(@RequestBody Photo photo) {
@@ -56,6 +62,7 @@ public class PhotoController {
     }
 
     @PostMapping(value = "/movePhoto")
+    @SaCheckPermission("/system/photo/movePhoto")
     @ApiOperation(value = "移动照片", httpMethod = "POST", response = ApiResult.class, notes = "移动照片")
     @OperationLogger(value = "移动照片")
     public ApiResult movePhoto(@RequestBody Map<String,Object> map) {
@@ -63,6 +70,7 @@ public class PhotoController {
     }
 
     @DeleteMapping(value = "/deleteBatch")
+    @SaCheckPermission("/system/photo/deleteBatch")
     @ApiOperation(value = "批量删除照片", httpMethod = "DELETE", response = ApiResult.class, notes = "批量删除照片")
     @OperationLogger(value = "批量删除照片")
     public ApiResult deleteBatch(@RequestBody List<Integer> ids) {

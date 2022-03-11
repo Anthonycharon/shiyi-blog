@@ -25,8 +25,14 @@
         select id,name from b_tags where id in (select tag_id from b_article_tag where article_id=#{articleId})
     </select>
 
-    <select id="countArticle" resultType="java.lang.Integer">
-        select count(id) from b_article_tag where tag_id=#{id}
+    <select id="selectPageRecord" resultType="com.shiyi.entity.Tags">
+        select a.id,a.name,a.sort,a.click_volume,a.create_time,b.articleCount from b_tags a
+            left join (select tag_id,count(id) as articleCount from b_article_tag GROUP BY tag_id) b on a.id=b.tag_id
+        <where>
+            <if test="name != null">
+                a.name like concat('%',#{name},'%')
+            </if>
+        </where>
     </select>
 
     <insert id="saveArticleToTags">

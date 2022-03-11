@@ -45,9 +45,9 @@ const actions = {
   login({ commit }, res) {
     //const { username, password,code,uuid} = userInfo
     return new Promise((resolve, reject) => {
-      commit('SET_TOKEN', res.data.token)
+      commit('SET_TOKEN', res.data)
       commit('SET_ROLE', 'admin')
-      setToken(res.data.token)
+      setToken(res.data)
       resolve(res)
     })
   },
@@ -96,7 +96,7 @@ const actions = {
   // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
+      logout().then(() => {
         removeToken() // must remove  token  first
         resetRouter()
         commit('RESET_STATE')

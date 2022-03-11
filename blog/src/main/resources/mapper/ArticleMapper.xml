@@ -81,4 +81,8 @@
                a.remark,a.create_time,a.keywords,a.update_time,b.name as categoryName from b_article a
                    LEFT JOIN (SELECT id,name from b_category) b on a.category_id=b.id where a.id=#{id}
     </select>
+
+    <update id="pubOrShelf">
+        update b_article set is_publish=#{article.isPublish} where id =#{article.id}
+    </update>
 </mapper>

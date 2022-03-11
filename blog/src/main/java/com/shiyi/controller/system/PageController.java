@@ -1,6 +1,8 @@
 package com.shiyi.controller.system;
 
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
 import com.shiyi.entity.Page;
@@ -27,12 +29,14 @@ public class PageController {
     private PageService pageService;
 
     @GetMapping(value = "/list")
+    @SaCheckLogin
     @ApiOperation(value = "页面列表", httpMethod = "GET", response = ApiResult.class, notes = "页面列表")
     public ApiResult query() {
         return pageService.listData();
     }
 
     @PostMapping(value = "/add")
+    @SaCheckPermission("/system/page/add")
     @ApiOperation(value = "新增页面", httpMethod = "POST", response = ApiResult.class, notes = "新增页面")
     @OperationLogger(value = "新增页面")
     public ApiResult add(@RequestBody Page page) {
@@ -40,6 +44,7 @@ public class PageController {
     }
 
     @PostMapping(value = "/update")
+    @SaCheckPermission("/system/page/update")
     @ApiOperation(value = "修改页面", httpMethod = "POST", response = ApiResult.class, notes = "修改页面")
     @OperationLogger(value = "修改页面")
     public ApiResult update(@RequestBody Page page) {
@@ -47,6 +52,7 @@ public class PageController {
     }
 
     @DeleteMapping(value = "/delete")
+    @SaCheckPermission("/system/page/delete")
     @ApiOperation(value = "删除页面", httpMethod = "DELETE", response = ApiResult.class, notes = "删除页面")
     @OperationLogger(value = "删除页面")
     public ApiResult delete(Long id) {

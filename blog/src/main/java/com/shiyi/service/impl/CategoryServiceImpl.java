@@ -46,13 +46,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      */
     @Override
     public ApiResult listData(String name, Integer pageNo, Integer pageSize) {
-        QueryWrapper<Category> queryWrapper = new QueryWrapper<Category>()
-                .like(StringUtils.isNotBlank(name),SqlConf.NAME,name);
-        Page<Category> categoryPage = baseMapper.selectPage(new Page<>(pageNo, pageSize), queryWrapper);
-        categoryPage.getRecords().forEach(item ->{
-            Integer count = articleMapper.selectCount(new QueryWrapper<BlogArticle>().eq(SqlConf.CATEGORY_ID, item.getId()));
-            item.setArticleCount(count);
-        });
+        Page<Category> categoryPage = baseMapper.selectPageRecord(new Page<>(pageNo, pageSize), name);
         return ApiResult.success(categoryPage);
     }
 

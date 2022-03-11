@@ -1,6 +1,12 @@
 package com.shiyi.controller.system;
 
-import com.shiyi.annotation.IgnoreUrl;
+import cn.dev33.satoken.SaManager;
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.date.DateUtil;
+import com.shiyi.config.satoken.MySaTokenListener;
+import com.shiyi.config.satoken.OnlineUser;
 import com.shiyi.dto.SystemUserDTO;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
@@ -14,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -33,12 +40,14 @@ public class UserController {
     private UserAuthService userAuthService;
 
     @GetMapping(value = "/list")
+    @SaCheckLogin
     @ApiOperation(value = "用户列表", httpMethod = "GET", response = ApiResult.class, notes = "用户列表")
     public ApiResult listPage(String username,Integer loginType,Integer pageNo, Integer pageSize) {
         return userService.listData(username,loginType,pageNo,pageSize);
     }
 
     @PostMapping(value = "/create")
+    @SaCheckPermission("/system/user/create")
     @ApiOperation(value = "添加用户", httpMethod = "POST", response = ApiResult.class, notes = "添加用户")
     @OperationLogger(value = "添加用户")
     public ApiResult create(@RequestBody User user) {
@@ -46,12 +55,14 @@ public class UserController {
     }
 
     @GetMapping(value = "/info")
+    @SaCheckPermission("/system/user/info")
     @ApiOperation(value = "用户详情", httpMethod = "GET", response = ApiResult.class, notes = "用户详情")
     public ApiResult info(Integer id) {
         return userService.info(id);
     }
 
     @PostMapping(value = "/update")
+    @SaCheckPermission("/system/user/update")
     @ApiOperation(value = "修改用户", httpMethod = "POST", response = ApiResult.class, notes = "修改用户")
     @OperationLogger(value = "修改用户")
     public ApiResult update(@RequestBody User user) {
@@ -59,6 +70,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/remove",method = RequestMethod.DELETE)
+    @SaCheckPermission("/system/user/remove")
     @ApiOperation(value = "删除用户", httpMethod = "DELETE", response = ApiResult.class, notes = "删除用户")
     @OperationLogger(value = "删除用户")
     public ApiResult remove(@RequestBody List<Integer> ids) {
@@ -66,36 +78,31 @@ public class UserController {
     }
 
     @PostMapping(value = "/getCurrentUserInfo")
+    @SaCheckLogin
     @ApiOperation(value = "获取当前登录用户信息", httpMethod = "POST", response = ApiResult.class, notes = "获取当前登录用户信息")
-    @IgnoreUrl
-    public ApiResult getCurrentUserInfo(HttpServletRequest request) {
-        String token = request.getHeader(Constants.REQUEST_HEADER);
-        SystemUserDTO userInfo = userService.getCurrentUserInfo(token);
-        return ApiResult.ok(200, "获取当前登录用户信息成功", userInfo);
-    }
-
-    @PostMapping(value = "/logout")
-    @ApiOperation(value = "退出登录", httpMethod = "POST", response = ApiResult.class, notes = "退出登录")
-    public ApiResult logout(HttpServletRequest request) {
-        return userService.logout(request.getHeader(Constants.REQUEST_HEADER));
+    public ApiResult getCurrentUserInfo() {
+        return ApiResult.ok(200, "获取当前登录用户信息成功", userService.getCurrentUserInfo());
     }
 
     @PostMapping(value = "/getUserMenu")
+    @SaCheckLogin
     @ApiOperation(value = "获取用户菜单", httpMethod = "POST", response = ApiResult.class, notes = "获取用户菜单")
-    public ApiResult getUserMenu(HttpServletRequest request) {
-        return userService.getUserMenu(request.getHeader(Constants.REQUEST_HEADER));
+    public ApiResult getUserMenu() {
+        return userService.getUserMenu();
     }
 
     @PostMapping(value = "/updatePassword")
+    @SaCheckPermission("/system/user/updatePassword")
     @ApiOperation(value = "修改密码", httpMethod = "POST", response = ApiResult.class, notes = "修改密码")
     @OperationLogger(value = "修改密码")
-    public ApiResult updatePassword(HttpServletRequest request,@RequestBody Map<String,String> map) {
-        return userService.updatePassword(request.getHeader(Constants.REQUEST_HEADER),map);
+    public ApiResult updatePassword(@RequestBody Map<String,String> map) {
+        return userService.updatePassword(map);
     }
+
     @GetMapping(value = "/online")
+    @SaCheckLogin
     @ApiOperation(value = "查看在线用户", httpMethod = "GET", response = ApiResult.class, notes = "查看在线用户")
-    @IgnoreUrl
     public ApiResult listOnlineUsers(String keywords,int pageNo,int pageSize) {
-        return userAuthService.listOnlineUsers(keywords,pageNo,pageSize);
+        return userService.listOnlineUsers(keywords,pageNo,pageSize);
     }
 }

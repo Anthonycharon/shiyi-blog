@@ -1,29 +1,15 @@
 package com.shiyi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ApiResult;
-import com.shiyi.common.Constants;
 import com.shiyi.common.SqlConf;
-import com.shiyi.dto.SystemUserDTO;
 import com.shiyi.entity.Menu;
-import com.shiyi.entity.RoleMenu;
-import com.shiyi.entity.UserRole;
 import com.shiyi.mapper.MenuMapper;
-import com.shiyi.mapper.RoleMenuMapper;
-import com.shiyi.mapper.UserRoleMapper;
 import com.shiyi.service.MenuService;
-import com.shiyi.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.dto.SystemMenuDTO;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * <p>

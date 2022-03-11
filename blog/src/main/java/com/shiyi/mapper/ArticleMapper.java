@@ -36,4 +36,6 @@ public interface ArticleMapper extends BaseMapper<BlogArticle> {
 
     Page<ArticleListDTO> selectRecordPage(@Param("page") Page<Object> page, @Param("param") Map<String,Object> map);
 
+    void pubOrShelf(@Param("article") ArticleVO article);
+
 }

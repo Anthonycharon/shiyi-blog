@@ -154,8 +154,8 @@
                 调用方法
                 <el-tooltip placement="top">
                   <div slot="content">
-                    Bean调用示例：blogTask.blogParams('blog')
-                    <br />Class类调用示例：com.isblog.quartz.task.BlogTask.blogParams('blog')
+                    Bean调用示例：blogQuartz.blogParams('blog')
+                    <br />Class类调用示例：com.shiyi.quartz.BlogQuartz.blogParams('blog')
                     <br />参数说明：支持字符串，布尔类型，长整型，浮点型，整型
                   </div>
                   <i class="el-icon-question"></i>

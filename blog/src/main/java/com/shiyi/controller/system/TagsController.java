@@ -1,6 +1,8 @@
 package com.shiyi.controller.system;
 
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
 import com.shiyi.entity.Tags;
@@ -28,12 +30,14 @@ public class TagsController {
     private TagsService tagsService;
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
+    @SaCheckLogin
     @ApiOperation(value = "标签列表", httpMethod = "GET", response = ApiResult.class, notes = "标签列表")
     public ApiResult query(String name,Integer pageNo,Integer pageSize){
         return tagsService.listData(name,pageNo,pageSize);
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @SaCheckPermission("/system/tags/add")
     @ApiOperation(value = "新增标签", httpMethod = "POST", response = ApiResult.class, notes = "新增标签")
     @OperationLogger(value = "新增标签")
     public ApiResult add(@RequestBody Tags tags){
@@ -41,12 +45,14 @@ public class TagsController {
     }
 
     @RequestMapping(value = "/info",method = RequestMethod.GET)
+    @SaCheckPermission("/system/tags/info")
     @ApiOperation(value = "标签详情", httpMethod = "GET", response = ApiResult.class, notes = "标签详情")
     public ApiResult info(@RequestParam(required = true) Long id){
         return tagsService.info(id);
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @SaCheckPermission("/system/tags/update")
     @ApiOperation(value = "修改标签", httpMethod = "POST", response = ApiResult.class, notes = "修改标签")
     @OperationLogger(value = "修改标签")
     public ApiResult update(@RequestBody Tags tags){
@@ -54,6 +60,7 @@ public class TagsController {
     }
 
     @RequestMapping(value = "/remove",method = RequestMethod.DELETE)
+    @SaCheckPermission("/system/tags/remove")
     @ApiOperation(value = "删除标签", httpMethod = "DELETE", response = ApiResult.class, notes = "删除标签")
     @OperationLogger(value = "删除标签")
     public ApiResult remove(Long  id){
@@ -61,6 +68,7 @@ public class TagsController {
     }
 
     @RequestMapping(value = "/deleteBatch",method = RequestMethod.DELETE)
+    @SaCheckPermission("/system/tags/deleteBatch")
     @ApiOperation(value = "批量删除标签", httpMethod = "DELETE", response = ApiResult.class, notes = "批量删除标签")
     @OperationLogger(value = "批量删除标签")
     public ApiResult remove(@RequestBody List<Long> ids){
@@ -68,6 +76,7 @@ public class TagsController {
     }
 
     @RequestMapping(value = "/top",method = RequestMethod.GET)
+    @SaCheckPermission("/system/tags/top")
     @ApiOperation(value = "置顶标签", httpMethod = "GET", response = ApiResult.class, notes = "置顶标签")
     @OperationLogger(value = "置顶标签")
     public ApiResult top(Long id){

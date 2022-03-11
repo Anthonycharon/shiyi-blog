@@ -1,6 +1,8 @@
 package com.shiyi.controller.system;
 
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
 import com.shiyi.entity.WebConfig;
@@ -27,12 +29,14 @@ public class WebConfigController {
     private WebConfigService webConfigService;
 
     @GetMapping(value = "/list")
+    @SaCheckLogin
     @ApiOperation(value = "网站配置列表", httpMethod = "GET", response = ApiResult.class, notes = "网站配置列表")
     public ApiResult list() {
         return webConfigService.listData();
     }
 
     @PostMapping(value = "/update")
+    @SaCheckPermission("/system/webConfig/update")
     @ApiOperation(value = "修改网站配置", httpMethod = "POST", response = ApiResult.class, notes = "网站配置列表")
     @OperationLogger(value = "修改网站配置")
     public ApiResult update(@RequestBody WebConfig webConfig) {

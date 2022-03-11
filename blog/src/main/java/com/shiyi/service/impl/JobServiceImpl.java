@@ -1,22 +1,20 @@
 package com.shiyi.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.SqlConf;
 import com.shiyi.entity.Job;
 import com.shiyi.enums.ScheduleConstants;
-import com.shiyi.exception.BusinessException;
 import com.shiyi.mapper.UserMapper;
-import com.shiyi.utils.DateUtils;
-import com.shiyi.task.CronUtils;
-import com.shiyi.task.ScheduleUtils;
+import com.shiyi.quartz.CronUtils;
+import com.shiyi.quartz.ScheduleUtils;
 import com.shiyi.common.ApiResult;
 import com.shiyi.entity.User;
 import com.shiyi.enums.TaskException;
 import com.shiyi.mapper.JobMapper;
 import com.shiyi.service.JobService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.utils.UserUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobDataMap;
 import org.quartz.JobKey;
@@ -93,7 +91,6 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     /**
      * 新增任务
      *
-     * @param userId 用户ID
      * @param job 调度信息
      * @return
      * @throws SchedulerException
@@ -104,7 +101,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     public ApiResult addJob(Job job) throws SchedulerException, TaskException {
         checkCronIsValid(job);
 
-        User user = userMapper.selectById(UserUtil.getUserId());
+        User user = userMapper.selectById(StpUtil.getLoginIdAsInt());
         job.setCreateBy(user.getUsername());
         int row = baseMapper.insert(job);
         if (row > 0) ScheduleUtils.createScheduleJob(scheduler, job);
@@ -118,7 +115,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     public ApiResult updateJob(Job job) throws SchedulerException, TaskException {
         checkCronIsValid(job);
 
-        User user = userMapper.selectById(UserUtil.getUserId());
+        User user = userMapper.selectById(StpUtil.getLoginIdAsInt());
         job.setUpdateBy(user.getUsername());
         Job properties = baseMapper.selectById(job.getJobId());
         int row = baseMapper.updateById(job);

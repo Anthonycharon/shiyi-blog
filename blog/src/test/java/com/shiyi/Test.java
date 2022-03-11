@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
@@ -34,12 +33,10 @@ public class Test {
     RestTemplate restTemplate;
     @Autowired
     EmailUtil emailUtil;
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
     @org.junit.Test
     public void test(){
-        String url = encryptor.encrypt("jdbc:mysql://xxxx:3306/blog?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false");
+        String url = encryptor.encrypt("jdbc:mysql://42.192.150.44:3306/blog_new?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false");
         System.out.println(url);
     }
 

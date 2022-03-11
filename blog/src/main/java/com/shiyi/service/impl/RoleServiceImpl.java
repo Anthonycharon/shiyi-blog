@@ -1,5 +1,6 @@
 package com.shiyi.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -87,10 +88,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @return
      */
     @Override
-    public ApiResult queryByUser(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        SystemUserDTO user = userService.getCurrentUserInfo(token);
-        Integer roleId = baseMapper.queryByUserId(user.getId());
+    public ApiResult queryByUser() {
+        Integer roleId = baseMapper.queryByUserId(StpUtil.getLoginId());
         List<Integer> list = baseMapper.queryByRoleMenu(roleId);
         return ApiResult.success(list);
     }

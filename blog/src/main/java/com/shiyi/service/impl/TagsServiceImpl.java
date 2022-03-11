@@ -47,13 +47,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      */
     @Override
     public ApiResult listData(String name, Integer pageNo, Integer pageSize) {
-        QueryWrapper<Tags> queryWrapper = new QueryWrapper<Tags>()
-                .like(StringUtils.isNotBlank(name),SqlConf.NAME,name).orderByDesc(SqlConf.SORT);
-        Page<Tags> list = baseMapper.selectPage(new Page<>(pageNo, pageSize), queryWrapper);
-        list.getRecords().forEach(item ->{
-            int count = baseMapper.countArticle(item.getId());
-            item.setArticleCount(count);
-        });
+        Page<Tags> list = baseMapper.selectPageRecord(new Page<>(pageNo,pageSize),name);
         return ApiResult.success(list);
     }
 

@@ -15,54 +15,11 @@ import java.util.Map;
 public class Constants {
 
     /**
-     * 接口url
-     */
-    public static Map<String,String> URL_MAPPING_MAP = new HashMap<>();
-
-    /**
-     * 自定义注解路径白名单
-     */
-    public static List<String> ignore = new ArrayList<>();
-
-    /**
-     * 密码加密相关
-     */
-    public static String SALT = "shiyi2022";
-
-
-    /**
-     * 请求头 - token
-     */
-    public static final String REQUEST_HEADER = "Authorization";
-
-    /**
-     * 请求头 - token
-     */
-    public static final String X_TOKEN = "X-TOKEN";
-
-    /**
-     * 请求头类型：
-     * application/x-www-form-urlencoded ： form表单格式
-     * application/json ： json格式
-     */
-    public static final String REQUEST_HEADERS_CONTENT_TYPE = "application/json";
-
-    /**
-     * 登录者角色
-     */
-    public static final String ROLE_LOGIN = "role_login";
-
-    /**
      * 用户状态
      */
     public static final int USER_STATUS_ONE = 1;
 
     public static final int USER_STATUS_ZERO = 0;
-
-    /**
-     * 1
-     */
-    public static final int ONE = 1;
 
     /**
      * 未知的
@@ -85,5 +42,7 @@ public class Constants {
     public static final String POST_TAG = "</span>";
 
     public static final int USER_ROLE_ID = 2;
+
+    public static final String CURRENT_USER = "current_user";
 
 }

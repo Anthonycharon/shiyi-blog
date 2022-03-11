@@ -1,5 +1,6 @@
 package com.shiyi.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.entity.Tags;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -30,5 +31,5 @@ public interface TagsMapper extends BaseMapper<Tags> {
 
     List<Tags> findByArticleIdToTags(Long id);
 
-    int countArticle(Long id);
+    Page<Tags> selectPageRecord(@Param("page") Page<Tags> objectPage,@Param("name") String name);
 }

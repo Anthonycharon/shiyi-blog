@@ -47,7 +47,7 @@ const filters = {
   completed: todos => todos.filter(todo => todo.done)
 }
 const defalutList = [
-  { text: '欢迎来到Isblog博客', done: false },
+  { text: '欢迎来到拾壹博客', done: false },
   { text: '开源项目离不开大家的支持', done: false },
   { text: '如果你刚好来到这里', done: false },
   { text: '希望能随手star支持一下~', done: false },

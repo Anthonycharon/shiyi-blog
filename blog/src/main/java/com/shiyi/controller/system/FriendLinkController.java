@@ -1,6 +1,8 @@
 package com.shiyi.controller.system;
 
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
 import com.shiyi.entity.FriendLink;
@@ -32,12 +34,14 @@ public class FriendLinkController {
     private FriendLinkService friendLinkService;
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
+    @SaCheckLogin
     @ApiOperation(value = "友链列表", httpMethod = "GET", response = ApiResult.class, notes = "友链列表")
     public ApiResult query(String name,Integer status,Integer pageNo,Integer pageSize){
         return friendLinkService.listData(name,status,pageNo,pageSize);
     }
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
+    @SaCheckPermission("/system/friend/create")
     @ApiOperation(value = "添加友链", httpMethod = "POST", response = ApiResult.class, notes = "添加友链")
     @OperationLogger(value = "添加友链")
     public ApiResult create(@RequestBody FriendLink friendLink){
@@ -45,6 +49,7 @@ public class FriendLinkController {
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @SaCheckPermission("/system/friend/update")
     @ApiOperation(value = "修改友链", httpMethod = "POST", response = ApiResult.class, notes = "修改友链")
     @OperationLogger(value = "修改友链")
     public ApiResult update(@RequestBody FriendLink friendLink){
@@ -52,6 +57,7 @@ public class FriendLinkController {
     }
 
     @RequestMapping(value = "/remove",method = RequestMethod.DELETE)
+    @SaCheckPermission("/system/friend/remove")
     @ApiOperation(value = "删除友链", httpMethod = "DELETE", response = ApiResult.class, notes = "删除友链")
     @OperationLogger(value = "删除友链")
     public ApiResult remove(@RequestBody List<Integer> ids){
@@ -59,6 +65,7 @@ public class FriendLinkController {
     }
 
     @RequestMapping(value = "/top",method = RequestMethod.GET)
+    @SaCheckPermission("/system/friend/top")
     @ApiOperation(value = "置顶友链", httpMethod = "GET", response = ApiResult.class, notes = "置顶友链")
     @OperationLogger(value = "置顶友链")
     public ApiResult top(Integer id){

@@ -3,7 +3,22 @@ server:
   servlet:
     # 应用的访问路径
     context-path: /shiyi
-
+# Sa-Token配置
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: Authorization
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 3600
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: -1
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: false
+  # token风格
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: false
 spring:
   servlet:
     multipart:
@@ -11,20 +26,26 @@ spring:
       max-request-size: 50MB
   application:
     name: shiyiblog
+  #  ssl:
+  #    key-store: classpath:6276737_www.isblog.com.cn.pfx #拷贝到根目录的证书文件
+  #    key-store-password: 5Ec4QJBK #密码(下载tomcat证书压缩包里的txt文件)
+  #    key-store-type: PKCS12       #固定写法
   datasource:
-    url: ENC(GF2jHobburxAfMqUjn3ArXdLAzDE4y2QiYjPYTCYUI52WEs5Z/14dHxSaPA+Yt1d+JqmVNxblayoHixXsEBqA+qLOsb8aih88aES2G8cAYy5Jgq4TBjbrEd8LGTIieWkrj63YQ6Zt7ujRDMbipzbbAL9SH57Nr6hXfcBBMHd8T9WYHo4M4DT8W2XIVJqyItBt52DbqXpM3+0VukuOuhsxw==)
+    #url: ENC(dIi9ZKOtVRnM9PDYIHcFjuHy8EdeSjPt+xDxBKALhtof+YdXXOTwCnr1EKPk8bKSGUeextjahBsYTdt2pbWToXEK1tl5RshwshLkza7tbf0gP0An6SAx0c9PIvxolwJ+rkectARkQ2flm05+NepDJXj/ik3OPCG3Oz+NAml/VrFhW+2ZBNcLofOFAmD6umnXPXJ62S6eOg8=)
+    url: ENC(5pNy/o25caqB5tDZva1UcRO45LCq4NavYzL5MdbHFHtIjeMnwVC90vPeMEuJSW2R++Q3pn2xr3C0gttCTL6dne4a+ndgo5al7BHdjgeBVFF6cDvtOfD10v7YUly/Mioju5UkUkSM5D6f5hEJTCI7m04+els+f4aqyTSo87BkAG3NHcFBa7E5CjqaMTwmHamqOZSY558gilE=)
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password:
+    password: ENC(BJIOzH0JBEm92VwQds59Iw==)
     type: com.alibaba.druid.pool.DruidDataSource
   elasticsearch:
     rest:
       uris: localhost:9200
   redis:
-    host: 121.41.101.167
+    host: 42.192.150.44
     port: 6379
     timeout: 3000
-    password:
+    password: ENC(BJIOzH0JBEm92VwQds59Iw==)
+
 jasypt:
   encryptor:
     password: RequiredEncryptionconfigurationpropertymissing
@@ -56,17 +77,7 @@ mybatis-plus:
     cache-enabled: false
   logging:
     level: warn
-jwt:
-  header: Authorization
-  # 令牌前缀
-  token-start-with: Bearer
-  # 使用Base64对该令牌进行编码
-  secret: shiyi2021
-  # 令牌过期时间 此处单位/毫秒 四个小时
-  expiration: 3600000
-IgnorePackage:
-  url: com.shiyi.controller
-zw:
+shiyi:
   swagger:
     title: 拾壹博客项目接口文档
     description: 拾壹博客项目接口文档
@@ -77,50 +88,28 @@ zw:
     contactEmail:
     license:
     licenseUrl:
-  #安全认证
-  auth:
-    # token过期时间（分钟）
-    tokenExpireTime: 60
-    # 用户选择保存登录状态对应token过期时间（天）
-    saveLoginTime: 7
-    # 限制用户登陆错误次数（次）
-    loginTimeLimit: 5
-    # 错误超过次数后多少分钟后才能继续登录（分钟）
-    loginAfterTime: 1
-    ignoreUrls:
-      - /login
-      - /swagger-ui.html
-      #      - /swagger-resources/**
-      - /swagger-resources/configuration/ui
-      - /swagger-resources
-      - /v2/api-docs
-      - /swagger-resources/configuration/security
-      #      - /swagger/**
-      #      - /**/v2/api-docs
-      - /**/*.js
-      - /**/*.css
-      - /**/*.png
-      - /**/*.ico
 #第三方配置信息
 qq:
-  app-id:
-  check-token-url:
+  app-id: 101995894
+  check-token-url: https://graph.qq.com/oauth2.0/me?access_token={access_token}
   user-info-url: https://graph.qq.com/user/get_user_info?openid={openid}&access_token={access_token}&oauth_consumer_key={oauth_consumer_key}
 weibo:
-  app-id:
-  app-secret:
+  app-id: 2285022919
+  app-secret: a380fef0743e38cad12125902b204fab
   grant-type: authorization_code
-  redirect-url:
+  redirect-url: http://www.shiyit.com/callback/weibo
   access-token-url: https://api.weibo.com/oauth2/access_token
   user-info-url: https://api.weibo.com/2/users/show.json?uid={uid}&access_token={access_token}
 gitee:
-  app-id:
-  app-secret:
+  app-id: d029020a6839273e0e82d853783874bf1f4f34b95da6ebcbc230e6603ff9b656
+  app-secret: e94dfa5baaa5ac896bd01d077d742020504910a0a4c974a83d40d51a0d8377b8
   grant-type: authorization_code
-  redirect-url:
+  redirect-url: http://www.shiyit.com/callback/gitee
   access-token-url: https://gitee.com/oauth/token
   user-info-url: https://gitee.com/api/v5/user?access_token={access_token}
+
 baidu:
-  url:
+  url: http://data.zz.baidu.com/urls?site=www.shiyit.com&token=aw5iVpNEB9aQJOYZ
+
 file:
   upload-folder: /usr/local/blog/file/

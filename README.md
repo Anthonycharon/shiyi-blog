@@ -45,8 +45,6 @@ SQL文件位于根目录下的shiyi-blog.sql
 
 当你克隆项目到本地后可使用账号：admin，密码：123456 进行登录
 
-本地访问接口文档地址：[http://127.0.0.1:8800/shiyi/swagger-ui.html](http://127.0.0.1:8800/shiyi/swagger-ui.html)
-
 **ps：请先运行后端项目，再启动前端项目，前端项目配置由后端动态加载。** 
 
 ```
@@ -60,12 +58,11 @@ blog
 ├── dto           --  dto模块
 ├── enums         --  枚举模块
 ├── exception     --  自定义异常模块
-├── handle        --  处理器模块
 ├── mapper        --  框架核心模块
 ├── service       --  服务模块
 ├── strategy      --  策略模块（用于扩展第三方登录，搜索模式，上传文件模式等策略）
 ├── utils         --  工具类模块
-├── task          --  定时功能模块
+├── quartz        --  定时功能模块
 ├── webmagic      --  文章爬虫模块
 └── vo            --  vo模块
 ```
@@ -85,13 +82,14 @@ blog
 - 支持动态权限修改，采用RBAC模型，前端菜单和后台权限实时更新。
 - 后台管理支持修改背景图片，博客配置等信息，操作简单，支持上传相册。
 - 代码支持多种搜索模式（Elasticsearch或MYSQL），可支持配置。
+- 代码支持多种文件上传模式（七牛云oss或本地上传），可支持配置。
 - 代码遵循阿里巴巴开发规范，利于开发者学习。
 
 ## 技术介绍
 
 **前端：** vue + vuex + vue-router + axios + vuetify + element + echarts
 
-**后端：** SpringBoot + nginx + docker + SpringSecurity + Swagger2 + MyBatisPlus + Mysql + Redis + elasticsearch 
+**后端：** SpringBoot + nginx + docker + sa-token + Swagger2 + MyBatisPlus + Mysql + Redis + elasticsearch 
 
 **其他：** 接入QQ、微博、码云第三方登录，接入七牛云对象存储
 
@@ -119,22 +117,3 @@ blog
 | MySQL         | 5.5.0 |
 | Redis         | 6.0.5 |
 | Elasticsearch | 7.9.2 |
-
-## 安装依赖
-
-```vue
-npm install
-```
-
-##  启动服务
-
-```vue
-npm run dev
-```
-
-##  编译打包
-
-```vue
-npm run build:prod
-```
-

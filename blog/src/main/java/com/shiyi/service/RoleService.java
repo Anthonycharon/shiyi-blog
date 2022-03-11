@@ -26,7 +26,7 @@ public interface RoleService extends IService<Role> {
 
     ApiResult delete(List<Integer> ids);
 
-    ApiResult queryByUser(HttpServletRequest request);
+    ApiResult queryByUser();
 
     ApiResult queryRoleId(Integer roleId);
 

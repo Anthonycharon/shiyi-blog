@@ -1,18 +1,15 @@
 package com.shiyi.aspect;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.shiyi.annotation.OperationLogger;
-import com.shiyi.common.SysConf;
-import com.shiyi.dto.SystemUserDTO;
-import com.shiyi.dto.SecurityUser;
 import com.shiyi.common.Constants;
+import com.shiyi.dto.SystemUserDTO;
 import com.shiyi.entity.ExceptionLog;
-import com.shiyi.entity.Role;
 import com.shiyi.entity.AdminLog;
-import com.shiyi.exception.BusinessException;
+import com.shiyi.entity.User;
 import com.shiyi.mapper.ExceptionLogMapper;
-import com.shiyi.mapper.RoleMapper;
 import com.shiyi.mapper.AdminLogMapper;
 import com.shiyi.service.UserService;
 import com.shiyi.utils.AopUtils;
@@ -27,19 +24,14 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
-
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * 日志切面
@@ -58,8 +50,6 @@ public class LoggerAspect {
     private ExceptionLogMapper exceptionLogMapper;
     @Autowired
     UserService userService;
-    @Autowired
-    private RoleMapper roleMapper;
     /**
      * 开始时间
      */
@@ -73,10 +63,7 @@ public class LoggerAspect {
     @Around(value = "pointcut(operationLogger)")
     public Object doAround(ProceedingJoinPoint joinPoint, OperationLogger operationLogger) throws Throwable {
         //因给了演示账号所有权限以供用户观看，所以执行业务前需判断是否是管理员操作
-        SecurityUser principal = (SecurityUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Role> collect = principal.getRoleList().stream()
-                .filter(item -> item.getCode().equals(SysConf.ADMIN)).collect(Collectors.toList());
-        Assert.notEmpty(collect,"演示账号不允许操作!!");
+        Assert.isTrue(StpUtil.hasRole("admin"),"演示账号不允许操作!!");
 
         startTime = new Date();
 
@@ -96,7 +83,7 @@ public class LoggerAspect {
 
     @AfterThrowing(value = "pointcut(operationLogger)", throwing = "e")
     public void doAfterThrowing(JoinPoint joinPoint, OperationLogger operationLogger, Throwable e) throws Exception {
-        //此异常不做保存日志的处理 因为此异常基本都是业务中if返回的异常
+        //此异常不做保存日志的处理 因为此异常基本都是业务中Assert返回的异常
         if (e.toString().contains("IllegalArgumentException")) return;
 
         ExceptionLog exception = new ExceptionLog();
@@ -109,11 +96,11 @@ public class LoggerAspect {
         String paramsJson = getParamsJson((ProceedingJoinPoint) joinPoint);
         exception.setParams(paramsJson);
 
-        SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        exception.setUsername(securityUser.getUsername());
+        User user = (User) StpUtil.getSession().get(Constants.CURRENT_USER);
+        exception.setUsername(user.getUsername());
 
         String cityInfo = IpUtils.getCityInfo(ip);
-        if (StringUtils.isBlank(cityInfo)) cityInfo = "未知";
+        if (StringUtils.isBlank(cityInfo)) cityInfo = Constants.UNKNOWN;
         exception.setIpSource(cityInfo);
         //设置请求信息
         exception.setIp(ip);
@@ -152,7 +139,7 @@ public class LoggerAspect {
         String paramsJson = getParamsJson(point) ;
 
         // 当前操作用户
-        SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SystemUserDTO user = (SystemUserDTO) StpUtil.getSession().get(Constants.CURRENT_USER);
         String type = request.getMethod();
         String ip = IpUtils.getIp(request);
         String url = request.getRequestURI();
@@ -160,7 +147,7 @@ public class LoggerAspect {
         // 存储日志
         Date endTime = new Date();
         Long spendTime = endTime.getTime() - startTime.getTime();
-        AdminLog adminLog = new AdminLog(ip, IpUtils.getCityInfo(ip), type, url, securityUser,
+        AdminLog adminLog = new AdminLog(ip, IpUtils.getCityInfo(ip), type, url, user.getNickname(),
                 paramsJson, point.getTarget().getClass().getName(),
                 point.getSignature().getName(), bussinessName,spendTime);
         adminLogMapper.insert(adminLog);

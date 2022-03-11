@@ -4,12 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,7 +19,7 @@ import java.util.stream.Collectors;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDetailDTO implements UserDetails {
+public class UserDetailDTO {
 
     /**
      * 用户账号id
@@ -121,31 +116,4 @@ public class UserDetailDTO implements UserDetails {
      */
     private LocalDateTime lastLoginTime;
 
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roleList.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toSet());
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
 }

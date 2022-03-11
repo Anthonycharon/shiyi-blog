@@ -62,12 +62,10 @@ public class User implements Serializable {
     @ApiModelProperty(value = "IP来源")
     private String ipSource;
 
+    @ApiModelProperty(value = "用户信息id")
     private Integer userAuthId;
 
+    @ApiModelProperty(value = "登录类型")
     private Integer loginType;
 
-    @TableField(exist = false)
-    private String nickname;
-    @TableField(exist = false)
-    private String avatar;
 }

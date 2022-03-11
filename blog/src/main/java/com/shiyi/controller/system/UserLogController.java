@@ -1,6 +1,8 @@
 package com.shiyi.controller.system;
 
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
 import com.shiyi.service.UserLogService;
@@ -26,12 +28,14 @@ public class UserLogController {
     private UserLogService userLogService;
 
     @GetMapping(value = "/list")
+    @SaCheckLogin
     @ApiOperation(value = "用户日志列表", httpMethod = "GET", response = ApiResult.class, notes = "用户日志列表")
     public ApiResult query(Integer pageNo, Integer pageSize) {
         return userLogService.listData(pageNo,pageSize);
     }
 
     @DeleteMapping(value = "/delete")
+    @SaCheckPermission("/system/userLog/delete")
     @OperationLogger(value = "删除用户日志")
     @ApiOperation(value = "删除用户日志", httpMethod = "DELETE", response = ApiResult.class, notes = "删除用户日志")
     public ApiResult delete(@RequestBody List<Long> ids) {

@@ -68,8 +68,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     HttpServletRequest request;
     @Autowired
     ElasticsearchUtils elasticsearchUtils;
-    @Autowired
-    JwtUtils jwtUtils;
 
     @Value("${baidu.url}")
     private String baiduUrl;
@@ -184,8 +182,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ApiResult pubOrShelf(ArticleVO article) {
-        BlogArticle blogArticle = BeanCopyUtils.copyObject(article, BlogArticle.class);
-        baseMapper.updateById(blogArticle);
+        baseMapper.pubOrShelf(article);
         return ApiResult.ok();
     }
 
@@ -431,7 +428,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         if (redisCache.hasKey(key)) {
             redisCache.incr(key);   // 如果key存在就直接加一
         } else {
-            redisCache.setCacheObject(key, Constants.ONE);
+            redisCache.setCacheObject(key, 1);
         }
     }
 

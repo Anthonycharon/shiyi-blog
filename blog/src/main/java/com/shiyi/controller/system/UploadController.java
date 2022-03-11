@@ -1,6 +1,6 @@
 package com.shiyi.controller.system;
 
-import com.shiyi.annotation.IgnoreUrl;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
 import com.shiyi.utils.UploadUtil;
@@ -22,13 +22,14 @@ public class UploadController {
     private UploadUtil uploadUtil;
 
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
+    @SaCheckPermission("/file/upload")
     @ApiOperation(value = "上传图片",httpMethod = "POST", response = ApiResult.class, notes = "上传图片")
-    @IgnoreUrl
     public ApiResult upload(MultipartFile multipartFile){
         return uploadUtil.upload(multipartFile);
     }
 
     @RequestMapping(value = "/delBatchFile",method = RequestMethod.POST)
+    @SaCheckPermission("/file/delBatchFile")
     @ApiOperation(value = "批量删除文件",httpMethod = "POST", response = ApiResult.class, notes = "批量删除文件")
     @OperationLogger("批量删除图片")
     public ApiResult delBatchFile(String key){

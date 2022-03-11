@@ -18,7 +18,7 @@ import java.util.List;
 @Repository
 public interface RoleMapper extends BaseMapper<Role> {
 
-    Integer queryByUserId(Integer userId);
+    Integer queryByUserId(Object userId);
 
     List<Integer> queryByRoleMenu(Integer roleId);
 
@@ -30,8 +30,10 @@ public interface RoleMapper extends BaseMapper<Role> {
     void deleteByUserId(Integer userId);
 
     @Insert("insert into b_user_role(role_id,user_id) values(#{roleId},#{userId})")
-    void insertToUserId(@Param("userId") Integer userId,@Param("roleId") Integer roleId);
+    void insertToUserId(@Param("userId") Long userId,@Param("roleId") Integer roleId);
 
     @Update("update b_user_role set role_id=#{roleId} where user_id=#{userId}")
-    void updateByUserId(@Param("userId") Integer userId,@Param("roleId") Integer roleId);
+    void updateByUserId(@Param("userId") Long userId,@Param("roleId") Integer roleId);
+
+    List<String> selectByUserId(Object loginId);
 }
