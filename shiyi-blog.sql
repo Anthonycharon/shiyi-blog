@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 11/03/2022 14:16:03
+ Date: 11/03/2022 14:17:40
 */
 
 SET NAMES utf8mb4;
@@ -1345,8 +1345,8 @@ CREATE TABLE `b_user`  (
 -- ----------------------------
 -- Records of b_user
 -- ----------------------------
-INSERT INTO `b_user` VALUES (7, 'admin', '$2a$10$SCxOjT/RTTuTeUWqBXU15OMISiwV.obbSZZHyPgFhXIMluFxakoUS', '2021-09-27 15:43:45', '2022-03-01 14:58:01', 1, 1, NULL, 1, '220.202.225.161', '中国-湖南省-长沙市', '2022-03-01 14:58:01');
-INSERT INTO `b_user` VALUES (15, 'test', '$2a$10$Qu489q2YndVDnQ85PAjNl.spaRQkSgMdLq6Epvh/2KW0Y1TCk.J0G', '2021-11-14 12:35:03', '2022-02-28 19:44:29', 1, 1, NULL, 5, '125.85.53.58', '中国-重庆市-重庆市', '2022-02-28 19:44:29');
+INSERT INTO `b_user` VALUES (7, 'admin', 'NLJ3Gidivf3vouOjYLIvuA==', '2021-09-27 15:43:45', '2022-03-01 14:58:01', 1, 1, NULL, 1, '220.202.225.161', '中国-湖南省-长沙市', '2022-03-01 14:58:01');
+INSERT INTO `b_user` VALUES (15, 'test', 'NLJ3Gidivf3vouOjYLIvuA==', '2021-11-14 12:35:03', '2022-02-28 19:44:29', 1, 1, NULL, 5, '125.85.53.58', '中国-重庆市-重庆市', '2022-02-28 19:44:29');
 
 -- ----------------------------
 -- Table structure for b_user_auth
