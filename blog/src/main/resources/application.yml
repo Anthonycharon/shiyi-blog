@@ -35,7 +35,7 @@ spring:
     url: ENC(5pNy/o25caqB5tDZva1UcRO45LCq4NavYzL5MdbHFHtIjeMnwVC90vPeMEuJSW2R++Q3pn2xr3C0gttCTL6dne4a+ndgo5al7BHdjgeBVFF6cDvtOfD10v7YUly/Mioju5UkUkSM5D6f5hEJTCI7m04+els+f4aqyTSo87BkAG3NHcFBa7E5CjqaMTwmHamqOZSY558gilE=)
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: ENC(BJIOzH0JBEm92VwQds59Iw==)
+    password:
     type: com.alibaba.druid.pool.DruidDataSource
   elasticsearch:
     rest:
@@ -44,7 +44,7 @@ spring:
     host: 42.192.150.44
     port: 6379
     timeout: 3000
-    password: ENC(BJIOzH0JBEm92VwQds59Iw==)
+    password:
 
 jasypt:
   encryptor:
@@ -90,26 +90,24 @@ shiyi:
     licenseUrl:
 #第三方配置信息
 qq:
-  app-id: 101995894
-  check-token-url: https://graph.qq.com/oauth2.0/me?access_token={access_token}
+  app-id:
+  check-token-url:
   user-info-url: https://graph.qq.com/user/get_user_info?openid={openid}&access_token={access_token}&oauth_consumer_key={oauth_consumer_key}
 weibo:
-  app-id: 2285022919
-  app-secret: a380fef0743e38cad12125902b204fab
+  app-id:
+  app-secret:
   grant-type: authorization_code
-  redirect-url: http://www.shiyit.com/callback/weibo
+  redirect-url:
   access-token-url: https://api.weibo.com/oauth2/access_token
   user-info-url: https://api.weibo.com/2/users/show.json?uid={uid}&access_token={access_token}
 gitee:
-  app-id: d029020a6839273e0e82d853783874bf1f4f34b95da6ebcbc230e6603ff9b656
-  app-secret: e94dfa5baaa5ac896bd01d077d742020504910a0a4c974a83d40d51a0d8377b8
+  app-id:
+  app-secret:
   grant-type: authorization_code
-  redirect-url: http://www.shiyit.com/callback/gitee
+  redirect-url:
   access-token-url: https://gitee.com/oauth/token
   user-info-url: https://gitee.com/api/v5/user?access_token={access_token}
-
 baidu:
-  url: http://data.zz.baidu.com/urls?site=www.shiyit.com&token=aw5iVpNEB9aQJOYZ
-
+  url:
 file:
   upload-folder: /usr/local/blog/file/
