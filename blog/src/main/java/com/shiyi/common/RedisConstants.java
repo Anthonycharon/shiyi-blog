@@ -8,11 +8,6 @@ package com.shiyi.common;
 public class RedisConstants {
 
     /**
-     * 邀请码
-     */
-    public static String INVITATION_CODE_PREFIX = "INVITATION:";
-
-    /**
      * 验证码
      */
     public static String CAPTCHA_CODE = "CAPTCHA_CODE:";
@@ -21,11 +16,6 @@ public class RedisConstants {
      * 验证码有效期（分钟）
      */
     public static final Integer CAPTCHA_EXPIRATION = 5;
-
-    /**
-     * 登录用户前缀
-     */
-    public static String LOGIN_PREFIX = "LOGIN_PREFIX_";
 
     /**
      * 标签点击量key前缀
@@ -61,7 +51,6 @@ public class RedisConstants {
      * 文章验证码校验通过的ip
      */
     public static String CHECK_CODE_IP = "check_code_ip";
-
 
     /**
      * 访客
