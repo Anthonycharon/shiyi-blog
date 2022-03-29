@@ -3,25 +3,24 @@ package com.shiyi.config.satoken;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpInterface;
 import cn.dev33.satoken.stp.StpUtil;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.shiyi.mapper.MenuMapper;
 import com.shiyi.mapper.RoleMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 自定义权限验证接口扩展
  */
 @Component    // 保证此类被SpringBoot扫描，完成Sa-Token的自定义权限验证扩展
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class StpInterfaceImpl implements StpInterface {
 
-    @Autowired
-    private MenuMapper menuMapper;
-    @Autowired
-    private RoleMapper roleMapper;
+    private final MenuMapper menuMapper;
+
+    private final RoleMapper roleMapper;
 
 
     /**

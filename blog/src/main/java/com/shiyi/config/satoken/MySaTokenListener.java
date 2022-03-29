@@ -1,18 +1,18 @@
 package com.shiyi.config.satoken;
 
 import cn.dev33.satoken.SaManager;
-import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.listener.SaTokenListener;
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
-import com.shiyi.entity.User;
 import com.shiyi.entity.UserAuth;
 import com.shiyi.mapper.UserAuthMapper;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.IpUtils;
 import eu.bitwalker.useragentutils.UserAgent;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,15 +26,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MySaTokenListener implements SaTokenListener {
 
     public static final List<OnlineUser> ONLINE_USERS = new CopyOnWriteArrayList<>();
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private HttpServletRequest request;
-    @Autowired
-    private UserAuthMapper userAuthMapper;
+
+    private final UserMapper userMapper;
+
+    private final HttpServletRequest request;
+
+    private final UserAuthMapper userAuthMapper;
 
     @PostConstruct
     public void init() {
@@ -62,8 +63,7 @@ public class MySaTokenListener implements SaTokenListener {
                 .tokenValue(token)
                 .nickname(userMapper.getById(loginId).getNickname())
                 .browser(userAgent.getBrowser().getName()).build());
-        log.info("user doLogin,useId:{},token:{}", loginId, StpUtil.getTokenValue());
-        // ...
+        log.info("用户已登录,useId:{},token:{}", loginId, StpUtil.getTokenValue());
     }
 
     /** 每次注销时触发 */
@@ -73,7 +73,7 @@ public class MySaTokenListener implements SaTokenListener {
         ONLINE_USERS.removeIf(onlineUser ->
                 onlineUser.getTokenValue().equals(tokenValue)
         );
-        log.info("user doLogout,useId:{},token:{}", loginId, tokenValue);
+        log.info("用户已注销,useId:{},token:{}", loginId, tokenValue);
     }
 
     /** 每次被踢下线时触发 */
@@ -83,7 +83,7 @@ public class MySaTokenListener implements SaTokenListener {
         ONLINE_USERS.removeIf(onlineUser ->
                 onlineUser.getTokenValue().equals(tokenValue)
         );
-        log.info("user doKickout,useId:{},token:{}", loginId, tokenValue);
+        log.info("用户已踢下线,useId:{},token:{}", loginId, tokenValue);
     }
 
     /** 每次被顶下线时触发 */
@@ -93,7 +93,7 @@ public class MySaTokenListener implements SaTokenListener {
         ONLINE_USERS.removeIf(onlineUser ->
                 onlineUser.getTokenValue().equals(tokenValue)
         );
-        log.info("user doReplaced,useId:{},token:{}", loginId, tokenValue);
+        log.info("用户已顶下线,useId:{},token:{}", loginId, tokenValue);
     }
 
     /** 每次被封禁时触发 */
@@ -155,8 +155,8 @@ public class MySaTokenListener implements SaTokenListener {
                         }
                         long start = System.currentTimeMillis();
                         ONLINE_USERS.removeIf(onlineUser -> {
-                            long timeout = StpUtil.stpLogic.getTokenActivityTimeoutByToken(onlineUser.getTokenValue());
-                            if (timeout == SaTokenDao.NOT_VALUE_EXPIRE) {
+                            Object user = StpUtil.getLoginIdByToken(onlineUser.getTokenValue());
+                            if (ObjectUtils.isEmpty(user)) {
                                 return true;
                             }
                             return false;
