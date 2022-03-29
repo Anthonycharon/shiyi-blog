@@ -3,22 +3,6 @@ server:
   servlet:
     # 应用的访问路径
     context-path: /shiyi
-# Sa-Token配置
-sa-token:
-  # token名称 (同时也是cookie名称)
-  token-name: Authorization
-  # token有效期，单位s 默认30天, -1代表永不过期
-  timeout: 3600
-  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
-  activity-timeout: -1
-  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
-  is-concurrent: true
-  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
-  is-share: false
-  # token风格
-  token-style: uuid
-  # 是否输出操作日志
-  is-log: false
 spring:
   servlet:
     multipart:
@@ -31,7 +15,6 @@ spring:
   #    key-store-password: 5Ec4QJBK #密码(下载tomcat证书压缩包里的txt文件)
   #    key-store-type: PKCS12       #固定写法
   datasource:
-    #url: ENC(dIi9ZKOtVRnM9PDYIHcFjuHy8EdeSjPt+xDxBKALhtof+YdXXOTwCnr1EKPk8bKSGUeextjahBsYTdt2pbWToXEK1tl5RshwshLkza7tbf0gP0An6SAx0c9PIvxolwJ+rkectARkQ2flm05+NepDJXj/ik3OPCG3Oz+NAml/VrFhW+2ZBNcLofOFAmD6umnXPXJ62S6eOg8=)
     url: ENC(5pNy/o25caqB5tDZva1UcRO45LCq4NavYzL5MdbHFHtIjeMnwVC90vPeMEuJSW2R++Q3pn2xr3C0gttCTL6dne4a+ndgo5al7BHdjgeBVFF6cDvtOfD10v7YUly/Mioju5UkUkSM5D6f5hEJTCI7m04+els+f4aqyTSo87BkAG3NHcFBa7E5CjqaMTwmHamqOZSY558gilE=)
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
@@ -49,7 +32,25 @@ spring:
 jasypt:
   encryptor:
     password: RequiredEncryptionconfigurationpropertymissing
-#mybatis-plus配置
+
+#==============================Sa-Token配置==============================
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: Authorization
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 3600
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: -1
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: false
+  # token风格
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: false
+
+#==============================mybatis-plus配置==============================
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
@@ -63,11 +64,6 @@ mybatis-plus:
       field-strategy: not_empty
       #驼峰下划线转换
       column-underline: true
-      #数据库大写下划线转换
-      #capital-mode: true
-      #逻辑删除配置
-      #logic-delete-value: 0
-      #logic-not-delete-value: 1
       db-type: mysql
     #刷新mapper 调试神器
     refresh: true
@@ -77,6 +73,7 @@ mybatis-plus:
     cache-enabled: false
   logging:
     level: warn
+
 #==============================knife4j配置=======================================
 knife4j:
   # 开启增强配置
@@ -88,7 +85,7 @@ knife4j:
     # Basic认证密码
     password: 123456
 
-#第三方配置信息
+#============================第三方登录配置信息=======================================
 qq:
   app-id:
   check-token-url: https://graph.qq.com/oauth2.0/me?access_token={access_token}

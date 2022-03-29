@@ -23,6 +23,9 @@ import org.springframework.util.Assert;
 import java.util.Date;
 import java.util.List;
 
+import static com.shiyi.enums.FriendLinkEnum.APPLY;
+import static com.shiyi.enums.FriendLinkEnum.UP;
+
 /**
  * <p>
  * 友情链接表 服务实现类
@@ -78,7 +81,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
     public ApiResult updateData(FriendLink friendLink) {
         baseMapper.updateById(friendLink);
         //审核通过发送邮件通知
-        if(friendLink.getStatus().equals(FriendLinkEnum.PASS.getCode())){
+        if(friendLink.getStatus().equals(UP.getCode())){
             emailUtil.friendPassSendEmail(friendLink.getEmail());
         }
         return ApiResult.ok();
@@ -118,7 +121,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
     @Override
     public ApiResult webList() {
         QueryWrapper<FriendLink> queryWrapper = new QueryWrapper<FriendLink>()
-                .eq(SqlConf.STATUS, FriendLinkEnum.PASS.getCode())
+                .eq(SqlConf.STATUS, UP.getCode())
                 .orderByDesc(SqlConf.SORT);
         List<FriendLink> list = baseMapper.selectList(queryWrapper);
         return ApiResult.success(list);
@@ -134,7 +137,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
     public ApiResult applyFriendLink(FriendLink friendLink) {
 
         Assert.isTrue(StringUtils.isNotBlank(friendLink.getUrl()),"输入正确的网址!");
-        friendLink.setStatus(FriendLinkEnum.APPLY.getCode());
+        friendLink.setStatus(APPLY.getCode());
 
         //如果已经申请过友链 再次接入则会进行下架处理 需重新审核
         FriendLink entity = baseMapper.selectOne(new QueryWrapper<FriendLink>()

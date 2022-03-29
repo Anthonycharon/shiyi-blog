@@ -37,8 +37,8 @@ public enum ErrorCode {
     ERROR_MUST_REGISTER(10017,"请先注册帐号!"),
     EXIST_USER(10018,"用户名已存在,请重试!");
 
-    private int code ;
-    private String msg;
+    public int code ;
+    public String msg;
 
     ErrorCode(int code, String msg) {
         this.code = code;

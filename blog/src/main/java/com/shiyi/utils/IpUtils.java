@@ -15,6 +15,8 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 
+import static com.shiyi.common.Constants.UNKNOWN;
+
 @Component
 public class IpUtils {
 
@@ -67,7 +69,7 @@ public class IpUtils {
         logger.info("ip地址解析完成,结果为:{}",s);
         Map map = JSONObject.parseObject(s, Map.class);
         Integer status = (Integer) map.get("status");
-        String address = "未知";
+        String address = UNKNOWN;
         if(status == 0){
             Map result = (Map) map.get("result");
             Map addressInfo = (Map) result.get("ad_info");

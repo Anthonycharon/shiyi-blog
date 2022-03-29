@@ -4,6 +4,7 @@ import com.shiyi.annotation.BusinessLog;
 import com.shiyi.common.ApiResult;
 import com.shiyi.entity.UserLog;
 import com.shiyi.mapper.UserLogMapper;
+import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.IpUtils;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +36,6 @@ import java.util.Date;
 public class BusinessLogAspect {
 
     private final UserLogMapper sysLogMapper;
-
-    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * 设置操作日志切入点   在注解的位置切入代码
@@ -73,7 +72,6 @@ public class BusinessLogAspect {
         // 从获取RequestAttributes中获取HttpServletRequest的信息
         HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
         try {
-            UserLog sysLog = new UserLog();
             // 从切面织入点处通过反射机制获取织入点处的方法
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
             //获取切入点所在的方法
@@ -81,26 +79,18 @@ public class BusinessLogAspect {
             //获取操作
             BusinessLog annotation = method.getAnnotation(BusinessLog.class);
             if (!annotation.save()) return;
-            sysLog.setModel(annotation.value());
-            sysLog.setType(annotation.type());
-            sysLog.setDescription(annotation.desc());
-            //操作时间
-            sysLog.setCreateTime(Timestamp.valueOf(sdf.format(new Date())));
-            //操作用户
+
             String ip = IpUtils.getIp(request);
-            sysLog.setIp(ip);
-            sysLog.setAddress(IpUtils.getCityInfo(ip));
             UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("user-agent"));
             String clientType = userAgent.getOperatingSystem().getDeviceType().toString();
-            sysLog.setClientType(clientType); //客户端类型  手机、电脑、平板
             String os = userAgent.getOperatingSystem().getName();
-            sysLog.setAccessOs(os);//操作系统类型
             String browser = userAgent.getBrowser().toString();
-            sysLog.setBrowser(browser);   // 浏览器类型
-            //返回值信息
-            sysLog.setResult(result.getMessage());
-            //保存日志
-            sysLogMapper.insert(sysLog);
+
+            UserLog userLog = UserLog.builder().model(annotation.value()).type(annotation.type())
+                    .description(annotation.desc()).createTime(DateUtils.getNowDate())
+                    .ip(ip).address(IpUtils.getCityInfo(ip)).clientType(clientType).accessOs(os)
+                    .browser(browser).result(result.getMessage()).build();
+            sysLogMapper.insert(userLog);
         } catch (Exception e) {
             e.printStackTrace();
         }

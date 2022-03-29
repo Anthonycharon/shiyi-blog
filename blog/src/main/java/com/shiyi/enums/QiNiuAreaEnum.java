@@ -29,9 +29,9 @@ public enum QiNiuAreaEnum {
     }
 
     //定义私有方法，获取枚举值
-    private final String alias;
-    private final String name;
-    private final Region region;
+    public final String alias;
+    public final String name;
+    public final Region region;
 
     public Region getRegion() {
         return region;

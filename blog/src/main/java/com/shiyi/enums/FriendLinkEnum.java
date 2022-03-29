@@ -4,7 +4,7 @@ public enum FriendLinkEnum {
     /**
      * 友链下架
      */
-    NOPASS(0, "下架"),
+    DOWN(0, "下架"),
 
     /**
      * 友链申请
@@ -14,7 +14,7 @@ public enum FriendLinkEnum {
     /**
      * 友链上架
      */
-    PASS(2, "上架");
+    UP(2, "上架");
 
 
     //创建构造函数
@@ -24,8 +24,8 @@ public enum FriendLinkEnum {
     }
 
     //定义私有方法，获取枚举值
-    private final Integer code;
-    private final String message;
+    public final Integer code;
+    public final String message;
 
     public Integer getCode() {
         return code;

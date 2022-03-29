@@ -2,7 +2,6 @@ package com.shiyi.utils;
 
 import com.google.gson.Gson;
 import com.shiyi.common.ApiResult;
-import com.shiyi.common.RedisConstants;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
@@ -18,17 +17,16 @@ import com.shiyi.exception.ErrorCode;
 import com.shiyi.service.SystemConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.*;
+
+import static com.shiyi.exception.ErrorCode.ERROR;
 
 @Component
 @Slf4j
@@ -37,8 +35,7 @@ public class UploadUtil {
 
     private final SystemConfigService systemConfigService;
 /*
-    @Autowired
-    RedisCache redisCache;
+     private final RedisCache redisCache;
 */
     @Value("${file.upload-folder}")
     private String UPLOAD_FOLDER;
@@ -123,7 +120,7 @@ public class UploadUtil {
             return ApiResult.fail("七牛云上传失败");
         } catch (IOException e) {
             e.printStackTrace();
-            return ApiResult.fail(ErrorCode.ERROR.getMsg());
+            return ApiResult.fail(ERROR.getMsg());
         }finally {
             if (inputStream != null){
                 try {

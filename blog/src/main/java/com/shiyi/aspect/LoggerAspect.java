@@ -14,6 +14,7 @@ import com.shiyi.mapper.AdminLogMapper;
 import com.shiyi.service.UserService;
 import com.shiyi.utils.AopUtils;
 import com.shiyi.utils.AspectUtil;
+import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.IpUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.Map;
+
+import static com.shiyi.common.Constants.CURRENT_USER;
 
 /**
  * 日志切面
@@ -86,33 +89,17 @@ public class LoggerAspect {
         //此异常不做保存日志的处理 因为此异常基本都是业务中Assert返回的异常
         if (e.toString().contains("IllegalArgumentException")) return;
 
-        ExceptionLog exception = new ExceptionLog();
         HttpServletRequest request = getHttpServletRequest();
         String ip = IpUtils.getIp(request);
-        exception.setIp(ip);
         String operationName = AspectUtil.INSTANCE.parseParams(joinPoint.getArgs(), operationLogger.value());
-
         // 获取参数名称字符串
         String paramsJson = getParamsJson((ProceedingJoinPoint) joinPoint);
-        exception.setParams(paramsJson);
+        User user = (User) StpUtil.getSession().get(CURRENT_USER);
 
-        User user = (User) StpUtil.getSession().get(Constants.CURRENT_USER);
-        exception.setUsername(user.getUsername());
-
-        String cityInfo = IpUtils.getCityInfo(ip);
-        if (StringUtils.isBlank(cityInfo)) cityInfo = Constants.UNKNOWN;
-        exception.setIpSource(cityInfo);
-        //设置请求信息
-        exception.setIp(ip);
-
-        //设置调用的方法
-        exception.setMethod(joinPoint.getSignature().getName());
-
-        exception.setExceptionJson(JSON.toJSONString(e));
-        exception.setExceptionMessage(e.getMessage());
-
-        exception.setOperation(operationName);
-        exception.setCreateTime(new Date());
+        ExceptionLog exception = ExceptionLog.builder().ip(ip).ipSource(IpUtils.getCityInfo(ip))
+                .params(paramsJson).username(user.getUsername()).method(joinPoint.getSignature().getName())
+                .exceptionJson(JSON.toJSONString(e)).exceptionMessage(e.getMessage()).operation(operationName)
+                .createTime(DateUtils.getNowDate()).build();
         exceptionLogMapper.insert(exception);
     }
 
@@ -139,7 +126,7 @@ public class LoggerAspect {
         String paramsJson = getParamsJson(point) ;
 
         // 当前操作用户
-        SystemUserDTO user = (SystemUserDTO) StpUtil.getSession().get(Constants.CURRENT_USER);
+        SystemUserDTO user = (SystemUserDTO) StpUtil.getSession().get(CURRENT_USER);
         String type = request.getMethod();
         String ip = IpUtils.getIp(request);
         String url = request.getRequestURI();
