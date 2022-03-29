@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import static com.shiyi.common.ResultCode.*;
+
 /**
  * @author blue
  * @date 2022/3/11
@@ -25,7 +27,7 @@ public class GlobalException {
             log.error("code : " + ex.getCode() + " msg : " + ex.getMessage(), ex);
         }
         if(StringUtils.isBlank(ex.getLocalizedMessage())||StringUtils.isBlank(ex.getMessage())){
-            return ApiResult.fail(ErrorCode.ERROR.getCode(),ErrorCode.ERROR.getMsg());
+            return ApiResult.fail(ERROR.getCode(), ERROR.getDesc());
         }
         return ApiResult.fail(ex.getCode(), ex.getMessage());
     }
@@ -36,7 +38,7 @@ public class GlobalException {
     public ApiResult AssertExceptionHandler(IllegalArgumentException ex) {
         log.error( " msg : " + ex.getMessage(), ex);
         if(StringUtils.isBlank(ex.getLocalizedMessage())){
-            return ApiResult.fail(ErrorCode.ERROR.getCode(),ErrorCode.ERROR.getMsg());
+            return ApiResult.fail(ERROR.getCode(),ERROR.getDesc());
         }
         return ApiResult.fail(ex.getMessage());
     }
@@ -46,7 +48,7 @@ public class GlobalException {
     @ResponseBody
     public ApiResult NotLoginExceptionHandler(NotLoginException ex) {
         log.error( " msg : " + ex.getMessage(), ex);
-        return ApiResult.fail(ErrorCode.NOT_LOGIN.getCode(),ErrorCode.NOT_LOGIN.getMsg());
+        return ApiResult.fail(NOT_LOGIN.getCode(),NOT_LOGIN.getDesc());
     }
 
     // 权限异常
@@ -54,7 +56,7 @@ public class GlobalException {
     @ResponseBody
     public ApiResult NotPermissionExceptionHandler(NotPermissionException ex) {
         log.error( " msg : " + ex.getMessage(), ex);
-        return ApiResult.fail(ErrorCode.NO_PERMISSION.getCode(),"无此权限：" + ex.getCode());
+        return ApiResult.fail(NO_PERMISSION.getCode(),"无此权限：" + ex.getCode());
     }
 
     // java异常异常
@@ -63,7 +65,7 @@ public class GlobalException {
     public ApiResult ExceptionHandler(Exception ex) {
         log.error( " msg : " + ex.getMessage(), ex);
         if(StringUtils.isBlank(ex.getLocalizedMessage())){
-            return ApiResult.fail(ErrorCode.ERROR.getCode(),ErrorCode.ERROR.getMsg());
+            return ApiResult.fail(ERROR.getCode(),ERROR.getDesc());
         }
         return ApiResult.fail(ex.getMessage());
     }

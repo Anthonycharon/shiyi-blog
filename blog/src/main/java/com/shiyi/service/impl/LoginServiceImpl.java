@@ -2,14 +2,10 @@ package com.shiyi.service.impl;
 
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.code.kaptcha.Producer;
 import com.shiyi.common.ApiResult;
 import com.shiyi.common.Constants;
-import com.shiyi.common.SqlConf;
 import com.shiyi.dto.SystemUserDTO;
-import com.shiyi.entity.User;
-import com.shiyi.exception.ErrorCode;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.service.LoginService;
 import com.shiyi.utils.PasswordUtils;
@@ -18,13 +14,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.shiyi.common.ResultCode.ERROR_PASSWORD;
 
 /**
  * @author blue
@@ -66,7 +63,7 @@ public class LoginServiceImpl implements LoginService {
     public ApiResult doLogin(LoginVO vo) {
         //校验用户名和密码
         SystemUserDTO user = userMapper.selectNameAndPassword(vo.getUsername(),PasswordUtils.aesEncrypt(vo.getPassword()));
-        Assert.isTrue(user != null, ErrorCode.ERROR_PASSWORD.getMsg());
+        Assert.isTrue(user != null, ERROR_PASSWORD.getDesc());
 
         if (vo.getRememberMe()){
             StpUtil.login(user.getId().longValue(), new SaLoginModel().setTimeout(60 * 60 * 24 * 7));

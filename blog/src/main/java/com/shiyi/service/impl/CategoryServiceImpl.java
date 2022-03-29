@@ -8,7 +8,6 @@ import com.shiyi.common.SqlConf;
 import com.shiyi.common.SysConf;
 import com.shiyi.entity.BlogArticle;
 import com.shiyi.entity.Category;
-import com.shiyi.exception.BusinessException;
 import com.shiyi.mapper.ArticleMapper;
 import com.shiyi.mapper.CategoryMapper;
 import com.shiyi.service.CategoryService;

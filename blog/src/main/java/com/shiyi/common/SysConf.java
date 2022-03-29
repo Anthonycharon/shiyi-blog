@@ -2,8 +2,6 @@ package com.shiyi.common;
 
 public class SysConf{
 
-    public static final String ADMIN = "admin";
-
     public static final Long OTHER_CATEGORY_ID = 16L;
 
     public static final Long ADMIN_USER_ID = 7L;
@@ -23,12 +21,5 @@ public class SysConf{
     public static final String RECORDS = "records";
 
     public static final String CURRENTPAGE = "currentPage";
-
-    public static final String TOTALPAGE = "totalPage";
-
-    public static final String AVATAR = "avatar";
-
-    public static final String ARTICLE_IMG = "1639990051624.jpg";
-
 
 }

@@ -1,6 +1,9 @@
 package com.shiyi.exception;
 
+import com.shiyi.common.ResultCode;
 import lombok.Data;
+
+import static com.shiyi.common.ResultCode.ERROR;
 
 /**
  * @author blue
@@ -22,15 +25,15 @@ public class BusinessException extends RuntimeException{
         super();
     }
 
-    public BusinessException(ErrorCode errorCode) {
-        super(errorCode.getMsg());
-        this.code = errorCode.getCode();
-        this.message = errorCode.getMsg();
+    public BusinessException(ResultCode resultCode) {
+        super(resultCode.getDesc());
+        this.code = resultCode.getCode();
+        this.message = resultCode.getDesc();
     }
 
     public BusinessException(String msg) {
         super(msg);
-        this.code = ErrorCode.ERROR.getCode();
+        this.code = ERROR.getCode();
         this.message = msg;
     }
 
@@ -48,7 +51,7 @@ public class BusinessException extends RuntimeException{
 
     public BusinessException(Throwable cause) {
         super(cause);
-        this.code = ErrorCode.ERROR.getCode();
+        this.code = ERROR.getCode();
         this.message = cause.getMessage();
     }
 

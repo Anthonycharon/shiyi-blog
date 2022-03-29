@@ -13,7 +13,6 @@ import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import com.shiyi.entity.SystemConfig;
 import com.shiyi.enums.QiNiuAreaEnum;
-import com.shiyi.exception.ErrorCode;
 import com.shiyi.service.SystemConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import static com.shiyi.exception.ErrorCode.ERROR;
+import static com.shiyi.common.ResultCode.ERROR;
 
 @Component
 @Slf4j
@@ -120,7 +119,7 @@ public class UploadUtil {
             return ApiResult.fail("七牛云上传失败");
         } catch (IOException e) {
             e.printStackTrace();
-            return ApiResult.fail(ERROR.getMsg());
+            return ApiResult.fail(ERROR.getDesc());
         }finally {
             if (inputStream != null){
                 try {

@@ -11,25 +11,23 @@ import com.shiyi.config.satoken.MySaTokenListener;
 import com.shiyi.config.satoken.OnlineUser;
 import com.shiyi.dto.SystemUserDTO;
 import com.shiyi.dto.UserDTO;
-import com.shiyi.mapper.RoleMapper;
 import com.shiyi.entity.Menu;
 import com.shiyi.entity.User;
-import com.shiyi.exception.ErrorCode;
 import com.shiyi.mapper.UserAuthMapper;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.service.MenuService;
 import com.shiyi.service.UserService;
 import com.shiyi.utils.PasswordUtils;
-import com.shiyi.utils.RedisCache;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.*;
+
+import static com.shiyi.common.ResultCode.ERROR_USER_NOT_EXIST;
 
 /**
  * @author blue
@@ -142,7 +140,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public ApiResult updatePassword(Map<String, String> map) {
 
         User user = baseMapper.selectById(StpUtil.getLoginIdAsInt());
-        Assert.notNull(user,ErrorCode.ERROR_USER_NOT_EXIST.getMsg());
+        Assert.notNull(user,ERROR_USER_NOT_EXIST.getDesc());
 
         boolean isValid = PasswordUtils.isValidPassword(map.get("oldPassword"), user.getPassword());
         Assert.isTrue(isValid,"旧密码校验不通过!");

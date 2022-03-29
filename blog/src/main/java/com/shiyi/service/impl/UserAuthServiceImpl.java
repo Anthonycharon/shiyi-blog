@@ -9,7 +9,6 @@ import com.shiyi.entity.User;
 import com.shiyi.entity.UserAuth;
 import com.shiyi.entity.WebConfig;
 import com.shiyi.enums.LoginTypeEnum;
-import com.shiyi.exception.ErrorCode;
 import com.shiyi.mapper.UserAuthMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.service.UserAuthService;
@@ -27,11 +26,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
 import java.util.regex.Pattern;
+
+import static com.shiyi.common.ResultCode.*;
+import static com.shiyi.common.ResultCode.ERROR_MUST_REGISTER;
 
 /**
  * <p>
@@ -81,7 +80,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
 
         redisCache.deleteObject(RedisConstants.EMAIL_CODE + vo.getEmail());
 
-        return insert  ? ApiResult.ok("注册成功"):ApiResult.fail(ErrorCode.ERROR_DEFAULT.getMsg());
+        return insert  ? ApiResult.ok("注册成功"):ApiResult.fail(ERROR_DEFAULT.getDesc());
     }
 
     /**
@@ -97,14 +96,14 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         checkCode(RedisConstants.EMAIL_CODE + vo.getEmail(), vo.getCode());
 
         User user = getByUserName(vo.getEmail());
-        Assert.notNull(user,ErrorCode.ERROR_MUST_REGISTER.getMsg());
+        Assert.notNull(user,ERROR_MUST_REGISTER.getDesc());
 
         user.setPassword(PasswordUtils.aesEncrypt(vo.getPassword()));
         boolean update = userService.updateById(user);
 
         redisCache.deleteObject(RedisConstants.EMAIL_CODE + vo.getEmail());
 
-        return update  ? ApiResult.ok("修改成功"):ApiResult.fail(ErrorCode.ERROR_DEFAULT.getMsg());
+        return update  ? ApiResult.ok("修改成功"):ApiResult.fail(ERROR_DEFAULT.getDesc());
     }
 
     /**
@@ -122,7 +121,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         Assert.isTrue(StringUtils.isNotBlank(password),"密码格式不合法!!");
 
         User user = getByUserName(vo.getEmail());
-        Assert.notNull(user,ErrorCode.ERROR_MUST_REGISTER.getMsg());
+        Assert.notNull(user, ERROR_MUST_REGISTER.getDesc());
         Assert.isTrue(user.getStatus() == Constants.USER_STATUS_ONE,"该邮箱账号已被管理员禁止登录！！");
 
         boolean validate = PasswordUtils.isValidPassword(user.getPassword(),vo.getPassword());
@@ -176,7 +175,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
             return ApiResult.ok("验证码已发送，请前往邮箱查看!!");
         } catch (MessagingException e) {
             e.printStackTrace();
-            return ApiResult.ok(ErrorCode.ERROR_DEFAULT.getMsg());
+            return ApiResult.ok(ERROR_DEFAULT.getDesc());
         }
 
     }
@@ -196,7 +195,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         userAuth.setEmail(vo.getEmail());
         boolean update = updateById(userAuth);
         redisCache.deleteObject(key);
-        return update ? ApiResult.ok("绑定邮箱成功"):ApiResult.fail(ErrorCode.ERROR_DEFAULT.getMsg());
+        return update ? ApiResult.ok("绑定邮箱成功"):ApiResult.fail(ERROR_DEFAULT.getDesc());
     }
 
     /**
@@ -215,7 +214,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         userAuth.setAvatar(vo.getAvatar());
 
         boolean update = updateById(userAuth);
-        return update ? ApiResult.ok("修改信息成功"):ApiResult.fail(ErrorCode.ERROR_DEFAULT.getMsg());
+        return update ? ApiResult.ok("修改信息成功"):ApiResult.fail(ERROR_DEFAULT.getDesc());
     }
 
 
@@ -227,7 +226,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
 
     public void checkEmail(String email){
         boolean matches = Pattern.compile("\\w+@{1}\\w+\\.{1}\\w+").matcher(email).matches();
-        Assert.isTrue(matches,ErrorCode.EMAIL_ERROR.getMsg());
+        Assert.isTrue(matches, EMAIL_ERROR.getDesc());
     }
 
     public User getByUserName(String username){
@@ -236,6 +235,6 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
 
     private void checkCode(String key, String sourCode) {
         Object code = redisCache.getCacheObject(key);
-        Assert.isTrue(code != null && code.equals(sourCode), ErrorCode.ERROR_EXCEPTION_MOBILE_CODE.getMsg());
+        Assert.isTrue(code != null && code.equals(sourCode), ERROR_EXCEPTION_MOBILE_CODE.getDesc());
     }
 }
