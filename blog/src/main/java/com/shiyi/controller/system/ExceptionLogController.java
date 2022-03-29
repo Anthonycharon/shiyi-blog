@@ -6,6 +6,7 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
 import com.shiyi.service.ExceptionLogService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/system/exceptionLog")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Api(tags = "异常日志管理")
 public class ExceptionLogController {
 
     private final ExceptionLogService exceptionLogService;

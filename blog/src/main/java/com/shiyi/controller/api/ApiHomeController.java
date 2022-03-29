@@ -3,6 +3,7 @@ package com.shiyi.controller.api;
 
 import com.shiyi.common.ApiResult;
 import com.shiyi.service.impl.HomeServiceImpl;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/web/home")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Api(tags = "门户首页管理")
 public class ApiHomeController {
 
     private final HomeServiceImpl homeService;

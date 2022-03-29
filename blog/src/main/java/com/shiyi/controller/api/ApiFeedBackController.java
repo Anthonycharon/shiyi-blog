@@ -4,6 +4,7 @@ import com.shiyi.annotation.BusinessLog;
 import com.shiyi.common.ApiResult;
 import com.shiyi.entity.FeedBack;
 import com.shiyi.service.FeedBackService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/web/feedback")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Api(tags = "门户反馈管理")
 public class ApiFeedBackController {
 
     private final FeedBackService feedBackService;
