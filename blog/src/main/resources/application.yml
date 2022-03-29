@@ -90,7 +90,7 @@ knife4j:
 
 #第三方配置信息
 qq:
-  app-id: 
+  app-id:
   check-token-url: https://graph.qq.com/oauth2.0/me?access_token={access_token}
   user-info-url: https://graph.qq.com/user/get_user_info?openid={openid}&access_token={access_token}&oauth_consumer_key={oauth_consumer_key}
 weibo:
