@@ -5,6 +5,7 @@ import com.shiyi.common.RedisConstants;
 import com.shiyi.common.SysConf;
 import com.shiyi.entity.SystemConfig;
 import com.shiyi.service.SystemConfigService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
@@ -24,12 +25,12 @@ import java.util.regex.Pattern;
  **/
 @SuppressWarnings(value = { "unchecked", "rawtypes" })
 @Component
-public class RedisCache
-{
-    @Autowired
-    public RedisTemplate redisTemplate;
-    @Autowired
-    SystemConfigService systemConfigService;
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+public class RedisCache {
+
+    public final RedisTemplate redisTemplate;
+
+    private final SystemConfigService systemConfigService;
 
     /**
      * 缓存基本的对象，Integer、String、实体类等

@@ -6,6 +6,7 @@ import com.shiyi.common.ApiResult;
 import com.shiyi.service.PhotoAlbumService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,10 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/web/album")
 @Api(tags = "相册接口")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ApiPhotoAlbumController {
 
-    @Autowired
-    private PhotoAlbumService albumService;
+    private final PhotoAlbumService albumService;
 
     @BusinessLog(value = "相册模块-用户访问页面",type = "查询",desc = "用户访问页面")
     @RequestMapping(value = "/list",method = RequestMethod.GET)

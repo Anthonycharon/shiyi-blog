@@ -18,6 +18,7 @@ import java.util.*;
  * @apiNote
  */
 public class WeChatUtil {
+
     private static String token = "shiyi2022";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WeChatUtil.class);

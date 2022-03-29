@@ -6,6 +6,7 @@ import com.shiyi.entity.UserLog;
 import com.shiyi.mapper.UserLogMapper;
 import com.shiyi.utils.IpUtils;
 import eu.bitwalker.useragentutils.UserAgent;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -30,10 +31,10 @@ import java.util.Date;
 @Aspect
 @Component
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BusinessLogAspect {
-    @Autowired
-    UserLogMapper sysLogMapper;
 
+    private final UserLogMapper sysLogMapper;
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

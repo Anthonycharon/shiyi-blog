@@ -7,6 +7,7 @@ import com.shiyi.entity.Message;
 import com.shiyi.service.MessageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,10 +22,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/web/message")
 @Api(tags = "评论留言接口")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ApiMessageController {
 
-    @Autowired
-    private MessageService messageService;
+    private final MessageService messageService;
 
     @BusinessLog(value = "留言模块-留言列表",type = "查询",desc = "留言列表")
     @RequestMapping(value = "/webMessage",method = RequestMethod.GET)

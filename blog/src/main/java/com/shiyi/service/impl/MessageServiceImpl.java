@@ -11,6 +11,7 @@ import com.shiyi.service.MessageService;
 import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.IpUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,10 +31,11 @@ import java.util.List;
  * @since 2021-09-03
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> implements MessageService {
 
-    @Resource
-    private HttpServletRequest request;
+
+    private final HttpServletRequest request;
 
     /**
      * 留言列表

@@ -21,6 +21,7 @@ import com.shiyi.service.MenuService;
 import com.shiyi.service.UserService;
 import com.shiyi.utils.PasswordUtils;
 import com.shiyi.utils.RedisCache;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +38,12 @@ import java.util.*;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    @Autowired
-    MenuService menuService;
-    @Autowired
-    private UserAuthMapper userAuthMapper;
+    private final MenuService menuService;
+
+    private final UserAuthMapper userAuthMapper;
 
     /**
      * 用户列表

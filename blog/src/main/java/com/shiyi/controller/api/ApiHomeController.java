@@ -4,6 +4,7 @@ package com.shiyi.controller.api;
 import com.shiyi.common.ApiResult;
 import com.shiyi.service.impl.HomeServiceImpl;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +20,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping("/web/home")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ApiHomeController {
 
-    @Autowired
-    private HomeServiceImpl homeService;
+    private final HomeServiceImpl homeService;
 
 
     @RequestMapping(value = "/webSiteInfo",method = RequestMethod.GET)

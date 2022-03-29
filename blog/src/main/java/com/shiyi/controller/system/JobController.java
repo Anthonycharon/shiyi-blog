@@ -9,6 +9,7 @@ import com.shiyi.enums.TaskException;
 import com.shiyi.service.JobService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +27,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/system/job")
 @Api(tags = "定时任务管理")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JobController {
 
-    @Autowired
-    private JobService jobService;
+    private final JobService jobService;
 
     @GetMapping(value = "/list")
     @SaCheckLogin

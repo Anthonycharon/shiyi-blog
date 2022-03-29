@@ -13,6 +13,7 @@ import com.shiyi.service.WebConfigService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.service.FriendLinkService;
 import com.shiyi.utils.EmailUtil;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,12 +32,12 @@ import java.util.List;
  * @since 2021-08-18
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendLink> implements FriendLinkService {
 
-    @Autowired
-    private WebConfigService webConfigService;
-    @Autowired
-    EmailUtil emailUtil;
+    private final WebConfigService webConfigService;
+
+    private final EmailUtil emailUtil;
 
     /**
      * 友链列表

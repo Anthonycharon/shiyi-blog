@@ -17,6 +17,7 @@ import com.shiyi.dto.ContributeDTO;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,28 +28,28 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class HomeServiceImpl {
 
-    @Autowired
-    private ArticleMapper articleMapper;
-    @Autowired
-    private MessageMapper messageMapper;
-    @Autowired
-    private TagsMapper tagsMapper;
-    @Autowired
-    private CategoryMapper categoryMapper;
-    @Autowired
-    private UserLogMapper sysLogMapper;
-    @Autowired
-    private SystemConfigService systemConfigService;
-    @Autowired
-    private WebConfigService webConfigService;
-    @Autowired
-    private RedisCache redisCache;
-    @Autowired
-    private PageMapper pageMapper;
-    @Autowired
-    private UserMapper userMapper;
+    private final ArticleMapper articleMapper;
+
+    private final MessageMapper messageMapper;
+
+    private final TagsMapper tagsMapper;
+
+    private final CategoryMapper categoryMapper;
+
+    private final UserLogMapper sysLogMapper;
+
+    private final SystemConfigService systemConfigService;
+
+    private final WebConfigService webConfigService;
+
+    private final RedisCache redisCache;
+
+    private final PageMapper pageMapper;
+
+    private final UserMapper userMapper;
 
     /**
      * 文章、留言、用户、ip统计

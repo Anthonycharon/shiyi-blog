@@ -8,6 +8,7 @@ import com.shiyi.common.RedisConstants;
 import com.shiyi.service.TagsService;
 import com.shiyi.utils.UploadUtil;
 import com.shiyi.utils.RedisCache;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,16 +22,16 @@ import java.util.*;
  */
 @Component("blogQuartz")
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BlogQuartz {
 
-    @Autowired
-    private RedisCache redisCache;
-    @Autowired
-    private ArticleService articleService;
-    @Autowired
-    UploadUtil uploadUtil;
-    @Autowired
-    private TagsService tagsService;
+    private final RedisCache redisCache;
+
+    private final ArticleService articleService;
+
+    private final UploadUtil uploadUtil;
+
+    private final TagsService tagsService;
 
 
     public void ryMultipleParams(String s, Boolean b, Long l, Double d, Integer i) {

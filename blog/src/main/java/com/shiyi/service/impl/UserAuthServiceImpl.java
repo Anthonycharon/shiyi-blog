@@ -21,6 +21,7 @@ import com.shiyi.vo.EmailLoginVO;
 import com.shiyi.vo.EmailRegisterVO;
 import com.shiyi.vo.QQLoginVO;
 import com.shiyi.vo.UserAuthVO;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,17 +42,18 @@ import java.util.regex.Pattern;
  * @since 2021-12-25
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> implements UserAuthService {
-    @Autowired
-    private SocialLoginStrategyContext socialLoginStrategyContext;
-    @Autowired
-    private EmailUtil emailUtil;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private RedisCache redisCache;
-    @Autowired
-    private WebConfigService webConfigService;
+
+    private final SocialLoginStrategyContext socialLoginStrategyContext;
+
+    private final EmailUtil emailUtil;
+
+    private final UserService userService;
+
+    private final RedisCache redisCache;
+
+    private final WebConfigService webConfigService;
 
     /**
      * 邮箱账号注册

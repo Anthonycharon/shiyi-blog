@@ -8,6 +8,7 @@ import com.shiyi.common.ApiResult;
 import com.shiyi.vo.ArticleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +16,11 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/system/article")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Api(tags = "后台文章管理")
 public class ArticlesController {
 
-    @Autowired
-    private ArticleService articleService;
+    private final ArticleService articleService;
 
     @PostMapping(value = "/list")
     @SaCheckLogin

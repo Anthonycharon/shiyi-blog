@@ -10,6 +10,7 @@ import com.shiyi.utils.RandomUtil;
 import com.shiyi.vo.LoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.annotation.Validated;
@@ -27,10 +28,10 @@ import java.util.concurrent.TimeUnit;
  */
 @RestController
 @Api(tags = "登录-接口")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LoginController {
 
-    @Autowired
-    private LoginService loginService;
+    private final LoginService loginService;
 
     @RequestMapping(value = "/captchaImage",method = RequestMethod.GET)
     @ApiOperation(value = "获取验证码", httpMethod = "GET", response = ApiResult.class, notes = "获取验证码")

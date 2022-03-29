@@ -12,6 +12,7 @@ import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.RandomUtil;
 import com.vladsch.flexmark.html2md.converter.FlexmarkHtmlConverter;
 import com.vladsch.flexmark.util.data.MutableDataSet;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,16 +33,16 @@ import java.util.*;
  * @apiNote
  */
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BlogPipeline implements Pipeline {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BlogPipeline.class);
 
-    @Autowired
-    private ArticleMapper articleMapper;
-    @Autowired
-    private TagsMapper tagsMapper;
-    @Autowired
-    private RestTemplate restTemplate;
+    private final ArticleMapper articleMapper;
+
+    private final TagsMapper tagsMapper;
+
+    private final RestTemplate restTemplate;
 
     @Override
     public void process(ResultItems resultItems, Task task) {

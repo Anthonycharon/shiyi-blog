@@ -5,6 +5,7 @@ import com.shiyi.common.ApiResult;
 import com.shiyi.entity.FeedBack;
 import com.shiyi.service.FeedBackService;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,10 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/web/feedback")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ApiFeedBackController {
 
-    @Autowired
-    private FeedBackService feedBackService;
+    private final FeedBackService feedBackService;
 
 
     @PostMapping(value = "/add")

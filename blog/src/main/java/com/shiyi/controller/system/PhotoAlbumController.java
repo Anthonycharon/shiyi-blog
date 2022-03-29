@@ -9,6 +9,7 @@ import com.shiyi.entity.PhotoAlbum;
 import com.shiyi.service.PhotoAlbumService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +24,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/system/album")
 @Api(tags = "相册管理")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PhotoAlbumController {
 
-    @Autowired
-    private PhotoAlbumService albumService;
+    private final PhotoAlbumService albumService;
 
 
     @GetMapping(value = "/list")

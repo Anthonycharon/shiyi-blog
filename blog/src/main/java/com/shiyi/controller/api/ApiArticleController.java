@@ -5,6 +5,7 @@ import com.shiyi.common.ApiResult;
 import com.shiyi.service.ArticleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/web/article")
 @Api(tags = "前台文章管理")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ApiArticleController {
 
-    @Autowired
-    private ArticleService articleService;
+    private final ArticleService articleService;
 
     @BusinessLog(value = "首页-用户访问首页",type = "查询",desc = "查询所有文章")
     @GetMapping(value = "/list")

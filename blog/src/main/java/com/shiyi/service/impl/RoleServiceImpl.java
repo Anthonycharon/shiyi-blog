@@ -23,8 +23,6 @@ import java.util.List;
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
-    @Autowired
-    private UserService userService;
 
     /**
      * 角色列表

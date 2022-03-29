@@ -9,6 +9,7 @@ import com.shiyi.entity.SystemConfig;
 import com.shiyi.service.SystemConfigService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +28,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/system/config")
 @Api(tags = "系统配置管理")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SystemConfigController {
 
-    @Autowired
-    private SystemConfigService systemConfigService;
+    private final SystemConfigService systemConfigService;
 
     @RequestMapping(value = "/getConfig",method = RequestMethod.GET)
     @SaCheckLogin

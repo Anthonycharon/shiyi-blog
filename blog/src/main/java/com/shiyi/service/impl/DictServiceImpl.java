@@ -12,6 +12,7 @@ import com.shiyi.service.DictDataService;
 import com.shiyi.service.DictService;
 import com.shiyi.utils.HumpLineUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,9 @@ import java.util.List;
  */
 @Service
 public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
+
     @Autowired
-    private DictDataService dictDataService;
+    private  DictDataService dictDataService;
 
     /**
      * 字典列表

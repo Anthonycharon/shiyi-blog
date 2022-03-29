@@ -2,6 +2,7 @@ package com.shiyi.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.shiyi.dto.ArticleSearchDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
@@ -18,10 +19,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ElasticsearchUtils {
 
-    @Autowired
-    private ElasticsearchRestTemplate elasticsearchRestTemplate;
+    private final ElasticsearchRestTemplate elasticsearchRestTemplate;
     /**
      * 新增数据
      * @param articleSearchDTO 数据对象

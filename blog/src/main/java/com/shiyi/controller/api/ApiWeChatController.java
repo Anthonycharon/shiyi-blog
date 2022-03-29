@@ -6,6 +6,7 @@ import com.shiyi.utils.RedisCache;
 import com.shiyi.utils.WeChatUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,10 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Api(tags = "微信接口相关控制器")
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ApiWeChatController {
 
-    @Autowired
-    private RedisCache redisCache;
+    private final RedisCache redisCache;
 
     @ApiOperation("微信公众号服务器配置校验token")
     @RequestMapping(value = "/wechat",method = RequestMethod.GET)

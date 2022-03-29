@@ -12,6 +12,7 @@ import com.shiyi.enums.PublishEnum;
 import com.shiyi.mapper.DictDataMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.service.DictService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,7 @@ import java.util.Map;
 public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> implements DictDataService {
 
     @Autowired
-    private DictService dictService;
+    private  DictService dictService;
 
     /**
      * 获取字典数据列表

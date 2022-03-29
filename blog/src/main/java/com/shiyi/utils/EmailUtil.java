@@ -3,6 +3,7 @@ package com.shiyi.utils;
 import com.shiyi.common.RedisConstants;
 import com.shiyi.entity.SystemConfig;
 import com.shiyi.service.SystemConfigService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,12 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EmailUtil {
 
-    @Autowired
-    private RedisCache redisCache;
-    @Autowired
-    private SystemConfigService systemConfigService;
+    private final RedisCache redisCache;
+
+    private final SystemConfigService systemConfigService;
 
     JavaMailSenderImpl javaMailSender;
 

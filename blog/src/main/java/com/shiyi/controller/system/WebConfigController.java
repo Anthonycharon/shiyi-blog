@@ -9,6 +9,7 @@ import com.shiyi.entity.WebConfig;
 import com.shiyi.service.WebConfigService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +24,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/system/webConfig")
 @Api(tags = "网站配置管理")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class WebConfigController {
 
-    @Autowired
-    private WebConfigService webConfigService;
+    private final WebConfigService webConfigService;
 
     @GetMapping(value = "/list")
     @SaCheckLogin

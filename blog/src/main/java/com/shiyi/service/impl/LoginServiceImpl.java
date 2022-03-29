@@ -14,6 +14,7 @@ import com.shiyi.mapper.UserMapper;
 import com.shiyi.service.LoginService;
 import com.shiyi.utils.PasswordUtils;
 import com.shiyi.vo.LoginVO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -31,12 +32,13 @@ import java.util.Map;
  * @date 2021/7/30 14:59
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LoginServiceImpl implements LoginService {
 
     @Resource(name = "captchaProducerMath")
     private Producer captchaProducerMath;
-    @Autowired
-    private UserMapper userMapper;
+
+    private final UserMapper userMapper;
 
     @Override
     public Map<String, String> getCode(HttpServletResponse response) throws IOException {

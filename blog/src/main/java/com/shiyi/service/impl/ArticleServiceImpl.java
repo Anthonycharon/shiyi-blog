@@ -21,6 +21,7 @@ import com.shiyi.utils.*;
 import com.shiyi.vo.ArticleVO;
 import com.shiyi.webmagic.BlogPipeline;
 import com.shiyi.webmagic.CSDNPageProcessor;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,28 +47,28 @@ import java.util.*;
  * @since 2021-08-18
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> implements ArticleService {
 
-    @Autowired
-    private CategoryMapper categoryMapper;
-    @Autowired
-    private SystemConfigService systemConfigService;
-    @Autowired
-    private RedisCache redisCache;
-    @Autowired
-    private TagsMapper tagsMapper;
-    @Autowired
-    private CommentMapper commentMapper;
-    @Autowired
-    private BlogPipeline blogPipeline;
-    @Autowired
-    SearchStrategyContext searchStrategyContext;
-    @Autowired
-    RestTemplate restTemplate;
-    @Autowired
-    HttpServletRequest request;
-    @Autowired
-    ElasticsearchUtils elasticsearchUtils;
+    private final CategoryMapper categoryMapper;
+
+    private final SystemConfigService systemConfigService;
+
+    private final RedisCache redisCache;
+
+    private final TagsMapper tagsMapper;
+
+    private final CommentMapper commentMapper;
+
+    private final BlogPipeline blogPipeline;
+
+    private final SearchStrategyContext searchStrategyContext;
+
+    private final RestTemplate restTemplate;
+
+    private final HttpServletRequest request;
+
+    private final ElasticsearchUtils elasticsearchUtils;
 
     @Value("${baidu.url}")
     private String baiduUrl;

@@ -10,6 +10,7 @@ import com.shiyi.vo.QQLoginVO;
 import com.shiyi.vo.UserAuthVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +22,10 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 @RestController
 @Api(tags = "登录接口")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ApiUserController {
 
-    @Autowired
-    private UserAuthService userAuthService;
+    private final UserAuthService userAuthService;
 
     @RequestMapping(value = "/emailLogin",method = RequestMethod.POST)
     @ApiOperation(value = "邮箱登录", httpMethod = "POST", response = ApiResult.class, notes = "邮箱登录")

@@ -13,6 +13,7 @@ import com.shiyi.mapper.PhotoMapper;
 import com.shiyi.service.PhotoAlbumService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.utils.DateUtils;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,10 +33,11 @@ import java.util.Map;
  * @since 2021-12-29
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAlbum> implements PhotoAlbumService {
 
-    @Autowired
-    private PhotoMapper photoMapper;
+
+    private final PhotoMapper photoMapper;
 
     /**
      * 相册列表

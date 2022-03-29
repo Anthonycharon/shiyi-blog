@@ -19,6 +19,7 @@ import com.shiyi.service.CommentService;
 import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.HTMLUtils;
 import com.shiyi.utils.RedisCache;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,14 +35,12 @@ import java.util.*;
  * @since 2021-08-18
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    RedisCache redisCache;
-    @Autowired
-    UserAuthMapper userAuthMapper;
+    private final UserMapper userMapper;
+
+    private final UserAuthMapper userAuthMapper;
 
     @Override
     public ApiResult webComment(Comment comment) {

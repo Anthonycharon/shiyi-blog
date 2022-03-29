@@ -7,6 +7,7 @@ import com.shiyi.service.CategoryService;
 import com.shiyi.service.TagsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,12 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/web/tags")
-@Api(tags = "标签接口")
+@Api(tags = "标签分类接口")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ApiTagsController {
-    @Autowired
-    private TagsService tagsService;
-    @Autowired
-    private CategoryService categoryService;
+
+    private final TagsService tagsService;
+
+    private final CategoryService categoryService;
 
     @BusinessLog(value = "标签模块-用户访问页面",type = "查询",desc = "用户访问页面")
     @RequestMapping(value = "/list",method = RequestMethod.GET)

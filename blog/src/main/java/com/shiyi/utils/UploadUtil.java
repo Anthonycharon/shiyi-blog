@@ -16,6 +16,7 @@ import com.shiyi.entity.SystemConfig;
 import com.shiyi.enums.QiNiuAreaEnum;
 import com.shiyi.exception.ErrorCode;
 import com.shiyi.service.SystemConfigService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,10 @@ import java.util.*;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UploadUtil {
 
-    @Autowired
-    SystemConfigService systemConfigService;
+    private final SystemConfigService systemConfigService;
 /*
     @Autowired
     RedisCache redisCache;

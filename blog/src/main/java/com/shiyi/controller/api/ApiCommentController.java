@@ -7,6 +7,7 @@ import com.shiyi.vo.CommentVO;
 import com.shiyi.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/web/comment")
 @Api(tags = "评论接口")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ApiCommentController {
 
-    @Autowired
-    private CommentService commentService;
+    private final CommentService commentService;
 
     @BusinessLog(value = "评论模块-用户评论",type = "添加",desc = "用户评论")
     @RequestMapping(value = "/addComment",method = RequestMethod.POST)

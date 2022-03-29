@@ -2,6 +2,9 @@ package com.shiyi.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import eu.bitwalker.useragentutils.UserAgent;
+import io.swagger.models.auth.In;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +19,8 @@ import java.util.Map;
 
 @Component
 public class IpUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(IpUtils.class);
 
     public static String getIp(HttpServletRequest request){
         String ipAddress;
@@ -61,10 +66,11 @@ public class IpUtils {
      */
     public static String getCityInfo(String ip)  {
         String s = sendGet(ip);
+        logger.info("ip地址解析完成,结果为:{}",s);
         Map map = JSONObject.parseObject(s, Map.class);
-        String message = (String) map.get("message");
-        String address = null;
-        if("query ok".equals(message)){
+        Integer status = (Integer) map.get("status");
+        String address = "未知";
+        if(status == 0){
             Map result = (Map) map.get("result");
             Map addressInfo = (Map) result.get("ad_info");
             String nation = (String) addressInfo.get("nation");

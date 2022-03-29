@@ -9,6 +9,7 @@ import com.shiyi.common.ApiResult;
 import com.shiyi.entity.DictData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,10 +30,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/system/dictData")
 @Api(tags = "字典数据管理")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DictDataController {
 
-    @Autowired
-    private DictDataService dictDataService;
+    private final DictDataService dictDataService;
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     @SaCheckLogin

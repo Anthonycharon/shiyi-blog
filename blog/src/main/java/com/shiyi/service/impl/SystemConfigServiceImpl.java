@@ -10,6 +10,7 @@ import com.shiyi.mapper.SystemConfigMapper;
 import com.shiyi.service.SystemConfigService;
 import com.shiyi.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,10 +24,11 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 2021-11-25
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SystemConfigServiceImpl extends ServiceImpl<SystemConfigMapper, SystemConfig> implements SystemConfigService {
 
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
 
     /**
      * 获取系统配置

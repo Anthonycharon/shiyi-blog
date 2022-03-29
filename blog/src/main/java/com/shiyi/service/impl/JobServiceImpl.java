@@ -15,6 +15,7 @@ import com.shiyi.enums.TaskException;
 import com.shiyi.mapper.JobMapper;
 import com.shiyi.service.JobService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobDataMap;
 import org.quartz.JobKey;
@@ -38,11 +39,12 @@ import java.util.List;
  * @since 2021-12-08
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobService {
-    @Autowired
-    private Scheduler scheduler;
-    @Autowired
-    private UserMapper userMapper;
+
+    private final Scheduler scheduler;
+
+    private final UserMapper userMapper;
 
     /**
      * 项目启动时，初始化定时器 主要是防止手动修改数据库导致未同步到定时任务处理

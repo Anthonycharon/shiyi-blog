@@ -15,6 +15,7 @@ import com.shiyi.service.UserService;
 import com.shiyi.utils.AopUtils;
 import com.shiyi.utils.AspectUtil;
 import com.shiyi.utils.IpUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -42,14 +43,13 @@ import java.util.Map;
 @Aspect
 @Component
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LoggerAspect {
 
-    @Autowired
-    private AdminLogMapper adminLogMapper;
-    @Autowired
-    private ExceptionLogMapper exceptionLogMapper;
-    @Autowired
-    UserService userService;
+    private final AdminLogMapper adminLogMapper;
+
+    private final ExceptionLogMapper exceptionLogMapper;
+
     /**
      * 开始时间
      */

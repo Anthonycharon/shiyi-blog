@@ -8,6 +8,7 @@ import com.shiyi.service.impl.HomeServiceImpl;
 import com.shiyi.dto.SystemHardwareInfoDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/system/home")
 @Api(tags = "后台首页")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class HomeController {
-    @Autowired
-    private HomeServiceImpl homeService;
+
+    private final HomeServiceImpl homeService;
 
     @GetMapping(value = "/init")
     @SaCheckLogin

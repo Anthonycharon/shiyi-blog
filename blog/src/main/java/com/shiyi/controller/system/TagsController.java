@@ -9,6 +9,7 @@ import com.shiyi.entity.Tags;
 import com.shiyi.service.TagsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +26,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/system/tags")
 @Api(tags = "标签管理")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TagsController {
-    @Autowired
-    private TagsService tagsService;
+
+    private final TagsService tagsService;
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     @SaCheckLogin

@@ -7,6 +7,7 @@ import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ApiResult;
 import com.shiyi.service.ExceptionLogService;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +23,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/system/exceptionLog")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ExceptionLogController {
 
-    @Autowired
-    private ExceptionLogService exceptionLogService;
+    private final ExceptionLogService exceptionLogService;
 
     @GetMapping(value = "/list")
     @SaCheckLogin

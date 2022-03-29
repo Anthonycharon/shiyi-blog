@@ -7,6 +7,7 @@ import com.shiyi.service.JobLogService;
 import com.shiyi.common.ApiResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +24,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/system/jobLog")
 @Api(tags = "定时任务调度日志管理")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JobLogController {
 
-    @Autowired
-    private JobLogService jobLogService;
+    private final JobLogService jobLogService;
 
     @GetMapping(value = "/list")
     @SaCheckLogin
