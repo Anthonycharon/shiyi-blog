@@ -22,11 +22,11 @@ import com.shiyi.webmagic.BlogPipeline;
 import com.shiyi.webmagic.CSDNPageProcessor;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -36,6 +36,9 @@ import us.codecraft.webmagic.Spider;
 import javax.servlet.http.HttpServletRequest;
 import java.text.MessageFormat;
 import java.util.*;
+
+import static com.shiyi.common.RedisConstants.ARTICLE_READING;
+import static com.shiyi.common.RedisConstants.TAG_CLICK_VOLUME;
 
 /**
  * <p>
@@ -68,6 +71,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     private final HttpServletRequest request;
 
     private final ElasticsearchUtils elasticsearchUtils;
+
+    private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Value("${baidu.url}")
     private String baiduUrl;
@@ -286,7 +291,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         }
 
         //增加文章阅读量
-        new Thread(() -> this.increaseRead(id)).start();
+        threadPoolTaskExecutor.execute(() -> this.incr(id.longValue(),ARTICLE_READING));
 
         return ApiResult.success(blogArticle);
     }
@@ -332,6 +337,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
                 blogArticle.setCategory(category);
             }
             name = tags.getName();
+
+            threadPoolTaskExecutor.execute(() ->this.incr(tagId,TAG_CLICK_VOLUME));
         }
         result.put(SqlConf.NAME,name);
         result.put(SysConf.CURRENTPAGE,blogArticlePage.getCurrent());
@@ -420,16 +427,19 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
 
     //    -----自定义方法开始-------
     /**
-     *  增加文章阅读量
+     *  增加文字阅读量或标签点击量
      * @return
      */
-    public void increaseRead(Integer id) {
-        String key = RedisConstants.READING_PREFIX + id;
-        if (redisCache.hasKey(key)) {
-            redisCache.incr(key);   // 如果key存在就直接加一
-        } else {
-            redisCache.setCacheObject(key, 1);
+    public void incr(Long id,String key) {
+        Map<String, Object> map = redisCache.getCacheMap(key);
+        Integer value = (Integer) map.get(id.toString());
+        // 如果key存在就直接加一
+        if (value != null) {
+            map.put(id.toString(),value+1);
+        }else {
+            map.put(id.toString(),1);
         }
+        redisCache.setCacheMap(key,map);
     }
 
     /**
@@ -437,9 +447,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @param ids
      */
     private void deleteAfter(List<Long> ids){
-        ids.forEach(item-> redisCache.deleteObject(RedisConstants.READING_PREFIX+item));
         tagsMapper.deleteArticleToTags(ids);
-        new Thread(()->this.deleteEsData(ids)).start();
+        threadPoolTaskExecutor.execute(()->this.deleteEsData(ids));
     }
 
     /**

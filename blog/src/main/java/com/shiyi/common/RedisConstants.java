@@ -18,14 +18,14 @@ public class RedisConstants {
     public static final Integer CAPTCHA_EXPIRATION = 5;
 
     /**
-     * 标签点击量key前缀
+     * 标签点击量key
      */
-    public static String TAGS_PREFIX = "TAGS_PREFIX_";
+    public static String TAG_CLICK_VOLUME = "TAG_CLICK_VOLUME";
 
     /**
-     * 文章阅读key前缀
+     * 文章阅读key
      */
-    public static String READING_PREFIX = "READING_PREFIX_";
+    public static String ARTICLE_READING = "ARTICLE_READING";
 
     /**
      * 存储所有图片路径集合

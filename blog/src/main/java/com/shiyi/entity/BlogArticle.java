@@ -112,4 +112,8 @@ public class BlogArticle implements Serializable {
     @TableField(exist = false)
     private Integer likeCount;
 
+    public BlogArticle(Long id, Integer quantity) {
+        this.id = id;
+        this.quantity = quantity;
+    }
 }

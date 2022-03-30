@@ -57,4 +57,8 @@ public class Tags implements Serializable {
     @TableField(exist = false)
     private int articleCount;
 
+    public Tags(Long id, int clickVolume) {
+        this.id = id;
+        this.clickVolume = clickVolume;
+    }
 }

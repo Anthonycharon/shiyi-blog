@@ -16,6 +16,7 @@ import com.shiyi.utils.EmailUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -41,6 +42,8 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
     private final WebConfigService webConfigService;
 
     private final EmailUtil emailUtil;
+
+    private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     /**
      * 友链列表
@@ -150,7 +153,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         }
 
         //不影响用户体验 新一个线程操作邮箱发送
-        new Thread(() -> emailUtil.emailNoticeMe("友链接入通知","网站有新的友链接入啦，快去审核吧!!!")).start();
+        threadPoolTaskExecutor.execute(() -> emailUtil.emailNoticeMe("友链接入通知","网站有新的友链接入啦，快去审核吧!!!"));
         return ApiResult.ok();
     }
 

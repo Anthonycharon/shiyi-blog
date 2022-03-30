@@ -33,6 +33,14 @@ jasypt:
   encryptor:
     password: RequiredEncryptionconfigurationpropertymissing
 
+#==============================线程池配置==============================
+task:
+  executor:
+    core_pool_size: 10
+    max_pool_size: 200
+    queue_capacity: 1200
+    keep_alive_seconds: 60
+
 #==============================Sa-Token配置==============================
 sa-token:
   # token名称 (同时也是cookie名称)

@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+import static com.shiyi.common.RedisConstants.ARTICLE_READING;
+import static com.shiyi.common.RedisConstants.TAG_CLICK_VOLUME;
+
 /**
  * @author blue
  * @date 2021/12/8
@@ -53,21 +56,19 @@ public class BlogQuartz {
      */
     public void updateReadQuantity(){
         log.info("自动更新阅读数开始------");
-        long time = System.currentTimeMillis();
+        long time = getCurrentTimeMillis();
         // 获取带阅读量的前缀key集合
-        Collection<String> keys = redisCache.keys(RedisConstants.READING_PREFIX+"*");
         List<BlogArticle> blogArticles = new ArrayList<>();
+        Map<String, Object> map = redisCache.getCacheMap(ARTICLE_READING);
         // 取出所有数据更新到数据库
-        for (String key : keys) {
-            Long id = Long.parseLong(key.split(RedisConstants.READING_PREFIX)[1]);
-            Integer number = redisCache.getCacheObject(key);
-            BlogArticle blogArticle = new BlogArticle();
-            blogArticle.setId(id);
-            blogArticle.setQuantity(number);
+        for (Map.Entry<String, Object> stringEntry : map.entrySet()) {
+            String id = stringEntry.getKey();
+            Integer value = (Integer) stringEntry.getValue();
+            BlogArticle blogArticle = new BlogArticle(Long.parseLong(id),value);
             blogArticles.add(blogArticle);
         }
         articleService.updateBatchById(blogArticles);
-        log.info("自动更新阅读数结束,用时:{}ms",(System.currentTimeMillis() - time));
+        log.info("自动更新阅读数结束,用时:{}ms",(getCurrentTimeMillis() - time));
     }
 
     /**
@@ -76,11 +77,11 @@ public class BlogQuartz {
      */
     public void removeQiNiu(){
         log.info("定时清理七牛云图片开始------");
-        long time = System.currentTimeMillis();
-        Set<String> imgs = redisCache.diff(RedisConstants.ALL_IMG, RedisConstants.APPLY_IMG);
-        String[] keys = imgs.toArray(new String[0]);
+        long time = getCurrentTimeMillis();
+        Set<String> imgArrays = redisCache.diff(RedisConstants.ALL_IMG, RedisConstants.APPLY_IMG);
+        String[] keys = imgArrays.toArray(new String[0]);
         uploadUtil.delBatchFile(keys);
-        log.info("定时清理七牛云图片结束,用时:{}ms",(System.currentTimeMillis() - time));
+        log.info("定时清理七牛云图片结束,用时:{}ms",(getCurrentTimeMillis() - time));
     }
 
     /**
@@ -89,9 +90,9 @@ public class BlogQuartz {
      */
     public void removeCode(){
         log.info("定时清理redis验证通过IP开始------");
-        long time = System.currentTimeMillis();
+        long time = getCurrentTimeMillis();
         redisCache.deleteObject(RedisConstants.CHECK_CODE_IP);
-        log.info("定时清理redis验证通过IP结束,用时:{}ms",(System.currentTimeMillis() - time));
+        log.info("定时清理redis验证通过IP结束,用时:{}ms",(getCurrentTimeMillis() - time));
     }
 
     /**
@@ -100,19 +101,21 @@ public class BlogQuartz {
      */
     public void autoTagsClickVolume(){
         log.info("定时修改标签的点击量开始------" + new Date());
-        Collection<String> keys = redisCache.keys(RedisConstants.TAGS_PREFIX+"*");
+        long time = getCurrentTimeMillis();
+        Map<String, Object> map = redisCache.getCacheMap(TAG_CLICK_VOLUME);
         List<Tags> tagsList = new ArrayList<>();
-        // 取出所有数据更新到数据库
-        for (String key : keys) {
-            String StringId = key.split(RedisConstants.TAGS_PREFIX)[1];
-            Long id = Long.parseLong(StringId);
-            Integer number = redisCache.getCacheObject(key);
-            Tags tags = new Tags();
-            tags.setId(id);
-            tags.setClickVolume(number);
+        for (Map.Entry<String, Object> stringEntry : map.entrySet()) {
+            String id = stringEntry.getKey();
+            Integer value = (Integer) stringEntry.getValue();
+            Tags tags = new Tags(Long.parseLong(id),value);
             tagsList.add(tags);
         }
         tagsService.updateBatchById(tagsList);
-        log.info("定时修改标签的点击量结束------" + new Date());
+        log.info("定时修改标签的点击量结束,用时:{}ms",(getCurrentTimeMillis() - time));
     }
+
+    public long getCurrentTimeMillis (){
+        return System.currentTimeMillis();
+    }
+
 }
