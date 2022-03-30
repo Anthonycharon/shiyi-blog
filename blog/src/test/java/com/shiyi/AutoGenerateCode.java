@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class AutoGenerateCode {
 
     public static void main(String[] args) {
+
         // 需要构建一个 代码自动生成器 对象
         AutoGenerator mpg = new AutoGenerator();
 
@@ -40,10 +41,10 @@ public class AutoGenerateCode {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://121.41.101.167:3306/zw_blog?serverTimezone=GMT%2B8");
+        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/blog?serverTimezone=GMT%2B8");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("queql");
+        dsc.setPassword("root");
         dsc.setDbType(DbType.MYSQL);
         mpg.setDataSource(dsc);
 

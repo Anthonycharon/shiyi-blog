@@ -18,7 +18,6 @@ public class MybatisPlusConfig {
 
     /**
      * 开启分页插件
-     * @author Wcj
      * @date: 2021/7/19 14:52
      */
     @Bean
@@ -33,7 +32,6 @@ public class MybatisPlusConfig {
 
     /**
      *  设置自动注入规则
-     * @author Wcj
      * @date: 2021/7/19 14:52
      */
     @Bean
