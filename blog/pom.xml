@@ -163,13 +163,6 @@
             <version>0.1.6</version>
             <scope>test</scope>
         </dependency>
-        <!--自定义注解路径白名单所需-->
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.9.11</version>
-            <scope>compile</scope>
-        </dependency>
         <!--elasticsearch-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -208,7 +201,7 @@
             <artifactId>hutool-all</artifactId>
             <version>5.5.2</version>
         </dependency>
-<!--        webmagic爬虫-->
+        <!--webmagic爬虫-->
         <dependency>
             <groupId>us.codecraft</groupId>
             <artifactId>webmagic-core</artifactId>
