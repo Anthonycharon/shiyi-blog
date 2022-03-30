@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.service.DictService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -32,10 +33,10 @@ import java.util.Map;
  * @since 2021-11-25
  */
 @Service
+@RequiredArgsConstructor(onConstructor_ = {@Lazy})
 public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> implements DictDataService {
 
-    @Autowired
-    private  DictService dictService;
+    private final DictService dictService;
 
     /**
      * 获取字典数据列表
