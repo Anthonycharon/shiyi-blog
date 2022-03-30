@@ -33,8 +33,8 @@ public class AdminLogController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "操作日志列表", httpMethod = "GET", response = ApiResult.class, notes = "操作日志列表")
-    public ApiResult query(Integer pageNo, Integer pageSize) {
-        return adminLogService.listLog(pageNo,pageSize);
+    public ApiResult query() {
+        return adminLogService.listLog();
     }
 
     @DeleteMapping(value = "/delete")

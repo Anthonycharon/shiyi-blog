@@ -35,8 +35,8 @@ public class PhotoController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "照片列表", httpMethod = "GET", response = ApiResult.class, notes = "照片列表")
-    public ApiResult query(Integer albumId, Integer pageNo, Integer pageSize) {
-        return photoService.listData(albumId,pageNo,pageSize);
+    public ApiResult query(Integer albumId) {
+        return photoService.listData(albumId);
     }
 
     @GetMapping(value = "/info")

@@ -27,8 +27,8 @@ public class RoleController {
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @SaCheckLogin
     @ApiOperation(value = "角色列表", httpMethod = "GET", response = ApiResult.class, notes = "角色列表")
-    public ApiResult listRole(String name,@RequestParam(required = false) int pageNo, @RequestParam(required = false) int pageSize) {
-        return roleService.listData(name,pageNo,pageSize);
+    public ApiResult listRole(String name) {
+        return roleService.listData(name);
     }
 
     @RequestMapping(value = "queryUserRole", method = RequestMethod.GET)

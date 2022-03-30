@@ -34,8 +34,8 @@ public class TagsController {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     @SaCheckLogin
     @ApiOperation(value = "标签列表", httpMethod = "GET", response = ApiResult.class, notes = "标签列表")
-    public ApiResult query(String name,Integer pageNo,Integer pageSize){
-        return tagsService.listData(name,pageNo,pageSize);
+    public ApiResult query(String name){
+        return tagsService.listData(name);
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)

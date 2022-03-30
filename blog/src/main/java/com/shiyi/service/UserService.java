@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public interface UserService extends IService<User> {
 
-    ApiResult listData(String username,Integer loginType, Integer pageNo, Integer pageSize);
+    ApiResult listData(String username,Integer loginType);
 
     ApiResult info(Integer id);
 

@@ -13,6 +13,7 @@ import com.shiyi.mapper.PhotoMapper;
 import com.shiyi.service.PhotoAlbumService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.utils.DateUtils;
+import com.shiyi.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +43,13 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
     /**
      * 相册列表
      * @param name
-     * @param pageNo
-     * @param pageSize
      * @return
      */
     @Override
-    public ApiResult listData(String name, Integer pageNo, Integer pageSize) {
+    public ApiResult listData(String name) {
         QueryWrapper<PhotoAlbum> queryWrapper = new QueryWrapper<PhotoAlbum>()
                 .like(StringUtils.isNotBlank(name),SqlConf.NAME,name);
-        Page<PhotoAlbum> photoAlbumPage = baseMapper.selectPage(new Page<>(pageNo, pageSize), queryWrapper);
+        Page<PhotoAlbum> photoAlbumPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
         photoAlbumPage.getRecords().forEach(item ->{
             Integer count = photoMapper.selectCount(new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, item.getId()));
             item.setPhotoCount(count);
@@ -126,13 +125,11 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
     /**
      * 照片列表
      * @param albumId
-     * @param pageNo
-     * @param pageSize
      * @return
      */
     @Override
-    public ApiResult webListPhotos(Integer albumId, Integer pageNo, Integer pageSize) {
-        Page<Photo> photoPage = photoMapper.selectPage(new Page<>(pageNo, pageSize), new LambdaQueryWrapper<Photo>().select(Photo::getUrl).eq(Photo::getAlbumId, albumId));
+    public ApiResult webListPhotos(Integer albumId) {
+        Page<Photo> photoPage = photoMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new LambdaQueryWrapper<Photo>().select(Photo::getUrl).eq(Photo::getAlbumId, albumId));
         List<String> urlList = new ArrayList<>();
         photoPage.getRecords().forEach(item -> urlList.add(item.getUrl()));
 

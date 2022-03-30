@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface MessageService extends IService<Message> {
 
-    ApiResult listData(String name,Integer page, Integer size);
+    ApiResult listData(String name);
 
     ApiResult deleteById(int id);
 

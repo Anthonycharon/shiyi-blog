@@ -8,6 +8,7 @@ import com.shiyi.entity.AdminLog;
 import com.shiyi.mapper.AdminLogMapper;
 import com.shiyi.service.AdminLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shiyi.utils.PageUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +26,10 @@ import java.util.List;
 public class AdminLogServiceImpl extends ServiceImpl<AdminLogMapper, AdminLog> implements AdminLogService {
 
     @Override
-    public ApiResult listLog(Integer pageNo, Integer pageSize) {
+    public ApiResult listLog() {
         QueryWrapper<AdminLog> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc(SqlConf.CREATE_TIME);
-        Page<AdminLog> pg = new Page<>(pageNo, pageSize);
+        Page<AdminLog> pg = new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize());
         Page<AdminLog> sysLogPage = baseMapper.selectPage(pg, queryWrapper);
         return ApiResult.success(sysLogPage);
     }

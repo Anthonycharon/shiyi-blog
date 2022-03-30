@@ -13,6 +13,7 @@ import com.shiyi.mapper.CategoryMapper;
 import com.shiyi.service.CategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.utils.DateUtils;
+import com.shiyi.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +41,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     /**
      * 分类列表
      * @param name
-     * @param pageNo
-     * @param pageSize
      * @return
      */
     @Override
-    public ApiResult listData(String name, Integer pageNo, Integer pageSize) {
-        Page<Category> categoryPage = baseMapper.selectPageRecord(new Page<>(pageNo, pageSize), name);
+    public ApiResult listData(String name) {
+        Page<Category> categoryPage = baseMapper.selectPageRecord(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), name);
         return ApiResult.success(categoryPage);
     }
 

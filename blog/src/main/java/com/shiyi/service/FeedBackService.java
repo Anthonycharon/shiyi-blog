@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface FeedBackService extends IService<FeedBack> {
 
-    ApiResult listData(Integer type, Integer pageNo, Integer pageSize);
+    ApiResult listData(Integer type);
 
     ApiResult delete(List<Integer> ids);
 

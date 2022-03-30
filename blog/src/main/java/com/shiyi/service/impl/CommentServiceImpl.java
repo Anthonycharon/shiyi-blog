@@ -11,6 +11,7 @@ import com.shiyi.common.SqlConf;
 import com.shiyi.entity.Comment;
 import com.shiyi.entity.User;
 import com.shiyi.entity.UserAuth;
+import com.shiyi.utils.PageUtils;
 import com.shiyi.vo.CommentVO;
 import com.shiyi.mapper.CommentMapper;
 import com.shiyi.mapper.UserAuthMapper;
@@ -60,7 +61,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public ApiResult comments(Integer pageNo,Integer pageSize,Long articleId) {
+    public ApiResult comments(Long articleId) {
         // 查询文章评论量
         Integer commentCount = baseMapper.selectCount(new LambdaQueryWrapper<Comment>()
                 .eq(Objects.nonNull(articleId), Comment::getArticleId, articleId)
@@ -69,7 +70,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if (commentCount == 0) {
             return ApiResult.ok();
         }
-        Page<Comment> pages = baseMapper.selectPage(new Page<>(pageNo, pageSize),
+        Page<Comment> pages = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),
                 new QueryWrapper<Comment>().eq(SqlConf.ARTICLE_ID, articleId).isNull("parent_id")
                         .orderByDesc(SqlConf.ID));
         // 分页查询评论集合

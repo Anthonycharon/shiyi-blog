@@ -18,7 +18,7 @@ import java.util.List;
 public interface RoleService extends IService<Role> {
 
 
-    ApiResult listData(String name, Integer pageNo, Integer pageSize);
+    ApiResult listData(String name);
 
      ApiResult addRole(Role role);
 

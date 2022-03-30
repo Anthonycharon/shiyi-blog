@@ -12,6 +12,7 @@ import com.shiyi.enums.PublishEnum;
 import com.shiyi.mapper.DictDataMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.service.DictService;
+import com.shiyi.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -42,15 +43,13 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
      * 获取字典数据列表
      * @param dictId
      * @param isPublish
-     * @param pageNo
-     * @param pageSize
      * @return
      */
     @Override
-    public ApiResult listDictData(Integer dictId, Integer isPublish, int pageNo, int pageSize) {
+    public ApiResult listDictData(Integer dictId, Integer isPublish) {
         QueryWrapper<DictData> queryWrapper = new QueryWrapper<DictData>()
                 .eq(SqlConf.DICT_TYPE_ID,dictId).eq(isPublish != null,SqlConf.IS_PUBLISH,isPublish);
-        Page<DictData> data = baseMapper.selectPage(new Page<>(pageNo,pageSize), queryWrapper);
+        Page<DictData> data = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
         data.getRecords().forEach(item ->{
             Dict dict = dictService.getById(item.getDictId());
             item.setDict(dict);

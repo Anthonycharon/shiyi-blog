@@ -35,8 +35,8 @@ public class JobController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "定时任务列表", httpMethod = "GET", response = ApiResult.class, notes = "定时任务列表")
-    public ApiResult query(String jobName,String jobGroup,String status,Integer pageNo, Integer pageSize) {
-        return jobService.listData(jobName,jobGroup,status,pageNo,pageSize);
+    public ApiResult query(String jobName,String jobGroup,String status) {
+        return jobService.listData(jobName,jobGroup,status);
     }
 
     @GetMapping(value = "/info")

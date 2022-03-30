@@ -30,8 +30,8 @@ public class UserController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "用户列表", httpMethod = "GET", response = ApiResult.class, notes = "用户列表")
-    public ApiResult listPage(String username,Integer loginType,Integer pageNo, Integer pageSize) {
-        return userService.listData(username,loginType,pageNo,pageSize);
+    public ApiResult listPage(String username,Integer loginType) {
+        return userService.listData(username,loginType);
     }
 
     @PostMapping(value = "/create")

@@ -25,8 +25,8 @@ public class ApiArticleController {
     @BusinessLog(value = "首页-用户访问首页",type = "查询",desc = "查询所有文章")
     @GetMapping(value = "/list")
     @ApiOperation(value = "文章列表", httpMethod = "GET", response = ApiResult.class, notes = "文章列表")
-    public ApiResult query(Integer pageNo,Integer pageSize) {
-        return  articleService.webArticleList(pageNo,pageSize);
+    public ApiResult query() {
+        return  articleService.webArticleList();
     }
 
     @BusinessLog(value = "首页-文章搜索",type = "查询",desc = "文章搜索")
@@ -46,8 +46,8 @@ public class ApiArticleController {
     @BusinessLog(value = "分类标签文章列表",type = "查询",desc = "分类标签文章列表")
     @GetMapping(value = "/condition")
     @ApiOperation(value = "分类标签文章列表", httpMethod = "GET", response = ApiResult.class, notes = "分类标签文章列表")
-    public ApiResult condition(Long categoryId,Long tagId,Integer pageNo,@RequestParam(defaultValue = "6") Integer pageSize) {
-        return  articleService.condition(categoryId,tagId,pageNo,pageSize);
+    public ApiResult condition(Long categoryId,Long tagId,@RequestParam(defaultValue = "6") Integer pageSize) {
+        return  articleService.condition(categoryId,tagId,pageSize);
     }
 
     @BusinessLog(value = "门户-用户查看文章详情",type = "查询",desc = "查看文章详情")

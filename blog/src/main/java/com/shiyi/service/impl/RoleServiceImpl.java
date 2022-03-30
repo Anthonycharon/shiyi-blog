@@ -11,6 +11,7 @@ import com.shiyi.entity.Role;
 import com.shiyi.mapper.RoleMapper;
 import com.shiyi.service.RoleService;
 import com.shiyi.service.UserService;
+import com.shiyi.utils.PageUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +28,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     /**
      * 角色列表
      * @param name
-     * @param pageNo
-     * @param pageSize
      * @return
      */
     @Override
-    public ApiResult listData(String name, Integer pageNo, Integer pageSize) {
-        Page<Role> data = baseMapper.selectPage(new Page<>(pageNo, pageSize), new QueryWrapper<Role>()
+    public ApiResult listData(String name) {
+        Page<Role> data = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new QueryWrapper<Role>()
                 .like(StringUtils.isNotBlank(name),SqlConf.NAME,name));
         return ApiResult.success(data);
     }

@@ -11,6 +11,7 @@ import com.shiyi.service.MessageService;
 import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.IpUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shiyi.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +41,13 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     /**
      * 留言列表
      * @param name
-     * @param page
-     * @param size
      * @return
      */
     @Override
-    public ApiResult listData(String name,Integer page, Integer size) {
+    public ApiResult listData(String name) {
         QueryWrapper<Message> queryWrapper = new QueryWrapper<Message>()
                 .like(StringUtils.isNotBlank(name),SqlConf.NICKNAME,name);
-        Page<Message> list = baseMapper.selectPage(new Page<>(page, size),queryWrapper);
+        Page<Message> list = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),queryWrapper);
         return ApiResult.success(list);
     }
 

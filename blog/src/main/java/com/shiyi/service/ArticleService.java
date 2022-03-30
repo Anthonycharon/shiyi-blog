@@ -42,11 +42,11 @@ public interface ArticleService extends IService<BlogArticle> {
 
 
     //    ----------web端开始------
-    ApiResult webArticleList( Integer pageNo, Integer pageSize);
+    ApiResult webArticleList();
 
     ApiResult webArticleInfo(Integer id);
 
-    ApiResult condition(Long categoryId, Long tagId, Integer pageNo, Integer pageSize);
+    ApiResult condition(Long categoryId, Long tagId,Integer pageSize);
 
     ApiResult checkSecret(String code);
 

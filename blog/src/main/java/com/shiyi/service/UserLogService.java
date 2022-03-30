@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface UserLogService extends IService<UserLog> {
 
-    ApiResult listData(Integer pageNo, Integer pageSize);
+    ApiResult listData();
 
     ApiResult delete(List<Long> ids);
 }

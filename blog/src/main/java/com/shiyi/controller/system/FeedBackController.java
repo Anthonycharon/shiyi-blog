@@ -33,8 +33,8 @@ public class FeedBackController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "反馈列表", httpMethod = "GET", response = ApiResult.class, notes = "反馈列表")
-    public ApiResult list(Integer type,Integer pageNo, Integer pageSize) {
-        return feedBackService.listData(type,pageNo,pageSize);
+    public ApiResult list(Integer type) {
+        return feedBackService.listData(type);
     }
 
     @DeleteMapping(value = "/deleteBatch")

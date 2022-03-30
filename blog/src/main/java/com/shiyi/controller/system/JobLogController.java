@@ -33,8 +33,8 @@ public class JobLogController {
     @SaCheckLogin
     @ApiOperation(value = "定时任务日志列表", httpMethod = "GET", response = ApiResult.class, notes = "定时任务日志列表")
     public ApiResult query(String jobName,String jobGroup,String status,String startTime,
-                           String endTime,Long jobId,Integer pageNo, Integer pageSize) {
-        return jobLogService.listData(jobName,jobGroup,status,startTime,endTime,jobId,pageNo,pageSize);
+                           String endTime,Long jobId) {
+        return jobLogService.listData(jobName,jobGroup,status,startTime,endTime,jobId);
     }
 
     @PostMapping(value = "/deleteBatch")

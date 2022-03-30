@@ -38,8 +38,8 @@ public class FriendLinkController {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     @SaCheckLogin
     @ApiOperation(value = "友链列表", httpMethod = "GET", response = ApiResult.class, notes = "友链列表")
-    public ApiResult query(String name,Integer status,Integer pageNo,Integer pageSize){
-        return friendLinkService.listData(name,status,pageNo,pageSize);
+    public ApiResult query(String name,Integer status){
+        return friendLinkService.listData(name,status);
     }
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)

@@ -22,7 +22,7 @@ public interface CommentService extends IService<Comment> {
 //    ------web端方法开始------
     ApiResult webComment(Comment comment);
 
-    ApiResult comments(Integer pageNo,Integer pageSize,Long articleId);
+    ApiResult comments(Long articleId);
 
     ApiResult addComment(CommentVO comment);
 

@@ -33,8 +33,8 @@ public class PhotoAlbumController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "相册列表", httpMethod = "GET", response = ApiResult.class, notes = "相册列表")
-    public ApiResult query(String name,Integer pageNo, Integer pageSize) {
-        return albumService.listData(name,pageNo,pageSize);
+    public ApiResult query(String name) {
+        return albumService.listData(name);
     }
 
     @GetMapping(value = "/info")

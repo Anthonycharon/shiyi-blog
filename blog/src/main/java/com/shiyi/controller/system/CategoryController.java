@@ -34,8 +34,8 @@ public class CategoryController {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     @SaCheckLogin
     @ApiOperation(value = "分类列表", httpMethod = "GET", response = ApiResult.class, notes = "分类列表")
-    public ApiResult query(String name,Integer pageNo,Integer pageSize){
-        return categoryService.listData(name,pageNo,pageSize);
+    public ApiResult query(String name){
+        return categoryService.listData(name);
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)

@@ -87,13 +87,13 @@ knife4j:
   # 开启增强配置
   enable: true
   basic:
-    enable: false
+    enable: true
     # Basic认证用户名
     username: admin
     # Basic认证密码
-    password: 123456
+    password:
 
-#============================第三方登录配置信息=======================================
+#============================第三方登录配置信息===================================
 qq:
   app-id:
   check-token-url: https://graph.qq.com/oauth2.0/me?access_token={access_token}

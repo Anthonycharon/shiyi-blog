@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PhotoAlbumService extends IService<PhotoAlbum> {
 
-    ApiResult listData(String name, Integer pageNo, Integer pageSize);
+    ApiResult listData(String name);
 
     ApiResult infoAlbum(Integer id);
 
@@ -31,6 +31,6 @@ public interface PhotoAlbumService extends IService<PhotoAlbum> {
     //web端方法开始
     ApiResult webList();
 
-    ApiResult webListPhotos(Integer albumId,Integer pageNo,Integer pageSieze);
+    ApiResult webListPhotos(Integer albumId);
 
 }

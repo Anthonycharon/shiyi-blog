@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface TagsService extends IService<Tags> {
 
-    ApiResult listData(String name, Integer pageNo, Integer pageSize);
+    ApiResult listData(String name);
 
     ApiResult addTag(Tags tags);
 

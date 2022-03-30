@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface JobService extends IService<Job> {
 
-    ApiResult listData(String jobName,String jobGroup,String status,Integer pageNo, Integer pageSize);
+    ApiResult listData(String jobName,String jobGroup,String status);
 
     ApiResult info(Long jobId);
 

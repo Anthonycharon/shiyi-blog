@@ -8,6 +8,7 @@ import com.shiyi.common.SqlConf;
 import com.shiyi.entity.UserLog;
 import com.shiyi.mapper.UserLogMapper;
 import com.shiyi.service.UserLogService;
+import com.shiyi.utils.PageUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,15 +27,13 @@ public class LogServiceImpl extends ServiceImpl<UserLogMapper, UserLog> implemen
 
     /**
      * 用户日志列表
-     * @param pageNo
-     * @param pageSize
      * @return
      */
     @Override
-    public ApiResult listData(Integer pageNo, Integer pageSize) {
+    public ApiResult listData() {
         QueryWrapper<UserLog> queryWrapper = new QueryWrapper<UserLog>()
                 .orderByDesc(SqlConf.CREATE_TIME);
-        Page<UserLog> sysLogPage = baseMapper.selectPage(new Page<>(pageNo, pageSize), queryWrapper);
+        Page<UserLog> sysLogPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
         return ApiResult.success(sysLogPage);
     }
 

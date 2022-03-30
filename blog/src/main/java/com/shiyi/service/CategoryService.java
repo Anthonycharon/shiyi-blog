@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface CategoryService extends IService<Category> {
 
-    ApiResult listData(String name, Integer pageNo, Integer pageSize);
+    ApiResult listData(String name);
 
     ApiResult addCategory(Category category);
 

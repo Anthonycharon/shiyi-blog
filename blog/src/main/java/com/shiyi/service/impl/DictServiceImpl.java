@@ -12,6 +12,7 @@ import com.shiyi.service.DictDataService;
 import com.shiyi.service.DictService;
 import com.shiyi.utils.HumpLineUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shiyi.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +43,10 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      * @param isPublish
      * @param descColumn
      * @param ascColumn
-     * @param pageNo
-     * @param pageSize
      * @return
      */
     @Override
-    public ApiResult listData(String name, Integer isPublish, String descColumn, String ascColumn, int pageNo, int pageSize) {
+    public ApiResult listData(String name, Integer isPublish, String descColumn, String ascColumn) {
         QueryWrapper<Dict> queryWrapper = new QueryWrapper<Dict>()
                 .eq(isPublish != null,SqlConf.IS_PUBLISH,isPublish)
                 .like(StringUtils.isNotBlank(name),SqlConf.NAME,name);
@@ -62,7 +61,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         } else {
             queryWrapper.orderByDesc(SqlConf.SORT, SqlConf.CREATE_TIME);
         }
-        Page<Dict> page = new Page<>(pageNo,pageSize);
+        Page<Dict> page = new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize());
         Page<Dict> data = baseMapper.selectPage(page, queryWrapper);
         return ApiResult.success(data);
     }

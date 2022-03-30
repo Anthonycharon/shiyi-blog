@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface ExceptionLogService extends IService<ExceptionLog> {
 
-    ApiResult listLog(Integer pageNo, Integer pageSize);
+    ApiResult listLog();
 
     ApiResult delete(List<Long> ids);
 }

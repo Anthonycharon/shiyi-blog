@@ -38,8 +38,8 @@ public class DictDataController {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     @SaCheckLogin
     @ApiOperation(value = "字典数据列表", httpMethod = "GET", response = ApiResult.class, notes = "字典数据列表")
-    public ApiResult list(Integer dictId, Integer isPublish, int pageNo, int pageSize){
-        return dictDataService.listDictData(dictId,isPublish,pageNo,pageSize);
+    public ApiResult list(Integer dictId, Integer isPublish){
+        return dictDataService.listDictData(dictId,isPublish);
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)

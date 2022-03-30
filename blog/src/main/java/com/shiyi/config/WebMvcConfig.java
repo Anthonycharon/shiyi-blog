@@ -1,6 +1,7 @@
 package com.shiyi.config;
 
 import cn.dev33.satoken.interceptor.SaAnnotationInterceptor;
+import com.shiyi.config.mybatisplus.PageableHandlerInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -46,10 +47,13 @@ public class WebMvcConfig implements WebMvcConfigurer  {
         // 注册注解拦截器，并排除不需要注解鉴权的接口地址 (与登录拦截器无关)
         registry.addInterceptor(new SaAnnotationInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/doLogin","/img/**");
+        //分页拦截器
+        registry.addInterceptor(new PageableHandlerInterceptor());
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
             registry.addResourceHandler("/webjars/**").addResourceLocations(
                     "classpath:/META-INF/resources/webjars/");
         registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");

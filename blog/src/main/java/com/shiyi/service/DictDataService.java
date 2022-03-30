@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface DictDataService extends IService<DictData> {
 
-    ApiResult listDictData(Integer dictId, Integer isPublish, int pageNo, int pageSize);
+    ApiResult listDictData(Integer dictId, Integer isPublish);
 
     ApiResult addDictData(DictData dictData);
 

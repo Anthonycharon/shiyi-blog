@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface DictService extends IService<Dict> {
 
-    ApiResult listData(String name, Integer isPublish,String descColumn,String ascColumn, int pageNo, int pageSize);
+    ApiResult listData(String name, Integer isPublish,String descColumn,String ascColumn);
 
     ApiResult addSysDict(Dict dict);
 

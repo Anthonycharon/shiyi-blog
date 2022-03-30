@@ -9,6 +9,7 @@ import com.shiyi.mapper.PhotoMapper;
 import com.shiyi.service.PhotoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.utils.DateUtils;
+import com.shiyi.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,13 +31,11 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
     /**
      * 照片列表
      * @param albumId
-     * @param pageNo
-     * @param pageSize
      * @return
      */
     @Override
-    public ApiResult listData(Integer albumId, Integer pageNo, Integer pageSize) {
-        Page<Photo> photoPage = baseMapper.selectPage(new Page<>(pageNo, pageSize), new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, albumId));
+    public ApiResult listData(Integer albumId) {
+        Page<Photo> photoPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, albumId));
         return ApiResult.success(photoPage);
     }
 

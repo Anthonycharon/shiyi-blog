@@ -37,8 +37,8 @@ public class MessageController {
     @RequestMapping(value="/list",method = RequestMethod.GET)
     @SaCheckLogin
     @ApiOperation(value = "留言列表", httpMethod = "GET", response = ApiResult.class, notes = "留言列表")
-    public ApiResult listPage(String name,Integer pageNo, Integer pageSize){
-        return messageService.listData(name,pageNo,pageSize);
+    public ApiResult listPage(String name){
+        return messageService.listData(name);
     }
 
     @RequestMapping(value="/passBatch",method = RequestMethod.POST)

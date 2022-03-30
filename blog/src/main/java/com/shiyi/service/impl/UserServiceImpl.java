@@ -17,6 +17,7 @@ import com.shiyi.mapper.UserAuthMapper;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.service.MenuService;
 import com.shiyi.service.UserService;
+import com.shiyi.utils.PageUtils;
 import com.shiyi.utils.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,13 +48,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * 用户列表
      * @param username
      * @param loginType
-     * @param pageNo
-     * @param pageSize
      * @return
      */
     @Override
-    public ApiResult listData(String username,Integer loginType, Integer pageNo, Integer pageSize) {
-        Page<UserDTO> page = baseMapper.selectPageRecord(new Page<>(pageNo, pageSize),username,loginType);
+    public ApiResult listData(String username,Integer loginType) {
+        Page<UserDTO> page = baseMapper.selectPageRecord(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),username,loginType);
         return ApiResult.success(page);
     }
 

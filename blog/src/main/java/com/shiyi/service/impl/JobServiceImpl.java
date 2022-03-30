@@ -15,6 +15,7 @@ import com.shiyi.enums.TaskException;
 import com.shiyi.mapper.JobMapper;
 import com.shiyi.service.JobService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shiyi.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobDataMap;
@@ -62,18 +63,16 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     /**
      * 任务列表
      *
-     * @param pageNo   页码
-     * @param pageSize 数量
      * @return
      */
     @Override
-    public ApiResult listData(String jobName,String jobGroup,String status,Integer pageNo, Integer pageSize) {
+    public ApiResult listData(String jobName,String jobGroup,String status) {
         QueryWrapper<Job> queryWrapper = new QueryWrapper<Job>()
                 .like(StringUtils.isNotBlank(jobName),SqlConf.JOB_NAME,jobName)
                 .eq(StringUtils.isNotBlank(jobGroup),SqlConf.JOB_GROUP,jobGroup)
                 .eq(StringUtils.isNotBlank(status),SqlConf.STATUS,status);
 
-        Page<Job> sysJobPage = baseMapper.selectPage(new Page<>(pageNo, pageSize), queryWrapper);
+        Page<Job> sysJobPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
         return ApiResult.success(sysJobPage);
     }
 

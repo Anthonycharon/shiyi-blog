@@ -33,8 +33,8 @@ public class UserLogController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "用户日志列表", httpMethod = "GET", response = ApiResult.class, notes = "用户日志列表")
-    public ApiResult query(Integer pageNo, Integer pageSize) {
-        return userLogService.listData(pageNo,pageSize);
+    public ApiResult query() {
+        return userLogService.listData();
     }
 
     @DeleteMapping(value = "/delete")

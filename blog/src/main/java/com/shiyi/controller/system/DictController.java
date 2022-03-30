@@ -40,9 +40,8 @@ public class DictController {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     @SaCheckLogin
     @ApiOperation(value = "字典类型列表", httpMethod = "GET", response = ApiResult.class, notes = "字典类型列表")
-    public ApiResult list(String name,Integer isPublish,
-                          String descColumn,String ascColumn,int pageNo,int pageSize){
-        return dictService.listData(name,isPublish,descColumn,ascColumn,pageNo,pageSize);
+    public ApiResult list(String name,Integer isPublish,String descColumn,String ascColumn){
+        return dictService.listData(name,isPublish,descColumn,ascColumn);
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)

@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface AdminLogService extends IService<AdminLog> {
 
-    ApiResult listLog(Integer pageNo, Integer pageSize);
+    ApiResult listLog();
 
     ApiResult delete(List<Long> ids);
 }

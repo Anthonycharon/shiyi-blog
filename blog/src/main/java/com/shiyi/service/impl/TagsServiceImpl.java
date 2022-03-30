@@ -10,6 +10,7 @@ import com.shiyi.common.SqlConf;
 import com.shiyi.mapper.TagsMapper;
 import com.shiyi.service.TagsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shiyi.utils.PageUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -34,8 +35,8 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      * @return
      */
     @Override
-    public ApiResult listData(String name, Integer pageNo, Integer pageSize) {
-        Page<Tags> list = baseMapper.selectPageRecord(new Page<>(pageNo,pageSize),name);
+    public ApiResult listData(String name) {
+        Page<Tags> list = baseMapper.selectPageRecord(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),name);
         return ApiResult.success(list);
     }
 

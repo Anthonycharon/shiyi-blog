@@ -39,8 +39,8 @@ public class ApiPhotoAlbumController {
     @BusinessLog(value = "相册模块-用户访问页面",type = "查询",desc = "用户访问页面")
     @RequestMapping(value = "/listPhotos",method = RequestMethod.GET)
     @ApiOperation(value = "相册列表", httpMethod = "GET", response = ApiResult.class, notes = "相册列表")
-    public ApiResult webListPhotos(Integer albumId,Integer pageNo,@RequestParam(defaultValue = "10") Integer pageSize){
-        return albumService.webListPhotos(albumId,pageNo,pageSize);
+    public ApiResult webListPhotos(Integer albumId){
+        return albumService.webListPhotos(albumId);
     }
 }
 

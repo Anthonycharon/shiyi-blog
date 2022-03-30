@@ -230,11 +230,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @return
      */
     @Override
-    public ApiResult webArticleList(Integer pageNo, Integer pageSize) {
+    public ApiResult webArticleList() {
         QueryWrapper<BlogArticle> queryWrapper = new QueryWrapper<BlogArticle>()
                 .eq(SqlConf.IS_PUBLISH, PublishEnum.PUBLISH.getCode()).orderByDesc(SqlConf.IS_STICK,SqlConf.CREATE_TIME);
 
-        Page<BlogArticle> page = baseMapper.selectPage(new Page<>(pageNo, pageSize), queryWrapper);
+        Page<BlogArticle> page = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
 
         page.getRecords().forEach(item ->{
             Category category = categoryMapper.selectOne(new LambdaQueryWrapper<Category>().select(Category::getId, Category::getName)
@@ -301,7 +301,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @return
      */
     @Override
-    public ApiResult condition(Long categoryId, Long tagId, Integer pageNo, Integer pageSize) {
+    public ApiResult condition(Long categoryId, Long tagId,Integer pageSize) {
         Map<String,Object> result = new HashMap<>();
         Page<BlogArticle> blogArticlePage;
         String name;
@@ -309,7 +309,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
             //分类
             Category category = categoryMapper.selectOne(new LambdaQueryWrapper<Category>().select(Category::getId,Category::getName)
                     .eq(Category::getId,categoryId));
-            blogArticlePage = baseMapper.selectPage(new Page<>(pageNo, pageSize), new LambdaQueryWrapper<BlogArticle>()
+            blogArticlePage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), pageSize), new LambdaQueryWrapper<BlogArticle>()
                     .select(BlogArticle::getId,BlogArticle::getCategoryId, BlogArticle::getAvatar, BlogArticle::getTitle, BlogArticle::getCreateTime)
                     .eq(BlogArticle::getIsPublish, PublishEnum.PUBLISH.getCode()).eq(BlogArticle::getCategoryId,categoryId)
                     .orderByDesc(BlogArticle::getIsStick,BlogArticle::getCreateTime));
@@ -325,7 +325,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         }else {
             Tags tags = tagsMapper.selectById(tagId);
             List<Long> articleId = tagsMapper.findByTagId(tagId);
-            blogArticlePage = baseMapper.selectPage(new Page<>(pageNo, pageSize), new LambdaQueryWrapper<BlogArticle>()
+            blogArticlePage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), pageSize), new LambdaQueryWrapper<BlogArticle>()
                     .select(BlogArticle::getId,BlogArticle::getCategoryId, BlogArticle::getAvatar, BlogArticle::getTitle, BlogArticle::getCreateTime)
                     .eq(BlogArticle::getIsPublish, PublishEnum.PUBLISH.getCode()).in(BlogArticle::getId,articleId)
                     .orderByDesc(BlogArticle::getIsStick,BlogArticle::getCreateTime));
