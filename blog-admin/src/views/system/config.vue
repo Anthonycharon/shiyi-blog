@@ -278,7 +278,7 @@ export default {
           console.log("校验出错");
         } else {
           //获取文本编辑器中的内容【只有在切换到仪表盘通知的时候，才需要获取】
-          if(this.index === "3") {
+          if(this.index === "4") {
             this.form.dashboardNotification = this.$refs.md.d_render
           }
           updateSystemConfig(this.form).then(res => {
