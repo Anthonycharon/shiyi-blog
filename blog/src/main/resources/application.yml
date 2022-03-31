@@ -33,6 +33,13 @@ jasypt:
   encryptor:
     password: RequiredEncryptionconfigurationpropertymissing
 
+#==============================IP限流次数和时间配置==============================
+IpLimit:
+  #请求次数
+  count: 5
+  #请求时间
+  time: 10
+
 #==============================线程池配置==============================
 task:
   executor:

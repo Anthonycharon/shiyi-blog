@@ -1,6 +1,7 @@
 package com.shiyi.config;
 
 import cn.dev33.satoken.interceptor.SaAnnotationInterceptor;
+import com.shiyi.config.intercept.AccessLimitIntercept;
 import com.shiyi.config.mybatisplus.PageableHandlerInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +41,15 @@ public class WebMvcConfig implements WebMvcConfigurer  {
     }*/
 
     /**
+     * 这里需要先将限流拦截器入住，不然无法获取到拦截器中的redistemplate
+     * @return
+     */
+    @Bean
+    public AccessLimitIntercept getAccessLimitIntercept() {
+        return new AccessLimitIntercept();
+    }
+
+    /**
      * 注册sa-token的拦截器，打开注解式鉴权功能 (如果您不需要此功能，可以删除此类)
      */
     @Override
@@ -49,6 +59,8 @@ public class WebMvcConfig implements WebMvcConfigurer  {
                 .excludePathPatterns("/doLogin","/img/**");
         //分页拦截器
         registry.addInterceptor(new PageableHandlerInterceptor());
+        //IP限流拦截器
+        registry.addInterceptor(getAccessLimitIntercept()).addPathPatterns("/**");
     }
 
     @Override
