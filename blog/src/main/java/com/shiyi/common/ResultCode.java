@@ -21,6 +21,8 @@ public enum ResultCode {
      * 微博登录错误
      */
     WEIBO_LOGIN_ERROR(53002, "微博登录错误"),
+
+    GITEE_LOGIN_ERROR(53002, "gitee登录错误"),
     //服务器内部错误
     INTERNAL_SERVER_ERROR( 500, "服务器内部错误" ),
 

@@ -6,6 +6,7 @@ import com.shiyi.common.ResultCode;
 import com.shiyi.common.SocialLoginConst;
 import com.shiyi.enums.LoginTypeEnum;
 import com.shiyi.exception.BusinessException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -19,6 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.shiyi.common.ResultCode.GITEE_LOGIN_ERROR;
+import static com.shiyi.common.SocialLoginConst.*;
+
 /**
  * 微博登录策略实现
  *
@@ -27,17 +31,18 @@ import java.util.Objects;
  */
 @Service("giteeLoginStrategyImpl")
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GiteeLoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
-    @Autowired
-    private RestTemplate restTemplate;
-    @Autowired
-    private GiteeConfigProperties giteeConfigProperties;
+
+    private final RestTemplate restTemplate;
+
+    private final GiteeConfigProperties giteeConfigProperties;
 
     @Override
     public SocialTokenDTO getSocialToken(String code) {
         // 获取码云token信息
-        String token  = getWeiboToken(code);
-        log.info("gitee login as giteeToken :{}",token);
+        String token  = getGitEEToken(code);
+        log.info("GitEE login as accessToken :{}",token);
         // 返回token信息
         return SocialTokenDTO.builder()
                 .openId(null)
@@ -50,10 +55,10 @@ public class GiteeLoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
     public SocialUserInfoDTO getSocialUserInfo(SocialTokenDTO socialTokenDTO) {
         // 定义请求参数
         Map<String, String> data = new HashMap<>(1);
-        data.put(SocialLoginConst.ACCESS_TOKEN, socialTokenDTO.getAccessToken());
+        data.put(ACCESS_TOKEN, socialTokenDTO.getAccessToken());
         // 获取码云用户信息
         GiteeUserInfoDTO giteeUserInfoDTO = restTemplate.getForObject(giteeConfigProperties.getUserInfoUrl(), GiteeUserInfoDTO.class, data);
-        log.info("gitee login as info :{}",giteeUserInfoDTO.toString());
+        log.info("GitEE login as info :{}",giteeUserInfoDTO.toString());
         // 返回用户信息
         return SocialUserInfoDTO.builder()
                 .id(Objects.requireNonNull(giteeUserInfoDTO).getId())
@@ -66,25 +71,24 @@ public class GiteeLoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
      * 获取码云token信息
      *
      * @param code 码云code
-     * @return {@link WeiboTokenDTO} 码云token
      */
-    private String getWeiboToken(String code) {
+    private String getGitEEToken(String code) {
 
         // 根据code换取accessToken
-        MultiValueMap<String, String> weiboData = new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> giteeData = new LinkedMultiValueMap<>();
         // 定义微博token请求参数
-        weiboData.add(SocialLoginConst.CLIENT_ID, giteeConfigProperties.getAppId());
-        weiboData.add(SocialLoginConst.CLIENT_SECRET, giteeConfigProperties.getAppSecret());
-        weiboData.add(SocialLoginConst.GRANT_TYPE, giteeConfigProperties.getGrantType());
-        weiboData.add(SocialLoginConst.REDIRECT_URI, giteeConfigProperties.getRedirectUrl());
-        weiboData.add(SocialLoginConst.CODE, code);
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(weiboData, null);
+        giteeData.add(CLIENT_ID, giteeConfigProperties.getAppId());
+        giteeData.add(CLIENT_SECRET, giteeConfigProperties.getAppSecret());
+        giteeData.add(GRANT_TYPE, giteeConfigProperties.getGrantType());
+        giteeData.add(REDIRECT_URI, giteeConfigProperties.getRedirectUrl());
+        giteeData.add(CODE, code);
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(giteeData, null);
         try {
             Map map  = restTemplate.exchange(giteeConfigProperties.getAccessTokenUrl(), HttpMethod.POST, requestEntity, Map.class).getBody();
             String accessToken =map.get("access_token").toString();
             return accessToken;
         } catch (Exception e) {
-            throw new BusinessException(ResultCode.WEIBO_LOGIN_ERROR.getDesc());
+            throw new BusinessException(GITEE_LOGIN_ERROR.getDesc());
         }
     }
 
