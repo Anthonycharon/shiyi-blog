@@ -24,15 +24,15 @@ import static com.shiyi.common.ResultCode.GITEE_LOGIN_ERROR;
 import static com.shiyi.common.SocialLoginConst.*;
 
 /**
- * 微博登录策略实现
+ * 码云登录策略实现
  *
  * @author blue
  * @date 2021/07/28
  */
-@Service("giteeLoginStrategyImpl")
+@Service("gitEELoginStrategyImpl")
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class GiteeLoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
+public class GitEELoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
 
     private final RestTemplate restTemplate;
 
@@ -75,14 +75,14 @@ public class GiteeLoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
     private String getGitEEToken(String code) {
 
         // 根据code换取accessToken
-        MultiValueMap<String, String> giteeData = new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> gitEEData = new LinkedMultiValueMap<>();
         // 定义微博token请求参数
-        giteeData.add(CLIENT_ID, giteeConfigProperties.getAppId());
-        giteeData.add(CLIENT_SECRET, giteeConfigProperties.getAppSecret());
-        giteeData.add(GRANT_TYPE, giteeConfigProperties.getGrantType());
-        giteeData.add(REDIRECT_URI, giteeConfigProperties.getRedirectUrl());
-        giteeData.add(CODE, code);
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(giteeData, null);
+        gitEEData.add(CLIENT_ID, giteeConfigProperties.getAppId());
+        gitEEData.add(CLIENT_SECRET, giteeConfigProperties.getAppSecret());
+        gitEEData.add(GRANT_TYPE, giteeConfigProperties.getGrantType());
+        gitEEData.add(REDIRECT_URI, giteeConfigProperties.getRedirectUrl());
+        gitEEData.add(CODE, code);
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(gitEEData, null);
         try {
             Map map  = restTemplate.exchange(giteeConfigProperties.getAccessTokenUrl(), HttpMethod.POST, requestEntity, Map.class).getBody();
             String accessToken =map.get("access_token").toString();

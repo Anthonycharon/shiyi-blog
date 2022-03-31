@@ -23,7 +23,7 @@ public enum LoginTypeEnum {
     /**
      * 码云登录
      */
-    GITEE(4, "码云登录", "giteeLoginStrategyImpl");
+    GITEE(4, "码云登录", "gitEELoginStrategyImpl");
 
     /**
      * 登录方式
