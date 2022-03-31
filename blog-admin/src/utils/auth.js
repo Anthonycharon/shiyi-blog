@@ -1,22 +1,18 @@
 import Cookies from 'js-cookie'
 
+const TokenKey = 'Admin-Token'
+
+
 export function getToken() {
-  let token = localStorage.getItem("token");
-  if (token == null) token = sessionStorage.getItem("token")
-  return token
+  return Cookies.get(TokenKey)
 }
-export function setToken(res) {
- /* let inFifteenMinutes = new Date(new Date().getTime() + 60 * 60 * 1000);
-  return Cookies.set("token", token,{expires:inFifteenMinutes})*/
-  if (res.rememberMe){
-    return localStorage.setItem("token", res.token)
-  }else {
-    return sessionStorage.setItem("token", res.token)
-  }
+
+export function setToken(token) {
+  return Cookies.set(TokenKey, token)
 }
+
 export function removeToken() {
-  localStorage.removeItem("token");
-  sessionStorage.removeItem("token")
+  return Cookies.remove(TokenKey)
 }
 
 export function hasAuth(perms, perm) {
