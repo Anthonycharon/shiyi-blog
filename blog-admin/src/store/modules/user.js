@@ -47,7 +47,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       commit('SET_TOKEN', res.token)
       commit('SET_ROLE', 'admin')
-      setToken(res)
+      setToken(res.token)
       resolve(res)
     })
   },
