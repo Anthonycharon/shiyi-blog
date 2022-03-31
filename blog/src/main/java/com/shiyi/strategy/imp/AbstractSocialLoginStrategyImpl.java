@@ -172,7 +172,7 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         // 查询账号信息
         UserAuth userAuth = userAuthMapper.selectById(user.getUserAuthId());
         // 查询账号点赞信息
-        Set<Object> articleLikeSet = redisCache.sMembers(RedisConstants.ARTICLE_USER_LIKE + userAuth.getId());
+        Set<Object> articleLikeSet = redisCache.sMembers(RedisConstants.ARTICLE_USER_LIKE + user.getId());
         // 获取设备信息
         String ipAddress = IpUtils.getIp(request);
         String ipSource = IpUtils.getCityInfo(ipAddress);

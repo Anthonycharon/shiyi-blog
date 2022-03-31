@@ -36,7 +36,7 @@ public class Test {
 
     @org.junit.Test
     public void test(){
-        String url = encryptor.encrypt("jdbc:mysql://42.192.150.44:3306/blog_new?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false");
+        String url = encryptor.encrypt("jdbc:mysql://42.192.150.44:3306/blog?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false");
         System.out.println(url);
     }
 

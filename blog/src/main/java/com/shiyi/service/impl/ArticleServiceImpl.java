@@ -1,5 +1,6 @@
 package com.shiyi.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -37,8 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.MessageFormat;
 import java.util.*;
 
-import static com.shiyi.common.RedisConstants.ARTICLE_READING;
-import static com.shiyi.common.RedisConstants.TAG_CLICK_VOLUME;
+import static com.shiyi.common.RedisConstants.*;
 
 /**
  * <p>
@@ -382,24 +382,24 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     }
 
     /**
-     * 文章点赞 TODO 待完善
+     * 文章点赞
      * @param articleId
      * @return
      */
     @Override
     public ApiResult articleLike(Integer articleId) {
         // 判断是否点赞
-        String articleLikeKey = RedisConstants.ARTICLE_USER_LIKE + 1;
+        String articleLikeKey = ARTICLE_USER_LIKE + StpUtil.getLoginId();
         if (redisCache.sIsMember(articleLikeKey, articleId)) {
             // 点过赞则删除文章id
             redisCache.sRemove(articleLikeKey, articleId);
             // 文章点赞量-1
-            redisCache.hDecr(RedisConstants.ARTICLE_LIKE_COUNT, articleId.toString(), 1L);
+            redisCache.hDecr(ARTICLE_LIKE_COUNT, articleId.toString(), 1L);
         } else {
             // 未点赞则增加文章id
             redisCache.sAdd(articleLikeKey, articleId);
             // 文章点赞量+1
-            redisCache.hIncr(RedisConstants.ARTICLE_LIKE_COUNT, articleId.toString(), 1L);
+            redisCache.hIncr(ARTICLE_LIKE_COUNT, articleId.toString(), 1L);
         }
         return ApiResult.ok();
     }

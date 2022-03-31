@@ -15,7 +15,7 @@ spring:
   #    key-store-password: 5Ec4QJBK #密码(下载tomcat证书压缩包里的txt文件)
   #    key-store-type: PKCS12       #固定写法
   datasource:
-    url: ENC(5pNy/o25caqB5tDZva1UcRO45LCq4NavYzL5MdbHFHtIjeMnwVC90vPeMEuJSW2R++Q3pn2xr3C0gttCTL6dne4a+ndgo5al7BHdjgeBVFF6cDvtOfD10v7YUly/Mioju5UkUkSM5D6f5hEJTCI7m04+els+f4aqyTSo87BkAG3NHcFBa7E5CjqaMTwmHamqOZSY558gilE=)
+    url: jdbc:mysql://42.192.150.44:3306/blog?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password:
@@ -94,7 +94,7 @@ knife4j:
   # 开启增强配置
   enable: true
   basic:
-    enable: true
+    enable: false
     # Basic认证用户名
     username: admin
     # Basic认证密码
