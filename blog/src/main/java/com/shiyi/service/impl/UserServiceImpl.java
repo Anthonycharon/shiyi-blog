@@ -20,7 +20,8 @@ import com.shiyi.service.UserService;
 import com.shiyi.utils.PageUtils;
 import com.shiyi.utils.PasswordUtils;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,9 +37,10 @@ import static com.shiyi.common.ResultCode.ERROR_USER_NOT_EXIST;
  * @date 2021/7/30 17:25
  */
 @Service
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final MenuService menuService;
 
@@ -154,12 +156,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public ApiResult listOnlineUsers(String keywords,int pageNo,int pageSize) {
 
         List<String> sessionIds = StpUtil.searchTokenValue(null, -1, 1000);
-        log.info("当前用户：{}", Arrays.toString(sessionIds.toArray()));
+        logger.info("当前用户：{}", Arrays.toString(sessionIds.toArray()));
         MySaTokenListener.ONLINE_USERS.sort((o1, o2) -> DateUtil.compare(o2.getLoginTime(), o1.getLoginTime()));
         int fromIndex = (pageNo-1) * pageSize;
         int toIndex = MySaTokenListener.ONLINE_USERS.size() - fromIndex > pageSize ? fromIndex + pageSize : MySaTokenListener.ONLINE_USERS.size();
         List<OnlineUser> userOnlineList = MySaTokenListener.ONLINE_USERS.subList(fromIndex, toIndex);
-        log.warn("stp用户数：{}，memory用户数：{}", sessionIds.size(), userOnlineList.size());
+        logger.warn("stp用户数：{}，memory用户数：{}", sessionIds.size(), userOnlineList.size());
         userOnlineList.forEach(onlineUser -> {
             String keyLastActivityTime = StpUtil.stpLogic.splicingKeyLastActivityTime(onlineUser.getTokenValue());
             String lastActivityTimeString = SaManager.getSaTokenDao().get(keyLastActivityTime);
@@ -176,7 +178,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public ApiResult kick(Long userId) {
-        log.info("当前踢下线的用户id为:{}",userId);
+        logger.info("当前踢下线的用户id为:{}",userId);
         StpUtil.kickout(userId);
         return ApiResult.ok();
     }

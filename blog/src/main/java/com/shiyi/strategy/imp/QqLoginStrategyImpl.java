@@ -12,6 +12,7 @@ import com.shiyi.common.SocialLoginConst;
 import com.shiyi.enums.LoginTypeEnum;
 import com.shiyi.exception.BusinessException;
 import com.shiyi.vo.QQLoginVO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -27,11 +28,12 @@ import java.util.Objects;
  * @date 2021/07/28
  */
 @Service("qqLoginStrategyImpl")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class QqLoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
-    @Autowired
-    private QqConfigProperties qqConfigProperties;
-    @Autowired
-    private RestTemplate restTemplate;
+
+    private final QqConfigProperties qqConfigProperties;
+
+    private final RestTemplate restTemplate;
 
     @Override
     public SocialTokenDTO getSocialToken(String data) {

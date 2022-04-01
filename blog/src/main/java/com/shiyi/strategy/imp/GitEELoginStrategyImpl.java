@@ -2,12 +2,11 @@ package com.shiyi.strategy.imp;
 
 import com.shiyi.config.GiteeConfigProperties;
 import com.shiyi.dto.*;
-import com.shiyi.common.ResultCode;
-import com.shiyi.common.SocialLoginConst;
 import com.shiyi.enums.LoginTypeEnum;
 import com.shiyi.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -30,9 +29,10 @@ import static com.shiyi.common.SocialLoginConst.*;
  * @date 2021/07/28
  */
 @Service("gitEELoginStrategyImpl")
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GitEELoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
+
+    private static final Logger logger = LoggerFactory.getLogger(GitEELoginStrategyImpl.class);
 
     private final RestTemplate restTemplate;
 
@@ -42,7 +42,7 @@ public class GitEELoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
     public SocialTokenDTO getSocialToken(String code) {
         // 获取码云token信息
         String token  = getGitEEToken(code);
-        log.info("GitEE login as accessToken :{}",token);
+        logger.info("GitEE login as accessToken :{}",token);
         // 返回token信息
         return SocialTokenDTO.builder()
                 .openId(null)
@@ -58,7 +58,7 @@ public class GitEELoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
         data.put(ACCESS_TOKEN, socialTokenDTO.getAccessToken());
         // 获取码云用户信息
         GiteeUserInfoDTO giteeUserInfoDTO = restTemplate.getForObject(giteeConfigProperties.getUserInfoUrl(), GiteeUserInfoDTO.class, data);
-        log.info("GitEE login as info :{}",giteeUserInfoDTO.toString());
+        logger.info("GitEE login as info :{}",giteeUserInfoDTO.toString());
         // 返回用户信息
         return SocialUserInfoDTO.builder()
                 .id(Objects.requireNonNull(giteeUserInfoDTO).getId())

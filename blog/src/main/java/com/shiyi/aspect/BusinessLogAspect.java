@@ -8,22 +8,19 @@ import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.IpUtils;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
-
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @title: OperationAspect
@@ -31,9 +28,10 @@ import java.util.Date;
  */
 @Aspect
 @Component
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BusinessLogAspect {
+
+    private static final Logger logger = LoggerFactory.getLogger(BusinessLogAspect.class);
 
     private final UserLogMapper sysLogMapper;
 
@@ -55,7 +53,7 @@ public class BusinessLogAspect {
             handle(joinPoint,(ApiResult) result);
 
         } catch (Exception e) {
-            log.error("日志记录出错!", e);
+            logger.error("日志记录出错!", e);
         }
 
         return result;

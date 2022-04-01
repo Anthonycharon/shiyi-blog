@@ -6,11 +6,12 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.shiyi.dto.ArticleSearchDTO;
 import com.shiyi.common.Constants;
 import com.shiyi.common.SqlConf;
-
 import com.shiyi.strategy.SearchStrategy;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHits;
@@ -21,11 +22,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("elasticsearchStrategyImpl")
-@Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EsSearchStrategyImpl implements SearchStrategy {
 
-    @Autowired
-    private ElasticsearchRestTemplate elasticsearchRestTemplate;
+    private static final Logger logger = LoggerFactory.getLogger(EsSearchStrategyImpl.class);
+
+    private final ElasticsearchRestTemplate elasticsearchRestTemplate;
 
     @Override
     public List<ArticleSearchDTO> searchArticle(String keywords) {
@@ -89,7 +91,7 @@ public class EsSearchStrategyImpl implements SearchStrategy {
                 return article;
             }).collect(Collectors.toList());
         } catch (Exception e) {
-            log.error(e.getMessage());
+            logger.error(e.getMessage());
         }
         return new ArrayList<>();
     }

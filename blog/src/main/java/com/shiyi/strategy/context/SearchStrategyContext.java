@@ -2,6 +2,7 @@ package com.shiyi.strategy.context;
 
 import com.shiyi.dto.ArticleSearchDTO;
 import com.shiyi.strategy.SearchStrategy;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,10 @@ import java.util.Map;
  * @apiNote 第三方登录策略上下文
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SearchStrategyContext {
 
-    @Autowired
-    private Map<String, SearchStrategy> searchStrategyMap;
+    private final Map<String, SearchStrategy> searchStrategyMap;
 
     /**
      * 执行搜索策略

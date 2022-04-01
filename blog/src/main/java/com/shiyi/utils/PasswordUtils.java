@@ -1,7 +1,6 @@
 package com.shiyi.utils;
 
 import cn.dev33.satoken.secure.SaSecureUtil;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  *  <p> 加密工具 </p>
@@ -10,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author: blue
  * @date: 2019/10/13 0013 15:25
  */
-@Slf4j
 public class PasswordUtils {
 
     final static String key = "shiyi2022";

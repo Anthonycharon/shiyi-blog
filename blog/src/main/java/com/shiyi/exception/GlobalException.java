@@ -3,8 +3,9 @@ package com.shiyi.exception;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import com.shiyi.common.ApiResult;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,14 +18,16 @@ import static com.shiyi.common.ResultCode.*;
  * @apiNote
  */
 @ControllerAdvice(basePackages = "com.shiyi")
-@Slf4j
 public class GlobalException {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalException.class);
+
     // 业务异常
     @ExceptionHandler(BusinessException.class)
     @ResponseBody
     public ApiResult BusinessExceptionHandler(BusinessException ex) {
         if (ex.getCode() != -1) {
-            log.error("code : " + ex.getCode() + " msg : " + ex.getMessage(), ex);
+            logger.error("code : " + ex.getCode() + " msg : " + ex.getMessage(), ex);
         }
         if(StringUtils.isBlank(ex.getLocalizedMessage())||StringUtils.isBlank(ex.getMessage())){
             return ApiResult.fail(ERROR.getCode(), ERROR.getDesc());
@@ -36,7 +39,7 @@ public class GlobalException {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseBody
     public ApiResult AssertExceptionHandler(IllegalArgumentException ex) {
-        log.error( " msg : " + ex.getMessage(), ex);
+        logger.error( " msg : " + ex.getMessage(), ex);
         if(StringUtils.isBlank(ex.getLocalizedMessage())){
             return ApiResult.fail(ERROR.getCode(),ERROR.getDesc());
         }
@@ -47,7 +50,7 @@ public class GlobalException {
     @ExceptionHandler(NotLoginException.class)
     @ResponseBody
     public ApiResult NotLoginExceptionHandler(NotLoginException ex) {
-        log.error( " msg : " + ex.getMessage(), ex);
+        logger.error( " msg : " + ex.getMessage(), ex);
         return ApiResult.fail(NOT_LOGIN.getCode(),NOT_LOGIN.getDesc());
     }
 
@@ -55,7 +58,7 @@ public class GlobalException {
     @ExceptionHandler(NotPermissionException.class)
     @ResponseBody
     public ApiResult NotPermissionExceptionHandler(NotPermissionException ex) {
-        log.error( " msg : " + ex.getMessage(), ex);
+        logger.error( " msg : " + ex.getMessage(), ex);
         return ApiResult.fail(NO_PERMISSION.getCode(),"无此权限：" + ex.getCode());
     }
 
@@ -63,7 +66,7 @@ public class GlobalException {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ApiResult ExceptionHandler(Exception ex) {
-        log.error( " msg : " + ex.getMessage(), ex);
+        logger.error( " msg : " + ex.getMessage(), ex);
         if(StringUtils.isBlank(ex.getLocalizedMessage())){
             return ApiResult.fail(ERROR.getCode(),ERROR.getDesc());
         }

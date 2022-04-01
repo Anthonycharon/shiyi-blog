@@ -3,7 +3,8 @@ package com.shiyi.utils;
 import com.alibaba.fastjson.JSON;
 import com.shiyi.dto.ArticleSearchDTO;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.document.Document;
@@ -18,9 +19,10 @@ import org.springframework.stereotype.Component;
  * @apiNote Elasticsearch工具类
  */
 @Component
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ElasticsearchUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(ElasticsearchUtils.class);
 
     private final ElasticsearchRestTemplate elasticsearchRestTemplate;
     /**
@@ -30,7 +32,7 @@ public class ElasticsearchUtils {
     public void save(ArticleSearchDTO articleSearchDTO) {
         long time = System.currentTimeMillis();
         elasticsearchRestTemplate.save(articleSearchDTO);
-        log.info("耗时:"+(System.currentTimeMillis() - time));
+        logger.info("耗时:"+(System.currentTimeMillis() - time));
     }
 
     /**

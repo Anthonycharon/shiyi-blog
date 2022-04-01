@@ -9,7 +9,9 @@ import com.shiyi.common.ResultCode;
 import com.shiyi.common.SocialLoginConst;
 import com.shiyi.enums.LoginTypeEnum;
 import com.shiyi.exception.BusinessException;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -29,18 +31,20 @@ import java.util.Objects;
  * @date 2021/07/28
  */
 @Service("weiboLoginStrategyImpl")
-@Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class WeiboLoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
-    @Autowired
-    private RestTemplate restTemplate;
-    @Autowired
-    private WeiboConfigProperties weiboConfigProperties;
+
+    private static final Logger logger = LoggerFactory.getLogger(WeiboLoginStrategyImpl.class);
+
+    private final RestTemplate restTemplate;
+
+    private final WeiboConfigProperties weiboConfigProperties;
 
     @Override
     public SocialTokenDTO getSocialToken(String code) {
         // 获取微博token信息
         WeiboTokenDTO weiboToken = getWeiboToken(code);
-        log.info("weibo login as weiboToken :{}",weiboToken.toString());
+        logger.info("weibo login as weiboToken :{}",weiboToken.toString());
         // 返回token信息
         return SocialTokenDTO.builder()
                 .openId(weiboToken.getUid())
@@ -57,7 +61,7 @@ public class WeiboLoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
         data.put(SocialLoginConst.ACCESS_TOKEN, socialTokenDTO.getAccessToken());
         // 获取微博用户信息
         WeiboUserInfoDTO weiboUserInfoDTO = restTemplate.getForObject(weiboConfigProperties.getUserInfoUrl(), WeiboUserInfoDTO.class, data);
-        log.info("weibo login as info :{}",weiboUserInfoDTO.toString());
+        logger.info("weibo login as info :{}",weiboUserInfoDTO.toString());
         // 返回用户信息
         return SocialUserInfoDTO.builder()
                 .nickname(Objects.requireNonNull(weiboUserInfoDTO).getScreen_name())

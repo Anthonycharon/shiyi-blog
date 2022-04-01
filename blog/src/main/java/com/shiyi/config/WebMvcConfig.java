@@ -18,7 +18,6 @@ import org.springframework.web.servlet.config.annotation.*;
  * @apiNote
  */
 @Configuration
-@Slf4j
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer  {
 

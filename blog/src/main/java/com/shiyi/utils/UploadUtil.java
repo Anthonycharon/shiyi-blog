@@ -15,7 +15,8 @@ import com.shiyi.entity.SystemConfig;
 import com.shiyi.enums.QiNiuAreaEnum;
 import com.shiyi.service.SystemConfigService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,9 +29,10 @@ import java.io.IOException;
 import static com.shiyi.common.ResultCode.ERROR;
 
 @Component
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UploadUtil {
+
+    private static final Logger logger = LoggerFactory.getLogger(UploadUtil.class);
 
     private final SystemConfigService systemConfigService;
 /*
@@ -67,7 +69,7 @@ public class UploadUtil {
      * @return
      */
     public ApiResult upload(MultipartFile file) {
-        log.info("文件上传开始,时间 {}",DateUtils.getNowDate());
+        logger.info("文件上传开始,时间 {}",DateUtils.getNowDate());
         if (file.getSize() > 1024 * 1024 * 10) {
             return ApiResult.fail("文件大小不能大于10M");
         }
@@ -110,9 +112,9 @@ public class UploadUtil {
             return ApiResult.success(qiNiuUrl + putRet.key);
         } catch (QiniuException ex) {
             Response r = ex.response;
-            log.info("QiniuException:{}",r.toString());
+            logger.info("QiniuException:{}",r.toString());
             try {
-                log.info("QiniuException:{}",r.bodyString());
+                logger.info("QiniuException:{}",r.bodyString());
             } catch (QiniuException ex2) {
                 //ignore
             }

@@ -11,8 +11,9 @@ import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.IpUtils;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,9 +26,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * 自定义侦听器的实现
  */
 @Component
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MySaTokenListener implements SaTokenListener {
+
+    private static final Logger logger = LoggerFactory.getLogger(MySaTokenListener.class);
 
     public static final List<OnlineUser> ONLINE_USERS = new CopyOnWriteArrayList<>();
 
@@ -63,7 +65,7 @@ public class MySaTokenListener implements SaTokenListener {
                 .tokenValue(token)
                 .nickname(userMapper.getById(loginId).getNickname())
                 .browser(userAgent.getBrowser().getName()).build());
-        log.info("用户已登录,useId:{},token:{}", loginId, StpUtil.getTokenValue());
+        logger.info("用户已登录,useId:{},token:{}", loginId, StpUtil.getTokenValue());
     }
 
     /** 每次注销时触发 */
@@ -73,7 +75,7 @@ public class MySaTokenListener implements SaTokenListener {
         ONLINE_USERS.removeIf(onlineUser ->
                 onlineUser.getTokenValue().equals(tokenValue)
         );
-        log.info("用户已注销,useId:{},token:{}", loginId, tokenValue);
+        logger.info("用户已注销,useId:{},token:{}", loginId, tokenValue);
     }
 
     /** 每次被踢下线时触发 */
@@ -83,7 +85,7 @@ public class MySaTokenListener implements SaTokenListener {
         ONLINE_USERS.removeIf(onlineUser ->
                 onlineUser.getTokenValue().equals(tokenValue)
         );
-        log.info("用户已踢下线,useId:{},token:{}", loginId, tokenValue);
+        logger.info("用户已踢下线,useId:{},token:{}", loginId, tokenValue);
     }
 
     /** 每次被顶下线时触发 */
@@ -93,7 +95,7 @@ public class MySaTokenListener implements SaTokenListener {
         ONLINE_USERS.removeIf(onlineUser ->
                 onlineUser.getTokenValue().equals(tokenValue)
         );
-        log.info("用户已顶下线,useId:{},token:{}", loginId, tokenValue);
+        logger.info("用户已顶下线,useId:{},token:{}", loginId, tokenValue);
     }
 
     /** 每次被封禁时触发 */
@@ -118,7 +120,7 @@ public class MySaTokenListener implements SaTokenListener {
     @Override
     public void doLogoutSession(String id) {
         // ...
-        log.info("user doLogoutSession,id:{}", id);
+        logger.info("user doLogoutSession,id:{}", id);
     }
 
     // --------------------- 定时清理过期数据
@@ -146,7 +148,7 @@ public class MySaTokenListener implements SaTokenListener {
         this.refreshFlag = true;
         this.refreshThread = new Thread(() -> {
             for (; ; ) {
-                log.info("定时清理过期会话开始。间隔：{}s,在线人数：{}", SaManager.getConfig().getDataRefreshPeriod() + 5, ONLINE_USERS.size());
+                logger.info("定时清理过期会话开始。间隔：{}s,在线人数：{}", SaManager.getConfig().getDataRefreshPeriod() + 5, ONLINE_USERS.size());
                 try {
                     try {
                         // 如果已经被标记为结束
@@ -161,7 +163,7 @@ public class MySaTokenListener implements SaTokenListener {
                             }
                             return false;
                         });
-                        log.info("定时清理过期会话结束，在线人数：{},耗时：{}ms", ONLINE_USERS.size(), System.currentTimeMillis() - start);
+                        logger.info("定时清理过期会话结束，在线人数：{},耗时：{}ms", ONLINE_USERS.size(), System.currentTimeMillis() - start);
 
                     } catch (Exception e) {
                         e.printStackTrace();

@@ -2,6 +2,8 @@ package com.shiyi.utils;
 
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -19,9 +21,10 @@ import java.util.Objects;
  * @date 2021/12/28
  * @since 1.0.0
  **/
-@Log4j2
 @Component
 public class SensitiveUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(SensitiveUtils.class);
 
     /**
      * 敏感词文件
@@ -50,7 +53,7 @@ public class SensitiveUtils {
                 this.addKeyword(keyword);
             }
         } catch (Exception e) {
-            log.warn("加载敏感词文件失败: " + e.getMessage());
+            logger.warn("加载敏感词文件失败: " + e.getMessage());
         }
     }
 

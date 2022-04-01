@@ -8,20 +8,17 @@ import com.shiyi.entity.BlogArticle;
 import com.shiyi.enums.PublishEnum;
 import com.shiyi.mapper.ArticleMapper;
 import com.shiyi.strategy.SearchStrategy;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service("mysqlStrategyImpl")
-@Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MysqlSearchStrategyImpl implements SearchStrategy {
 
-
-    @Autowired
-    private ArticleMapper mapper;
+    private final ArticleMapper mapper;
 
     @Override
     public List<ArticleSearchDTO> searchArticle(String keywords){

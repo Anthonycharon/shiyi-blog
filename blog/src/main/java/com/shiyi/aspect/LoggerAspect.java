@@ -4,27 +4,26 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.shiyi.annotation.OperationLogger;
-import com.shiyi.common.Constants;
 import com.shiyi.dto.SystemUserDTO;
 import com.shiyi.entity.ExceptionLog;
 import com.shiyi.entity.AdminLog;
 import com.shiyi.entity.User;
 import com.shiyi.mapper.ExceptionLogMapper;
 import com.shiyi.mapper.AdminLogMapper;
-import com.shiyi.service.UserService;
-import com.shiyi.utils.AopUtils;
 import com.shiyi.utils.AspectUtil;
 import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.IpUtils;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -33,7 +32,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Date;
-import java.util.Map;
+import java.util.HashMap;
 
 import static com.shiyi.common.Constants.CURRENT_USER;
 
@@ -45,9 +44,10 @@ import static com.shiyi.common.Constants.CURRENT_USER;
  */
 @Aspect
 @Component
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LoggerAspect {
+
+    private static final Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
 
     private final AdminLogMapper adminLogMapper;
 
@@ -77,7 +77,7 @@ public class LoggerAspect {
             handle(joinPoint,getHttpServletRequest());
 
         } catch (Exception e) {
-            log.error("日志记录出错!", e);
+            logger.error("日志记录出错!", e);
         }
 
         return result;
@@ -141,10 +141,21 @@ public class LoggerAspect {
     }
 
     private String getParamsJson(ProceedingJoinPoint joinPoint) throws ClassNotFoundException, NoSuchMethodException {
-        Map<String, Object> nameAndArgsMap = AopUtils.getFieldsName(joinPoint);
-        boolean isContains = nameAndArgsMap.containsKey("request");
-        if (isContains) nameAndArgsMap.remove("request");
-        String paramsJson = JSONObject.toJSONString(nameAndArgsMap);
+        // 参数值
+        Object[] args = joinPoint.getArgs();
+        Signature signature = joinPoint.getSignature();
+        MethodSignature methodSignature = (MethodSignature) signature;
+        String[] parameterNames = methodSignature.getParameterNames();
+
+        // 通过map封装参数和参数值
+        HashMap<String, Object> paramMap = new HashMap();
+        for (int i = 0; i < parameterNames.length; i++) {
+            paramMap.put(parameterNames[i], args[i]);
+        }
+
+        boolean isContains = paramMap.containsKey("request");
+        if (isContains) paramMap.remove("request");
+        String paramsJson = JSONObject.toJSONString(paramMap);
         return paramsJson;
     }
 

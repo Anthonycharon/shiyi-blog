@@ -3,6 +3,7 @@ package com.shiyi.strategy.context;
 import com.shiyi.dto.UserInfoDTO;
 import com.shiyi.enums.LoginTypeEnum;
 import com.shiyi.strategy.SocialLoginStrategy;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,10 @@ import java.util.Map;
  * @apiNote 第三方登录策略上下文
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SocialLoginStrategyContext {
 
-    @Autowired
-    private Map<String, SocialLoginStrategy> socialLoginStrategyMap;
+    private final Map<String, SocialLoginStrategy> socialLoginStrategyMap;
 
     /**
      * 执行第三方登录策略
