@@ -232,6 +232,9 @@
                 </span>
               </div>
             </div>
+            <div style="padding:4px 0 0">
+              当前在线人数:<span class="float-right">{{onlineCount}}</span>
+            </div>
           </v-card>
         </div>
       </v-col>
@@ -251,6 +254,10 @@ export default {
     this.init();
     this.timer = setInterval(this.runTime, 1000);
   },
+  destroyed () {
+    // 销毁监听
+    this.socket.onclose = this.close
+  },
   metaInfo:{
     meta: [{
       name: 'keyWords',
@@ -262,6 +269,9 @@ export default {
   },
   data: function() {
     return {
+      path:"ws://127.0.0.1:8800/shiyi/websocket",
+      socket:"",
+      onlineCount:0,
       formLabelWidth:"80px",
       form:{
         type:1,
@@ -332,6 +342,18 @@ export default {
     // 初始化
     init() {
       document.title = "拾壹博客";
+      if(typeof(WebSocket) === "undefined"){
+        console.error("您的浏览器不支持socket")
+      }else{
+        // 实例化socket
+        this.socket = new WebSocket(this.path)
+        // 监听socket连接
+        this.socket.onopen = this.open
+        // 监听socket错误信息
+        this.socket.onerror = this.error
+        // 监听socket消息
+        this.socket.onmessage = this.getMessage
+      }
       // 一言Api进行打字机循环输出效果
     /*  fetch("https://v1.hitokoto.cn?c=i")
         .then(res => {
@@ -387,6 +409,21 @@ export default {
             $state.complete();
           }
         });
+    },
+    open: function (event) {
+      console.log("socket连接成功")
+    },
+    error: function () {
+      console.log("连接错误")
+    },
+    getMessage: function (event) {
+      this.onlineCount = event.data
+    },
+    send(message) {
+      this.socket.send(message)
+    },
+    close: function () {
+      console.log("socket已经关闭")
     }
   },
   computed: {
