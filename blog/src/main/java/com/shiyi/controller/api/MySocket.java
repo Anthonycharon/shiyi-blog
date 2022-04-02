@@ -43,7 +43,9 @@ public class MySocket {
         webSocketSet.add(this);
         addOnlineCount();
         logger.info("有链接加入，当前人数为:{}",getOnline_num());
-        this.session.getAsyncRemote().sendText(getOnline_num()+"");
+        synchronized(this.session) {
+            this.session.getAsyncRemote().sendText(getOnline_num());
+        }
     }
 
     @OnClose
@@ -56,13 +58,13 @@ public class MySocket {
     @OnMessage
     public void onMessage(String message,Session session) throws IOException {
         logger.info("来自客户端的消息:{}",message);
-        for (MySocket mySocket : webSocketSet) {
-            this.session.getAsyncRemote().sendText(message);
+        synchronized(this.session) {
+            this.session.getAsyncRemote().sendText(getOnline_num());
         }
     }
 
-    public synchronized int getOnline_num(){
-        return MySocket.online_num;
+    public synchronized String getOnline_num(){
+        return MySocket.online_num+"";
     }
     public synchronized int subOnlineCount(){
         return MySocket.online_num--;
