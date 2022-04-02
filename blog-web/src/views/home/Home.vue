@@ -231,9 +231,9 @@
                   {{ blogInfo.count.viewsCount }}
                 </span>
               </div>
-            </div>
-            <div style="padding:4px 0 0">
-              当前在线人数:<span class="float-right">{{onlineCount}}</span>
+              <div style="padding:4px 0 0">
+                当前在线人数:<span class="float-right">{{onlineCount}}</span>
+              </div>
             </div>
           </v-card>
         </div>
