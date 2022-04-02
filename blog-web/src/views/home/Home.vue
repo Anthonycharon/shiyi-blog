@@ -258,6 +258,9 @@ export default {
     // 销毁监听
     this.socket.onclose = this.close
   },
+  beforeDestroy() {
+    clearInterval(this.heartBeat);
+  },
   metaInfo:{
     meta: [{
       name: 'keyWords',
@@ -272,6 +275,7 @@ export default {
       path:process.env.VUE_APP_WEBSOCKET_API,
       socket:"",
       onlineCount:0,
+      heartBeat: null,
       formLabelWidth:"80px",
       form:{
         type:1,
@@ -412,6 +416,11 @@ export default {
     },
     open: function (event) {
       console.log("socket连接成功")
+      // 发送心跳消息
+      var that = this
+      that.heartBeat = setInterval(function() {
+        that.send("ping");
+      }, 30 * 1000);
     },
     error: function () {
       console.log("连接错误")

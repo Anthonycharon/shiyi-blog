@@ -29,7 +29,7 @@ export default new Vuex.Store({
         authorAvatar:null,
         authorInfo:null,
         touristAvatar:null,
-        loginTypeList:null,
+        loginTypeList:"",
         bulletin:null,
         aboutMe:null,
         logo:null,
@@ -44,7 +44,7 @@ export default new Vuex.Store({
         name:null,
         summary:null,
         webUrl:null,
-        showList:null
+        showList:""
       },
       count:{
         articleCount:null,
