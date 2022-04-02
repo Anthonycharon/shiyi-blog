@@ -62,6 +62,12 @@ public class User implements Serializable {
     @ApiModelProperty(value = "IP来源")
     private String ipSource;
 
+    @ApiModelProperty(value = "登录系统")
+    private String os;
+
+    @ApiModelProperty(value = "浏览器")
+    private String browser;
+
     @ApiModelProperty(value = "用户信息id")
     private Integer userAuthId;
 

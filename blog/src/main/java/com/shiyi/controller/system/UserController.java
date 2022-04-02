@@ -90,8 +90,8 @@ public class UserController {
     @GetMapping(value = "/online")
     @SaCheckLogin
     @ApiOperation(value = "查看在线用户", httpMethod = "GET", response = ApiResult.class, notes = "查看在线用户")
-    public ApiResult listOnlineUsers(String keywords,int pageNo,int pageSize) {
-        return userService.listOnlineUsers(keywords,pageNo,pageSize);
+    public ApiResult listOnlineUsers(String keywords) {
+        return userService.listOnlineUsers(keywords);
     }
 
     @GetMapping(value = "/kick")

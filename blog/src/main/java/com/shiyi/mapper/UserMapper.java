@@ -32,5 +32,6 @@ public interface UserMapper extends BaseMapper<User> {
 
     SystemUserDTO selectNameAndPassword(@Param("username") String username, @Param("password") String password);
 
-    void updateLoginInfo(@Param("loginId")Object loginId,@Param("ip") String ip, @Param("cityInfo")String cityInfo);
+    void updateLoginInfo(@Param("loginId")Object loginId,@Param("ip") String ip, @Param("cityInfo")String cityInfo,
+                         @Param("os") String os,@Param("browser") String browser);
 }

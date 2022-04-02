@@ -39,10 +39,10 @@ public class MySaTokenListener implements SaTokenListener {
 
     private final UserAuthMapper userAuthMapper;
 
-    @PostConstruct
+   /* @PostConstruct
     public void init() {
         initRefreshThread();
-    }
+    }*/
 
     /** 每次登录时触发 */
     @Override
@@ -50,9 +50,9 @@ public class MySaTokenListener implements SaTokenListener {
         //修改登录信息
         String ip = IpUtils.getIp(request);
         String cityInfo = IpUtils.getCityInfo(ip);
-        userMapper.updateLoginInfo(loginId,ip,cityInfo);
         UserAgent userAgent = IpUtils.getUserAgent(request);
-        //StpUtil.getTokenValue()不知道为什么获取到的是null 所以只能调用这个方法来获取token
+        userMapper.updateLoginInfo(loginId,ip,cityInfo,userAgent.getOperatingSystem().getName(),userAgent.getBrowser().getName());
+       /* //StpUtil.getTokenValue()不知道为什么获取到的是null 所以只能调用这个方法来获取token
         String token = StpUtil.getTokenValueByLoginId(loginId);
         UserAuth auth = userAuthMapper.getByUserId(loginId);
         ONLINE_USERS.add(OnlineUser.builder()
@@ -64,7 +64,7 @@ public class MySaTokenListener implements SaTokenListener {
                 .userId((Long) loginId)
                 .tokenValue(token)
                 .nickname(userMapper.getById(loginId).getNickname())
-                .browser(userAgent.getBrowser().getName()).build());
+                .browser(userAgent.getBrowser().getName()).build());*/
         logger.info("用户已登录,useId:{},token:{}", loginId, StpUtil.getTokenValue());
     }
 
@@ -125,19 +125,19 @@ public class MySaTokenListener implements SaTokenListener {
 
     // --------------------- 定时清理过期数据
 
-    /**
+ /*   *//**
      * 执行数据清理的线程
-     */
+     *//*
     public Thread refreshThread;
 
-    /**
+    *//**
      * 是否继续执行数据清理的线程标记
-     */
+     *//*
     public boolean refreshFlag;
 
-    /**
+    *//**
      * 初始化定时任务
-     */
+     *//*
     public void initRefreshThread() {
 
         // 如果配置了<=0的值，则不启动定时清理
@@ -181,6 +181,6 @@ public class MySaTokenListener implements SaTokenListener {
             }
         });
         refreshThread.start();
-    }
+    }*/
 
 }

@@ -32,7 +32,7 @@ public interface UserService extends IService<User> {
 
     ApiResult updatePassword(Map<String, String> map);
 
-    ApiResult listOnlineUsers(String keywords,int pageNo,int pageSize);
+    ApiResult listOnlineUsers(String keywords);
 
     ApiResult kick(Long userId);
 }
