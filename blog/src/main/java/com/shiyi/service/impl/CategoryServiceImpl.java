@@ -24,6 +24,9 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.shiyi.common.ResultCode.CATEGORY_IS_EXIST;
+import static com.shiyi.common.ResultCode.CATEGORY_IS_TOP;
+
 /**
  * <p>
  * 博客分类表 服务实现类
@@ -95,7 +98,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Transactional(rollbackFor = Exception.class)
     public ApiResult updateCategory(Category category) {
         Category vo = baseMapper.selectOne(new QueryWrapper<Category>().eq(SqlConf.NAME, category.getName()));
-        Assert.isTrue(!(vo != null && !vo.getId().equals(category.getId())),"该分类名称已存在!");
+        Assert.isTrue(!(vo != null && !vo.getId().equals(category.getId())),CATEGORY_IS_EXIST.getDesc());
 
         int rows = baseMapper.updateById(category);
 
@@ -110,7 +113,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Transactional(rollbackFor = Exception.class)
     public ApiResult top(Long id) {
         Category category = baseMapper.selectOne(new QueryWrapper<Category>().orderByDesc(SqlConf.SORT).last(SysConf.LIMIT_ONE));
-        Assert.isTrue(!category.getId().equals(id),"该分类已经在顶端!!");
+        Assert.isTrue(!category.getId().equals(id), CATEGORY_IS_TOP.getDesc());
 
         Category vo = Category.builder()
                 .sort(category.getSort() + 1).updateTime(DateUtils.getNowDate()).id(id).build();

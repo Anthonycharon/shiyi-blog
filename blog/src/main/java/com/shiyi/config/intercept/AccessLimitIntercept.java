@@ -40,6 +40,10 @@ public class AccessLimitIntercept implements HandlerInterceptor {
         try {
             // handler是否为 HandleMethod 实例
             if (handler instanceof HandlerMethod) {
+                //文章搜索则不进行限流,如需部分接口地址限流可自定义注解实现
+                String requestURI = request.getRequestURI();
+                if (requestURI.contains("searchArticle")) return true;
+
                 // 拼接redis key = IP + Api限流
                 String key = IpUtils.getIp(request) + request.getRequestURI();
                 // 获取redis的value

@@ -41,8 +41,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
-    private final UserMapper userMapper;
-
     private final UserAuthMapper userAuthMapper;
 
     @Override
@@ -73,7 +71,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             return ApiResult.ok();
         }
         Page<Comment> pages = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),
-                new QueryWrapper<Comment>().eq(SqlConf.ARTICLE_ID, articleId).isNull("parent_id")
+                new QueryWrapper<Comment>().eq(SqlConf.ARTICLE_ID, articleId).isNull(SqlConf.PARENT_ID)
                         .orderByDesc(SqlConf.ID));
         // 分页查询评论集合
         List<Comment> comments = pages.getRecords();

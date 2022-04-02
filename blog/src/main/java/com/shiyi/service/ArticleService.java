@@ -50,7 +50,7 @@ public interface ArticleService extends IService<BlogArticle> {
 
     ApiResult checkSecret(String code);
 
-    ApiResult archive(Integer pageNo, Integer pageSize);
+    ApiResult archive();
 
     ApiResult searchArticle(String keywords);
 

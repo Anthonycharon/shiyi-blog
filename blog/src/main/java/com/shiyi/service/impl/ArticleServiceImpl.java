@@ -39,6 +39,7 @@ import java.text.MessageFormat;
 import java.util.*;
 
 import static com.shiyi.common.RedisConstants.*;
+import static com.shiyi.common.ResultCode.*;
 
 /**
  * <p>
@@ -107,6 +108,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     @Transactional(rollbackFor = Exception.class)
     public ApiResult addArticle(ArticleVO article) {
         BlogArticle blogArticle = BeanCopyUtils.copyObject(article, BlogArticle.class);
+        blogArticle.setUserId(StpUtil.getLoginIdAsLong());
         //添加分类
         Long categoryId = savaCategory(article.getCategoryName());
         //添加标签
@@ -127,7 +129,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     @Transactional(rollbackFor = Exception.class)
     public ApiResult updateArticle(ArticleVO article) {
         BlogArticle blogArticle = baseMapper.selectById(article.getId());
-        Assert.notNull(blogArticle,"数据库未存在该文章!");
+        Assert.notNull(blogArticle,ARTICLE_NOT_EXIST.getDesc());
 
         //添加分类
         Long categoryId = savaCategory(article.getCategoryName());
@@ -136,6 +138,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
 
         blogArticle = BeanCopyUtils.copyObject(article, BlogArticle.class);
         blogArticle.setCategoryId(categoryId);
+        blogArticle.setUserId(StpUtil.getLoginIdAsLong());
         baseMapper.updateById(blogArticle);
 
         //先删出所有标签
@@ -161,7 +164,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         headers.add("Content-Type", "text/plain");
 
         ids.forEach(item -> {
-            String url = "http://www.isblog.com.cn/article/" + item;
+            String url = "http://www.shiyit.com/article/" + item;
             HttpEntity<String> entity = new HttpEntity<>(url, headers);
             restTemplate.postForObject(baiduUrl, entity, String.class);
         });
@@ -351,9 +354,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @return
      */
     @Override
-    public ApiResult archive(Integer pageNo, Integer pageSize) {
+    public ApiResult archive() {
 
-        Page<BlogArticle> articlePage = baseMapper.selectPage(new Page<>(pageNo,pageSize), new LambdaQueryWrapper<BlogArticle>()
+        Page<BlogArticle> articlePage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(),PageUtils.getPageSize()), new LambdaQueryWrapper<BlogArticle>()
                 .select(BlogArticle::getId, BlogArticle::getTitle, BlogArticle::getCreateTime)
                 .orderByDesc(BlogArticle::getIsStick,BlogArticle::getCreateTime)
                 .eq(BlogArticle::getIsPublish, PublishEnum.PUBLISH.getCode()));
@@ -372,7 +375,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ApiResult searchArticle(String keywords) {
-        Assert.isTrue(StringUtils.isNotBlank(keywords),"关键词不合法!!");
+        Assert.isTrue(StringUtils.isNotBlank(keywords), KEYWORDS_ARE_ILLEGAL.getDesc());
         //获取搜索模式（es搜索或mysql搜索）
         SystemConfig systemConfig = systemConfigService.getCustomizeOne();
         String strategy = SearchModelEnum.getStrategy(systemConfig.getSearchModel());
@@ -412,7 +415,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     public ApiResult checkSecret(String code) {
         String key = RedisConstants.WECHAT_CODE + code;
         Object redisCode = redisCache.getCacheObject(key);
-        Assert.isTrue(redisCode != null,"验证码不存在或已失效!");
+        Assert.isTrue(redisCode != null, ERROR_EXCEPTION_MOBILE_CODE.getDesc());
         //校验通过删除验证码
         redisCache.deleteObject(key);
         //将ip存在redis 有效期一天，当天无需再进行验证码校验

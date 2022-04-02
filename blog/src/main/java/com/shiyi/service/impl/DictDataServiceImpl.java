@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.shiyi.common.ResultCode.DATA_TAG_IS_EXIST;
+
 /**
  * <p>
  * 字典数据表 服务实现类
@@ -151,6 +153,6 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
                 .eq(SqlConf.DICT_LABEL, dictData.getLabel())
                 .eq(SqlConf.DICT_TYPE_ID, dictData.getDictId())
                 .last(SysConf.LIMIT_ONE));
-        Assert.notNull(temp,"该数据标签已存在!");
+        Assert.notNull(temp,DATA_TAG_IS_EXIST.getDesc());
     }
 }

@@ -39,8 +39,8 @@ public class ApiArticleController {
     @BusinessLog(value = "首页-归档",type = "查询",desc = "归档")
     @GetMapping(value = "/archive")
     @ApiOperation(value = "归档", httpMethod = "GET", response = ApiResult.class, notes = "归档")
-    public ApiResult archive(Integer pageNo,Integer pageSize) {
-        return  articleService.archive(pageNo,pageSize);
+    public ApiResult archive() {
+        return  articleService.archive();
     }
 
     @BusinessLog(value = "分类标签文章列表",type = "查询",desc = "分类标签文章列表")
