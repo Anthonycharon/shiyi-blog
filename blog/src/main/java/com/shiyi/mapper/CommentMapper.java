@@ -25,5 +25,5 @@ public interface CommentMapper extends BaseMapper<Comment> {
 
     List<ReplyDTO> listReplies(Integer id);
 
-    List<ReplyCountDTO> listReplyCountByCommentId(@Param("commentIdList")List<Integer> commentIdList);
+    ReplyCountDTO listReplyCountByCommentId(Integer id);
 }

@@ -26,5 +26,5 @@ public interface CommentService extends IService<Comment> {
 
     ApiResult addComment(CommentVO comment);
 
-    ApiResult repliesByComId(Integer pageNo, Integer pageSize, Integer commentId);
+    ApiResult repliesByComId(Integer commentId);
 }

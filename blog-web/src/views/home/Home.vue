@@ -414,8 +414,7 @@ export default {
           }
         });
     },
-    open: function (event) {
-      console.log("socket连接成功")
+    open: function () {
       // 发送心跳消息
       var that = this
       that.heartBeat = setInterval(function() {
@@ -423,7 +422,7 @@ export default {
       }, 30 * 1000);
     },
     error: function () {
-      console.log("连接错误")
+      console.error("连接错误")
     },
     getMessage: function (event) {
       this.onlineCount = event.data

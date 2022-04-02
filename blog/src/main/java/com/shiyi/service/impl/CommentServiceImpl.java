@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shiyi.dto.ReplyCountDTO;
 import com.shiyi.dto.ReplyDTO;
 import com.shiyi.common.ApiResult;
 import com.shiyi.common.SqlConf;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -81,22 +83,21 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         List<com.shiyi.dto.CommentDTO> commentDTOList = new ArrayList<>();
         List<ReplyDTO> replyDTOList;
         for (Comment comment : comments) {
-            User user = userMapper.selectById(comment.getUserId());
+            UserAuth userAuth = userAuthMapper.getByUserId(comment.getUserId());
             // 根据评论id集合查询回复数据
             replyDTOList = baseMapper.listReplies(comment.getId());
+            ReplyCountDTO replyCountDTO = baseMapper.listReplyCountByCommentId(comment.getId());
             com.shiyi.dto.CommentDTO dto = new com.shiyi.dto.CommentDTO();
             dto.setId(comment.getId());
             dto.setUserId(comment.getUserId());
             dto.setCommentContent(comment.getContent());
             dto.setCreateTime(comment.getCreateTime());
-            //dto.setAvatar(user.getAvatar());
-            //dto.setNickname(user.getNickName());
+            dto.setAvatar(userAuth.getAvatar());
+            dto.setNickname(userAuth.getNickname());
             dto.setReplyDTOList(replyDTOList);
-            dto.setReplyCount(replyDTOList.size());
+            dto.setReplyCount(replyCountDTO.getReplyCount());
             commentDTOList.add(dto);
-
         }
-
         Map<String,Object> map =new HashMap<>();
         map.put("commentCount",commentCount);
         map.put("commentDTOList",commentDTOList);
@@ -124,12 +125,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public ApiResult repliesByComId(Integer pageNo, Integer pageSize, Integer commentId) {
-        Page<Comment> page = baseMapper.selectPage(new Page<>(pageNo, pageSize), new QueryWrapper<Comment>().eq(SqlConf.PARENT_ID, commentId));
+    public ApiResult repliesByComId(Integer commentId) {
+        Page<Comment> page = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new QueryWrapper<Comment>().eq(SqlConf.PARENT_ID, commentId));
         List<ReplyDTO> result = new ArrayList<>();
         for (Comment comment: page.getRecords()) {
-            UserAuth userAuth = userAuthMapper.selectById(comment.getUserId());
-            UserAuth replyUser = userAuthMapper.selectById(comment.getReplyUserId());
+            UserAuth userAuth = userAuthMapper.getByUserId(comment.getUserId());
+            UserAuth replyUser = userAuthMapper.getByUserId(comment.getReplyUserId());
             ReplyDTO dto = new ReplyDTO();
             dto.setId(comment.getId());
             dto.setAvatar(userAuth.getAvatar());

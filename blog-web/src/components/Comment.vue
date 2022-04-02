@@ -246,7 +246,7 @@ export default {
     checkReplies(index, item) {
       repliesByComId( {commentId:item.id, pageNo: 1, pageSize: 5 }).then(res => {
           this.$refs.check[index].style.display = "none";
-          item.replyDTOList = data.data;
+          item.replyDTOList = res.data;
           //超过1页才显示分页
           if (Math.ceil(item.replyCount / 5) > 1) {
             this.$refs.paging[index].style.display = "flex";
@@ -255,8 +255,8 @@ export default {
     },
     changeReplyCurrent(current, index, commentId) {
       //查看下一页回复
-      repliesByComId( {commentId:commentId, pageNo: current, pageSize: 5 }).then(({ data }) => {
-          this.commentList[index].replyDTOList = data.data;
+      repliesByComId( {commentId:commentId, pageNo: current, pageSize: 5 }).then(res => {
+          this.commentList[index].replyDTOList = res.data;
         });
     },
     listComments() {

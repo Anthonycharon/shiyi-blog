@@ -30,17 +30,19 @@
         SELECT
             c.id,
             c.user_id,
-            u.nickname,
-            u.avatar,
+            au.nickname,
+            au.avatar,
             c.reply_user_id,
-            r.nickname AS reply_nickname,
+            a.nickname AS reply_nickname,
             c.parent_id,
             c.content,
             c.create_time
-        FROM b_comment c left JOIN b_user_auth u ON c.user_id = u.id
-                       left  JOIN b_user_auth r ON c.reply_user_id = r.id
+        FROM b_comment c left JOIN b_user u ON c.user_id = u.id
+                       left  JOIN b_user r ON c.reply_user_id = r.id
+            left  JOIN b_user_auth a ON a.id = r.user_auth_id
+            left  JOIN b_user_auth au ON au.id = u.user_auth_id
         WHERE
-            c.parent_id =#{id}
+            c.parent_id =#{id} limit 3
     </select>
 
     <select id="listReplyCountByCommentId" resultType="com.shiyi.dto.ReplyCountDTO">
@@ -50,13 +52,6 @@
         FROM
         b_comment
         WHERE
-        parent_id IN
-        (
-        <foreach collection="commentIdList" item="commentId" separator=",">
-            #{commentId}
-        </foreach>
-        )
-        GROUP BY
-        parent_id
+        parent_id =#{id} GROUP BY parent_id
     </select>
 </mapper>

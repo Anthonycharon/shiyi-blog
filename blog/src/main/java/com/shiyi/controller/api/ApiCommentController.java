@@ -38,7 +38,7 @@ public class ApiCommentController {
 
     @RequestMapping(value = "/repliesByComId",method = RequestMethod.GET)
     @ApiOperation(value = "查询评论回复", httpMethod = "GET", response = ApiResult.class, notes = "查询文章评论")
-    public ApiResult repliesByComId(Integer pageNo,Integer pageSize,Integer commentId){
-        return commentService.repliesByComId( pageNo, pageSize,commentId);
+    public ApiResult repliesByComId(Integer commentId){
+        return commentService.repliesByComId(commentId);
     }
 }
