@@ -43,7 +43,8 @@ export default new Vuex.Store({
         keyword:null,
         name:null,
         summary:null,
-        webUrl:null
+        webUrl:null,
+        showList:null
       },
       count:{
         articleCount:null,

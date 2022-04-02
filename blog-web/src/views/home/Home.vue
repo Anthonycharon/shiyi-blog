@@ -269,7 +269,7 @@ export default {
   },
   data: function() {
     return {
-      path:"ws://127.0.0.1:8800/shiyi/websocket",
+      path:process.env.VUE_APP_WEBSOCKET_API,
       socket:"",
       onlineCount:0,
       formLabelWidth:"80px",
