@@ -93,7 +93,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             dto.setAvatar(userAuth.getAvatar());
             dto.setNickname(userAuth.getNickname());
             dto.setReplyDTOList(replyDTOList);
-            dto.setReplyCount(replyCountDTO.getReplyCount());
+            dto.setReplyCount(replyCountDTO == null ? 0 : replyCountDTO.getReplyCount());
             commentDTOList.add(dto);
         }
         Map<String,Object> map =new HashMap<>();
