@@ -63,7 +63,7 @@
         :data="tableData"
         style="width: 100%"
         @selection-change="handleSelectionChange">
-        <el-table-column align="center" type="selection"/>
+        <el-table-column width="60" align="center" type="selection"/>
         <el-table-column
           width="170"
           align="center"
@@ -78,13 +78,13 @@
             />
           </template>
         </el-table-column>
-        <el-table-column prop="title" align="center" label="文章名称" width="180">
+        <el-table-column prop="title" align="center" label="文章名称" width="220">
           <template slot-scope="scope">
             <el-link :underline="false" @click="onClick(scope.row)">{{ scope.row.title }}</el-link>
           </template>
         </el-table-column>
 <!--        <el-table-column prop="summary" align="center" width="180" :show-overflow-tooltip="true" label="文章简介"/>-->
-        <el-table-column align="center" width="70" label="类型">
+        <el-table-column align="center" width="116" label="类型">
           <template slot-scope="scope">
             <el-tag
               :type="scope.row.isOriginal === 0?'warning':'success'"
@@ -94,7 +94,7 @@
             >{{ item }} </el-tag>
           </template>
         </el-table-column>
-        <el-table-column align="center" width="90" label="分类">
+        <el-table-column align="center" width="125" label="分类">
           <template slot-scope="scope">
             <el-tag
               style="margin-left: 3px"
@@ -106,7 +106,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          width="200"
+          width="220"
           label="标签">
           <template slot-scope="scope">
             <el-tag
@@ -121,7 +121,7 @@
         <el-table-column
           prop="isStick"
           align="center"
-          width="75"
+          width="120"
           label="置顶">
           <template slot-scope="scope">
             <el-switch
@@ -133,9 +133,9 @@
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column prop="quantity" width="75" align="center" label="浏览量" />
+        <el-table-column prop="quantity" width="120" align="center" label="浏览量" />
         <el-table-column
-          width="151"
+          width="200"
           align="center"
           prop="createTime"
           sortable
@@ -144,7 +144,7 @@
             <span>{{ dataFormat(scope.row.createTime) }}</span>
           </template>
         </el-table-column>
-        <el-table-column min-width="209" align="center" label="操作">
+        <el-table-column width="300" align="center" label="操作">
           <template slot-scope="scope">
             <el-button v-if="canUpdate&& scope.row.isPublish === 1" type="info" size="mini" @click="offShelf(scope)">
               下架
