@@ -1,4 +1,4 @@
-package com.shiyi.config;
+package com.shiyi.config.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

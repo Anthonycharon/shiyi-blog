@@ -1,4 +1,4 @@
-package com.shiyi.controller.api;
+package com.shiyi.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,14 +15,13 @@ import java.util.concurrent.CopyOnWriteArraySet;
 /**
  * 检测实时在线人数
  *
- * @Version: V1.0
  */
 
 @Component
-@ServerEndpoint("/websocket")  //该注解表示该类被声明为一个webSocket终端
-public class MySocket {
+@ServerEndpoint("/websocket")
+public class OnlineSocketServiceImpl {
 
-    private final Logger logger = LoggerFactory.getLogger(MySocket.class);
+    private final Logger logger = LoggerFactory.getLogger(OnlineSocketServiceImpl.class);
 
     /**
      * 初始在线人数
@@ -31,20 +30,20 @@ public class MySocket {
     /**
      * 线程安全的socket集合
      */
-    private static CopyOnWriteArraySet<MySocket> webSocketSet = new CopyOnWriteArraySet<MySocket>();
+    private static CopyOnWriteArraySet<OnlineSocketServiceImpl> webSocketSet = new CopyOnWriteArraySet<>();
     /**
      * 会话
      */
     private Session session;
 
     @OnOpen
-    public void onOpen(Session session){
+    public void onOpen(Session session) throws IOException {
         this.session = session;
         webSocketSet.add(this);
         addOnlineCount();
-        logger.info("有链接加入，当前人数为:{}",getOnline_num());
-        synchronized(this.session) {
-            this.session.getAsyncRemote().sendText(getOnline_num());
+        logger.info("有链接加入，当前人数为:{}",getOnlineNum());
+        synchronized(session) {
+            this.session.getBasicRemote().sendText(getOnlineNum());
         }
     }
 
@@ -52,24 +51,28 @@ public class MySocket {
     public void onClose(){
         webSocketSet.remove(this);
         subOnlineCount();
-        logger.info("有链接关闭,当前人数为:{}",getOnline_num());
+        logger.info("有链接关闭,当前人数为:{}",getOnlineNum());
     }
 
     @OnMessage
     public void onMessage(String message,Session session) throws IOException {
         logger.info("来自客户端的消息:{}",message);
-        synchronized(this.session) {
-            this.session.getAsyncRemote().sendText(getOnline_num());
+        for (OnlineSocketServiceImpl websocketService : webSocketSet) {
+            synchronized(websocketService.session) {
+                websocketService.session.getAsyncRemote().sendText(getOnlineNum());
+            }
         }
     }
 
-    public synchronized String getOnline_num(){
-        return MySocket.online_num+"";
+    public synchronized String getOnlineNum(){
+        return OnlineSocketServiceImpl.online_num+"";
     }
+
     public synchronized int subOnlineCount(){
-        return MySocket.online_num--;
+        return OnlineSocketServiceImpl.online_num--;
     }
+
     public synchronized int addOnlineCount(){
-        return MySocket.online_num++;
+        return OnlineSocketServiceImpl.online_num++;
     }
 }

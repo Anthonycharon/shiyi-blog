@@ -1,4 +1,4 @@
-package com.shiyi.config.mybatisplus;
+package com.shiyi.config.intercept;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.utils.PageUtils;
@@ -15,7 +15,7 @@ import static com.shiyi.common.Constants.*;
  * 分页拦截器
  *
  **/
-public class PageableHandlerInterceptor implements HandlerInterceptor {
+public class PageableInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

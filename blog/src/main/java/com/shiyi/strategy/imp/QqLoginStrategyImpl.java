@@ -2,7 +2,7 @@ package com.shiyi.strategy.imp;
 
 import com.alibaba.fastjson.JSON;
 
-import com.shiyi.config.QqConfigProperties;
+import com.shiyi.config.properties.QqConfigProperties;
 import com.shiyi.dto.QQTokenDTO;
 import com.shiyi.dto.QQUserInfoDTO;
 import com.shiyi.dto.SocialTokenDTO;

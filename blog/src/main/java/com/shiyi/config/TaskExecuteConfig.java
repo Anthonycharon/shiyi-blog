@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 @Configuration
 @EnableAsync
-public class TaskExecutePool {
+public class TaskExecuteConfig {
 
     @Value("${task.executor.core_pool_size}")
     private int corePoolSize;

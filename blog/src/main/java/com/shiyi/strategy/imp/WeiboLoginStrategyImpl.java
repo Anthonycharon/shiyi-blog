@@ -1,6 +1,6 @@
 package com.shiyi.strategy.imp;
 
-import com.shiyi.config.WeiboConfigProperties;
+import com.shiyi.config.properties.WeiboConfigProperties;
 import com.shiyi.dto.SocialTokenDTO;
 import com.shiyi.dto.SocialUserInfoDTO;
 import com.shiyi.dto.WeiboTokenDTO;

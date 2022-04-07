@@ -2,14 +2,10 @@ package com.shiyi.config;
 
 import cn.dev33.satoken.interceptor.SaAnnotationInterceptor;
 import com.shiyi.config.intercept.AccessLimitIntercept;
-import com.shiyi.config.mybatisplus.PageableHandlerInterceptor;
-import lombok.extern.slf4j.Slf4j;
+import com.shiyi.config.intercept.PageableInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.*;
 
 /**
@@ -23,21 +19,6 @@ public class WebMvcConfig implements WebMvcConfigurer  {
 
     @Value("${file.upload-folder}")
     private String UPLOAD_FOLDER;
-
- /*   *//**
-     * 配置跨域访问
-     * @return
-     *//*
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowCredentials(true)
-                .allowedOriginPatterns(CorsConfiguration.ALL)
-                .allowedOrigins(CorsConfiguration.ALL)
-                .allowedMethods(CorsConfiguration.ALL)
-                .allowedHeaders(CorsConfiguration.ALL)
-                .exposedHeaders(CorsConfiguration.ALL);
-    }*/
 
     /**
      * 这里需要先将限流拦截器入住，不然无法获取到拦截器中的redistemplate
@@ -57,7 +38,7 @@ public class WebMvcConfig implements WebMvcConfigurer  {
         registry.addInterceptor(new SaAnnotationInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/doLogin","/img/**");
         //分页拦截器
-        registry.addInterceptor(new PageableHandlerInterceptor());
+        registry.addInterceptor(new PageableInterceptor());
         //IP限流拦截器
         registry.addInterceptor(getAccessLimitIntercept()).addPathPatterns("/**");
     }
