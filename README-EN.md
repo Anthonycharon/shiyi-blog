@@ -20,7 +20,7 @@
 
 [OnlineAddress](#在线地址) | [DirectoryStructure](#目录结构) | [ProjectFeatures](#项目特点) |[TechnologyIntroduction](#技术介绍) | [OperatingEnvironment](#运行环境)
 
-Chinese document:[Chinese document](./README.MD)
+Chinese document:[Chinese document](./README.md)
 
 ## 在线地址
 
