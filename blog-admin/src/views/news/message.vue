@@ -216,11 +216,11 @@ export default {
       this.multipleSelection = val;
     },
     handleSizeChange: function (val) {
-      this.params.size = val
+      this.params.pageSize = val
       this.fetchMessage()
     },
     handleCurrentChange: function (val) {
-      this.params.page = val
+      this.params.pageNo = val
       this.fetchMessage()
     },
     formatTime: function (time) {
