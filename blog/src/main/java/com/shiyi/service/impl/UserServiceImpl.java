@@ -1,6 +1,5 @@
 package com.shiyi.service.impl;
 
-import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -20,13 +19,17 @@ import com.shiyi.service.UserService;
 import com.shiyi.utils.PageUtils;
 import com.shiyi.utils.PasswordUtils;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+
 import java.util.*;
+import java.util.stream.Collectors;
+
 import static com.shiyi.common.ResultCode.ERROR_USER_NOT_EXIST;
 
 /**
@@ -151,30 +154,39 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return ApiResult.ok("修改成功");
     }
 
+    /**
+     * 在线用户
+     * @param keywords
+     * @return
+     */
     @Override
     public ApiResult listOnlineUsers(String keywords) {
         int pageNo = PageUtils.getPageNo().intValue();
         int pageSize = PageUtils.getPageSize().intValue();
 
-        MySaTokenListener.ONLINE_USERS.sort((o1, o2) -> DateUtil.compare(o2.getLoginTime(), o1.getLoginTime()));
+        List<OnlineUser> onlineUsers = MySaTokenListener.ONLINE_USERS;
+        //根据关键词过滤
+        if (StringUtils.isNotBlank(keywords)) {
+            onlineUsers = MySaTokenListener.ONLINE_USERS.stream().filter(item -> item.getNickname().contains(keywords)).collect(Collectors.toList());
+        }
+        //排序
+        onlineUsers.sort((o1, o2) -> DateUtil.compare(o2.getLoginTime(), o1.getLoginTime()));
         int fromIndex = (pageNo-1) * pageSize;
-        int toIndex = MySaTokenListener.ONLINE_USERS.size() - fromIndex > pageSize ? fromIndex + pageSize : MySaTokenListener.ONLINE_USERS.size();
-        List<OnlineUser> userOnlineList = MySaTokenListener.ONLINE_USERS.subList(fromIndex, toIndex);
-        logger.warn("memory用户数：{}", userOnlineList.size());
-        userOnlineList.forEach(onlineUser -> {
-            String keyLastActivityTime = StpUtil.stpLogic.splicingKeyLastActivityTime(onlineUser.getTokenValue());
-            String lastActivityTimeString = SaManager.getSaTokenDao().get(keyLastActivityTime);
-            if (lastActivityTimeString != null) {
-                long lastActivityTime = Long.parseLong(lastActivityTimeString);
-                onlineUser.setLastActivityTime(DateUtil.date(lastActivityTime));
-            }
-        });
+        int toIndex = onlineUsers.size() - fromIndex > pageSize ? fromIndex + pageSize : onlineUsers.size();
+        List<OnlineUser> userOnlineList = onlineUsers.subList(fromIndex, toIndex);
+        logger.info("memory用户数：{}", userOnlineList.size());
+
         Map<String,Object> map = new HashMap<>();
-        map.put("total",MySaTokenListener.ONLINE_USERS.size());
+        map.put("total",onlineUsers.size());
         map.put("records",userOnlineList);
         return ApiResult.success(map);
     }
 
+    /**
+     * 踢人下线
+     * @param token
+     * @return
+     */
     @Override
     public ApiResult kick(String token) {
         logger.info("当前踢下线的用户token为:{}",token);
