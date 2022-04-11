@@ -1,7 +1,6 @@
 package com.shiyi.service.impl;
 
 import cn.dev33.satoken.SaManager;
-import cn.dev33.satoken.stp.StpLogic;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -14,7 +13,6 @@ import com.shiyi.dto.SystemUserDTO;
 import com.shiyi.dto.UserDTO;
 import com.shiyi.entity.Menu;
 import com.shiyi.entity.User;
-import com.shiyi.entity.UserAuth;
 import com.shiyi.mapper.UserAuthMapper;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.service.MenuService;
@@ -28,9 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
 import java.util.*;
-
 import static com.shiyi.common.ResultCode.ERROR_USER_NOT_EXIST;
 
 /**
@@ -47,6 +43,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private final MenuService menuService;
 
     private final UserAuthMapper userAuthMapper;
+
 
     /**
      * 用户列表
@@ -158,28 +155,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public ApiResult listOnlineUsers(String keywords) {
         int pageNo = PageUtils.getPageNo().intValue();
         int pageSize = PageUtils.getPageSize().intValue();
-        StpLogic stpLogic = SaManager.getStpLogic(StpUtil.getLoginType());
-        List<String> tokens = stpLogic.searchTokenValue("", -1, -1);
-        logger.info("当前用户：{}", Arrays.toString(tokens.toArray()));
-        int fromIndex = (pageNo-1) * pageSize;
-        int toIndex = tokens.size() - fromIndex > pageSize ? fromIndex + pageSize : tokens.size();
-        List<String> pageTokens = tokens.subList(fromIndex, toIndex);
-        List<OnlineUser> userOnlineList = new ArrayList<>();
-        for (String token : pageTokens) {
-            token = token.split("Authorization:login:token:")[1];
-            Object loginId = stpLogic.getLoginIdByToken(token);
-            User user = baseMapper.selectById(Integer.parseInt(loginId.toString()));
-            UserAuth userAuth = userAuthMapper.getByUserId(loginId);
-            OnlineUser onlineUser = OnlineUser.builder().browser(user.getBrowser())
-                    .avatar(userAuth.getAvatar()).ip(user.getIpAddress()).city(user.getIpSource()).os(user.getOs())
-                    .loginTime(user.getLastLoginTime()).nickname(userAuth.getNickname()).tokenValue(token).userId(user.getId().longValue()).build();
-            userOnlineList.add(onlineUser);
-        }
-     /*   MySaTokenListener.ONLINE_USERS.sort((o1, o2) -> DateUtil.compare(o2.getLoginTime(), o1.getLoginTime()));
+
+        MySaTokenListener.ONLINE_USERS.sort((o1, o2) -> DateUtil.compare(o2.getLoginTime(), o1.getLoginTime()));
         int fromIndex = (pageNo-1) * pageSize;
         int toIndex = MySaTokenListener.ONLINE_USERS.size() - fromIndex > pageSize ? fromIndex + pageSize : MySaTokenListener.ONLINE_USERS.size();
         List<OnlineUser> userOnlineList = MySaTokenListener.ONLINE_USERS.subList(fromIndex, toIndex);
-        logger.warn("stp用户数：{}，memory用户数：{}", sessionIds.size(), userOnlineList.size());
+        logger.warn("memory用户数：{}", userOnlineList.size());
         userOnlineList.forEach(onlineUser -> {
             String keyLastActivityTime = StpUtil.stpLogic.splicingKeyLastActivityTime(onlineUser.getTokenValue());
             String lastActivityTimeString = SaManager.getSaTokenDao().get(keyLastActivityTime);
@@ -187,9 +168,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 long lastActivityTime = Long.parseLong(lastActivityTimeString);
                 onlineUser.setLastActivityTime(DateUtil.date(lastActivityTime));
             }
-        });*/
+        });
         Map<String,Object> map = new HashMap<>();
-        map.put("total",tokens.size());
+        map.put("total",MySaTokenListener.ONLINE_USERS.size());
         map.put("records",userOnlineList);
         return ApiResult.success(map);
     }

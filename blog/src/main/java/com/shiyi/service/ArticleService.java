@@ -20,7 +20,7 @@ public interface ArticleService extends IService<BlogArticle> {
 
     ApiResult listData(Map<String,Object> map);
 
-    ApiResult removeAll(Long id);
+    ApiResult deleteById(Long id);
 
     ApiResult deleteBatch(List<Long> ids);
 

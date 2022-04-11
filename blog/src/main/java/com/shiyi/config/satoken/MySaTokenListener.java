@@ -39,10 +39,10 @@ public class MySaTokenListener implements SaTokenListener {
 
     private final UserAuthMapper userAuthMapper;
 
-   /* @PostConstruct
+    @PostConstruct
     public void init() {
         initRefreshThread();
-    }*/
+    }
 
     /** 每次登录时触发 */
     @Override
@@ -52,7 +52,7 @@ public class MySaTokenListener implements SaTokenListener {
         String cityInfo = IpUtils.getCityInfo(ip);
         UserAgent userAgent = IpUtils.getUserAgent(request);
         userMapper.updateLoginInfo(loginId,ip,cityInfo,userAgent.getOperatingSystem().getName(),userAgent.getBrowser().getName());
-       /* //StpUtil.getTokenValue()不知道为什么获取到的是null 所以只能调用这个方法来获取token
+        //暂时使用内存方式存储在线用户信息
         String token = StpUtil.getTokenValueByLoginId(loginId);
         UserAuth auth = userAuthMapper.getByUserId(loginId);
         ONLINE_USERS.add(OnlineUser.builder()
@@ -64,14 +64,13 @@ public class MySaTokenListener implements SaTokenListener {
                 .userId((Long) loginId)
                 .tokenValue(token)
                 .nickname(userMapper.getById(loginId).getNickname())
-                .browser(userAgent.getBrowser().getName()).build());*/
+                .browser(userAgent.getBrowser().getName()).build());
         logger.info("用户已登录,useId:{},token:{}", loginId, StpUtil.getTokenValue());
     }
 
     /** 每次注销时触发 */
     @Override
     public void doLogout(String loginType, Object loginId, String tokenValue) {
-        // ...
         ONLINE_USERS.removeIf(onlineUser ->
                 onlineUser.getTokenValue().equals(tokenValue)
         );
@@ -81,7 +80,6 @@ public class MySaTokenListener implements SaTokenListener {
     /** 每次被踢下线时触发 */
     @Override
     public void doKickout(String loginType, Object loginId, String tokenValue) {
-        // ...
         ONLINE_USERS.removeIf(onlineUser ->
                 onlineUser.getTokenValue().equals(tokenValue)
         );
@@ -91,7 +89,6 @@ public class MySaTokenListener implements SaTokenListener {
     /** 每次被顶下线时触发 */
     @Override
     public void doReplaced(String loginType, Object loginId, String tokenValue) {
-        // ...
         ONLINE_USERS.removeIf(onlineUser ->
                 onlineUser.getTokenValue().equals(tokenValue)
         );
@@ -125,19 +122,19 @@ public class MySaTokenListener implements SaTokenListener {
 
     // --------------------- 定时清理过期数据
 
- /*   *//**
+    /**
      * 执行数据清理的线程
-     *//*
+     */
     public Thread refreshThread;
 
-    *//**
+    /**
      * 是否继续执行数据清理的线程标记
-     *//*
+     */
     public boolean refreshFlag;
 
-    *//**
+    /**
      * 初始化定时任务
-     *//*
+     */
     public void initRefreshThread() {
 
         // 如果配置了<=0的值，则不启动定时清理
@@ -152,16 +149,13 @@ public class MySaTokenListener implements SaTokenListener {
                 try {
                     try {
                         // 如果已经被标记为结束
-                        if (refreshFlag == false) {
+                        if (!refreshFlag) {
                             return;
                         }
                         long start = System.currentTimeMillis();
                         ONLINE_USERS.removeIf(onlineUser -> {
                             Object user = StpUtil.getLoginIdByToken(onlineUser.getTokenValue());
-                            if (ObjectUtils.isEmpty(user)) {
-                                return true;
-                            }
-                            return false;
+                            return ObjectUtils.isEmpty(user);
                         });
                         logger.info("定时清理过期会话结束，在线人数：{},耗时：{}ms", ONLINE_USERS.size(), System.currentTimeMillis() - start);
 
@@ -174,13 +168,13 @@ public class MySaTokenListener implements SaTokenListener {
                         dataRefreshPeriod = 1;
                     }
                     dataRefreshPeriod = dataRefreshPeriod + 5;
-                    Thread.sleep(dataRefreshPeriod * 1000);
+                    Thread.sleep(dataRefreshPeriod * 1000L);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
         refreshThread.start();
-    }*/
+    }
 
 }

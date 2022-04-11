@@ -208,7 +208,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult removeAll(Long id) {
+    public ApiResult deleteById(Long id) {
         baseMapper.deleteById(id);
         this.deleteAfter(Collections.singletonList(id));
         return ApiResult.success("删除文章成功");

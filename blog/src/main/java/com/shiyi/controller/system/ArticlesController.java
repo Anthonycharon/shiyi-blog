@@ -65,7 +65,7 @@ public class ArticlesController {
     @ApiOperation(value = "删除文章", httpMethod = "DELETE", response = ApiResult.class, notes = "删除文章")
     @OperationLogger(value = "删除文章")
     public ApiResult delete(Long id) {
-        return articleService.removeAll(id);
+        return articleService.deleteById(id);
     }
 
     @DeleteMapping(value = "/deleteBatch")
