@@ -65,7 +65,7 @@ public class MySaTokenListener implements SaTokenListener {
                 .tokenValue(token)
                 .nickname(userMapper.getById(loginId).getNickname())
                 .browser(userAgent.getBrowser().getName()).build());
-        logger.info("用户已登录,useId:{},token:{}", loginId, StpUtil.getTokenValue());
+        logger.info("用户已登录,useId:{},token:{}", loginId, token);
     }
 
     /** 每次注销时触发 */
