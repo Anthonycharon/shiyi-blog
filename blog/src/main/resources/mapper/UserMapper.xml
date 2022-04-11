@@ -29,7 +29,7 @@
         where a.id = #{id}
     </select>
 
-    <select id="selectNameAndPassword" resultType="com.shiyi.dto.SystemUserDTO">
+    <select id="selectNameAndPassword" resultType="com.shiyi.entity.User">
         select a.id,a.username,a.role_id,a.status,b.nickname,b.avatar from b_user a left join (select id,nickname,avatar from b_user_auth) b on a.user_auth_id=b.id
         where username=#{username} and password=#{password}
     </select>

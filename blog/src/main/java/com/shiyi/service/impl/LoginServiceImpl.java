@@ -6,6 +6,7 @@ import com.google.code.kaptcha.Producer;
 import com.shiyi.common.ApiResult;
 import com.shiyi.common.Constants;
 import com.shiyi.dto.SystemUserDTO;
+import com.shiyi.entity.User;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.service.LoginService;
 import com.shiyi.utils.PasswordUtils;
@@ -62,7 +63,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public ApiResult doLogin(LoginVO vo) {
         //校验用户名和密码
-        SystemUserDTO user = userMapper.selectNameAndPassword(vo.getUsername(),PasswordUtils.aesEncrypt(vo.getPassword()));
+        User user = userMapper.selectNameAndPassword(vo.getUsername(),PasswordUtils.aesEncrypt(vo.getPassword()));
         Assert.isTrue(user != null, ERROR_PASSWORD.getDesc());
 
         if (vo.getRememberMe()){
