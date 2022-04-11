@@ -85,7 +85,7 @@ export default {
       })
     },
     kick:function (scope){
-      kick({userId:scope.row.userId}).then(res =>{
+      kick({token:scope.row.tokenValue}).then(res =>{
         this.$message.success(res.message)
         this.fetchList()
       }).catch(err =>{

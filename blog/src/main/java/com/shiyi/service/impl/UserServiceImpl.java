@@ -176,9 +176,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public ApiResult kick(Long userId) {
-        logger.info("当前踢下线的用户id为:{}",userId);
-        StpUtil.logout(userId);
+    public ApiResult kick(String token) {
+        logger.info("当前踢下线的用户token为:{}",token);
+        StpUtil.kickoutByTokenValue(token);
         return ApiResult.ok();
     }
 }

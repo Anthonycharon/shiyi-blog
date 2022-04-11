@@ -98,7 +98,7 @@ public class UserController {
     @SaCheckPermission("/system/user/kick")
     @OperationLogger(value = "踢人下线")
     @ApiOperation(value = "踢人下线", httpMethod = "GET", response = ApiResult.class, notes = "踢人下线")
-    public ApiResult kick(Long userId) {
-        return userService.kick(userId);
+    public ApiResult kick(String token) {
+        return userService.kick(token);
     }
 }

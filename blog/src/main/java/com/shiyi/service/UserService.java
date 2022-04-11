@@ -34,5 +34,5 @@ public interface UserService extends IService<User> {
 
     ApiResult listOnlineUsers(String keywords);
 
-    ApiResult kick(Long userId);
+    ApiResult kick(String token);
 }
