@@ -9,6 +9,7 @@ import com.shiyi.dto.ReplyCountDTO;
 import com.shiyi.dto.ReplyDTO;
 import com.shiyi.common.ApiResult;
 import com.shiyi.common.SqlConf;
+import com.shiyi.dto.SystemCommentDTO;
 import com.shiyi.entity.Comment;
 import com.shiyi.entity.User;
 import com.shiyi.entity.UserAuth;
@@ -21,6 +22,7 @@ import com.shiyi.service.CommentService;
 import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.HTMLUtils;
 import com.shiyi.utils.RedisCache;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,23 +45,33 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     private final UserAuthMapper userAuthMapper;
 
+    /**
+     * 评论列表
+     * @param keywords
+     * @return
+     */
     @Override
-    public ApiResult webComment(Comment comment) {
-      /*  try {
-            DesUtils des = new DesUtils("isblog");//自定义密钥
-            String openId = des.decrypt(comment.getEncodeId());
-            QqUserInfo userInfo = qqUserInfoService.getOne(new QueryWrapper<QqUserInfo>().eq(SqlConf.OPEN_ID, openId));
-            comment.setUserId(userInfo.getId());
-            comment.setCreateTime(new Date());
-            baseMapper.insert(comment);
-            return ApiResult.ok("评论成功",comment);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ApiResult.fail("评论失败");
-        }*/
-        return  null;
+    public ApiResult listData(String keywords) {
+        Page<SystemCommentDTO> dtoPage = baseMapper.selectPageList(new Page<>(PageUtils.getPageNo(),PageUtils.getPageSize()),keywords);
+        return ApiResult.success(dtoPage);
     }
 
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    @Override
+    public ApiResult deleteBatch(List<Integer> ids) {
+        baseMapper.deleteBatchIds(ids);
+        return ApiResult.ok();
+    }
+
+
+
+
+
+    //-----------------------web端方法开始-------------
     @Override
     public ApiResult comments(Long articleId) {
         // 查询文章评论量

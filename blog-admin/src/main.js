@@ -19,6 +19,7 @@ import '@/permission' // permission control
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import VueParticles from 'vue-particles'
+
 Vue.component('RightToolbar', RightToolbar)
 Vue.use(VueParticles)
 Vue.use(mavonEditor)

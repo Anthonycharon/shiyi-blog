@@ -2,6 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shiyi.mapper.CommentMapper">
 
+    <select id="selectPageList" resultType="com.shiyi.dto.SystemCommentDTO">
+        SELECT
+            c.id,
+            au.avatar,
+            au.nickname,
+            IF(rau.nickname is null,'无',rau.nickname) as replyNickname,
+            a.title as articleTitle,
+            c.content,
+            c.create_time
+        FROM
+            b_comment c
+                LEFT JOIN ( SELECT id, user_auth_id FROM b_user ) u ON c.user_id = u.id
+                LEFT JOIN ( SELECT id, avatar, nickname FROM b_user_auth ) au ON u.user_auth_id = au.id
+                LEFT JOIN ( SELECT id, title FROM b_article ) a ON c.article_id = a.id
+                LEFT JOIN ( SELECT id, user_auth_id FROM b_user ) ru ON c.reply_user_id = ru.id
+                LEFT JOIN ( SELECT id, avatar, nickname FROM b_user_auth ) rau ON ru.user_auth_id = rau.id
+        <where>
+            <if test="keywords != null and keywords != ''">
+                au.nickname like concat('%',#{keywords},'%') or rau.nickname like concat('%',#{keywords},'%')
+            </if>
+        </where>
+        order by c.create_time desc
+    </select>
+
     <select id="listComments" resultType="com.shiyi.dto.CommentDTO">
         SELECT
         u.nickname,

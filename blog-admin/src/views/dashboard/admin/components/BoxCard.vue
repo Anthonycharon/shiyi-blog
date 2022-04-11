@@ -1,15 +1,15 @@
 <template>
   <el-card class="box-card-component" style="margin-left:8px;">
-    <div slot="header" class="box-card-header">
+    <div slot="header" class="box-card-header" style="height: 250px">
       <img src="https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png">
     </div>
-    <div style="position:relative;">
+    <div style="position:relative;height: 25px">
       <pan-thumb :image="avatar" class="panThumb" />
       <mallki class-name="mallki-text" text="shiyi-blog-admin" />
-      <div style="padding-top:35px;" class="progress-item">
+<!--      <div style="padding-top:35px;" class="progress-item">
         <span>Vue</span>
         <el-progress :percentage="70" />
-      </div>
+      </div>-->
 <!--      <div class="progress-item">
         <span>JavaScript</span>
         <el-progress :percentage="18" />说

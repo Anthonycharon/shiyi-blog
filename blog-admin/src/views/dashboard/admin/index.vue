@@ -8,14 +8,14 @@
       <div id="container" style=" width: 100%; height: 300px;"></div>
     </el-row>
 
-    <el-row :gutter="32">
+    <el-row :gutter="20" style="margin-top:1.25rem">
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
           <div id="categoryChart" class="chart" style="height:300px;width:100%" />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
-        <el-table :data="list" style="width: 100%;padding-top: 15px;">
+        <el-table :data="list" style="width: 100%;padding-top: 15px;height: 318px">
           <el-table-column label="标题" min-width="200">
             <template slot-scope="scope">
               <el-link :underline="false" @click="onClick(scope.row)">{{ scope.row.title }}</el-link>
@@ -27,7 +27,6 @@
       <el-col :xs="24" :sm="24" :lg="8">
         <box-card/>
       </el-col>
-
     </el-row>
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <div id="access" class="chart" style="height:350px;width:100%" />

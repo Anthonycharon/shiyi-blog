@@ -3,7 +3,7 @@
     <!-- 查询和其他操作 -->
     <el-form v-show="showSearch" :inline="true" ref="form" :model="params" label-width="68px">
       <el-form-item label="用户名称">
-        <el-input style="width: 200px" size="small" v-model="params.name" placeholder="请输入昵称"/>
+        <el-input style="width: 200px" v-model="params.name" size="small"  placeholder="请输入昵称"/>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="small" @click="handleFind">查找</el-button>
@@ -57,13 +57,13 @@
         <el-table-column prop="content" align="center"  width="180" label="内容" />
         <el-table-column prop="ipAddress" align="center" width="150" label="ip地址" />
         <el-table-column prop="ipSource" align="center" width="160" label="ip来源" />
-        <el-table-column prop="status" align="center"label="状态" >
+        <el-table-column prop="status" align="center" label="状态" >
           <template slot-scope="scope">
             <el-tag type="success" v-if="scope.row.status === 1">正常</el-tag>
             <el-tag v-else type="info">审核中</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" width="160" align="center"label="留言时间" >
+        <el-table-column prop="createTime" width="160" align="center" label="留言时间" >
           <template slot-scope="scope">
             <span>{{ formatTime(scope.row.createTime) }}</span>
           </template>
