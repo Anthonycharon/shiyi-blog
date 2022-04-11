@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.dto.SystemUserDTO;
 import com.shiyi.dto.UserDTO;
 import com.shiyi.entity.User;
-import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

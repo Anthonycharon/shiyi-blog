@@ -71,7 +71,7 @@ public class LoginServiceImpl implements LoginService {
         }else {
             StpUtil.login(user.getId().longValue());
         }
-        StpUtil.getSession().set(Constants.CURRENT_USER,user);
+        StpUtil.getSession().set(Constants.CURRENT_USER,userMapper.getById(user.getId()));
         return ApiResult.success(StpUtil.getTokenValue());
     }
 }

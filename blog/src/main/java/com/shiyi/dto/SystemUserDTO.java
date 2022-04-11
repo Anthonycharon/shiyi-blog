@@ -23,9 +23,6 @@ public class SystemUserDTO {
     @ApiModelProperty(value = "昵称")
     private String nickname;
 
-    @ApiModelProperty(value = "邮箱")
-    private String email;
-
     @ApiModelProperty(value = "头像")
     private String avatar;
 

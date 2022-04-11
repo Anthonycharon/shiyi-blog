@@ -7,7 +7,6 @@ import com.shiyi.annotation.OperationLogger;
 import com.shiyi.dto.SystemUserDTO;
 import com.shiyi.entity.ExceptionLog;
 import com.shiyi.entity.AdminLog;
-import com.shiyi.entity.User;
 import com.shiyi.mapper.ExceptionLogMapper;
 import com.shiyi.mapper.AdminLogMapper;
 import com.shiyi.utils.AspectUtil;
@@ -94,7 +93,7 @@ public class LoggerAspect {
         String operationName = AspectUtil.INSTANCE.parseParams(joinPoint.getArgs(), operationLogger.value());
         // 获取参数名称字符串
         String paramsJson = getParamsJson((ProceedingJoinPoint) joinPoint);
-        User user = (User) StpUtil.getSession().get(CURRENT_USER);
+        SystemUserDTO user = (SystemUserDTO) StpUtil.getSession().get(CURRENT_USER);
 
         ExceptionLog exception = ExceptionLog.builder().ip(ip).ipSource(IpUtils.getCityInfo(ip))
                 .params(paramsJson).username(user.getUsername()).method(joinPoint.getSignature().getName())
