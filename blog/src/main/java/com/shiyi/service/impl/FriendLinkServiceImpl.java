@@ -1,14 +1,17 @@
 package com.shiyi.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ApiResult;
 import com.shiyi.common.SqlConf;
 import com.shiyi.common.SysConf;
+import com.shiyi.dto.FriendLinkDTO;
 import com.shiyi.entity.FriendLink;
 import com.shiyi.entity.WebConfig;
 import com.shiyi.enums.FriendLinkEnum;
 import com.shiyi.mapper.FriendLinkMapper;
+import com.shiyi.mapper.WebConfigMapper;
 import com.shiyi.service.WebConfigService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.service.FriendLinkService;
@@ -40,7 +43,7 @@ import static com.shiyi.enums.FriendLinkEnum.UP;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendLink> implements FriendLinkService {
 
-    private final WebConfigService webConfigService;
+    private final WebConfigMapper webConfigMapper;
 
     private final EmailUtil emailUtil;
 
@@ -115,17 +118,13 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
     }
 
     //    ---------web端方法开始------
-
     /**
      * 友链列表
      * @return
      */
     @Override
-    public ApiResult webList() {
-        QueryWrapper<FriendLink> queryWrapper = new QueryWrapper<FriendLink>()
-                .eq(SqlConf.STATUS, UP.getCode())
-                .orderByDesc(SqlConf.SORT);
-        List<FriendLink> list = baseMapper.selectList(queryWrapper);
+    public ApiResult webFriendLinkList() {
+        List<FriendLinkDTO> list = baseMapper.selectLinkList();
         return ApiResult.success(list);
     }
 
@@ -154,16 +153,5 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         //不影响用户体验 新一个线程操作邮箱发送
         threadPoolTaskExecutor.execute(() -> emailUtil.emailNoticeMe("友链接入通知","网站有新的友链接入啦，快去审核吧!!!"));
         return ApiResult.ok();
-    }
-
-    /**
-     * 获取网站信息
-     * @return
-     */
-    @Override
-    public ApiResult webSiteInfo() {
-        WebConfig webConfig = webConfigService.getOne(new QueryWrapper<WebConfig>()
-                .last(SysConf.LIMIT_ONE));
-        return ApiResult.success(webConfig);
     }
 }

@@ -32,6 +32,9 @@ public enum ResultCode {
     ERROR_PASSWORD(-8,"用户帐号或者密码错误!"),
     DISABLE_ACCOUNT(-9,"帐号已被禁用!"),
     EMAIL_ERROR(-10,"邮箱格式不对，请检查后重试!"),
+    EMAIL_IS_EXIST(-11,"该邮箱已注册，请直接登录!"),
+    EMAIL_DISABLE_LOGIN(-12,"该邮箱账号已被管理员禁止登录!"),
+    PASSWORD_ILLEGAL(-13,"密码格式不合法!"),
 
     // 服务层面
     ERROR_EXCEPTION_MOBILE_CODE(10003,"验证码不正确或已过期，请重新输入"),

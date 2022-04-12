@@ -35,7 +35,7 @@ public class ApiTagsController {
     @BusinessLog(value = "标签模块-用户访问页面",type = "查询",desc = "用户访问页面")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     @ApiOperation(value = "标签列表", httpMethod = "GET", response = ApiResult.class, notes = "标签列表")
-    public ApiResult query(){
+    public ApiResult tagList(){
         return tagsService.webList();
     }
 

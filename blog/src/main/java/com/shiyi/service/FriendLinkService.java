@@ -28,10 +28,9 @@ public interface FriendLinkService extends IService<FriendLink> {
 
 
     //    ----web端开始-----
-    ApiResult webList();
+    ApiResult webFriendLinkList();
 
     ApiResult applyFriendLink(FriendLink friendLink);
 
-    ApiResult webSiteInfo();
 
 }

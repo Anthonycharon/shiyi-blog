@@ -30,7 +30,7 @@ public class ApiFeedBackController {
     @PostMapping(value = "/add")
     @ApiOperation(value = "添加反馈", httpMethod = "POST", response = ApiResult.class, notes = "添加反馈")
     @BusinessLog(value = "首页-用户添加反馈",type = "添加",desc = "添加反馈")
-    public ApiResult save(@RequestBody FeedBack feedBack) {
+    public ApiResult addFeedback(@RequestBody FeedBack feedBack) {
         return  feedBackService.addFeedback(feedBack);
     }
 

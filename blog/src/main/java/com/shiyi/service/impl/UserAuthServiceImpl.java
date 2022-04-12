@@ -29,6 +29,7 @@ import org.springframework.util.Assert;
 import javax.mail.MessagingException;
 import java.util.regex.Pattern;
 
+import static com.shiyi.common.Constants.USER_STATUS_ONE;
 import static com.shiyi.common.ResultCode.*;
 import static com.shiyi.common.ResultCode.ERROR_MUST_REGISTER;
 
@@ -68,7 +69,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         checkCode(RedisConstants.EMAIL_CODE + vo.getEmail(), vo.getCode());
 
         User user = getByUserName(vo.getEmail());
-        Assert.isNull(user,"该邮箱已注册，请直接登录!");
+        Assert.isNull(user,EMAIL_IS_EXIST.getDesc());
 
         WebConfig config = webConfigService.getOne(new QueryWrapper<WebConfig>().last(SysConf.LIMIT_ONE));
         UserAuth auth = UserAuth.builder().email(vo.getEmail()).avatar(config.getTouristAvatar()).nickname(vo.getNickname()).build();
@@ -118,14 +119,14 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         checkEmail(vo.getEmail());
 
         String password = vo.getPassword();
-        Assert.isTrue(StringUtils.isNotBlank(password),"密码格式不合法!!");
+        Assert.isTrue(StringUtils.isNotBlank(password),PASSWORD_ILLEGAL.getDesc());
 
         User user = getByUserName(vo.getEmail());
         Assert.notNull(user, ERROR_MUST_REGISTER.getDesc());
-        Assert.isTrue(user.getStatus() == Constants.USER_STATUS_ONE,"该邮箱账号已被管理员禁止登录！！");
+        Assert.isTrue(user.getStatus() == USER_STATUS_ONE,EMAIL_DISABLE_LOGIN.getDesc());
 
         boolean validate = PasswordUtils.isValidPassword(user.getPassword(),vo.getPassword());
-        Assert.isTrue(validate,"密码错误!!");
+        Assert.isTrue(validate,ERROR_PASSWORD.getDesc());
 
         UserAuth auth = baseMapper.selectById(user.getUserAuthId());
 
@@ -155,12 +156,6 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
     public ApiResult giteeLogin(String code) {
         UserInfoDTO userInfoDTO = socialLoginStrategyContext.executeLoginStrategy(code, LoginTypeEnum.GITEE);
         return ApiResult.success(userInfoDTO);
-    }
-
-    @Override
-    public ApiResult logout() {
-        StpUtil.logout();
-        return ApiResult.ok("退出成功");
     }
 
     /**

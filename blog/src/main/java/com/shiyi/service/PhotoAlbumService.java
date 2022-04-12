@@ -29,7 +29,7 @@ public interface PhotoAlbumService extends IService<PhotoAlbum> {
 
 
     //web端方法开始
-    ApiResult webList();
+    ApiResult webAlbumList();
 
     ApiResult webListPhotos(Integer albumId);
 

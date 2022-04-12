@@ -1,7 +1,6 @@
 package com.shiyi.controller.api;
 
 
-import com.shiyi.annotation.BusinessLog;
 import com.shiyi.common.ApiResult;
 import com.shiyi.service.PhotoAlbumService;
 import io.swagger.annotations.Api;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -29,16 +27,14 @@ public class ApiPhotoAlbumController {
 
     private final PhotoAlbumService albumService;
 
-    @BusinessLog(value = "相册模块-用户访问页面",type = "查询",desc = "用户访问页面")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     @ApiOperation(value = "相册列表", httpMethod = "GET", response = ApiResult.class, notes = "相册列表")
-    public ApiResult query(){
-        return albumService.webList();
+    public ApiResult webAlbumList(){
+        return albumService.webAlbumList();
     }
 
-    @BusinessLog(value = "相册模块-用户访问页面",type = "查询",desc = "用户访问页面")
     @RequestMapping(value = "/listPhotos",method = RequestMethod.GET)
-    @ApiOperation(value = "相册列表", httpMethod = "GET", response = ApiResult.class, notes = "相册列表")
+    @ApiOperation(value = "照片列表", httpMethod = "GET", response = ApiResult.class, notes = "照片列表")
     public ApiResult webListPhotos(Integer albumId){
         return albumService.webListPhotos(albumId);
     }

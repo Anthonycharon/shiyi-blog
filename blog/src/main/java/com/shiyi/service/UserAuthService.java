@@ -30,8 +30,6 @@ public interface UserAuthService extends IService<UserAuth> {
 
     ApiResult giteeLogin(String code);
 
-    ApiResult logout();
-
     ApiResult sendEmailCode(String email);
 
     ApiResult bindEmail(UserAuthVO vo);

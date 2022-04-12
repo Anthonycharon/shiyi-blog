@@ -4,6 +4,8 @@ import com.shiyi.common.RedisConstants;
 import com.shiyi.entity.SystemConfig;
 import com.shiyi.service.SystemConfigService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -19,6 +21,8 @@ import java.util.concurrent.TimeUnit;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EmailUtil {
+
+    private static final Logger logger = LoggerFactory.getLogger(EmailUtil.class);
 
     private final RedisCache redisCache;
 
@@ -91,6 +95,7 @@ public class EmailUtil {
 
         redisCache.setCacheObject(RedisConstants.EMAIL_CODE+email,code +"");
         redisCache.expire(RedisConstants.EMAIL_CODE+email,RedisConstants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
+        logger.info("邮箱验证码发送成功,接收邮箱为：{},验证码为:{}",email,code);
     }
 
     public void friendPassSendEmail(String email){

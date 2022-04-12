@@ -42,14 +42,9 @@ public class ApiFriendLinkController {
     @BusinessLog(value = "友链模块-用户访问页面",type = "查询",desc = "友链列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST)
     @ApiOperation(value = "友链列表", httpMethod = "POST", response = ApiResult.class, notes = "友链列表")
-    public ApiResult query(){
-        return friendLinkService.webList();
+    public ApiResult webFriendLinkList(){
+        return friendLinkService.webFriendLinkList();
     }
 
-    @RequestMapping(value = "/webSiteInfo",method = RequestMethod.POST)
-    @ApiOperation(value = "友链网站信息", httpMethod = "POST", response = ApiResult.class, notes = "友链网站信息")
-    public ApiResult webSiteInfo(){
-        return friendLinkService.webSiteInfo();
-    }
 }
 

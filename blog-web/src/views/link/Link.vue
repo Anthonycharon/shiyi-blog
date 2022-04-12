@@ -16,7 +16,7 @@
           md="4"
           cols="12"
           v-for="item of friendLinkList"
-          :key="item.id"
+          :key="item.url"
         >
           <a :href="item.url" target="_blank">
             <v-avatar size="65" class="link-avatar">
