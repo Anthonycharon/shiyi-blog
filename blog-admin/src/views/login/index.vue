@@ -137,7 +137,7 @@ export default {
       loginForm: {
         username: '',
         password: '',
-        rememberMe:true
+        rememberMe:false
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur',validator: validateUsername }],

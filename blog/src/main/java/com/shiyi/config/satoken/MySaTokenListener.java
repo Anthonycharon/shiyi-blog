@@ -51,7 +51,7 @@ public class MySaTokenListener implements SaTokenListener {
         String ip = IpUtils.getIp(request);
         String cityInfo = IpUtils.getCityInfo(ip);
         UserAgent userAgent = IpUtils.getUserAgent(request);
-        userMapper.updateLoginInfo(loginId,ip,cityInfo,userAgent.getOperatingSystem().getName(),userAgent.getBrowser().getName());
+        userMapper.updateLoginInfo(loginId,ip,cityInfo,userAgent.getOperatingSystem().getName(),userAgent.getBrowser().getName(),DateUtils.getNowTime());
         //暂时使用内存方式存储在线用户信息
         String token = StpUtil.getTokenValueByLoginId(loginId);
         UserAuth auth = userAuthMapper.getByUserId(loginId);
