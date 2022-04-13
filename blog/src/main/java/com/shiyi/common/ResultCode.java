@@ -31,12 +31,12 @@ public enum ResultCode {
     NO_PERMISSION(-7,"无权限"),
     ERROR_PASSWORD(-8,"用户帐号或者密码错误!"),
     DISABLE_ACCOUNT(-9,"帐号已被禁用!"),
-    EMAIL_ERROR(-10,"邮箱格式不对，请检查后重试!"),
-    EMAIL_IS_EXIST(-11,"该邮箱已注册，请直接登录!"),
     EMAIL_DISABLE_LOGIN(-12,"该邮箱账号已被管理员禁止登录!"),
-    PASSWORD_ILLEGAL(-13,"密码格式不合法!"),
 
     // 服务层面
+    EMAIL_ERROR(-10,"邮箱格式不对，请检查后重试!"),
+    EMAIL_IS_EXIST(-11,"该邮箱已注册，请直接登录!"),
+    PASSWORD_ILLEGAL(-13,"密码格式不合法!"),
     ERROR_EXCEPTION_MOBILE_CODE(10003,"验证码不正确或已过期，请重新输入"),
     ERROR_USER_NOT_EXIST(10009, "用户不存在"),
     ERROR_MUST_REGISTER(10017,"请先注册帐号!"),
@@ -44,7 +44,8 @@ public enum ResultCode {
     CATEGORY_IS_EXIST(10019,"该分类名称已存在!"),
     CATEGORY_IS_TOP(10020,"该分类已经在顶端!!"),
     DATA_TAG_IS_EXIST(10021,"该数据标签已存在!"),
-    ARTICLE_NOT_EXIST(10022,"数据库未存在该文章!");
+    CRAWLING_ARTICLE_FAILED(10022,"抓取文章失败!"),
+    ARTICLE_NOT_EXIST(10023,"数据库未存在该文章!");
 
     public int code;
     public String desc;

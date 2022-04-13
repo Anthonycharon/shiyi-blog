@@ -1,5 +1,6 @@
 package com.shiyi.webmagic;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shiyi.common.SqlConf;
 import com.shiyi.common.SysConf;
@@ -27,6 +28,8 @@ import us.codecraft.webmagic.pipeline.Pipeline;
 import java.text.MessageFormat;
 import java.util.*;
 
+import static com.shiyi.common.ResultCode.CRAWLING_ARTICLE_FAILED;
+
 /**
  * @author blue
  * @date 2021/12/22
@@ -50,7 +53,7 @@ public class BlogPipeline implements Pipeline {
         List<Object> tagList = resultItems.get("tags");
         Object content = resultItems.get("content");
         Object originalUrl = resultItems.get("url");
-        Assert.isTrue(StringUtils.isNotBlank(content.toString()),"抓取文章失败!");
+        Assert.isTrue(StringUtils.isNotBlank(content.toString()),CRAWLING_ARTICLE_FAILED.getDesc());
 
         //爬取的是HTML内容，需要转成MD格式的内容
         String newContent = content.toString().replaceAll("<code>", "<code class=\"lang-java\">");
@@ -79,5 +82,6 @@ public class BlogPipeline implements Pipeline {
         });
         tagsMapper.saveArticleToTags(entity.getId(),tagsId);
 
+        LOGGER.info("文章抓取成功，内容为:{}", JSON.toJSONString(entity));
     }
 }
