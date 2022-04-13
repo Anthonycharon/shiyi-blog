@@ -819,7 +819,7 @@ export default {
       var formdata = new FormData();
       formdata.append('multipartFile', $file);
       upload(formdata).then(res => {
-        this.$refs.md.$img2Url(pos, this.img + res.data);
+        this.$refs.md.$img2Url(pos,res.data);
       }).catch(err => {
         console.log(err)
       })

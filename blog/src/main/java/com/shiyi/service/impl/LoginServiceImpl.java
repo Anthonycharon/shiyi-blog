@@ -5,7 +5,6 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.google.code.kaptcha.Producer;
 import com.shiyi.common.ApiResult;
 import com.shiyi.common.Constants;
-import com.shiyi.dto.SystemUserDTO;
 import com.shiyi.entity.User;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.service.LoginService;
@@ -66,12 +65,13 @@ public class LoginServiceImpl implements LoginService {
         User user = userMapper.selectNameAndPassword(vo.getUsername(),PasswordUtils.aesEncrypt(vo.getPassword()));
         Assert.isTrue(user != null, ERROR_PASSWORD.getDesc());
 
-        if (vo.getRememberMe()){
-            StpUtil.login(user.getId().longValue(), new SaLoginModel().setTimeout(60 * 60 * 24 * 7));
-        }else {
-            StpUtil.login(user.getId().longValue());
+        SaLoginModel saLoginModel = null;
+        if (vo.getRememberMe()) {
+            saLoginModel = new SaLoginModel().setTimeout(60 * 60 * 24 * 7);
         }
+        StpUtil.login(user.getId().longValue(),saLoginModel);
         StpUtil.getSession().set(Constants.CURRENT_USER,userMapper.getById(user.getId()));
+
         return ApiResult.success(StpUtil.getTokenValue());
     }
 }
