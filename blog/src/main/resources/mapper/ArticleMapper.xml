@@ -78,7 +78,7 @@
 
     <select id="info" resultType="com.shiyi.vo.ArticleVO">
         select a.id,a.title,a.avatar,a.summary,a.quantity,a.content,a.content_md,a.is_secret,a.is_stick,a.is_publish,a.is_original,a.original_url,
-               a.remark,a.create_time,a.keywords,a.update_time,b.name as categoryName from b_article a
+               a.remark,a.create_time,a.keywords,b.name as categoryName from b_article a
                    LEFT JOIN (SELECT id,name from b_category) b on a.category_id=b.id where a.id=#{id}
     </select>
 
