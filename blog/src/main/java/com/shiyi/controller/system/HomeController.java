@@ -9,10 +9,17 @@ import com.shiyi.dto.SystemHardwareInfoDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/system/home")
@@ -47,5 +54,12 @@ public class HomeController {
             e.printStackTrace();
         }
         return ApiResult.success(systemHardwareInfoDTO);
+    }
+
+    @GetMapping(value = "/cache")
+    @SaCheckPermission("/system/home/cache")
+    @ApiOperation(value = "redis监控", httpMethod = "GET", response = ApiResult.class, notes = "redis监控")
+    public ApiResult getCacheInfo(){
+        return homeService.getCacheInfo();
     }
 }

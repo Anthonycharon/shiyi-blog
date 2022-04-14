@@ -20,6 +20,8 @@ import eu.bitwalker.useragentutils.UserAgent;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -50,6 +52,7 @@ public class HomeServiceImpl {
     private final PageMapper pageMapper;
 
     private final UserMapper userMapper;
+
 
     /**
      * 文章、留言、用户、ip统计
@@ -222,5 +225,31 @@ public class HomeServiceImpl {
         calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - 7);
         List<Map<String,Object>> userAccess = sysLogMapper.getUserAccess(DateUtils.formateDate(calendar.getTime(),DateUtils.YYYY_MM_DD));
         return userAccess;
+    }
+
+    /**
+     * redis监控
+     * @return
+     */
+    public ApiResult getCacheInfo() {
+        RedisTemplate redisTemplate = redisCache.redisTemplate;
+        Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info());
+        Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
+        Object dbSize = redisTemplate.execute((RedisCallback<Object>) connection -> connection.dbSize());
+
+        Map<String, Object> result = new HashMap<>(3);
+        result.put("info", info);
+        result.put("dbSize", dbSize);
+
+        List<Map<String, String>> pieList = new ArrayList<>();
+        commandStats.stringPropertyNames().forEach(key -> {
+            Map<String, String> data = new HashMap<>(2);
+            String property = commandStats.getProperty(key);
+            data.put("name", StringUtils.removeStart(key, "cmdstat_"));
+            data.put("value", StringUtils.substringBetween(property, "calls=", ",usec"));
+            pieList.add(data);
+        });
+        result.put("commandStats", pieList);
+        return ApiResult.success(result);
     }
 }

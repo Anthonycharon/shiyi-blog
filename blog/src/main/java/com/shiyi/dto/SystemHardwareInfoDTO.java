@@ -2,6 +2,7 @@ package com.shiyi.dto;
 
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.NumberUtil;
+import com.shiyi.utils.IpUtils;
 import lombok.Data;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
@@ -109,12 +110,8 @@ public class SystemHardwareInfoDTO implements Serializable {
      */
     private void setSysInfo() {
         Properties props = System.getProperties();
-        try {
-            sys.setComputerName(InetAddress.getLocalHost().getHostName());
-            sys.setComputerIp(NetUtil.getLocalhostStr());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        sys.setComputerName(IpUtils.getHostName());
+        sys.setComputerIp(IpUtils.getHostIp());
         sys.setOsName(props.getProperty("os.name"));
         sys.setOsArch(props.getProperty("os.arch"));
         sys.setUserDir(props.getProperty("user.dir"));

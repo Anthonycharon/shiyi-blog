@@ -21,6 +21,13 @@ export function systemInfo() {
     params:{}
   })
 }
+export function cacheInfo() {
+  return request({
+    url: '/system/home/cache',
+    method: 'get',
+    params:{}
+  })
+}
 export function report() {
   return request({
     url: '/web/home/report',

@@ -91,6 +91,33 @@ public class IpUtils {
         return UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
     }
 
+    /**
+     * 获取IP地址
+     *
+     * @return 本地IP地址
+     */
+    public static String getHostIp(){
+        try{
+            return InetAddress.getLocalHost().getHostAddress();
+        }catch (UnknownHostException e){
+        }
+        return "127.0.0.1";
+    }
+
+    /**
+     * 获取主机名
+     *
+     * @return 本地主机名
+     */
+    public static String getHostName(){
+        try{
+            return InetAddress.getLocalHost().getHostName();
+        }catch (UnknownHostException e){
+        }
+        return "未知";
+    }
+
+
     //根据在腾讯位置服务上申请的key进行请求操做
     public static String sendGet(String ip) {
         String key = "XJIBZ-ZNUWU-ZHGVM-2Z3JG-VQKF2-HXFTB";
