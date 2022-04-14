@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -65,13 +64,12 @@ public class LoginServiceImpl implements LoginService {
         User user = userMapper.selectNameAndPassword(vo.getUsername(),PasswordUtils.aesEncrypt(vo.getPassword()));
         Assert.isTrue(user != null, ERROR_PASSWORD.getDesc());
 
-        SaLoginModel saLoginModel = null;
         if (vo.getRememberMe()) {
-            saLoginModel = new SaLoginModel().setTimeout(60 * 60 * 24 * 7);
+            StpUtil.login(user.getId().longValue(),new SaLoginModel().setTimeout(60 * 60 * 24 * 7));
+        }else {
+            StpUtil.login(user.getId().longValue());
         }
-        StpUtil.login(user.getId().longValue(),saLoginModel);
         StpUtil.getSession().set(Constants.CURRENT_USER,userMapper.getById(user.getId()));
-
         return ApiResult.success(StpUtil.getTokenValue());
     }
 }

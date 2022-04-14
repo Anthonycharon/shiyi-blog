@@ -35,7 +35,7 @@
     </select>
 
     <update id="updateLoginInfo">
-        update b_user set last_login_time = NOW(),ip_address=#{ip},ip_source=#{cityInfo},os=#{os},browser=#{browser} where id=#{loginId}
+        update b_user set last_login_time = now(),ip_address=#{ip},ip_source=#{cityInfo},os=#{os},browser=#{browser} where id=#{loginId}
     </update>
 
 </mapper>
