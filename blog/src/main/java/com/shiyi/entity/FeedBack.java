@@ -47,7 +47,7 @@ public class FeedBack implements Serializable {
 
     @ApiModelProperty(value = "添加时间")
       @TableField(fill = FieldFill.INSERT)
-    @JsonFormat(pattern = DateUtils.FORMAT_STRING)
+    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
     private Date createTime;
 
     @ApiModelProperty(value = "图片地址")

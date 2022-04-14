@@ -40,7 +40,7 @@ public class ArticleListDTO {
     private Integer quantity;
 
     @ApiModelProperty(value = "创建时间")
-    @JsonFormat(pattern = DateUtils.FORMAT_STRING)
+    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
     private Date createTime;
 
     @ApiModelProperty(value = "状态")

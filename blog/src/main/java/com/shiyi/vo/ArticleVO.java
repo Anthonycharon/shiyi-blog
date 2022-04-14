@@ -37,9 +37,9 @@ public class ArticleVO {
     private List<String> tags;
 
     @TableField(fill = FieldFill.INSERT)
-    @JsonFormat(pattern = DateUtils.FORMAT_STRING)
+    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
     private Date createTime;
     @TableField(fill = FieldFill.UPDATE)
-    @JsonFormat(pattern = DateUtils.FORMAT_STRING)
+    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
     private Date updateTime;
 }

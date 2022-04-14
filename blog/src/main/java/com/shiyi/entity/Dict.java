@@ -46,12 +46,12 @@ public class Dict implements Serializable {
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
-    @JsonFormat(pattern = DateUtils.FORMAT_STRING)
+    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
     private Date createTime;
 
     @ApiModelProperty(value = "修改时间")
     @TableField(fill = FieldFill.UPDATE)
-    @JsonFormat(pattern = DateUtils.FORMAT_STRING)
+    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
     private Date updateTime;
 
     @ApiModelProperty(value = "排序")

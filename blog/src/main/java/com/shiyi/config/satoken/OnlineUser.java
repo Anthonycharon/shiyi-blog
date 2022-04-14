@@ -1,6 +1,7 @@
 package com.shiyi.config.satoken;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.shiyi.utils.DateUtils;
 import lombok.Builder;
 import lombok.Data;
 
@@ -26,12 +27,12 @@ public class OnlineUser {
     /**
      * 登录时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = DateUtils.FORMAT_STRING, timezone = "GMT+8")
     private Date loginTime;
     /**
      * 最近一次操作时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = DateUtils.FORMAT_STRING, timezone = "GMT+8")
     private Date lastActivityTime;
 }
 
