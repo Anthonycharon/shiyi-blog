@@ -413,17 +413,20 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ApiResult checkSecret(String code) {
+        //校验验证码
         String key = RedisConstants.WECHAT_CODE + code;
         Object redisCode = redisCache.getCacheObject(key);
         Assert.isTrue(redisCode != null, ERROR_EXCEPTION_MOBILE_CODE.getDesc());
-        //校验通过删除验证码
-        redisCache.deleteObject(key);
+
         //将ip存在redis 有效期一天，当天无需再进行验证码校验
-        key = RedisConstants.CHECK_CODE_IP;
-        List<Object> cacheList = redisCache.getCacheList(key);
-        if (cacheList.isEmpty()) cacheList = new ArrayList<>();
+        List<Object> cacheList = redisCache.getCacheList(CHECK_CODE_IP);
+        if (cacheList.isEmpty()) {
+            cacheList = new ArrayList<>();
+        }
         cacheList.add(IpUtils.getIp(request));
-        redisCache.setCacheList(key,cacheList);
+        redisCache.setCacheList(CHECK_CODE_IP,cacheList);
+        //通过删除验证码
+        redisCache.deleteObject(key);
         return ApiResult.ok("验证成功");
     }
 
@@ -459,7 +462,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @param ids
      */
     private void deleteEsData(List<Long> ids){
-        ids.forEach(id -> elasticsearchUtils.delete(id));
+        ids.forEach(elasticsearchUtils::delete);
     }
 
     /**
