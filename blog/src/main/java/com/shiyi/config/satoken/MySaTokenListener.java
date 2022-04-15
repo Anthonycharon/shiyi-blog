@@ -145,7 +145,7 @@ public class MySaTokenListener implements SaTokenListener {
         this.refreshFlag = true;
         this.refreshThread = new Thread(() -> {
             for (; ; ) {
-                logger.info("定时清理过期会话开始。间隔：{}s,在线人数：{}", SaManager.getConfig().getDataRefreshPeriod() + 5, ONLINE_USERS.size());
+                //logger.info("定时清理过期会话开始。间隔：{}s,在线人数：{}", SaManager.getConfig().getDataRefreshPeriod() + 5, ONLINE_USERS.size());
                 try {
                     try {
                         // 如果已经被标记为结束
@@ -157,7 +157,7 @@ public class MySaTokenListener implements SaTokenListener {
                             Object user = StpUtil.getLoginIdByToken(onlineUser.getTokenValue());
                             return ObjectUtils.isEmpty(user);
                         });
-                        logger.info("定时清理过期会话结束，在线人数：{},耗时：{}ms", ONLINE_USERS.size(), System.currentTimeMillis() - start);
+                       // logger.info("定时清理过期会话结束，在线人数：{},耗时：{}ms", ONLINE_USERS.size(), System.currentTimeMillis() - start);
 
                     } catch (Exception e) {
                         e.printStackTrace();
