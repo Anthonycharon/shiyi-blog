@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 14/04/2022 17:55:46
+ Date: 15/04/2022 08:34:08
 */
 
 SET NAMES utf8mb4;
@@ -35,7 +35,7 @@ CREATE TABLE `b_admin_log`  (
   `class_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '类地址',
   `method_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '方法名',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1019 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for b_article
@@ -61,12 +61,12 @@ CREATE TABLE `b_article`  (
   `keywords` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'seo关键词',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客文章表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 113 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客文章表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of b_article
 -- ----------------------------
-INSERT INTO `b_article` VALUES (14, 7, 12, '关于博客', '\r\nhttp://img.shiyit.com/1642655697136.jpg', '关于博客的一些介绍', '<h4><a id=\"_0\"></a>博客介绍</h4>\n<h4><a id=\"1_1\"></a>1、博客使用到的技术</h4>\n<ol>\n<li>后端：springboot，mysql，es搜索引擎，以及redis</li>\n<li>前端：vue</li>\n</ol>\n<h4><a id=\"2_5\"></a>2、首页登录</h4>\n<p>本博客支持<a href=\"https://connect.qq.com/index.html\" target=\"_blank\">QQ</a>、<a href=\"https://gitee.com/api/v5/oauth_doc#/\" target=\"_blank\">gitee</a>、<a href=\"https://open.weibo.com/?bottomnav=1&amp;wvr=6\" target=\"_blank\">微博</a>、邮箱登录</p>\n<h4><a id=\"3_7\"></a>3、图片的存储</h4>\n<p>项目中图片存储采用的是<a href=\"https://www.qiniu.com/products/kodo\" target=\"_blank\">七牛云</a>平台的对象存储，因为只有七牛云每个月会有免费的一个额度，其他的都是需要收费的。</p>\n<h4><a id=\"4_9\"></a>4、首页的搜索</h4>\n<p>首页的搜索采用的是es的搜索，eslinux启动的话会占用比较高的一个内存，所以博主介意如需要使用es搜索的购买服务器时资金允许的情况下尽可能购买内存比较多的服务器。然后项目搜索的话主要是围绕文章的标题和内容进行的分词搜索。</p>\n<blockquote>\n<p>上面的话都是一些首页的介绍，原作者只是提供了一个模板，并没有提供后台管理的一个功能，所以我就自己写了一个后台管理，主要借用的是比较火的一个<a href=\"https://gitee.com/panjiachen/vue-admin-template\" target=\"_blank\">vue-admin-template</a>项目模板来进行的二次开发，由于时间有限，所以后台管理开发的功能并不是很多，但是也能进行一个简单的博客管理了。</p>\n</blockquote>\n<h3><a id=\"_14\"></a>后台管理</h3>\n<blockquote>\n<p><a href=\"http://www.shiyit.com/admin\" target=\"_blank\">后台地址</a><br />\n演示账号：test,密码：test</p>\n</blockquote>\n<h4><a id=\"1_17\"></a>1、登录界面</h4>\n<p><img src=\"http://img.shiyit.com/1639989154384.jpg\" alt=\"login.jpg\" /></p>\n<h4><a id=\"2_19\"></a>2、后台首页</h4>\n<p><img src=\"http://img.shiyit.com/1639989162006.png\" alt=\"adminhome1.png\" /><br />\n<img src=\"http://img.shiyit.com/1639989170907.png\" alt=\"adminhome2.png\" /></p>\n<h4><a id=\"3_22\"></a>3、文章管理</h4>\n<ol>\n<li>列表页<br />\n<img src=\"http://img.shiyit.com/1639989186471.png\" alt=\"文章列表.png\" /></li>\n<li>文章添加<br />\n<img src=\"http://img.shiyit.com/1639989202706.png\" alt=\"文章添加.png\" /><br />\n编辑器使用的是mavon-editor编辑器，如不会使用的可以点击下面的链接查看<br />\n<a href=\"https://blog.csdn.net/qq_43681948/article/details/101531303\" target=\"_blank\">Vue markdown编辑器</a></li>\n</ol>\n<h4><a id=\"4_29\"></a>4、标签管理</h4>\n<p><img src=\"http://img.shiyit.com/1639989247680.png\" alt=\"标签列表.png\" /></p>\n<h4><a id=\"5_31\"></a>5、日志管理</h4>\n<ol>\n<li>针对用户访问以及管理员操作和异常信息都做了一个日志的记录</li>\n</ol>\n<p><img src=\"http://img.shiyit.com/1639989291127.png\" alt=\"日志管理.png\" /></p>\n<h4><a id=\"6_35\"></a>6、系统管理</h4>\n<p><img src=\"http://img.shiyit.com/1639989383160.png\" alt=\"系统配置.png\" /></p>\n<h4><a id=\"7_37\"></a>7、监控中心</h4>\n<ol>\n<li>监控中心主要有服务器的监控和定时任务，定时任务支持自动添加修改删除功能，改了时间无需修改代码<br />\n<img src=\"http://img.shiyit.com/1639989456867.png\" alt=\"定时任务.png\" /></li>\n</ol>\n<h4><a id=\"_40\"></a>结尾</h4>\n<p>上述只是项目的一些基础的功能图片，小伙伴们可以自行登录去查看，后台管理所看到的菜单功能都已实现，还在着手后续的一些功能开发。后台管理全由我自己根据模板改造而来，毕竟我只会业余的前端技术，所以有所缺陷也属正常。如有比较有意思的功能欢迎各位小伙伴给我留言，作者觉得有意思的话就会着手开发。如本项目小伙伴觉得可以，希望能够码云star一下，万分感谢！！</p>\n<blockquote>\n<p>码云地址：<a href=\"https://gitee.com/quequnlong/vue-admin-blog\" target=\"_blank\">点我进入</a></p>\n</blockquote>\n<h1><a id=\"bye_43\"></a>bye</h1>\n', '#### 博客介绍\n#### 1、博客使用到的技术\n1. 后端：springboot，mysql，es搜索引擎，以及redis\n2. 前端：vue\n\n#### 2、首页登录\n本博客支持[QQ](https://connect.qq.com/index.html)、[gitee](https://gitee.com/api/v5/oauth_doc#/)、[微博](https://open.weibo.com/?bottomnav=1&wvr=6)、邮箱登录\n#### 3、图片的存储\n项目中图片存储采用的是[七牛云](https://www.qiniu.com/products/kodo)平台的对象存储，因为只有七牛云每个月会有免费的一个额度，其他的都是需要收费的。\n#### 4、首页的搜索\n首页的搜索采用的是es的搜索，eslinux启动的话会占用比较高的一个内存，所以博主介意如需要使用es搜索的购买服务器时资金允许的情况下尽可能购买内存比较多的服务器。然后项目搜索的话主要是围绕文章的标题和内容进行的分词搜索。\n\n> 上面的话都是一些首页的介绍，原作者只是提供了一个模板，并没有提供后台管理的一个功能，所以我就自己写了一个后台管理，主要借用的是比较火的一个[vue-admin-template](https://gitee.com/panjiachen/vue-admin-template)项目模板来进行的二次开发，由于时间有限，所以后台管理开发的功能并不是很多，但是也能进行一个简单的博客管理了。\n\n###  后台管理\n> [后台地址](http://www.shiyit.com/admin)\n演示账号：test,密码：test\n#### 1、登录界面\n![login.jpg](http://img.shiyit.com/1639989154384.jpg)\n#### 2、后台首页\n![adminhome1.png](http://img.shiyit.com/1639989162006.png)\n![adminhome2.png](http://img.shiyit.com/1639989170907.png)\n#### 3、文章管理\n1. 列表页\n![文章列表.png](http://img.shiyit.com/1639989186471.png)\n2. 文章添加\n![文章添加.png](http://img.shiyit.com/1639989202706.png)\n编辑器使用的是mavon-editor编辑器，如不会使用的可以点击下面的链接查看\n[Vue markdown编辑器](https://blog.csdn.net/qq_43681948/article/details/101531303)\n#### 4、标签管理\n![标签列表.png](http://img.shiyit.com/1639989247680.png)\n#### 5、日志管理\n1. 针对用户访问以及管理员操作和异常信息都做了一个日志的记录\n\n![日志管理.png](http://img.shiyit.com/1639989291127.png)\n#### 6、系统管理\n![系统配置.png](http://img.shiyit.com/1639989383160.png)\n#### 7、监控中心\n1. 监控中心主要有服务器的监控和定时任务，定时任务支持自动添加修改删除功能，改了时间无需修改代码\n![定时任务.png](http://img.shiyit.com/1639989456867.png)\n#### 结尾\n上述只是项目的一些基础的功能图片，小伙伴们可以自行登录去查看，后台管理所看到的菜单功能都已实现，还在着手后续的一些功能开发。后台管理全由我自己根据模板改造而来，毕竟我只会业余的前端技术，所以有所缺陷也属正常。如有比较有意思的功能欢迎各位小伙伴给我留言，作者觉得有意思的话就会着手开发。如本项目小伙伴觉得可以，希望能够码云star一下，万分感谢！！\n> 码云地址：[点我进入](https://gitee.com/quequnlong/vue-admin-blog)\n# bye\n\n', 0, 1, 1, 1, NULL, 1621, '', '2021-10-15 09:57:22', 'blog,isblog,博客', '2022-03-01 04:00:01');
+INSERT INTO `b_article` VALUES (14, 7, 12, '关于博客', '\r\nhttp://img.shiyit.com/1642655697136.jpg', '关于博客的一些介绍。', '<blockquote>\n<p>本文主要介绍博客用到的技术和一些功能详情</p>\n</blockquote>\n<h4><a id=\"1_1\"></a>1、博客使用到的技术</h4>\n<ol>\n<li>后端：springboot，mysql，es搜索引擎，以及redis</li>\n<li>前端：vue</li>\n</ol>\n<h4><a id=\"2_5\"></a>2、首页登录</h4>\n<p>本博客支持<a href=\"https://connect.qq.com/index.html\" target=\"_blank\">QQ</a>、<a href=\"https://gitee.com/api/v5/oauth_doc#/\" target=\"_blank\">gitee</a>、<a href=\"https://open.weibo.com/?bottomnav=1&amp;wvr=6\" target=\"_blank\">微博</a>、邮箱登录</p>\n<h4><a id=\"3_7\"></a>3、图片的存储</h4>\n<p>项目中图片存储采用的是<a href=\"https://www.qiniu.com/products/kodo\" target=\"_blank\">七牛云</a>平台的对象存储，因为只有七牛云每个月会有免费的一个额度，其他的都是需要收费的。</p>\n<h4><a id=\"4_9\"></a>4、首页的搜索</h4>\n<p>首页的搜索采用的是es的搜索，eslinux启动的话会占用比较高的一个内存，所以博主介意如需要使用es搜索的购买服务器时资金允许的情况下尽可能购买内存比较多的服务器。然后项目搜索的话主要是围绕文章的标题和内容进行的分词搜索。</p>\n<blockquote>\n<p>上面的话都是一些首页的介绍，原作者只是提供了一个模板，并没有提供后台管理的一个功能，所以我就自己写了一个后台管理，主要借用的是比较火的一个<a href=\"https://gitee.com/panjiachen/vue-admin-template\" target=\"_blank\">vue-admin-template</a>项目模板来进行的二次开发，由于时间有限，所以后台管理开发的功能并不是很多，但是也能进行一个简单的博客管理了。</p>\n</blockquote>\n<h3><a id=\"_14\"></a>后台管理</h3>\n<blockquote>\n<p><a href=\"http://www.shiyit.com/admin\" target=\"_blank\">后台地址</a><br />\n演示账号：test,密码：test</p>\n</blockquote>\n<h4><a id=\"1_17\"></a>1、登录界面</h4>\n<p><img src=\"http://img.shiyit.com/1639989154384.jpg\" alt=\"login.jpg\" /></p>\n<h4><a id=\"2_19\"></a>2、后台首页</h4>\n<p><img src=\"http://img.shiyit.com/1639989162006.png\" alt=\"adminhome1.png\" /><br />\n<img src=\"http://img.shiyit.com/1639989170907.png\" alt=\"adminhome2.png\" /></p>\n<h4><a id=\"3_22\"></a>3、文章管理</h4>\n<ol>\n<li>列表页<br />\n<img src=\"http://img.shiyit.com/1639989186471.png\" alt=\"文章列表.png\" /></li>\n<li>文章添加<br />\n<img src=\"http://img.shiyit.com/1639989202706.png\" alt=\"文章添加.png\" /><br />\n编辑器使用的是mavon-editor编辑器，如不会使用的可以点击下面的链接查看<br />\n<a href=\"https://blog.csdn.net/qq_43681948/article/details/101531303\" target=\"_blank\">Vue markdown编辑器</a></li>\n</ol>\n<h4><a id=\"4_29\"></a>4、标签管理</h4>\n<p><img src=\"http://img.shiyit.com/1639989247680.png\" alt=\"标签列表.png\" /></p>\n<h4><a id=\"5_31\"></a>5、日志管理</h4>\n<ol>\n<li>针对用户访问以及管理员操作和异常信息都做了一个日志的记录</li>\n</ol>\n<p><img src=\"http://img.shiyit.com/1639989291127.png\" alt=\"日志管理.png\" /></p>\n<h4><a id=\"6_35\"></a>6、系统管理</h4>\n<p><img src=\"http://img.shiyit.com/1639989383160.png\" alt=\"系统配置.png\" /></p>\n<h4><a id=\"7_37\"></a>7、监控中心</h4>\n<ol>\n<li>监控中心主要有服务器的监控和定时任务，定时任务支持自动添加修改删除功能，改了时间无需修改代码<br />\n<img src=\"http://img.shiyit.com/1639989456867.png\" alt=\"定时任务.png\" /></li>\n</ol>\n<h4><a id=\"_40\"></a>结尾</h4>\n<p>上述只是项目的一些基础的功能图片，小伙伴们可以自行登录去查看，后台管理所看到的菜单功能都已实现，还在着手后续的一些功能开发。后台管理全由我自己根据模板改造而来，毕竟我只会业余的前端技术，所以有所缺陷也属正常。如有比较有意思的功能欢迎各位小伙伴给我留言，作者觉得有意思的话就会着手开发。如本项目小伙伴觉得可以，希望能够码云star一下，万分感谢！！</p>\n<blockquote>\n<p>码云地址：<a href=\"https://gitee.com/quequnlong/vue-admin-blog\" target=\"_blank\">点我进入</a></p>\n</blockquote>\n<h1><a id=\"bye_43\"></a>bye</h1>\n', '> 本文主要介绍博客用到的技术和一些功能详情\n#### 1、博客使用到的技术\n1. 后端：springboot，mysql，es搜索引擎，以及redis\n2. 前端：vue\n\n#### 2、首页登录\n本博客支持[QQ](https://connect.qq.com/index.html)、[gitee](https://gitee.com/api/v5/oauth_doc#/)、[微博](https://open.weibo.com/?bottomnav=1&wvr=6)、邮箱登录\n#### 3、图片的存储\n项目中图片存储采用的是[七牛云](https://www.qiniu.com/products/kodo)平台的对象存储，因为只有七牛云每个月会有免费的一个额度，其他的都是需要收费的。\n#### 4、首页的搜索\n首页的搜索采用的是es的搜索，eslinux启动的话会占用比较高的一个内存，所以博主介意如需要使用es搜索的购买服务器时资金允许的情况下尽可能购买内存比较多的服务器。然后项目搜索的话主要是围绕文章的标题和内容进行的分词搜索。\n\n> 上面的话都是一些首页的介绍，原作者只是提供了一个模板，并没有提供后台管理的一个功能，所以我就自己写了一个后台管理，主要借用的是比较火的一个[vue-admin-template](https://gitee.com/panjiachen/vue-admin-template)项目模板来进行的二次开发，由于时间有限，所以后台管理开发的功能并不是很多，但是也能进行一个简单的博客管理了。\n\n###  后台管理\n> [后台地址](http://www.shiyit.com/admin)\n演示账号：test,密码：test\n#### 1、登录界面\n![login.jpg](http://img.shiyit.com/1639989154384.jpg)\n#### 2、后台首页\n![adminhome1.png](http://img.shiyit.com/1639989162006.png)\n![adminhome2.png](http://img.shiyit.com/1639989170907.png)\n#### 3、文章管理\n1. 列表页\n![文章列表.png](http://img.shiyit.com/1639989186471.png)\n2. 文章添加\n![文章添加.png](http://img.shiyit.com/1639989202706.png)\n编辑器使用的是mavon-editor编辑器，如不会使用的可以点击下面的链接查看\n[Vue markdown编辑器](https://blog.csdn.net/qq_43681948/article/details/101531303)\n#### 4、标签管理\n![标签列表.png](http://img.shiyit.com/1639989247680.png)\n#### 5、日志管理\n1. 针对用户访问以及管理员操作和异常信息都做了一个日志的记录\n\n![日志管理.png](http://img.shiyit.com/1639989291127.png)\n#### 6、系统管理\n![系统配置.png](http://img.shiyit.com/1639989383160.png)\n#### 7、监控中心\n1. 监控中心主要有服务器的监控和定时任务，定时任务支持自动添加修改删除功能，改了时间无需修改代码\n![定时任务.png](http://img.shiyit.com/1639989456867.png)\n#### 结尾\n上述只是项目的一些基础的功能图片，小伙伴们可以自行登录去查看，后台管理所看到的菜单功能都已实现，还在着手后续的一些功能开发。后台管理全由我自己根据模板改造而来，毕竟我只会业余的前端技术，所以有所缺陷也属正常。如有比较有意思的功能欢迎各位小伙伴给我留言，作者觉得有意思的话就会着手开发。如本项目小伙伴觉得可以，希望能够码云star一下，万分感谢！！\n> 码云地址：[点我进入](https://gitee.com/quequnlong/vue-admin-blog)\n# bye\n\n', 0, 1, 1, 1, NULL, 18, '', '2021-10-15 09:57:22', 'blog,拾壹博客,博客', '2022-04-15 04:00:00');
 
 -- ----------------------------
 -- Table structure for b_article_tag
@@ -78,13 +78,13 @@ CREATE TABLE `b_article_tag`  (
   `tag_id` int(11) NOT NULL COMMENT '标签id',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `fk_article_tag_1`(`article_id`, `tag_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 644 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 661 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of b_article_tag
 -- ----------------------------
-INSERT INTO `b_article_tag` VALUES (642, 14, 1);
-INSERT INTO `b_article_tag` VALUES (643, 14, 10);
+INSERT INTO `b_article_tag` VALUES (1, 14, 1);
+INSERT INTO `b_article_tag` VALUES (2, 14, 10);
 
 -- ----------------------------
 -- Table structure for b_category
@@ -126,7 +126,7 @@ CREATE TABLE `b_comment`  (
   `parent_id` int(11) NULL DEFAULT NULL COMMENT '父id',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '评论时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '评论表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '评论表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for b_dict
@@ -216,7 +216,7 @@ CREATE TABLE `b_exception_log`  (
   `exception_message` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '异常简单信息,等同于e.getMessage',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发生时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 70 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for b_feed_back
@@ -231,14 +231,7 @@ CREATE TABLE `b_feed_back`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '添加时间',
   `type` int(1) NOT NULL COMMENT '反馈类型 1:需求 2：缺陷',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_feed_back
--- ----------------------------
-INSERT INTO `b_feed_back` VALUES (1, '111111@qq.com', '测试测试测试', '测试测试测试测试测试', NULL, '2022-01-13 09:44:01', 1);
-INSERT INTO `b_feed_back` VALUES (5, '11111@qq.com', 'ces测试', 'ces测试ces测试ces测试ces测试', NULL, '2022-01-14 08:44:21', 2);
-INSERT INTO `b_feed_back` VALUES (6, '2222@qq.com', '测试123', '测试123测试123测试123', NULL, '2022-01-14 10:35:03', 1);
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for b_friend_link
@@ -261,7 +254,7 @@ CREATE TABLE `b_friend_link`  (
 -- ----------------------------
 -- Records of b_friend_link
 -- ----------------------------
-INSERT INTO `b_friend_link` VALUES (1, '拾壹博客', 'http://www.shiyit.com\n', 'http://img.shiyit.com/1645512111007.png', '机会向来都是自己争取的。', '', 6, 2, '2021-08-27 11:53:31', '2021-12-20 17:28:16');
+INSERT INTO `b_friend_link` VALUES (1, '拾壹博客', 'https://www.shiyit.com', 'http://img.shiyit.com/FjzfvfWYZVED7eXMS4EL8KNR949K', '机会向来都是自己争取的。', '', 6, 2, '2021-08-27 11:53:31', '2021-12-20 17:28:16');
 
 -- ----------------------------
 -- Table structure for b_job
@@ -287,11 +280,11 @@ CREATE TABLE `b_job`  (
 -- ----------------------------
 -- Records of b_job
 -- ----------------------------
-INSERT INTO `b_job` VALUES (1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '0 0 4 * * ?', '3', '1', '0', 'admin', '2021-12-08 17:16:40', '', NULL, '');
-INSERT INTO `b_job` VALUES (2, '系统默认（无参）', 'DEFAULT', 'blogTask.ryNoParams', '0/10 * * * * ?', '3', '1', '1', 'admin', '2021-12-09 09:09:21', '', NULL, '');
-INSERT INTO `b_job` VALUES (3, '系统默认（有参）', 'DEFAULT', 'blogTask.ryParams(\'ry\')', '0/15 * * * * ?', '3', '1', '1', 'admin', '2021-12-09 09:09:21', '', NULL, '');
-INSERT INTO `b_job` VALUES (6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '0 0 3 * * ?', '0', '1', '0', 'quequnlong', '2021-12-17 15:37:20', '', NULL, '1');
-INSERT INTO `b_job` VALUES (7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '0 30 23 * * ?', '0', '1', '0', 'blue', '2022-01-11 16:39:42', '', NULL, '1');
+INSERT INTO `b_job` VALUES (1, '自动更新文章阅读数', 'DEFAULT', 'blogQuartz.updateReadQuantity', '0 0 4 * * ?', '3', '1', '0', '拾壹', '2021-12-08 17:16:40', '', NULL, '');
+INSERT INTO `b_job` VALUES (2, '系统默认（无参）', 'DEFAULT', 'blogQuartz.ryNoParams', '0/10 * * * * ?', '3', '1', '1', '拾壹', '2021-12-09 09:09:21', '', NULL, '');
+INSERT INTO `b_job` VALUES (3, '系统默认（有参）', 'DEFAULT', 'blogQuartz.ryParams(\'ry\')', '0/15 * * * * ?', '3', '1', '1', '拾壹', '2021-12-09 09:09:21', '', NULL, '');
+INSERT INTO `b_job` VALUES (6, '定时修改标签的点击量', 'DEFAULT', 'blogQuartz.autoTagsClickVolume', '0 0 3 * * ?', '0', '1', '0', '拾壹', '2021-12-17 15:37:20', '', NULL, '1');
+INSERT INTO `b_job` VALUES (7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogQuartz.removeCode', '0 30 23 * * ?', '0', '1', '0', '拾壹', '2022-01-11 16:39:42', '', NULL, '1');
 
 -- ----------------------------
 -- Table structure for b_job_log
@@ -310,339 +303,7 @@ CREATE TABLE `b_job_log`  (
   `start_time` datetime(0) NULL DEFAULT NULL COMMENT '开始时间',
   `stop_time` datetime(0) NULL DEFAULT NULL COMMENT '结束时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 346 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_job_log
--- ----------------------------
-INSERT INTO `b_job_log` VALUES (18, 2, '系统默认（无参）', 'DEFAULT', 'blogTask.ryNoParams', '系统默认（无参） 总共耗时：1毫秒', '0', '', NULL, '2021-12-10 14:07:43', '2021-12-10 14:07:43');
-INSERT INTO `b_job_log` VALUES (19, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：15365毫秒', '0', '', NULL, '2021-12-11 04:00:11', '2021-12-11 04:00:26');
-INSERT INTO `b_job_log` VALUES (20, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：469毫秒', '0', '', NULL, '2021-12-12 04:00:00', '2021-12-12 04:00:01');
-INSERT INTO `b_job_log` VALUES (21, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：765毫秒', '0', '', NULL, '2021-12-13 04:00:00', '2021-12-13 04:00:01');
-INSERT INTO `b_job_log` VALUES (22, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：7177毫秒', '0', '', NULL, '2021-12-14 04:00:00', '2021-12-14 04:00:07');
-INSERT INTO `b_job_log` VALUES (23, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：3023毫秒', '1', 'java.lang.reflect.InvocationTargetException\n	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n	at java.lang.reflect.Method.invoke(Method.java:498)\n	at com.isblog.utils.task.JobInvokeUtil.invokeMethod(JobInvokeUtil.java:61)\n	at com.isblog.utils.task.JobInvokeUtil.invokeMethod(JobInvokeUtil.java:33)\n	at com.isblog.utils.task.QuartzDisallowConcurrentExecution.doExecute(QuartzDisallowConcurrentExecution.java:14)\n	at com.isblog.utils.task.AbstractQuartzJob.execute(AbstractQuartzJob.java:40)\n	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)\n	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)\nCaused by: org.springframework.data.redis.RedisConnectionFailureException: Cannot get Jedis connection; nested exception is redis.clients.jedis.exceptions.JedisConnectionException: Failed connecting to host 121.41.101.167:6379\n	at org.springframework.data.redis.connection.jedis.JedisConnectionFactory.fetchJedisConnector(JedisConnectionFactory.java:281)\n	at org.springframework.data.redis.connection.jedis.JedisConnectionFactory.getConnection(JedisConnectionFactory.java:475)\n	at org.springframework.data.redis.core.RedisConnectionUtils.doGetConnection(RedisConnectionUtils.java:132)\n	at org.springframework.data.redis.core.RedisConnectionUtils.getConnection(RedisConnectionUtils.java:95)\n	at org.springframework.data.redis.core.RedisConnectionUtils.getConnection(RedisConnectionUtils.java:82)\n	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:215)\n	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:188)\n	at org.springframework.data.redis.core.RedisTemplate.keys(RedisTemplate.java:887)\n	at com.isblog.utils.RedisCache.keys(RedisCache.java:238)\n	at com.isblog.utils.task.BlogTask.updateReadQuantity(BlogTask.java:56)\n	..', NULL, '2021-12-17 04:00:00', '2021-12-17 04:00:03');
-INSERT INTO `b_job_log` VALUES (24, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：71毫秒', '0', '', NULL, '2021-12-18 03:00:00', '2021-12-18 03:00:00');
-INSERT INTO `b_job_log` VALUES (25, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：66毫秒', '0', '', NULL, '2021-12-18 04:00:00', '2021-12-18 04:00:00');
-INSERT INTO `b_job_log` VALUES (26, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：62毫秒', '0', '', NULL, '2021-12-19 03:00:00', '2021-12-19 03:00:00');
-INSERT INTO `b_job_log` VALUES (27, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：66毫秒', '0', '', NULL, '2021-12-19 04:00:00', '2021-12-19 04:00:00');
-INSERT INTO `b_job_log` VALUES (28, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：62毫秒', '0', '', NULL, '2021-12-20 03:00:00', '2021-12-20 03:00:00');
-INSERT INTO `b_job_log` VALUES (29, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：64毫秒', '0', '', NULL, '2021-12-20 04:00:00', '2021-12-20 04:00:00');
-INSERT INTO `b_job_log` VALUES (30, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：68毫秒', '0', '', NULL, '2021-12-21 03:00:00', '2021-12-21 03:00:00');
-INSERT INTO `b_job_log` VALUES (31, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：29毫秒', '0', '', NULL, '2021-12-21 04:00:00', '2021-12-21 04:00:00');
-INSERT INTO `b_job_log` VALUES (32, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：82毫秒', '0', '', NULL, '2021-12-22 03:00:00', '2021-12-22 03:00:00');
-INSERT INTO `b_job_log` VALUES (33, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：61毫秒', '0', '', NULL, '2021-12-22 04:00:00', '2021-12-22 04:00:00');
-INSERT INTO `b_job_log` VALUES (34, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：156毫秒', '0', '', NULL, '2021-12-23 03:00:00', '2021-12-23 03:00:00');
-INSERT INTO `b_job_log` VALUES (35, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：99毫秒', '0', '', NULL, '2021-12-23 04:00:00', '2021-12-23 04:00:00');
-INSERT INTO `b_job_log` VALUES (36, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：89毫秒', '0', '', NULL, '2021-12-24 03:00:00', '2021-12-24 03:00:00');
-INSERT INTO `b_job_log` VALUES (37, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：128毫秒', '0', '', NULL, '2021-12-24 04:00:00', '2021-12-24 04:00:00');
-INSERT INTO `b_job_log` VALUES (38, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：110毫秒', '0', '', NULL, '2021-12-25 03:00:00', '2021-12-25 03:00:00');
-INSERT INTO `b_job_log` VALUES (39, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：194毫秒', '0', '', NULL, '2021-12-25 04:00:00', '2021-12-25 04:00:00');
-INSERT INTO `b_job_log` VALUES (40, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：100毫秒', '0', '', NULL, '2021-12-26 03:00:00', '2021-12-26 03:00:00');
-INSERT INTO `b_job_log` VALUES (41, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：141毫秒', '0', '', NULL, '2021-12-26 03:00:00', '2021-12-26 03:00:00');
-INSERT INTO `b_job_log` VALUES (42, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：203毫秒', '0', '', NULL, '2021-12-26 04:00:00', '2021-12-26 04:00:00');
-INSERT INTO `b_job_log` VALUES (43, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：223毫秒', '0', '', NULL, '2021-12-26 04:00:00', '2021-12-26 04:00:00');
-INSERT INTO `b_job_log` VALUES (44, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：128毫秒', '0', '', NULL, '2021-12-27 03:00:00', '2021-12-27 03:00:00');
-INSERT INTO `b_job_log` VALUES (45, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：129毫秒', '0', '', NULL, '2021-12-27 03:00:00', '2021-12-27 03:00:00');
-INSERT INTO `b_job_log` VALUES (46, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：202毫秒', '0', '', NULL, '2021-12-27 04:00:00', '2021-12-27 04:00:00');
-INSERT INTO `b_job_log` VALUES (47, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：229毫秒', '0', '', NULL, '2021-12-27 04:00:00', '2021-12-27 04:00:00');
-INSERT INTO `b_job_log` VALUES (48, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：74毫秒', '0', '', NULL, '2021-12-28 03:00:00', '2021-12-28 03:00:00');
-INSERT INTO `b_job_log` VALUES (49, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：112毫秒', '0', '', NULL, '2021-12-28 03:00:00', '2021-12-28 03:00:00');
-INSERT INTO `b_job_log` VALUES (50, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：217毫秒', '0', '', NULL, '2021-12-28 04:00:00', '2021-12-28 04:00:00');
-INSERT INTO `b_job_log` VALUES (51, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：250毫秒', '0', '', NULL, '2021-12-28 04:00:00', '2021-12-28 04:00:00');
-INSERT INTO `b_job_log` VALUES (52, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：3024毫秒', '1', 'java.lang.reflect.InvocationTargetException\r\n	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.lang.reflect.Method.invoke(Method.java:498)\r\n	at com.isblog.utils.task.JobInvokeUtil.invokeMethod(JobInvokeUtil.java:61)\r\n	at com.isblog.utils.task.JobInvokeUtil.invokeMethod(JobInvokeUtil.java:33)\r\n	at com.isblog.utils.task.QuartzDisallowConcurrentExecution.doExecute(QuartzDisallowConcurrentExecution.java:14)\r\n	at com.isblog.utils.task.AbstractQuartzJob.execute(AbstractQuartzJob.java:40)\r\n	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)\r\n	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)\r\nCaused by: org.springframework.data.redis.RedisConnectionFailureException: Cannot get Jedis connection; nested exception is redis.clients.jedis.exceptions.JedisConnectionException: Failed connecting to host 121.41.101.167:6379\r\n	at org.springframework.data.redis.connection.jedis.JedisConnectionFactory.fetchJedisConnector(JedisConnectionFactory.java:281)\r\n	at org.springframework.data.redis.connection.jedis.JedisConnectionFactory.getConnection(JedisConnectionFactory.java:475)\r\n	at org.springframework.data.redis.core.RedisConnectionUtils.doGetConnection(RedisConnectionUtils.java:132)\r\n	at org.springframework.data.redis.core.RedisConnectionUtils.getConnection(RedisConnectionUtils.java:95)\r\n	at org.springframework.data.redis.core.RedisConnectionUtils.getConnection(RedisConnectionUtils.java:82)\r\n	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:215)\r\n	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:188)\r\n	at org.springframework.data.redis.core.RedisTemplate.keys(RedisTemplate.java:887)\r\n	at com.isblog.utils.RedisCache.keys(RedisCache.java:238)\r\n	at com.isblog.utils.task.BlogTask.autoTagsClickVolume', NULL, '2021-12-28 03:00:00', '2021-12-28 03:00:03');
-INSERT INTO `b_job_log` VALUES (53, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：3017毫秒', '1', 'java.lang.reflect.InvocationTargetException\r\n	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n	at java.lang.reflect.Method.invoke(Method.java:498)\r\n	at com.isblog.utils.task.JobInvokeUtil.invokeMethod(JobInvokeUtil.java:61)\r\n	at com.isblog.utils.task.JobInvokeUtil.invokeMethod(JobInvokeUtil.java:33)\r\n	at com.isblog.utils.task.QuartzDisallowConcurrentExecution.doExecute(QuartzDisallowConcurrentExecution.java:14)\r\n	at com.isblog.utils.task.AbstractQuartzJob.execute(AbstractQuartzJob.java:40)\r\n	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)\r\n	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)\r\nCaused by: org.springframework.data.redis.RedisConnectionFailureException: Cannot get Jedis connection; nested exception is redis.clients.jedis.exceptions.JedisConnectionException: Failed connecting to host 121.41.101.167:6379\r\n	at org.springframework.data.redis.connection.jedis.JedisConnectionFactory.fetchJedisConnector(JedisConnectionFactory.java:281)\r\n	at org.springframework.data.redis.connection.jedis.JedisConnectionFactory.getConnection(JedisConnectionFactory.java:475)\r\n	at org.springframework.data.redis.core.RedisConnectionUtils.doGetConnection(RedisConnectionUtils.java:132)\r\n	at org.springframework.data.redis.core.RedisConnectionUtils.getConnection(RedisConnectionUtils.java:95)\r\n	at org.springframework.data.redis.core.RedisConnectionUtils.getConnection(RedisConnectionUtils.java:82)\r\n	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:215)\r\n	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:188)\r\n	at org.springframework.data.redis.core.RedisTemplate.keys(RedisTemplate.java:887)\r\n	at com.isblog.utils.RedisCache.keys(RedisCache.java:238)\r\n	at com.isblog.utils.task.BlogTask.updateReadQuantity(', NULL, '2021-12-28 04:00:00', '2021-12-28 04:00:03');
-INSERT INTO `b_job_log` VALUES (54, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：109毫秒', '0', '', NULL, '2021-12-29 03:00:00', '2021-12-29 03:00:00');
-INSERT INTO `b_job_log` VALUES (55, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：118毫秒', '0', '', NULL, '2021-12-29 03:00:00', '2021-12-29 03:00:00');
-INSERT INTO `b_job_log` VALUES (56, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：143毫秒', '0', '', NULL, '2021-12-29 04:00:00', '2021-12-29 04:00:00');
-INSERT INTO `b_job_log` VALUES (57, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：160毫秒', '0', '', NULL, '2021-12-29 04:00:00', '2021-12-29 04:00:00');
-INSERT INTO `b_job_log` VALUES (58, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：132毫秒', '0', '', NULL, '2021-12-30 03:00:00', '2021-12-30 03:00:00');
-INSERT INTO `b_job_log` VALUES (59, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：12893毫秒', '0', '', NULL, '2021-12-30 03:00:00', '2021-12-30 03:00:13');
-INSERT INTO `b_job_log` VALUES (60, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：144毫秒', '0', '', NULL, '2021-12-30 04:00:00', '2021-12-30 04:00:00');
-INSERT INTO `b_job_log` VALUES (61, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：10892毫秒', '0', '', NULL, '2021-12-30 04:00:00', '2021-12-30 04:00:11');
-INSERT INTO `b_job_log` VALUES (62, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：193毫秒', '0', '', NULL, '2021-12-31 03:00:00', '2021-12-31 03:00:00');
-INSERT INTO `b_job_log` VALUES (63, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：137毫秒', '0', '', NULL, '2021-12-31 04:00:00', '2021-12-31 04:00:00');
-INSERT INTO `b_job_log` VALUES (64, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：133毫秒', '0', '', NULL, '2022-01-01 03:00:00', '2022-01-01 03:00:00');
-INSERT INTO `b_job_log` VALUES (65, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：151毫秒', '0', '', NULL, '2022-01-01 04:00:00', '2022-01-01 04:00:00');
-INSERT INTO `b_job_log` VALUES (66, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：96毫秒', '0', '', NULL, '2022-01-02 03:00:00', '2022-01-02 03:00:00');
-INSERT INTO `b_job_log` VALUES (67, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：133毫秒', '0', '', NULL, '2022-01-02 04:00:00', '2022-01-02 04:00:00');
-INSERT INTO `b_job_log` VALUES (68, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：99毫秒', '0', '', NULL, '2022-01-03 03:00:00', '2022-01-03 03:00:00');
-INSERT INTO `b_job_log` VALUES (69, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：131毫秒', '0', '', NULL, '2022-01-03 04:00:00', '2022-01-03 04:00:00');
-INSERT INTO `b_job_log` VALUES (70, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：96毫秒', '0', '', NULL, '2022-01-04 03:00:00', '2022-01-04 03:00:00');
-INSERT INTO `b_job_log` VALUES (71, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：131毫秒', '0', '', NULL, '2022-01-04 04:00:00', '2022-01-04 04:00:00');
-INSERT INTO `b_job_log` VALUES (72, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：99毫秒', '0', '', NULL, '2022-01-05 03:00:00', '2022-01-05 03:00:00');
-INSERT INTO `b_job_log` VALUES (73, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：129毫秒', '0', '', NULL, '2022-01-05 04:00:00', '2022-01-05 04:00:00');
-INSERT INTO `b_job_log` VALUES (74, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：149毫秒', '0', '', NULL, '2022-01-06 03:00:00', '2022-01-06 03:00:00');
-INSERT INTO `b_job_log` VALUES (75, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：12728毫秒', '0', '', NULL, '2022-01-06 03:00:00', '2022-01-06 03:00:13');
-INSERT INTO `b_job_log` VALUES (76, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：153毫秒', '0', '', NULL, '2022-01-06 04:00:00', '2022-01-06 04:00:00');
-INSERT INTO `b_job_log` VALUES (77, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：11904毫秒', '0', '', NULL, '2022-01-06 04:00:00', '2022-01-06 04:00:12');
-INSERT INTO `b_job_log` VALUES (78, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：118毫秒', '0', '', NULL, '2022-01-07 03:00:00', '2022-01-07 03:00:00');
-INSERT INTO `b_job_log` VALUES (79, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：133毫秒', '0', '', NULL, '2022-01-07 04:00:00', '2022-01-07 04:00:00');
-INSERT INTO `b_job_log` VALUES (80, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：120毫秒', '0', '', '2022-01-08 03:00:00', '2022-01-08 03:00:00', '2022-01-08 03:00:00');
-INSERT INTO `b_job_log` VALUES (81, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：164毫秒', '0', '', '2022-01-08 04:00:00', '2022-01-08 04:00:00', '2022-01-08 04:00:00');
-INSERT INTO `b_job_log` VALUES (82, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：67毫秒', '0', '', '2022-01-09 03:00:00', '2022-01-09 03:00:00', '2022-01-09 03:00:00');
-INSERT INTO `b_job_log` VALUES (83, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：162毫秒', '0', '', '2022-01-09 04:00:00', '2022-01-09 04:00:00', '2022-01-09 04:00:00');
-INSERT INTO `b_job_log` VALUES (84, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：101毫秒', '0', '', '2022-01-10 03:00:00', '2022-01-10 03:00:00', '2022-01-10 03:00:00');
-INSERT INTO `b_job_log` VALUES (85, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：159毫秒', '0', '', '2022-01-10 04:00:00', '2022-01-10 04:00:00', '2022-01-10 04:00:00');
-INSERT INTO `b_job_log` VALUES (86, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：96毫秒', '0', '', '2022-01-11 03:00:00', '2022-01-11 03:00:00', '2022-01-11 03:00:00');
-INSERT INTO `b_job_log` VALUES (87, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：178毫秒', '0', '', '2022-01-11 04:00:00', '2022-01-11 04:00:00', '2022-01-11 04:00:00');
-INSERT INTO `b_job_log` VALUES (88, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：17毫秒', '0', '', '2022-01-11 23:30:00', '2022-01-11 23:30:00', '2022-01-11 23:30:00');
-INSERT INTO `b_job_log` VALUES (89, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：107毫秒', '0', '', '2022-01-12 03:00:00', '2022-01-12 03:00:00', '2022-01-12 03:00:00');
-INSERT INTO `b_job_log` VALUES (90, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：202毫秒', '0', '', '2022-01-12 04:00:00', '2022-01-12 04:00:00', '2022-01-12 04:00:00');
-INSERT INTO `b_job_log` VALUES (91, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：17毫秒', '0', '', '2022-01-12 23:30:00', '2022-01-12 23:30:00', '2022-01-12 23:30:00');
-INSERT INTO `b_job_log` VALUES (92, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：131毫秒', '0', '', '2022-01-13 03:00:00', '2022-01-13 03:00:00', '2022-01-13 03:00:00');
-INSERT INTO `b_job_log` VALUES (93, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：247毫秒', '0', '', '2022-01-13 04:00:00', '2022-01-13 04:00:00', '2022-01-13 04:00:00');
-INSERT INTO `b_job_log` VALUES (94, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：17毫秒', '0', '', '2022-01-13 23:30:00', '2022-01-13 23:30:00', '2022-01-13 23:30:00');
-INSERT INTO `b_job_log` VALUES (95, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：72毫秒', '0', '', '2022-01-14 03:00:00', '2022-01-14 03:00:00', '2022-01-14 03:00:00');
-INSERT INTO `b_job_log` VALUES (96, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：230毫秒', '0', '', '2022-01-14 04:00:00', '2022-01-14 04:00:00', '2022-01-14 04:00:00');
-INSERT INTO `b_job_log` VALUES (97, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：21毫秒', '0', '', '2022-01-14 23:30:00', '2022-01-14 23:30:00', '2022-01-14 23:30:00');
-INSERT INTO `b_job_log` VALUES (98, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：63毫秒', '0', '', '2022-01-15 03:00:00', '2022-01-15 03:00:00', '2022-01-15 03:00:00');
-INSERT INTO `b_job_log` VALUES (99, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：188毫秒', '0', '', '2022-01-15 04:00:00', '2022-01-15 04:00:00', '2022-01-15 04:00:00');
-INSERT INTO `b_job_log` VALUES (100, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：14毫秒', '0', '', '2022-01-15 23:30:00', '2022-01-15 23:30:00', '2022-01-15 23:30:00');
-INSERT INTO `b_job_log` VALUES (101, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：65毫秒', '0', '', '2022-01-16 03:00:00', '2022-01-16 03:00:00', '2022-01-16 03:00:00');
-INSERT INTO `b_job_log` VALUES (102, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：168毫秒', '0', '', '2022-01-16 04:00:00', '2022-01-16 04:00:00', '2022-01-16 04:00:00');
-INSERT INTO `b_job_log` VALUES (103, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：13毫秒', '0', '', '2022-01-16 23:30:00', '2022-01-16 23:30:00', '2022-01-16 23:30:00');
-INSERT INTO `b_job_log` VALUES (104, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：69毫秒', '0', '', '2022-01-17 03:00:00', '2022-01-17 03:00:00', '2022-01-17 03:00:00');
-INSERT INTO `b_job_log` VALUES (105, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：170毫秒', '0', '', '2022-01-17 04:00:00', '2022-01-17 04:00:00', '2022-01-17 04:00:00');
-INSERT INTO `b_job_log` VALUES (106, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：42毫秒', '0', '', '2022-01-18 23:30:00', '2022-01-18 23:30:00', '2022-01-18 23:30:00');
-INSERT INTO `b_job_log` VALUES (107, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：48毫秒', '0', '', '2022-01-19 03:00:00', '2022-01-19 03:00:00', '2022-01-19 03:00:00');
-INSERT INTO `b_job_log` VALUES (108, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：140毫秒', '0', '', '2022-01-19 04:00:00', '2022-01-19 04:00:00', '2022-01-19 04:00:00');
-INSERT INTO `b_job_log` VALUES (109, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：8毫秒', '0', '', '2022-01-19 23:30:00', '2022-01-19 23:30:00', '2022-01-19 23:30:00');
-INSERT INTO `b_job_log` VALUES (110, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：21毫秒', '0', '', '2022-01-20 03:00:00', '2022-01-20 03:00:00', '2022-01-20 03:00:00');
-INSERT INTO `b_job_log` VALUES (111, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：57毫秒', '0', '', '2022-01-20 04:00:00', '2022-01-20 04:00:00', '2022-01-20 04:00:00');
-INSERT INTO `b_job_log` VALUES (112, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-01-20 23:30:00', '2022-01-20 23:30:00', '2022-01-20 23:30:00');
-INSERT INTO `b_job_log` VALUES (113, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：13毫秒', '0', '', '2022-01-21 03:00:00', '2022-01-21 03:00:00', '2022-01-21 03:00:00');
-INSERT INTO `b_job_log` VALUES (114, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：30毫秒', '0', '', '2022-01-21 04:00:00', '2022-01-21 04:00:00', '2022-01-21 04:00:00');
-INSERT INTO `b_job_log` VALUES (115, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：7毫秒', '0', '', '2022-01-21 23:30:00', '2022-01-21 23:30:00', '2022-01-21 23:30:00');
-INSERT INTO `b_job_log` VALUES (116, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：88毫秒', '0', '', '2022-01-22 03:00:00', '2022-01-22 03:00:00', '2022-01-22 03:00:00');
-INSERT INTO `b_job_log` VALUES (117, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：76毫秒', '0', '', '2022-01-22 04:00:00', '2022-01-22 04:00:00', '2022-01-22 04:00:00');
-INSERT INTO `b_job_log` VALUES (118, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：7毫秒', '0', '', '2022-01-22 23:30:00', '2022-01-22 23:30:00', '2022-01-22 23:30:00');
-INSERT INTO `b_job_log` VALUES (119, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：22毫秒', '0', '', '2022-01-23 03:00:00', '2022-01-23 03:00:00', '2022-01-23 03:00:00');
-INSERT INTO `b_job_log` VALUES (120, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：52毫秒', '0', '', '2022-01-23 04:00:00', '2022-01-23 04:00:00', '2022-01-23 04:00:00');
-INSERT INTO `b_job_log` VALUES (121, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：3毫秒', '0', '', '2022-01-23 23:30:00', '2022-01-23 23:30:00', '2022-01-23 23:30:00');
-INSERT INTO `b_job_log` VALUES (122, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：21毫秒', '0', '', '2022-01-24 03:00:00', '2022-01-24 03:00:00', '2022-01-24 03:00:00');
-INSERT INTO `b_job_log` VALUES (123, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：42毫秒', '0', '', '2022-01-24 04:00:00', '2022-01-24 04:00:00', '2022-01-24 04:00:00');
-INSERT INTO `b_job_log` VALUES (124, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：9毫秒', '0', '', '2022-01-24 23:30:00', '2022-01-24 23:30:00', '2022-01-24 23:30:00');
-INSERT INTO `b_job_log` VALUES (125, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：122毫秒', '0', '', '2022-01-24 23:30:00', '2022-01-24 23:30:00', '2022-01-24 23:30:00');
-INSERT INTO `b_job_log` VALUES (126, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：56毫秒', '0', '', '2022-01-25 03:00:00', '2022-01-25 03:00:00', '2022-01-25 03:00:00');
-INSERT INTO `b_job_log` VALUES (127, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：488毫秒', '0', '', '2022-01-25 03:00:01', '2022-01-25 03:00:00', '2022-01-25 03:00:01');
-INSERT INTO `b_job_log` VALUES (128, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：57毫秒', '0', '', '2022-01-25 04:00:00', '2022-01-25 04:00:00', '2022-01-25 04:00:00');
-INSERT INTO `b_job_log` VALUES (129, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：1186毫秒', '0', '', '2022-01-25 04:00:01', '2022-01-25 04:00:00', '2022-01-25 04:00:01');
-INSERT INTO `b_job_log` VALUES (130, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：11毫秒', '0', '', '2022-01-25 23:30:00', '2022-01-25 23:30:00', '2022-01-25 23:30:00');
-INSERT INTO `b_job_log` VALUES (131, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：98毫秒', '0', '', '2022-01-25 23:30:00', '2022-01-25 23:30:00', '2022-01-25 23:30:00');
-INSERT INTO `b_job_log` VALUES (132, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：74毫秒', '0', '', '2022-01-25 23:30:00', '2022-01-25 23:30:00', '2022-01-25 23:30:00');
-INSERT INTO `b_job_log` VALUES (133, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：44毫秒', '0', '', '2022-01-26 03:00:00', '2022-01-26 03:00:00', '2022-01-26 03:00:00');
-INSERT INTO `b_job_log` VALUES (134, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：428毫秒', '0', '', '2022-01-26 03:00:00', '2022-01-26 03:00:00', '2022-01-26 03:00:00');
-INSERT INTO `b_job_log` VALUES (135, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：279毫秒', '0', '', '2022-01-26 03:00:00', '2022-01-26 03:00:00', '2022-01-26 03:00:00');
-INSERT INTO `b_job_log` VALUES (136, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：65毫秒', '0', '', '2022-01-26 04:00:00', '2022-01-26 04:00:00', '2022-01-26 04:00:00');
-INSERT INTO `b_job_log` VALUES (137, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：953毫秒', '0', '', '2022-01-26 04:00:01', '2022-01-26 04:00:00', '2022-01-26 04:00:01');
-INSERT INTO `b_job_log` VALUES (138, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：1538毫秒', '0', '', '2022-01-26 04:00:02', '2022-01-26 04:00:00', '2022-01-26 04:00:02');
-INSERT INTO `b_job_log` VALUES (139, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：12毫秒', '0', '', '2022-01-26 23:30:00', '2022-01-26 23:30:00', '2022-01-26 23:30:00');
-INSERT INTO `b_job_log` VALUES (140, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：64毫秒', '0', '', '2022-01-26 23:30:00', '2022-01-26 23:30:00', '2022-01-26 23:30:00');
-INSERT INTO `b_job_log` VALUES (141, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：26毫秒', '0', '', '2022-01-27 03:00:00', '2022-01-27 03:00:00', '2022-01-27 03:00:00');
-INSERT INTO `b_job_log` VALUES (142, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：266毫秒', '0', '', '2022-01-27 03:00:00', '2022-01-27 03:00:00', '2022-01-27 03:00:00');
-INSERT INTO `b_job_log` VALUES (143, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：68毫秒', '0', '', '2022-01-27 04:00:00', '2022-01-27 04:00:00', '2022-01-27 04:00:00');
-INSERT INTO `b_job_log` VALUES (144, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：933毫秒', '0', '', '2022-01-27 04:00:01', '2022-01-27 04:00:00', '2022-01-27 04:00:01');
-INSERT INTO `b_job_log` VALUES (145, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-01-27 23:30:00', '2022-01-27 23:30:00', '2022-01-27 23:30:00');
-INSERT INTO `b_job_log` VALUES (146, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：58毫秒', '0', '', '2022-01-27 23:30:00', '2022-01-27 23:30:00', '2022-01-27 23:30:00');
-INSERT INTO `b_job_log` VALUES (147, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：14毫秒', '0', '', '2022-01-28 03:00:00', '2022-01-28 03:00:00', '2022-01-28 03:00:00');
-INSERT INTO `b_job_log` VALUES (148, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：228毫秒', '0', '', '2022-01-28 03:00:00', '2022-01-28 03:00:00', '2022-01-28 03:00:00');
-INSERT INTO `b_job_log` VALUES (149, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：39毫秒', '0', '', '2022-01-28 04:00:00', '2022-01-28 04:00:00', '2022-01-28 04:00:00');
-INSERT INTO `b_job_log` VALUES (150, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：792毫秒', '0', '', '2022-01-28 04:00:01', '2022-01-28 04:00:00', '2022-01-28 04:00:01');
-INSERT INTO `b_job_log` VALUES (151, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-01-28 23:30:00', '2022-01-28 23:30:00', '2022-01-28 23:30:00');
-INSERT INTO `b_job_log` VALUES (152, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：67毫秒', '0', '', '2022-01-28 23:30:00', '2022-01-28 23:30:00', '2022-01-28 23:30:00');
-INSERT INTO `b_job_log` VALUES (153, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：25毫秒', '0', '', '2022-01-29 03:00:00', '2022-01-29 03:00:00', '2022-01-29 03:00:00');
-INSERT INTO `b_job_log` VALUES (154, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：268毫秒', '0', '', '2022-01-29 03:00:00', '2022-01-29 03:00:00', '2022-01-29 03:00:00');
-INSERT INTO `b_job_log` VALUES (155, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：39毫秒', '0', '', '2022-01-29 04:00:00', '2022-01-29 04:00:00', '2022-01-29 04:00:00');
-INSERT INTO `b_job_log` VALUES (156, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：1037毫秒', '0', '', '2022-01-29 04:00:01', '2022-01-29 04:00:00', '2022-01-29 04:00:01');
-INSERT INTO `b_job_log` VALUES (157, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-01-29 23:30:00', '2022-01-29 23:30:00', '2022-01-29 23:30:00');
-INSERT INTO `b_job_log` VALUES (158, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：51毫秒', '0', '', '2022-01-29 23:30:00', '2022-01-29 23:30:00', '2022-01-29 23:30:00');
-INSERT INTO `b_job_log` VALUES (159, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：14毫秒', '0', '', '2022-01-30 03:00:00', '2022-01-30 03:00:00', '2022-01-30 03:00:00');
-INSERT INTO `b_job_log` VALUES (160, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：251毫秒', '0', '', '2022-01-30 03:00:00', '2022-01-30 03:00:00', '2022-01-30 03:00:00');
-INSERT INTO `b_job_log` VALUES (161, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：35毫秒', '0', '', '2022-01-30 04:00:00', '2022-01-30 04:00:00', '2022-01-30 04:00:00');
-INSERT INTO `b_job_log` VALUES (162, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：805毫秒', '0', '', '2022-01-30 04:00:01', '2022-01-30 04:00:00', '2022-01-30 04:00:01');
-INSERT INTO `b_job_log` VALUES (163, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-01-30 23:30:00', '2022-01-30 23:30:00', '2022-01-30 23:30:00');
-INSERT INTO `b_job_log` VALUES (164, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：61毫秒', '0', '', '2022-01-30 23:30:00', '2022-01-30 23:30:00', '2022-01-30 23:30:00');
-INSERT INTO `b_job_log` VALUES (165, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：11毫秒', '0', '', '2022-01-31 03:00:00', '2022-01-31 03:00:00', '2022-01-31 03:00:00');
-INSERT INTO `b_job_log` VALUES (166, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：250毫秒', '0', '', '2022-01-31 03:00:00', '2022-01-31 03:00:00', '2022-01-31 03:00:00');
-INSERT INTO `b_job_log` VALUES (167, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：42毫秒', '0', '', '2022-01-31 04:00:00', '2022-01-31 04:00:00', '2022-01-31 04:00:00');
-INSERT INTO `b_job_log` VALUES (168, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：821毫秒', '0', '', '2022-01-31 04:00:01', '2022-01-31 04:00:00', '2022-01-31 04:00:01');
-INSERT INTO `b_job_log` VALUES (169, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-01-31 23:30:00', '2022-01-31 23:30:00', '2022-01-31 23:30:00');
-INSERT INTO `b_job_log` VALUES (170, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：57毫秒', '0', '', '2022-01-31 23:30:00', '2022-01-31 23:30:00', '2022-01-31 23:30:00');
-INSERT INTO `b_job_log` VALUES (171, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：10毫秒', '0', '', '2022-02-01 03:00:00', '2022-02-01 03:00:00', '2022-02-01 03:00:00');
-INSERT INTO `b_job_log` VALUES (172, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：232毫秒', '0', '', '2022-02-01 03:00:00', '2022-02-01 03:00:00', '2022-02-01 03:00:00');
-INSERT INTO `b_job_log` VALUES (173, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：31毫秒', '0', '', '2022-02-01 04:00:00', '2022-02-01 04:00:00', '2022-02-01 04:00:00');
-INSERT INTO `b_job_log` VALUES (174, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：870毫秒', '0', '', '2022-02-01 04:00:01', '2022-02-01 04:00:00', '2022-02-01 04:00:01');
-INSERT INTO `b_job_log` VALUES (175, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-02-01 23:30:00', '2022-02-01 23:30:00', '2022-02-01 23:30:00');
-INSERT INTO `b_job_log` VALUES (176, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：61毫秒', '0', '', '2022-02-01 23:30:00', '2022-02-01 23:30:00', '2022-02-01 23:30:00');
-INSERT INTO `b_job_log` VALUES (177, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：10毫秒', '0', '', '2022-02-02 03:00:00', '2022-02-02 03:00:00', '2022-02-02 03:00:00');
-INSERT INTO `b_job_log` VALUES (178, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：255毫秒', '0', '', '2022-02-02 03:00:00', '2022-02-02 03:00:00', '2022-02-02 03:00:00');
-INSERT INTO `b_job_log` VALUES (179, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：29毫秒', '0', '', '2022-02-02 04:00:00', '2022-02-02 04:00:00', '2022-02-02 04:00:00');
-INSERT INTO `b_job_log` VALUES (180, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：875毫秒', '0', '', '2022-02-02 04:00:01', '2022-02-02 04:00:00', '2022-02-02 04:00:01');
-INSERT INTO `b_job_log` VALUES (181, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-02-02 23:30:00', '2022-02-02 23:30:00', '2022-02-02 23:30:00');
-INSERT INTO `b_job_log` VALUES (182, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：55毫秒', '0', '', '2022-02-02 23:30:00', '2022-02-02 23:30:00', '2022-02-02 23:30:00');
-INSERT INTO `b_job_log` VALUES (183, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：22毫秒', '0', '', '2022-02-03 03:00:00', '2022-02-03 03:00:00', '2022-02-03 03:00:00');
-INSERT INTO `b_job_log` VALUES (184, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：258毫秒', '0', '', '2022-02-03 03:00:00', '2022-02-03 03:00:00', '2022-02-03 03:00:00');
-INSERT INTO `b_job_log` VALUES (185, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：58毫秒', '0', '', '2022-02-03 04:00:00', '2022-02-03 04:00:00', '2022-02-03 04:00:00');
-INSERT INTO `b_job_log` VALUES (186, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：772毫秒', '0', '', '2022-02-03 04:00:01', '2022-02-03 04:00:00', '2022-02-03 04:00:01');
-INSERT INTO `b_job_log` VALUES (187, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：3毫秒', '0', '', '2022-02-03 23:30:00', '2022-02-03 23:30:00', '2022-02-03 23:30:00');
-INSERT INTO `b_job_log` VALUES (188, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：61毫秒', '0', '', '2022-02-03 23:30:00', '2022-02-03 23:30:00', '2022-02-03 23:30:00');
-INSERT INTO `b_job_log` VALUES (189, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：9毫秒', '0', '', '2022-02-04 03:00:00', '2022-02-04 03:00:00', '2022-02-04 03:00:00');
-INSERT INTO `b_job_log` VALUES (190, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：246毫秒', '0', '', '2022-02-04 03:00:00', '2022-02-04 03:00:00', '2022-02-04 03:00:00');
-INSERT INTO `b_job_log` VALUES (191, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：32毫秒', '0', '', '2022-02-04 04:00:00', '2022-02-04 04:00:00', '2022-02-04 04:00:00');
-INSERT INTO `b_job_log` VALUES (192, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：831毫秒', '0', '', '2022-02-04 04:00:01', '2022-02-04 04:00:00', '2022-02-04 04:00:01');
-INSERT INTO `b_job_log` VALUES (193, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：9毫秒', '0', '', '2022-02-04 23:30:00', '2022-02-04 23:30:00', '2022-02-04 23:30:00');
-INSERT INTO `b_job_log` VALUES (194, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：58毫秒', '0', '', '2022-02-04 23:30:00', '2022-02-04 23:30:00', '2022-02-04 23:30:00');
-INSERT INTO `b_job_log` VALUES (195, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：22毫秒', '0', '', '2022-02-05 03:00:00', '2022-02-05 03:00:00', '2022-02-05 03:00:00');
-INSERT INTO `b_job_log` VALUES (196, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：219毫秒', '0', '', '2022-02-05 03:00:00', '2022-02-05 03:00:00', '2022-02-05 03:00:00');
-INSERT INTO `b_job_log` VALUES (197, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：63毫秒', '0', '', '2022-02-05 04:00:00', '2022-02-05 04:00:00', '2022-02-05 04:00:00');
-INSERT INTO `b_job_log` VALUES (198, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：805毫秒', '0', '', '2022-02-05 04:00:01', '2022-02-05 04:00:00', '2022-02-05 04:00:01');
-INSERT INTO `b_job_log` VALUES (199, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：4毫秒', '0', '', '2022-02-05 23:30:00', '2022-02-05 23:30:00', '2022-02-05 23:30:00');
-INSERT INTO `b_job_log` VALUES (200, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：71毫秒', '0', '', '2022-02-05 23:30:00', '2022-02-05 23:30:00', '2022-02-05 23:30:00');
-INSERT INTO `b_job_log` VALUES (201, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：9毫秒', '0', '', '2022-02-06 03:00:00', '2022-02-06 03:00:00', '2022-02-06 03:00:00');
-INSERT INTO `b_job_log` VALUES (202, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：251毫秒', '0', '', '2022-02-06 03:00:00', '2022-02-06 03:00:00', '2022-02-06 03:00:00');
-INSERT INTO `b_job_log` VALUES (203, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：26毫秒', '0', '', '2022-02-06 04:00:00', '2022-02-06 04:00:00', '2022-02-06 04:00:00');
-INSERT INTO `b_job_log` VALUES (204, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：841毫秒', '0', '', '2022-02-06 04:00:01', '2022-02-06 04:00:00', '2022-02-06 04:00:01');
-INSERT INTO `b_job_log` VALUES (205, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：10毫秒', '0', '', '2022-02-06 23:30:00', '2022-02-06 23:30:00', '2022-02-06 23:30:00');
-INSERT INTO `b_job_log` VALUES (206, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：52毫秒', '0', '', '2022-02-06 23:30:00', '2022-02-06 23:30:00', '2022-02-06 23:30:00');
-INSERT INTO `b_job_log` VALUES (207, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：17毫秒', '0', '', '2022-02-07 03:00:00', '2022-02-07 03:00:00', '2022-02-07 03:00:00');
-INSERT INTO `b_job_log` VALUES (208, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：233毫秒', '0', '', '2022-02-07 03:00:00', '2022-02-07 03:00:00', '2022-02-07 03:00:00');
-INSERT INTO `b_job_log` VALUES (209, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：58毫秒', '0', '', '2022-02-07 04:00:00', '2022-02-07 04:00:00', '2022-02-07 04:00:00');
-INSERT INTO `b_job_log` VALUES (210, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：784毫秒', '0', '', '2022-02-07 04:00:01', '2022-02-07 04:00:00', '2022-02-07 04:00:01');
-INSERT INTO `b_job_log` VALUES (211, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-02-07 23:30:00', '2022-02-07 23:30:00', '2022-02-07 23:30:00');
-INSERT INTO `b_job_log` VALUES (212, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：51毫秒', '0', '', '2022-02-07 23:30:00', '2022-02-07 23:30:00', '2022-02-07 23:30:00');
-INSERT INTO `b_job_log` VALUES (213, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：12毫秒', '0', '', '2022-02-08 03:00:00', '2022-02-08 03:00:00', '2022-02-08 03:00:00');
-INSERT INTO `b_job_log` VALUES (214, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：264毫秒', '0', '', '2022-02-08 03:00:00', '2022-02-08 03:00:00', '2022-02-08 03:00:00');
-INSERT INTO `b_job_log` VALUES (215, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：32毫秒', '0', '', '2022-02-08 04:00:00', '2022-02-08 04:00:00', '2022-02-08 04:00:00');
-INSERT INTO `b_job_log` VALUES (216, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：782毫秒', '0', '', '2022-02-08 04:00:01', '2022-02-08 04:00:00', '2022-02-08 04:00:01');
-INSERT INTO `b_job_log` VALUES (217, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-02-08 23:30:00', '2022-02-08 23:30:00', '2022-02-08 23:30:00');
-INSERT INTO `b_job_log` VALUES (218, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：70毫秒', '0', '', '2022-02-08 23:30:00', '2022-02-08 23:30:00', '2022-02-08 23:30:00');
-INSERT INTO `b_job_log` VALUES (219, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：14毫秒', '0', '', '2022-02-09 03:00:00', '2022-02-09 03:00:00', '2022-02-09 03:00:00');
-INSERT INTO `b_job_log` VALUES (220, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：246毫秒', '0', '', '2022-02-09 03:00:00', '2022-02-09 03:00:00', '2022-02-09 03:00:00');
-INSERT INTO `b_job_log` VALUES (221, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：30毫秒', '0', '', '2022-02-09 04:00:00', '2022-02-09 04:00:00', '2022-02-09 04:00:00');
-INSERT INTO `b_job_log` VALUES (222, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：811毫秒', '0', '', '2022-02-09 04:00:01', '2022-02-09 04:00:00', '2022-02-09 04:00:01');
-INSERT INTO `b_job_log` VALUES (223, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-02-09 23:30:00', '2022-02-09 23:30:00', '2022-02-09 23:30:00');
-INSERT INTO `b_job_log` VALUES (224, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：90毫秒', '0', '', '2022-02-09 23:30:00', '2022-02-09 23:30:00', '2022-02-09 23:30:00');
-INSERT INTO `b_job_log` VALUES (225, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：7毫秒', '0', '', '2022-02-10 03:00:00', '2022-02-10 03:00:00', '2022-02-10 03:00:00');
-INSERT INTO `b_job_log` VALUES (226, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：262毫秒', '0', '', '2022-02-10 03:00:00', '2022-02-10 03:00:00', '2022-02-10 03:00:00');
-INSERT INTO `b_job_log` VALUES (227, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：40毫秒', '0', '', '2022-02-10 04:00:00', '2022-02-10 04:00:00', '2022-02-10 04:00:00');
-INSERT INTO `b_job_log` VALUES (228, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：760毫秒', '0', '', '2022-02-10 04:00:01', '2022-02-10 04:00:00', '2022-02-10 04:00:01');
-INSERT INTO `b_job_log` VALUES (229, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：4毫秒', '0', '', '2022-02-10 23:30:00', '2022-02-10 23:30:00', '2022-02-10 23:30:00');
-INSERT INTO `b_job_log` VALUES (230, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：69毫秒', '0', '', '2022-02-10 23:30:00', '2022-02-10 23:30:00', '2022-02-10 23:30:00');
-INSERT INTO `b_job_log` VALUES (231, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：8毫秒', '0', '', '2022-02-11 03:00:00', '2022-02-11 03:00:00', '2022-02-11 03:00:00');
-INSERT INTO `b_job_log` VALUES (232, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：249毫秒', '0', '', '2022-02-11 03:00:00', '2022-02-11 03:00:00', '2022-02-11 03:00:00');
-INSERT INTO `b_job_log` VALUES (233, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：31毫秒', '0', '', '2022-02-11 04:00:00', '2022-02-11 04:00:00', '2022-02-11 04:00:00');
-INSERT INTO `b_job_log` VALUES (234, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：931毫秒', '0', '', '2022-02-11 04:00:01', '2022-02-11 04:00:00', '2022-02-11 04:00:01');
-INSERT INTO `b_job_log` VALUES (235, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-02-11 23:30:00', '2022-02-11 23:30:00', '2022-02-11 23:30:00');
-INSERT INTO `b_job_log` VALUES (236, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：51毫秒', '0', '', '2022-02-11 23:30:00', '2022-02-11 23:30:00', '2022-02-11 23:30:00');
-INSERT INTO `b_job_log` VALUES (237, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：8毫秒', '0', '', '2022-02-12 03:00:00', '2022-02-12 03:00:00', '2022-02-12 03:00:00');
-INSERT INTO `b_job_log` VALUES (238, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：291毫秒', '0', '', '2022-02-12 03:00:00', '2022-02-12 03:00:00', '2022-02-12 03:00:00');
-INSERT INTO `b_job_log` VALUES (239, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：59毫秒', '0', '', '2022-02-12 04:00:00', '2022-02-12 04:00:00', '2022-02-12 04:00:00');
-INSERT INTO `b_job_log` VALUES (240, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：836毫秒', '0', '', '2022-02-12 04:00:01', '2022-02-12 04:00:00', '2022-02-12 04:00:01');
-INSERT INTO `b_job_log` VALUES (241, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-02-12 23:30:00', '2022-02-12 23:30:00', '2022-02-12 23:30:00');
-INSERT INTO `b_job_log` VALUES (242, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：49毫秒', '0', '', '2022-02-12 23:30:00', '2022-02-12 23:30:00', '2022-02-12 23:30:00');
-INSERT INTO `b_job_log` VALUES (243, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：15毫秒', '0', '', '2022-02-13 03:00:00', '2022-02-13 03:00:00', '2022-02-13 03:00:00');
-INSERT INTO `b_job_log` VALUES (244, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：287毫秒', '0', '', '2022-02-13 03:00:00', '2022-02-13 03:00:00', '2022-02-13 03:00:00');
-INSERT INTO `b_job_log` VALUES (245, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：24毫秒', '0', '', '2022-02-13 04:00:00', '2022-02-13 04:00:00', '2022-02-13 04:00:00');
-INSERT INTO `b_job_log` VALUES (246, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：857毫秒', '0', '', '2022-02-13 04:00:01', '2022-02-13 04:00:00', '2022-02-13 04:00:01');
-INSERT INTO `b_job_log` VALUES (247, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：3毫秒', '0', '', '2022-02-13 23:30:00', '2022-02-13 23:30:00', '2022-02-13 23:30:00');
-INSERT INTO `b_job_log` VALUES (248, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：61毫秒', '0', '', '2022-02-13 23:30:00', '2022-02-13 23:30:00', '2022-02-13 23:30:00');
-INSERT INTO `b_job_log` VALUES (249, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：7毫秒', '0', '', '2022-02-14 03:00:00', '2022-02-14 03:00:00', '2022-02-14 03:00:00');
-INSERT INTO `b_job_log` VALUES (250, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：247毫秒', '0', '', '2022-02-14 03:00:00', '2022-02-14 03:00:00', '2022-02-14 03:00:00');
-INSERT INTO `b_job_log` VALUES (251, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：24毫秒', '0', '', '2022-02-14 04:00:00', '2022-02-14 04:00:00', '2022-02-14 04:00:00');
-INSERT INTO `b_job_log` VALUES (252, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：895毫秒', '0', '', '2022-02-14 04:00:01', '2022-02-14 04:00:00', '2022-02-14 04:00:01');
-INSERT INTO `b_job_log` VALUES (253, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：12毫秒', '0', '', '2022-02-14 23:30:00', '2022-02-14 23:30:00', '2022-02-14 23:30:00');
-INSERT INTO `b_job_log` VALUES (254, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：70毫秒', '0', '', '2022-02-14 23:30:00', '2022-02-14 23:30:00', '2022-02-14 23:30:00');
-INSERT INTO `b_job_log` VALUES (255, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：7毫秒', '0', '', '2022-02-15 03:00:00', '2022-02-15 03:00:00', '2022-02-15 03:00:00');
-INSERT INTO `b_job_log` VALUES (256, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：260毫秒', '0', '', '2022-02-15 03:00:00', '2022-02-15 03:00:00', '2022-02-15 03:00:00');
-INSERT INTO `b_job_log` VALUES (257, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：47毫秒', '0', '', '2022-02-15 04:00:00', '2022-02-15 04:00:00', '2022-02-15 04:00:00');
-INSERT INTO `b_job_log` VALUES (258, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：839毫秒', '0', '', '2022-02-15 04:00:01', '2022-02-15 04:00:00', '2022-02-15 04:00:01');
-INSERT INTO `b_job_log` VALUES (259, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：14毫秒', '0', '', '2022-02-15 23:30:00', '2022-02-15 23:30:00', '2022-02-15 23:30:00');
-INSERT INTO `b_job_log` VALUES (260, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：63毫秒', '0', '', '2022-02-15 23:30:00', '2022-02-15 23:30:00', '2022-02-15 23:30:00');
-INSERT INTO `b_job_log` VALUES (261, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：24毫秒', '0', '', '2022-02-16 03:00:00', '2022-02-16 03:00:00', '2022-02-16 03:00:00');
-INSERT INTO `b_job_log` VALUES (262, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：281毫秒', '0', '', '2022-02-16 03:00:00', '2022-02-16 03:00:00', '2022-02-16 03:00:00');
-INSERT INTO `b_job_log` VALUES (263, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：70毫秒', '0', '', '2022-02-16 04:00:00', '2022-02-16 04:00:00', '2022-02-16 04:00:00');
-INSERT INTO `b_job_log` VALUES (264, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：869毫秒', '0', '', '2022-02-16 04:00:01', '2022-02-16 04:00:00', '2022-02-16 04:00:01');
-INSERT INTO `b_job_log` VALUES (265, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-02-16 23:30:00', '2022-02-16 23:30:00', '2022-02-16 23:30:00');
-INSERT INTO `b_job_log` VALUES (266, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：55毫秒', '0', '', '2022-02-16 23:30:00', '2022-02-16 23:30:00', '2022-02-16 23:30:00');
-INSERT INTO `b_job_log` VALUES (267, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：19毫秒', '0', '', '2022-02-17 03:00:00', '2022-02-17 03:00:00', '2022-02-17 03:00:00');
-INSERT INTO `b_job_log` VALUES (268, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：229毫秒', '0', '', '2022-02-17 03:00:00', '2022-02-17 03:00:00', '2022-02-17 03:00:00');
-INSERT INTO `b_job_log` VALUES (269, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：67毫秒', '0', '', '2022-02-17 04:00:00', '2022-02-17 04:00:00', '2022-02-17 04:00:00');
-INSERT INTO `b_job_log` VALUES (270, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：828毫秒', '0', '', '2022-02-17 04:00:01', '2022-02-17 04:00:00', '2022-02-17 04:00:01');
-INSERT INTO `b_job_log` VALUES (271, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：5毫秒', '0', '', '2022-02-17 23:30:00', '2022-02-17 23:30:00', '2022-02-17 23:30:00');
-INSERT INTO `b_job_log` VALUES (272, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：61毫秒', '0', '', '2022-02-17 23:30:00', '2022-02-17 23:30:00', '2022-02-17 23:30:00');
-INSERT INTO `b_job_log` VALUES (273, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：20毫秒', '0', '', '2022-02-18 03:00:00', '2022-02-18 03:00:00', '2022-02-18 03:00:00');
-INSERT INTO `b_job_log` VALUES (274, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：282毫秒', '0', '', '2022-02-18 03:00:00', '2022-02-18 03:00:00', '2022-02-18 03:00:00');
-INSERT INTO `b_job_log` VALUES (275, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：26毫秒', '0', '', '2022-02-18 04:00:00', '2022-02-18 04:00:00', '2022-02-18 04:00:00');
-INSERT INTO `b_job_log` VALUES (276, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：853毫秒', '0', '', '2022-02-18 04:00:01', '2022-02-18 04:00:00', '2022-02-18 04:00:01');
-INSERT INTO `b_job_log` VALUES (277, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：18毫秒', '0', '', '2022-02-18 23:30:00', '2022-02-18 23:30:00', '2022-02-18 23:30:00');
-INSERT INTO `b_job_log` VALUES (278, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：63毫秒', '0', '', '2022-02-18 23:30:00', '2022-02-18 23:30:00', '2022-02-18 23:30:00');
-INSERT INTO `b_job_log` VALUES (279, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：24毫秒', '0', '', '2022-02-19 03:00:00', '2022-02-19 03:00:00', '2022-02-19 03:00:00');
-INSERT INTO `b_job_log` VALUES (280, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：258毫秒', '0', '', '2022-02-19 03:00:00', '2022-02-19 03:00:00', '2022-02-19 03:00:00');
-INSERT INTO `b_job_log` VALUES (281, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：54毫秒', '0', '', '2022-02-19 04:00:00', '2022-02-19 04:00:00', '2022-02-19 04:00:00');
-INSERT INTO `b_job_log` VALUES (282, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：874毫秒', '0', '', '2022-02-19 04:00:01', '2022-02-19 04:00:00', '2022-02-19 04:00:01');
-INSERT INTO `b_job_log` VALUES (283, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：4毫秒', '0', '', '2022-02-19 23:30:00', '2022-02-19 23:30:00', '2022-02-19 23:30:00');
-INSERT INTO `b_job_log` VALUES (284, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：55毫秒', '0', '', '2022-02-19 23:30:00', '2022-02-19 23:30:00', '2022-02-19 23:30:00');
-INSERT INTO `b_job_log` VALUES (285, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：18毫秒', '0', '', '2022-02-20 03:00:00', '2022-02-20 03:00:00', '2022-02-20 03:00:00');
-INSERT INTO `b_job_log` VALUES (286, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：241毫秒', '0', '', '2022-02-20 03:00:00', '2022-02-20 03:00:00', '2022-02-20 03:00:00');
-INSERT INTO `b_job_log` VALUES (287, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：37毫秒', '0', '', '2022-02-20 04:00:00', '2022-02-20 04:00:00', '2022-02-20 04:00:00');
-INSERT INTO `b_job_log` VALUES (288, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：906毫秒', '0', '', '2022-02-20 04:00:01', '2022-02-20 04:00:00', '2022-02-20 04:00:01');
-INSERT INTO `b_job_log` VALUES (289, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：15毫秒', '0', '', '2022-02-20 23:30:00', '2022-02-20 23:30:00', '2022-02-20 23:30:00');
-INSERT INTO `b_job_log` VALUES (290, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：51毫秒', '0', '', '2022-02-20 23:30:00', '2022-02-20 23:30:00', '2022-02-20 23:30:00');
-INSERT INTO `b_job_log` VALUES (291, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：16毫秒', '0', '', '2022-02-21 03:00:00', '2022-02-21 03:00:00', '2022-02-21 03:00:00');
-INSERT INTO `b_job_log` VALUES (292, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：239毫秒', '0', '', '2022-02-21 03:00:00', '2022-02-21 03:00:00', '2022-02-21 03:00:00');
-INSERT INTO `b_job_log` VALUES (293, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：129毫秒', '0', '', '2022-02-21 04:00:00', '2022-02-21 04:00:00', '2022-02-21 04:00:00');
-INSERT INTO `b_job_log` VALUES (294, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：886毫秒', '0', '', '2022-02-21 04:00:01', '2022-02-21 04:00:00', '2022-02-21 04:00:01');
-INSERT INTO `b_job_log` VALUES (295, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-02-21 23:30:00', '2022-02-21 23:30:00', '2022-02-21 23:30:00');
-INSERT INTO `b_job_log` VALUES (296, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：56毫秒', '0', '', '2022-02-21 23:30:00', '2022-02-21 23:30:00', '2022-02-21 23:30:00');
-INSERT INTO `b_job_log` VALUES (297, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：9毫秒', '0', '', '2022-02-22 03:00:00', '2022-02-22 03:00:00', '2022-02-22 03:00:00');
-INSERT INTO `b_job_log` VALUES (298, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：235毫秒', '0', '', '2022-02-22 03:00:00', '2022-02-22 03:00:00', '2022-02-22 03:00:00');
-INSERT INTO `b_job_log` VALUES (299, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：40毫秒', '0', '', '2022-02-22 04:00:00', '2022-02-22 04:00:00', '2022-02-22 04:00:00');
-INSERT INTO `b_job_log` VALUES (300, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：887毫秒', '0', '', '2022-02-22 04:00:01', '2022-02-22 04:00:00', '2022-02-22 04:00:01');
-INSERT INTO `b_job_log` VALUES (301, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：3毫秒', '0', '', '2022-02-22 23:30:00', '2022-02-22 23:30:00', '2022-02-22 23:30:00');
-INSERT INTO `b_job_log` VALUES (302, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：48毫秒', '0', '', '2022-02-22 23:30:00', '2022-02-22 23:30:00', '2022-02-22 23:30:00');
-INSERT INTO `b_job_log` VALUES (303, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：31毫秒', '0', '', '2022-02-23 03:00:00', '2022-02-23 03:00:00', '2022-02-23 03:00:00');
-INSERT INTO `b_job_log` VALUES (304, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：262毫秒', '0', '', '2022-02-23 03:00:00', '2022-02-23 03:00:00', '2022-02-23 03:00:00');
-INSERT INTO `b_job_log` VALUES (305, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：39毫秒', '0', '', '2022-02-23 04:00:00', '2022-02-23 04:00:00', '2022-02-23 04:00:00');
-INSERT INTO `b_job_log` VALUES (306, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：868毫秒', '0', '', '2022-02-23 04:00:01', '2022-02-23 04:00:00', '2022-02-23 04:00:01');
-INSERT INTO `b_job_log` VALUES (307, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：14毫秒', '0', '', '2022-02-23 23:30:00', '2022-02-23 23:30:00', '2022-02-23 23:30:00');
-INSERT INTO `b_job_log` VALUES (308, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：53毫秒', '0', '', '2022-02-23 23:30:00', '2022-02-23 23:30:00', '2022-02-23 23:30:00');
-INSERT INTO `b_job_log` VALUES (309, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：33毫秒', '0', '', '2022-02-24 03:00:00', '2022-02-24 03:00:00', '2022-02-24 03:00:00');
-INSERT INTO `b_job_log` VALUES (310, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：235毫秒', '0', '', '2022-02-24 03:00:00', '2022-02-24 03:00:00', '2022-02-24 03:00:00');
-INSERT INTO `b_job_log` VALUES (311, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：63毫秒', '0', '', '2022-02-24 04:00:00', '2022-02-24 04:00:00', '2022-02-24 04:00:00');
-INSERT INTO `b_job_log` VALUES (312, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：873毫秒', '0', '', '2022-02-24 04:00:01', '2022-02-24 04:00:00', '2022-02-24 04:00:01');
-INSERT INTO `b_job_log` VALUES (313, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：12毫秒', '0', '', '2022-02-24 23:30:00', '2022-02-24 23:30:00', '2022-02-24 23:30:00');
-INSERT INTO `b_job_log` VALUES (314, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：68毫秒', '0', '', '2022-02-24 23:30:00', '2022-02-24 23:30:00', '2022-02-24 23:30:00');
-INSERT INTO `b_job_log` VALUES (315, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：87毫秒', '0', '', '2022-02-25 03:00:00', '2022-02-25 03:00:00', '2022-02-25 03:00:00');
-INSERT INTO `b_job_log` VALUES (316, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：268毫秒', '0', '', '2022-02-25 03:00:00', '2022-02-25 03:00:00', '2022-02-25 03:00:00');
-INSERT INTO `b_job_log` VALUES (317, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：57毫秒', '0', '', '2022-02-25 04:00:00', '2022-02-25 04:00:00', '2022-02-25 04:00:00');
-INSERT INTO `b_job_log` VALUES (318, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：916毫秒', '0', '', '2022-02-25 04:00:01', '2022-02-25 04:00:00', '2022-02-25 04:00:01');
-INSERT INTO `b_job_log` VALUES (319, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：9毫秒', '0', '', '2022-02-25 23:30:00', '2022-02-25 23:30:00', '2022-02-25 23:30:00');
-INSERT INTO `b_job_log` VALUES (320, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：59毫秒', '0', '', '2022-02-25 23:30:00', '2022-02-25 23:30:00', '2022-02-25 23:30:00');
-INSERT INTO `b_job_log` VALUES (321, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：21毫秒', '0', '', '2022-02-26 03:00:00', '2022-02-26 03:00:00', '2022-02-26 03:00:00');
-INSERT INTO `b_job_log` VALUES (322, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：258毫秒', '0', '', '2022-02-26 03:00:00', '2022-02-26 03:00:00', '2022-02-26 03:00:00');
-INSERT INTO `b_job_log` VALUES (323, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：59毫秒', '0', '', '2022-02-26 04:00:00', '2022-02-26 04:00:00', '2022-02-26 04:00:00');
-INSERT INTO `b_job_log` VALUES (324, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：856毫秒', '0', '', '2022-02-26 04:00:01', '2022-02-26 04:00:00', '2022-02-26 04:00:01');
-INSERT INTO `b_job_log` VALUES (325, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：2毫秒', '0', '', '2022-02-26 23:30:00', '2022-02-26 23:30:00', '2022-02-26 23:30:00');
-INSERT INTO `b_job_log` VALUES (326, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：52毫秒', '0', '', '2022-02-26 23:30:00', '2022-02-26 23:30:00', '2022-02-26 23:30:00');
-INSERT INTO `b_job_log` VALUES (327, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：10毫秒', '0', '', '2022-02-27 03:00:00', '2022-02-27 03:00:00', '2022-02-27 03:00:00');
-INSERT INTO `b_job_log` VALUES (328, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：241毫秒', '0', '', '2022-02-27 03:00:00', '2022-02-27 03:00:00', '2022-02-27 03:00:00');
-INSERT INTO `b_job_log` VALUES (329, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：38毫秒', '0', '', '2022-02-27 04:00:00', '2022-02-27 04:00:00', '2022-02-27 04:00:00');
-INSERT INTO `b_job_log` VALUES (330, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：889毫秒', '0', '', '2022-02-27 04:00:01', '2022-02-27 04:00:00', '2022-02-27 04:00:01');
-INSERT INTO `b_job_log` VALUES (331, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：3毫秒', '0', '', '2022-02-27 23:30:00', '2022-02-27 23:30:00', '2022-02-27 23:30:00');
-INSERT INTO `b_job_log` VALUES (332, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：58毫秒', '0', '', '2022-02-27 23:30:00', '2022-02-27 23:30:00', '2022-02-27 23:30:00');
-INSERT INTO `b_job_log` VALUES (333, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：11毫秒', '0', '', '2022-02-28 03:00:00', '2022-02-28 03:00:00', '2022-02-28 03:00:00');
-INSERT INTO `b_job_log` VALUES (334, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：248毫秒', '0', '', '2022-02-28 03:00:00', '2022-02-28 03:00:00', '2022-02-28 03:00:00');
-INSERT INTO `b_job_log` VALUES (335, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：48毫秒', '0', '', '2022-02-28 04:00:00', '2022-02-28 04:00:00', '2022-02-28 04:00:00');
-INSERT INTO `b_job_log` VALUES (336, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：977毫秒', '0', '', '2022-02-28 04:00:01', '2022-02-28 04:00:00', '2022-02-28 04:00:01');
-INSERT INTO `b_job_log` VALUES (337, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：128毫秒', '0', '', '2022-02-28 23:30:00', '2022-02-28 23:30:00', '2022-02-28 23:30:00');
-INSERT INTO `b_job_log` VALUES (338, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：11毫秒', '0', '', '2022-02-28 23:30:00', '2022-02-28 23:30:00', '2022-02-28 23:30:00');
-INSERT INTO `b_job_log` VALUES (339, 7, '定时删除当天验证通过的ip', 'DEFAULT', 'blogTask.removeCode', '定时删除当天验证通过的ip 总共耗时：49毫秒', '0', '', '2022-02-28 23:30:00', '2022-02-28 23:30:00', '2022-02-28 23:30:00');
-INSERT INTO `b_job_log` VALUES (340, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：434毫秒', '0', '', '2022-03-01 03:00:00', '2022-03-01 03:00:00', '2022-03-01 03:00:00');
-INSERT INTO `b_job_log` VALUES (341, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：17毫秒', '0', '', '2022-03-01 03:00:00', '2022-03-01 03:00:00', '2022-03-01 03:00:00');
-INSERT INTO `b_job_log` VALUES (342, 6, '定时修改标签的点击量', 'DEFAULT', 'blogTask.autoTagsClickVolume', '定时修改标签的点击量 总共耗时：230毫秒', '0', '', '2022-03-01 03:00:00', '2022-03-01 03:00:00', '2022-03-01 03:00:00');
-INSERT INTO `b_job_log` VALUES (343, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：69毫秒', '0', '', '2022-03-01 04:00:00', '2022-03-01 04:00:00', '2022-03-01 04:00:00');
-INSERT INTO `b_job_log` VALUES (344, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：1540毫秒', '0', '', '2022-03-01 04:00:02', '2022-03-01 04:00:00', '2022-03-01 04:00:02');
-INSERT INTO `b_job_log` VALUES (345, 1, '自动更新文章阅读数', 'DEFAULT', 'blogTask.updateReadQuantity', '自动更新文章阅读数 总共耗时：889毫秒', '0', '', '2022-03-01 04:00:01', '2022-03-01 04:00:00', '2022-03-01 04:00:01');
+) ENGINE = InnoDB AUTO_INCREMENT = 514 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for b_menu
@@ -665,7 +326,7 @@ CREATE TABLE `b_menu`  (
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '跳转地址',
   `hidden` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否隐藏',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 263 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统管理-权限资源表 ' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 271 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统管理-权限资源表 ' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of b_menu
@@ -710,7 +371,7 @@ INSERT INTO `b_menu` VALUES (38, '35', '/system/tags/info', '', '详情', 2, NUL
 INSERT INTO `b_menu` VALUES (39, '35', '/system/tags/update', '', '修改', 2, NULL, NULL, 'btn', NULL, NULL, '2021-11-11 18:12:08', NULL, NULL, '0');
 INSERT INTO `b_menu` VALUES (40, '35', '/system/tags/remove', '/sys/tags/remove', '删除', 2, NULL, NULL, 'btn', NULL, '2021-11-10 17:34:38', '2021-11-11 18:12:01', NULL, '/sys/tags/remove', '0');
 INSERT INTO `b_menu` VALUES (41, '0', '/site', 'Layout', '网站管理', 0, 2, 'el-icon-guide', 'menu', NULL, NULL, '2021-11-16 15:48:41', '/friendLink/index', '', '1');
-INSERT INTO `b_menu` VALUES (47, '245', '/messages', '/news/message', '留言管理', 1, 2, 'el-icon-chat-dot-round', 'menu', NULL, NULL, '2021-11-16 15:43:46', '/message/index', '/message', '1');
+INSERT INTO `b_menu` VALUES (47, '245', '/messages', '/news/message', '留言管理', 1, 2, 'el-icon-message', 'menu', NULL, NULL, '2021-11-16 15:43:46', '/message/index', '/message', '1');
 INSERT INTO `b_menu` VALUES (48, '47', '/system/message/list', '', '列表', 2, NULL, NULL, 'btn', NULL, '2021-09-26 11:50:33', '2021-11-11 18:12:56', NULL, NULL, '0');
 INSERT INTO `b_menu` VALUES (49, '47', '/system/message/remove', NULL, '删除', 2, 1, NULL, NULL, NULL, NULL, '2021-11-15 15:36:28', NULL, NULL, '0');
 INSERT INTO `b_menu` VALUES (50, '47', 'test', NULL, '回复', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0');
@@ -812,6 +473,14 @@ INSERT INTO `b_menu` VALUES (258, '256', '/system/feedback/deleteBatch', '', '�
 INSERT INTO `b_menu` VALUES (260, '64', '/file/upload', '', '上传图片', 2, 1, NULL, 'btn', '', NULL, NULL, NULL, NULL, '0');
 INSERT INTO `b_menu` VALUES (261, '66', '/system/home/init', '', '首页各种统计信息', 2, 3, NULL, 'btn', '', NULL, NULL, NULL, NULL, '0');
 INSERT INTO `b_menu` VALUES (262, '27', '/system/article/pubOrShelf', '', '发布或下架文章', 2, 4, NULL, 'btn', '', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `b_menu` VALUES (263, '164', 'onlineUser', '/listener/user/index', '在线用户', 1, 3, 'el-icon-user', 'menu', '', NULL, NULL, NULL, 'online', '1');
+INSERT INTO `b_menu` VALUES (264, '263', '/system/user/kick', '', '踢人下线', 2, 1, NULL, 'btn', '', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `b_menu` VALUES (265, '164', 'druids', '/listener/druid/index', 'druid监控', 1, 4, 'el-icon-help', 'menu', '', NULL, NULL, NULL, 'druid', '1');
+INSERT INTO `b_menu` VALUES (266, '245', 'comment', '/news/comment', '评论管理', 1, 1, 'el-icon-chat-dot-round', 'menu', '', NULL, NULL, NULL, 'comments', '1');
+INSERT INTO `b_menu` VALUES (267, '266', '/system/comment/list', '', '评论列表', 2, 1, NULL, 'btn', '', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `b_menu` VALUES (268, '266', '/system/comment/deleteBatch', '', '批量删除评论', 2, 2, NULL, 'btn', '', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `b_menu` VALUES (269, '164', 'cache', '/listener/cache', '缓存监控', 1, 5, 'el-icon-hot-water', 'menu', '', NULL, NULL, NULL, 'caches', '1');
+INSERT INTO `b_menu` VALUES (270, '269', '/system/home/cache', '', '获取缓存监控', 2, 1, NULL, 'btn', '', NULL, NULL, NULL, NULL, '0');
 
 -- ----------------------------
 -- Table structure for b_message
@@ -828,19 +497,7 @@ CREATE TABLE `b_message`  (
   `time` tinyint(10) NULL DEFAULT NULL,
   `status` int(1) NULL DEFAULT NULL COMMENT '状态 0:审核  1：正常',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_message
--- ----------------------------
-INSERT INTO `b_message` VALUES (24, '测试', '2021-12-31 14:01:15', '我真的很好啊i', 'https://tva2.sinaimg.cn/crop.0.0.720.720.50/006gY6m1jw8exkv40jxvqj30k00k0gmp.jpg?KID=imgbed,tva&Expires=1640940521&ssig=IiFQU%2FO%2BAC', '113.246.243.81', '中国-湖南省-长沙市', 8, 1);
-INSERT INTO `b_message` VALUES (25, '测试测试', '2021-12-31 14:02:51', '我真的很好啊i', 'https://tva2.sinaimg.cn/crop.0.0.720.720.50/006gY6m1jw8exkv40jxvqj30k00k0gmp.jpg?KID=imgbed,tva&Expires=1640940521&ssig=IiFQU%2FO%2BAC', '113.246.243.81', '中国-湖南省-长沙市', 8, 1);
-INSERT INTO `b_message` VALUES (27, '测试123', '2021-12-31 14:56:53', '游客', 'http://img.shiyit.com/touristAvatar.png', '113.246.243.81', '中国-湖南省-长沙市', 8, 1);
-INSERT INTO `b_message` VALUES (28, 'ceshi ', '2022-01-05 11:42:14', '游客', 'http://img.shiyit.com/touristAvatar.png', '182.135.162.57', '中国-四川省-资阳市', 8, 1);
-INSERT INTO `b_message` VALUES (29, '测试', '2022-01-05 13:01:40', '我真的很好啊i', 'https://tva2.sinaimg.cn/crop.0.0.720.720.1024/006gY6m1jw8exkv40jxvqj30k00k0gmp.jpg?KID=imgbed,tva&Expires=1641365320&ssig=g6q0dhwbts', '220.202.225.132', '中国-湖南省-长沙市', 9, 1);
-INSERT INTO `b_message` VALUES (30, '1', '2022-01-12 10:25:49', '游客', 'http://img.shiyit.com/touristAvatar.png', '123.144.63.191', '中国-重庆市-重庆市', 8, 1);
-INSERT INTO `b_message` VALUES (32, '111', '2022-02-14 11:47:16', '游客', 'http://img.shiyit.com/touristAvatar.png', '116.169.13.45', '中国-四川省-成都市', 7, 1);
-INSERT INTO `b_message` VALUES (33, '测试', '2022-02-23 22:28:46', '游客', 'http://img.shiyit.com/touristAvatar.png', '27.46.234.58', '中国-广东省-广州市', 8, 1);
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for b_page
@@ -883,17 +540,7 @@ CREATE TABLE `b_photo`  (
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '照片' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_photo
--- ----------------------------
-INSERT INTO `b_photo` VALUES (1, 1, '图片一', '图片二', 'https://www.static.talkxj.com/articles/f2a62f4f273d06084cc918bf61123aae.jpg', '2021-12-29 17:26:15', '2021-12-29 17:26:17');
-INSERT INTO `b_photo` VALUES (2, 1, '图片二', '图片二', 'https://www.static.talkxj.com/articles/57e40faa1d4b8055bab5cdc246778788.jpg', '2021-12-29 17:26:47', '2021-12-29 17:26:50');
-INSERT INTO `b_photo` VALUES (3, 1, '图片三', '图片三', 'https://www.static.talkxj.com/articles/961c61a370cce5c0a2b233532bfa4139.png', '2021-12-29 17:26:47', '2021-12-29 17:26:50');
-INSERT INTO `b_photo` VALUES (4, 1, '图片四', '图片四', 'https://www.static.talkxj.com/articles/002b90aefe681c846588df9a9a14fc47.jpg', '2021-12-29 17:26:47', '2021-12-29 17:26:50');
-INSERT INTO `b_photo` VALUES (5, 1, '图片五', '图片五', 'https://www.static.talkxj.com/articles/f21704d1596d904d78cffd36293573a5.png', '2021-12-29 17:26:47', '2021-12-29 17:26:50');
-INSERT INTO `b_photo` VALUES (6, 1, '图片六', '图片六', 'https://www.static.talkxj.com/articles/30225075a8dde449d44e77dc1917bc20.jpg', '2021-12-29 17:26:47', '2021-12-29 17:26:50');
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '照片' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for b_photo_album
@@ -908,12 +555,7 @@ CREATE TABLE `b_photo_album`  (
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '相册' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_photo_album
--- ----------------------------
-INSERT INTO `b_photo_album` VALUES (1, '精选壁纸', '壁纸', 'https://www.static.talkxj.com/photos/f426814dd3748727443775b3e588f68f.png', 0, '2021-12-29 16:54:47', '2021-12-30 17:31:45');
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '相册' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for b_role
@@ -934,7 +576,7 @@ CREATE TABLE `b_role`  (
 -- ----------------------------
 INSERT INTO `b_role` VALUES (1, 'admin', '管理员', '系统管理员', '2019-03-28 15:51:56', '2022-01-06 18:03:34');
 INSERT INTO `b_role` VALUES (2, 'user', '用户', '用户', '2021-12-27 07:01:39', '2021-12-27 07:01:39');
-INSERT INTO `b_role` VALUES (5, 'shiyiblog', '演示', '演示账号', '2021-11-14 12:23:25', '2022-01-06 18:03:43');
+INSERT INTO `b_role` VALUES (5, 'test', '演示', '演示账号', '2021-11-14 12:23:25', '2022-01-06 18:03:43');
 
 -- ----------------------------
 -- Table structure for b_role_menu
@@ -948,300 +590,310 @@ CREATE TABLE `b_role_menu`  (
   `last_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `role_id`(`role_id`, `menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9627 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统管理 - 角色-权限资源关联表 ' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11663 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统管理 - 角色-权限资源关联表 ' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of b_role_menu
 -- ----------------------------
-INSERT INTO `b_role_menu` VALUES (9193, 5, 1, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9194, 5, 2, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9195, 5, 3, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9196, 5, 4, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9197, 5, 5, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9198, 5, 6, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9199, 5, 7, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9200, 5, 185, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9201, 5, 8, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9202, 5, 9, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9203, 5, 10, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9204, 5, 11, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9205, 5, 12, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9206, 5, 13, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9207, 5, 14, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9208, 5, 15, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9209, 5, 16, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9210, 5, 17, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9211, 5, 18, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9212, 5, 19, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9213, 5, 20, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9214, 5, 21, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9215, 5, 22, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9216, 5, 23, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9217, 5, 24, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9218, 5, 25, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9219, 5, 182, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9220, 5, 183, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9221, 5, 184, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9222, 5, 26, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9223, 5, 27, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9224, 5, 28, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9225, 5, 29, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9226, 5, 30, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9227, 5, 31, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9228, 5, 32, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9229, 5, 33, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9230, 5, 215, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9231, 5, 253, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9232, 5, 35, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9233, 5, 36, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9234, 5, 37, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9235, 5, 38, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9236, 5, 39, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9237, 5, 40, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9238, 5, 189, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9239, 5, 216, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9240, 5, 223, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9241, 5, 224, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9242, 5, 225, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9243, 5, 226, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9244, 5, 227, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9245, 5, 228, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9246, 5, 229, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9247, 5, 230, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9248, 5, 41, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9249, 5, 51, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9250, 5, 52, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9251, 5, 53, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9252, 5, 54, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9253, 5, 55, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9254, 5, 254, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9255, 5, 169, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9256, 5, 170, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9257, 5, 173, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9258, 5, 174, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9259, 5, 176, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9260, 5, 177, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9261, 5, 171, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9262, 5, 172, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9263, 5, 175, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9264, 5, 178, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9265, 5, 179, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9266, 5, 180, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9267, 5, 181, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9268, 5, 186, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9269, 5, 187, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9270, 5, 188, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9271, 5, 217, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9272, 5, 218, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9273, 5, 219, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9274, 5, 220, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9275, 5, 221, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9276, 5, 56, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9277, 5, 57, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9278, 5, 58, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9279, 5, 250, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9280, 5, 59, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9281, 5, 60, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9282, 5, 251, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9283, 5, 61, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9284, 5, 62, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9285, 5, 252, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9286, 5, 64, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9287, 5, 65, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9288, 5, 67, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9289, 5, 68, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9290, 5, 167, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9291, 5, 168, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9292, 5, 190, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9293, 5, 255, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9294, 5, 164, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9295, 5, 165, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9296, 5, 166, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9297, 5, 191, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9298, 5, 192, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9299, 5, 193, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9300, 5, 194, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9301, 5, 195, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9302, 5, 196, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9303, 5, 197, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9304, 5, 198, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9305, 5, 203, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9306, 5, 199, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9307, 5, 200, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9308, 5, 201, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9309, 5, 202, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9310, 5, 245, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9311, 5, 47, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9312, 5, 48, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9313, 5, 49, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9314, 5, 50, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9315, 5, 246, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9316, 5, 247, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9317, 5, 256, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9318, 5, 257, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9319, 5, 258, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9320, 5, 249, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9321, 5, 231, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9322, 5, 232, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9323, 5, 233, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9324, 5, 234, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9325, 5, 235, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9326, 5, 236, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9327, 5, 237, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9328, 5, 238, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9329, 5, 239, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9330, 5, 241, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9331, 5, 242, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9332, 5, 243, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9333, 5, 244, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9334, 5, 63, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9335, 5, 66, '2022-01-14 05:32:01', '2022-01-14 05:32:01');
-INSERT INTO `b_role_menu` VALUES (9481, 1, 1, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9482, 1, 2, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9483, 1, 3, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9484, 1, 4, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9485, 1, 5, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9486, 1, 6, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9487, 1, 7, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9488, 1, 185, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9489, 1, 8, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9490, 1, 9, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9491, 1, 10, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9492, 1, 11, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9493, 1, 12, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9494, 1, 13, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9495, 1, 14, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9496, 1, 15, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9497, 1, 16, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9498, 1, 17, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9499, 1, 18, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9500, 1, 19, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9501, 1, 20, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9502, 1, 21, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9503, 1, 22, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9504, 1, 23, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9505, 1, 24, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9506, 1, 25, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9507, 1, 182, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9508, 1, 183, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9509, 1, 184, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9510, 1, 26, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9511, 1, 27, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9512, 1, 28, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9513, 1, 29, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9514, 1, 30, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9515, 1, 31, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9516, 1, 32, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9517, 1, 33, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9518, 1, 215, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9519, 1, 253, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9520, 1, 35, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9521, 1, 36, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9522, 1, 37, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9523, 1, 38, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9524, 1, 39, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9525, 1, 40, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9526, 1, 189, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9527, 1, 216, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9528, 1, 223, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9529, 1, 224, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9530, 1, 225, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9531, 1, 226, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9532, 1, 227, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9533, 1, 228, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9534, 1, 229, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9535, 1, 230, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9536, 1, 41, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9537, 1, 51, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9538, 1, 52, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9539, 1, 53, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9540, 1, 54, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9541, 1, 55, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9542, 1, 254, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9543, 1, 169, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9544, 1, 170, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9545, 1, 173, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9546, 1, 174, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9547, 1, 176, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9548, 1, 177, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9549, 1, 171, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9550, 1, 172, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9551, 1, 175, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9552, 1, 178, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9553, 1, 179, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9554, 1, 180, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9555, 1, 181, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9556, 1, 186, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9557, 1, 187, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9558, 1, 188, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9559, 1, 217, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9560, 1, 218, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9561, 1, 219, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9562, 1, 220, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9563, 1, 221, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9564, 1, 56, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9565, 1, 57, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9566, 1, 58, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9567, 1, 250, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9568, 1, 59, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9569, 1, 60, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9570, 1, 251, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9571, 1, 61, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9572, 1, 62, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9573, 1, 252, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9574, 1, 63, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9575, 1, 64, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9576, 1, 65, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9577, 1, 66, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9578, 1, 67, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9579, 1, 68, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9580, 1, 167, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9581, 1, 168, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9582, 1, 190, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9583, 1, 222, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9584, 1, 248, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9585, 1, 255, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9586, 1, 259, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9587, 1, 164, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9588, 1, 165, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9589, 1, 166, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9590, 1, 191, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9591, 1, 192, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9592, 1, 193, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9593, 1, 194, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9594, 1, 195, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9595, 1, 196, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9596, 1, 197, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9597, 1, 198, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9598, 1, 203, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9599, 1, 199, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9600, 1, 200, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9601, 1, 201, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9602, 1, 202, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9603, 1, 245, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9604, 1, 47, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9605, 1, 48, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9606, 1, 49, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9607, 1, 50, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9608, 1, 246, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9609, 1, 247, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9610, 1, 256, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9611, 1, 257, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9612, 1, 258, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9613, 1, 249, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9614, 1, 231, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9615, 1, 232, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9616, 1, 233, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9617, 1, 234, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9618, 1, 235, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9619, 1, 236, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9620, 1, 237, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9621, 1, 238, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9622, 1, 239, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9623, 1, 241, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9624, 1, 242, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9625, 1, 243, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
-INSERT INTO `b_role_menu` VALUES (9626, 1, 244, '2022-01-14 08:55:41', '2022-01-14 08:55:41');
+INSERT INTO `b_role_menu` VALUES (11364, 1, 1, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11365, 1, 2, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11366, 1, 3, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11367, 1, 4, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11368, 1, 5, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11369, 1, 6, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11370, 1, 7, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11371, 1, 185, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11372, 1, 8, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11373, 1, 9, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11374, 1, 10, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11375, 1, 11, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11376, 1, 12, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11377, 1, 13, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11378, 1, 14, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11379, 1, 15, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11380, 1, 16, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11381, 1, 17, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11382, 1, 18, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11383, 1, 19, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11384, 1, 20, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11385, 1, 21, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11386, 1, 22, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11387, 1, 23, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11388, 1, 24, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11389, 1, 25, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11390, 1, 182, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11391, 1, 183, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11392, 1, 184, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11393, 1, 26, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11394, 1, 27, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11395, 1, 28, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11396, 1, 29, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11397, 1, 30, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11398, 1, 31, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11399, 1, 32, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11400, 1, 33, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11401, 1, 215, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11402, 1, 253, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11403, 1, 262, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11404, 1, 35, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11405, 1, 36, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11406, 1, 37, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11407, 1, 38, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11408, 1, 39, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11409, 1, 40, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11410, 1, 189, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11411, 1, 216, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11412, 1, 223, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11413, 1, 224, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11414, 1, 225, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11415, 1, 226, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11416, 1, 227, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11417, 1, 228, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11418, 1, 229, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11419, 1, 230, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11420, 1, 41, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11421, 1, 51, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11422, 1, 52, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11423, 1, 53, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11424, 1, 54, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11425, 1, 55, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11426, 1, 254, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11427, 1, 169, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11428, 1, 170, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11429, 1, 173, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11430, 1, 174, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11431, 1, 176, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11432, 1, 177, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11433, 1, 171, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11434, 1, 172, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11435, 1, 175, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11436, 1, 178, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11437, 1, 179, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11438, 1, 180, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11439, 1, 181, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11440, 1, 186, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11441, 1, 187, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11442, 1, 188, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11443, 1, 217, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11444, 1, 218, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11445, 1, 219, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11446, 1, 220, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11447, 1, 221, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11448, 1, 56, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11449, 1, 57, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11450, 1, 58, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11451, 1, 250, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11452, 1, 59, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11453, 1, 60, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11454, 1, 251, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11455, 1, 61, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11456, 1, 62, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11457, 1, 252, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11458, 1, 63, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11459, 1, 64, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11460, 1, 65, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11461, 1, 260, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11462, 1, 66, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11463, 1, 67, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11464, 1, 248, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11465, 1, 261, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11466, 1, 164, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11467, 1, 165, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11468, 1, 166, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11469, 1, 191, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11470, 1, 192, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11471, 1, 193, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11472, 1, 194, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11473, 1, 195, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11474, 1, 196, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11475, 1, 197, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11476, 1, 198, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11477, 1, 203, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11478, 1, 199, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11479, 1, 200, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11480, 1, 201, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11481, 1, 202, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11482, 1, 263, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11483, 1, 264, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11484, 1, 265, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11485, 1, 269, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11486, 1, 270, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11487, 1, 245, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11488, 1, 47, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11489, 1, 48, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11490, 1, 49, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11491, 1, 50, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11492, 1, 246, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11493, 1, 247, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11494, 1, 256, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11495, 1, 257, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11496, 1, 258, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11497, 1, 266, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11498, 1, 267, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11499, 1, 268, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11500, 1, 249, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11501, 1, 231, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11502, 1, 232, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11503, 1, 233, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11504, 1, 234, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11505, 1, 235, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11506, 1, 236, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11507, 1, 237, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11508, 1, 238, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11509, 1, 239, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11510, 1, 241, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11511, 1, 242, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11512, 1, 243, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11513, 1, 244, '2022-04-14 15:35:06', '2022-04-14 15:35:06');
+INSERT INTO `b_role_menu` VALUES (11514, 5, 1, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11515, 5, 2, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11516, 5, 3, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11517, 5, 4, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11518, 5, 5, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11519, 5, 6, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11520, 5, 7, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11521, 5, 185, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11522, 5, 8, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11523, 5, 9, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11524, 5, 10, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11525, 5, 11, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11526, 5, 12, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11527, 5, 13, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11528, 5, 14, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11529, 5, 15, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11530, 5, 16, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11531, 5, 17, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11532, 5, 18, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11533, 5, 19, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11534, 5, 20, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11535, 5, 21, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11536, 5, 22, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11537, 5, 23, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11538, 5, 24, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11539, 5, 25, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11540, 5, 182, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11541, 5, 183, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11542, 5, 184, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11543, 5, 26, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11544, 5, 27, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11545, 5, 28, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11546, 5, 29, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11547, 5, 30, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11548, 5, 31, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11549, 5, 32, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11550, 5, 33, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11551, 5, 215, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11552, 5, 253, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11553, 5, 262, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11554, 5, 35, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11555, 5, 36, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11556, 5, 37, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11557, 5, 38, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11558, 5, 39, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11559, 5, 40, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11560, 5, 189, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11561, 5, 216, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11562, 5, 223, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11563, 5, 224, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11564, 5, 225, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11565, 5, 226, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11566, 5, 227, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11567, 5, 228, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11568, 5, 229, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11569, 5, 230, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11570, 5, 41, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11571, 5, 51, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11572, 5, 52, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11573, 5, 53, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11574, 5, 54, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11575, 5, 55, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11576, 5, 254, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11577, 5, 169, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11578, 5, 170, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11579, 5, 173, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11580, 5, 174, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11581, 5, 176, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11582, 5, 177, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11583, 5, 171, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11584, 5, 172, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11585, 5, 175, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11586, 5, 178, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11587, 5, 179, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11588, 5, 180, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11589, 5, 181, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11590, 5, 186, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11591, 5, 187, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11592, 5, 188, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11593, 5, 217, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11594, 5, 218, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11595, 5, 219, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11596, 5, 220, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11597, 5, 221, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11598, 5, 56, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11599, 5, 57, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11600, 5, 58, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11601, 5, 250, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11602, 5, 59, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11603, 5, 60, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11604, 5, 251, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11605, 5, 61, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11606, 5, 62, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11607, 5, 252, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11608, 5, 65, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11609, 5, 66, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11610, 5, 67, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11611, 5, 248, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11612, 5, 261, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11613, 5, 164, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11614, 5, 165, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11615, 5, 166, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11616, 5, 191, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11617, 5, 192, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11618, 5, 193, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11619, 5, 194, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11620, 5, 195, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11621, 5, 196, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11622, 5, 197, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11623, 5, 198, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11624, 5, 203, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11625, 5, 199, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11626, 5, 200, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11627, 5, 201, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11628, 5, 202, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11629, 5, 263, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11630, 5, 264, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11631, 5, 265, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11632, 5, 269, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11633, 5, 270, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11634, 5, 245, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11635, 5, 47, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11636, 5, 48, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11637, 5, 49, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11638, 5, 50, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11639, 5, 246, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11640, 5, 247, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11641, 5, 256, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11642, 5, 257, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11643, 5, 258, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11644, 5, 266, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11645, 5, 267, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11646, 5, 268, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11647, 5, 249, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11648, 5, 231, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11649, 5, 232, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11650, 5, 233, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11651, 5, 234, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11652, 5, 235, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11653, 5, 236, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11654, 5, 237, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11655, 5, 238, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11656, 5, 239, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11657, 5, 241, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11658, 5, 242, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11659, 5, 243, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11660, 5, 244, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11661, 5, 63, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
+INSERT INTO `b_role_menu` VALUES (11662, 5, 64, '2022-04-14 15:35:34', '2022-04-14 15:35:34');
 
 -- ----------------------------
 -- Table structure for b_system_config
@@ -1271,12 +923,13 @@ CREATE TABLE `b_system_config`  (
   `local_file_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '本地文件地址',
   `file_upload_way` int(1) NULL DEFAULT NULL COMMENT '文件上传方式 1:本地 2：七牛云',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统配置表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统配置表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of b_system_config
 -- ----------------------------
-INSERT INTO `b_system_config` VALUES (1, '', '', 'z0', '', 'http://img.shiyit.com/', '1', '1', '1', '2021-11-26 15:41:36', '2021-11-26 15:41:36', '1', '欢迎来到Isblog博客项目，开源项目离不开大家的支持，希望小伙伴能随手点赞一下，你的点赞就是我维护的动力~\n\n项目源码：[点我传送](https://gitee.com/quequnlong/vue-admin-blog)，项目官网：[点我传送](http://www.isblog.com.cn)\n\n项目还在开发阶段，如有不善的地方欢迎各位小伙伴多多反馈\n\n最低配置：1核2G 需要开启虚拟内存\n\n推荐配置：2核4G 【狂欢特惠】\n\n服务器和域名等服务的购买和续费都会产生一定的费用，为了维持项目的正常运作，如果觉得本项目对您有帮助的话\n\n欢迎朋友能够给予一些支持，非常感谢~（ps.. 小伙伴赞赏的时候可以备注一下下~）\n|支付宝|微信|\n|-|-|-|\n|![支付宝](http://img.isblog.com.cn/alipay.png)|![微信](http://img.isblog.com.cn/wxpay.png)|\n欢迎来到拾壹博客项目，开源项目离不开大家的支持，希望小伙伴能随手点赞一下，你的点赞就是我维护的动力~\n\n项目源码：[点我传送](https://gitee.com/quequnlong/vue-admin-blog)，项目官网：[点我传送](http://www.shiyit.com)\n\n项目还在开发阶段，如有不善的地方欢迎各位小伙伴多多反馈\n\n最低配置：1核2G \n\n推荐配置：2核4G [【狂欢特惠】](https://cloud.tencent.com/act/new?channel=sp&fromSource=gwzcw.5433948.5433948.5433948&utm_medium=cpc&utm_id=gwzcw.5433948.5433948.5433948&bd_vid=6261311440599794431)\n服务器和域名等服务的购买和续费都会产生一定的费用，为了维持项目的正常运作，如果觉得本项目对您有帮助的话\n\n欢迎朋友能够给予一些支持，非常感谢~（ps.. 小伙伴赞赏的时候可以备注一下下~）\n|支付宝|微信|\n|-|-|-|\n|![支付宝](http://img.shiyit.com/1639990067114.png)|![微信](http://img.shiyit.com/1639990061772.png)|\n', '<p>欢迎来到拾壹博客项目，开源项目离不开大家的支持，希望小伙伴能随手点赞一下，你的点赞就是我维护的动力~</p>\n<p>项目源码：<a href=\"https://gitee.com/quequnlong/vue-admin-blog\" target=\"_blank\">点我传送</a>，项目官网：<a href=\"http://www.shiyit.com\" target=\"_blank\">点我传送</a></p>\n<p>项目还在开发阶段，如有不善的地方欢迎各位小伙伴多多反馈</p>\n<p>最低配置：1核2G</p>\n<p>推荐配置：2核4G <a href=\"https://cloud.tencent.com/act/new?channel=sp&amp;fromSource=gwzcw.5433948.5433948.5433948&amp;utm_medium=cpc&amp;utm_id=gwzcw.5433948.5433948.5433948&amp;bd_vid=6261311440599794431\" target=\"_blank\">【狂欢特惠】</a><br />\n服务器和域名等服务的购买和续费都会产生一定的费用，为了维持项目的正常运作，如果觉得本项目对您有帮助的话</p>\n<p>欢迎朋友能够给予一些支持，非常感谢~（ps… 小伙伴赞赏的时候可以备注一下下~）</p>\n<table>\n<thead>\n<tr>\n<th>支付宝</th>\n<th>微信</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><img src=\"http://img.shiyit.com/1639990067114.png\" alt=\"支付宝\" /></td>\n<td><img src=\"http://img.shiyit.com/1639990061772.png\" alt=\"微信\" /></td>\n</tr>\n</tbody>\n</table>\n', 1, 'smtp.qq.com', 'xxx@qq.com', NULL, 587, 1, NULL, NULL);
+INSERT INTO `b_system_config` VALUES (1, '', '', 'z0', '', 'http://img.shiyit.com/', '1', '1', '1', '2021-11-26 15:41:36', '2021-11-26 15:41:36', '1', '欢迎来到拾壹博客项目，开源项目离不开大家的支持，希望小伙伴能随手点赞一下，你的点赞就是我维护的动力~\n\n博主使用笔记本开发的项目，所以页面中表格的列在大屏显示器中会显示宽度的不均衡，如需要可以自行调整。\n\n项目源码：[点我传送](https://gitee.com/quequnlong/shiyi-blog)，项目官网：[点我传送](http://www.shiyit.com)\n\n项目还在开发阶段，如有不善的地方欢迎各位小伙伴多多反馈\n\n最低配置：1核2G \n\n推荐配置：2核4G [【狂欢特惠】](https://cloud.tencent.com/act/new?channel=sp&fromSource=gwzcw.5433948.5433948.5433948&utm_medium=cpc&utm_id=gwzcw.5433948.5433948.5433948&bd_vid=6261311440599794431)\n\n服务器和域名等服务的购买和续费都会产生一定的费用，为了维持项目的正常运作，如果觉得本项目对您有帮助的话\n\n欢迎朋友能够给予一些支持，非常感谢~（ps.. 小伙伴赞赏的时候可以备注一下下~）\n|支付宝|微信|\n|-|-|-|\n|![支付宝](http://img.shiyit.com/1639990067114.png)|![微信](http://img.shiyit.com/1639990061772.png)|\na', '<p>欢迎来到拾壹博客项目，开源项目离不开大家的支持，希望小伙伴能随手点赞一下，你的点赞就是我维护的动力~</p>\n<p>博主使用笔记本开发的项目，所以页面中表格的列在大屏显示器中会显示宽度的不均衡，如需要可以自行调整。</p>\n<p>项目源码：<a href=\"https://gitee.com/quequnlong/shiyi-blog\" target=\"_blank\">点我传送</a>，项目官网：<a href=\"http://www.shiyit.com\" target=\"_blank\">点我传送</a></p>\n<p>项目还在开发阶段，如有不善的地方欢迎各位小伙伴多多反馈</p>\n<p>最低配置：1核2G</p>\n<p>推荐配置：2核4G <a href=\"https://cloud.tencent.com/act/new?channel=sp&amp;fromSource=gwzcw.5433948.5433948.5433948&amp;utm_medium=cpc&amp;utm_id=gwzcw.5433948.5433948.5433948&amp;bd_vid=6261311440599794431\" target=\"_blank\">【狂欢特惠】</a></p>\n<p>服务器和域名等服务的购买和续费都会产生一定的费用，为了维持项目的正常运作，如果觉得本项目对您有帮助的话</p>\n<p>欢迎朋友能够给予一些支持，非常感谢~（ps… 小伙伴赞赏的时候可以备注一下下~）</p>\n<table>\n<thead>\n<tr>\n<th>支付宝</th>\n<th>微信</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><img src=\"http://img.shiyit.com/1639990067114.png\" alt=\"支付宝\" /></td>\n<td><img src=\"http://img.shiyit.com/1639990061772.png\" alt=\"微信\" /></td>\n</tr>\n</tbody>\n</table>\n', 1, 'smtp.qq.com', 'xxx@qq.com', '', 587, 1, '', 1);
+INSERT INTO `b_system_config` VALUES (2, '', '', 'z0', '', 'http://img.shiyit.com/', '1', '1', '1', '2021-11-26 15:41:36', '2021-11-26 15:41:36', '1', '欢迎来到拾壹博客项目，开源项目离不开大家的支持，希望小伙伴能随手点赞一下，你的点赞就是我维护的动力~\n\n博主使用笔记本开发的项目，所以页面中表格的列在大屏显示器中会显示宽度的不均衡，如需要可以自行调整。\n\n项目源码：[点我传送](https://gitee.com/quequnlong/shiyi-blog)，项目官网：[点我传送](http://www.shiyit.com)\n\n项目还在开发阶段，如有不善的地方欢迎各位小伙伴多多反馈\n\n最低配置：1核2G \n\n推荐配置：2核4G [【狂欢特惠】](https://cloud.tencent.com/act/new?channel=sp&fromSource=gwzcw.5433948.5433948.5433948&utm_medium=cpc&utm_id=gwzcw.5433948.5433948.5433948&bd_vid=6261311440599794431)\n\n服务器和域名等服务的购买和续费都会产生一定的费用，为了维持项目的正常运作，如果觉得本项目对您有帮助的话\n\n欢迎朋友能够给予一些支持，非常感谢~（ps.. 小伙伴赞赏的时候可以备注一下下~）\n|支付宝|微信|\n|-|-|-|\n|![支付宝](http://img.shiyit.com/1639990067114.png)|![微信](http://img.shiyit.com/1639990061772.png)|\na', '<p>欢迎来到拾壹博客项目，开源项目离不开大家的支持，希望小伙伴能随手点赞一下，你的点赞就是我维护的动力~</p>\n<p>博主使用笔记本开发的项目，所以页面中表格的列在大屏显示器中会显示宽度的不均衡，如需要可以自行调整。</p>\n<p>项目源码：<a href=\"https://gitee.com/quequnlong/shiyi-blog\" target=\"_blank\">点我传送</a>，项目官网：<a href=\"http://www.shiyit.com\" target=\"_blank\">点我传送</a></p>\n<p>项目还在开发阶段，如有不善的地方欢迎各位小伙伴多多反馈</p>\n<p>最低配置：1核2G</p>\n<p>推荐配置：2核4G <a href=\"https://cloud.tencent.com/act/new?channel=sp&amp;fromSource=gwzcw.5433948.5433948.5433948&amp;utm_medium=cpc&amp;utm_id=gwzcw.5433948.5433948.5433948&amp;bd_vid=6261311440599794431\" target=\"_blank\">【狂欢特惠】</a></p>\n<p>服务器和域名等服务的购买和续费都会产生一定的费用，为了维持项目的正常运作，如果觉得本项目对您有帮助的话</p>\n<p>欢迎朋友能够给予一些支持，非常感谢~（ps… 小伙伴赞赏的时候可以备注一下下~）</p>\n<table>\n<thead>\n<tr>\n<th>支付宝</th>\n<th>微信</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><img src=\"http://img.shiyit.com/1639990067114.png\" alt=\"支付宝\" /></td>\n<td><img src=\"http://img.shiyit.com/1639990061772.png\" alt=\"微信\" /></td>\n</tr>\n</tbody>\n</table>\n', 1, 'smtp.qq.com', 'xxx@qq.com', NULL, 587, 1, NULL, 1);
 
 -- ----------------------------
 -- Table structure for b_tags
@@ -1291,23 +944,24 @@ CREATE TABLE `b_tags`  (
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `tag_name`(`name`) USING BTREE COMMENT '博客标签名称'
-) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客标签表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客标签表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of b_tags
 -- ----------------------------
-INSERT INTO `b_tags` VALUES (1, 'springboot', 0, 16, '2021-11-12 14:43:27', '2022-01-24 09:30:25');
-INSERT INTO `b_tags` VALUES (2, 'elasticsearch', 0, 10, '2021-11-12 14:43:27', NULL);
-INSERT INTO `b_tags` VALUES (10, 'blog', 0, 17, '2021-11-12 14:43:27', '2022-01-24 09:31:06');
+INSERT INTO `b_tags` VALUES (1, 'springboot', 6, 0, '2021-11-12 14:43:27', '2022-04-15 03:00:00');
+INSERT INTO `b_tags` VALUES (2, 'elasticsearch', 6, 0, '2021-11-12 14:43:27', '2022-04-15 03:00:00');
+INSERT INTO `b_tags` VALUES (10, 'blog', 12, 0, '2021-11-12 14:43:27', '2022-04-15 03:00:00');
 INSERT INTO `b_tags` VALUES (12, 'vue', 0, 1, '2021-12-29 14:01:50', '2021-12-29 14:01:50');
-INSERT INTO `b_tags` VALUES (13, 'springcloud', 0, 1, '2021-12-29 14:02:32', '2021-12-29 14:02:32');
+INSERT INTO `b_tags` VALUES (13, 'springcloud', 4, 0, '2021-12-29 14:02:32', '2022-04-15 03:00:00');
 INSERT INTO `b_tags` VALUES (14, 'webmagic', 0, 2, '2022-01-07 17:09:12', '2022-01-07 17:09:12');
 INSERT INTO `b_tags` VALUES (15, 'markdown', 0, 0, '2022-01-14 06:04:17', '2022-01-14 06:04:17');
-INSERT INTO `b_tags` VALUES (17, 'redis', 0, 3, '2022-01-25 14:09:03', '2022-01-25 06:09:02');
-INSERT INTO `b_tags` VALUES (18, 'linux', 0, 4, '2022-01-25 14:09:17', '2022-01-25 06:09:16');
+INSERT INTO `b_tags` VALUES (17, 'redis', 2, 0, '2022-01-25 14:09:03', '2022-04-15 03:00:00');
+INSERT INTO `b_tags` VALUES (18, 'linux', 4, 0, '2022-01-25 14:09:17', '2022-04-15 03:00:00');
 INSERT INTO `b_tags` VALUES (29, 'IDEA', 0, 0, '2022-02-15 15:12:49', '2022-02-15 07:12:48');
-INSERT INTO `b_tags` VALUES (30, 'CamelCase ', 0, 0, '2022-02-15 15:12:49', '2022-02-15 07:12:48');
-INSERT INTO `b_tags` VALUES (31, 'mysql', 0, 0, '2022-02-18 16:01:07', '2022-02-18 08:01:06');
+INSERT INTO `b_tags` VALUES (31, 'mysql', 9, 0, '2022-02-18 16:01:07', '2022-04-15 03:00:00');
+INSERT INTO `b_tags` VALUES (32, 'nginx', 0, 0, '2022-04-13 17:48:08', '2022-04-13 09:48:08');
+INSERT INTO `b_tags` VALUES (39, 'cs1', 0, 1, '2022-04-14 09:10:54', '2022-04-14 09:10:53');
 
 -- ----------------------------
 -- Table structure for b_user
@@ -1325,18 +979,18 @@ CREATE TABLE `b_user`  (
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色id',
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `ip_source` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip来源',
+  `os` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录系统',
   `last_login_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后登录时间',
   `browser` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '浏览器',
-  `os` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录系统',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统管理-用户基础信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统管理-用户基础信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of b_user
 -- ----------------------------
-INSERT INTO `b_user` VALUES (1, 'admin', 'NLJ3Gidivf3vouOjYLIvuA==', '2021-09-27 15:43:45', '2022-03-01 14:58:01', 1, 1, 1, 1, '220.202.225.161', '中国-湖南省-长沙市', '2022-03-01 14:58:01', NULL, NULL);
-INSERT INTO `b_user` VALUES (2, 'test', 'NLJ3Gidivf3vouOjYLIvuA==', '2021-11-14 12:35:03', '2022-02-28 19:44:29', 1, 1, 2, 5, '125.85.53.58', '中国-重庆市-重庆市', '2022-02-28 19:44:29', NULL, NULL);
+INSERT INTO `b_user` VALUES (7, 'admin', 'NLJ3Gidivf3vouOjYLIvuA==', '2021-09-27 15:43:45', '2022-03-10 17:59:40', 1, 1, 1, 1, '58.20.50.139', '中国-湖南省-长沙市', 'Windows 10', '2022-04-15 08:21:24', 'Chrome 10');
+INSERT INTO `b_user` VALUES (15, 'test', 'NLJ3Gidivf3vouOjYLIvuA==', '2021-11-14 12:35:03', '2022-03-10 14:11:02', 1, 1, 2, 5, '183.94.151.29', '中国-湖北省-武汉市', 'Linux', '2022-04-15 01:20:39', 'Chrome 10');
 
 -- ----------------------------
 -- Table structure for b_user_auth
@@ -1353,12 +1007,12 @@ CREATE TABLE `b_user_auth`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of b_user_auth
 -- ----------------------------
-INSERT INTO `b_user_auth` VALUES (1, 'admin', 'admin', 'http://img.shiyit.com/FjzfvfWYZVED7eXMS4EL8KNR949K', NULL, NULL, 1, NULL, NULL);
+INSERT INTO `b_user_auth` VALUES (1, 'admin', '管理员', 'http://img.shiyit.com/FjzfvfWYZVED7eXMS4EL8KNR949K', NULL, NULL, 1, NULL, NULL);
 INSERT INTO `b_user_auth` VALUES (2, 'test', '演示账号', 'http://img.shiyit.com/1645512111007.png', NULL, NULL, 1, NULL, NULL);
 
 -- ----------------------------
@@ -1379,7 +1033,7 @@ CREATE TABLE `b_user_log`  (
   `browser` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '浏览器',
   `client_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '客户端类型',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8935 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for b_user_role
@@ -1415,8 +1069,8 @@ CREATE TABLE `b_web_config`  (
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `web_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '网站地址',
-  `ali_pay` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '支付宝收款码FileId',
-  `weixin_pay` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '微信收款码FileId',
+  `ali_pay` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '支付宝收款码FileId',
+  `weixin_pay` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '微信收款码FileId',
   `github` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'github地址',
   `gitee` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'gitee地址',
   `qq_number` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'QQ号',
@@ -1429,7 +1083,7 @@ CREATE TABLE `b_web_config`  (
   `bulletin` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '公告',
   `author_info` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '作者简介',
   `author_avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '作者头像',
-  `about_me` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '关于我',
+  `about_me` varchar(350) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '关于我',
   `is_music_player` int(10) NULL DEFAULT 0 COMMENT '是否开启音乐播放器',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '网站配置表' ROW_FORMAT = Dynamic;
@@ -1437,6 +1091,6 @@ CREATE TABLE `b_web_config`  (
 -- ----------------------------
 -- Records of b_web_config
 -- ----------------------------
-INSERT INTO `b_web_config` VALUES (1, '1645512111007.png', '拾壹博客', '机会向来都是自己争取的。', '拾壹,拾壹博客', '拾壹', '', '2021-11-27 13:43:16', '2022-01-20 13:30:44', 'http://www.shiyit.com', '', '', 'https://github.com/quequnlong', 'https://gitee.com/quequnlong', '', '', '1,2,3,4', '1,4,3,2', '1', 1, 'http://img.shiyit.com/touristAvatar.png', '个人开源博客后台管理项目码云地址:https://gitee.com/quequnlong/vue-admin-blog', '永远都是一个学者。', 'http://img.shiyit.com/1645512120227.png', '> 特别鸣谢博客作者：[gitee仓库](https://gitee.com/feng_meiyu/blog)\n#### 前端用的vue，后端用的springboot\n#### 后台管理gitee地址：https://gitee.com/quequnlong/vue-admin-blog\n', 1);
+INSERT INTO `b_web_config` VALUES (1, 'http://img.shiyit.com/FjzfvfWYZVED7eXMS4EL8KNR949K', '拾壹博客', '机会向来都是自己争取的。', '拾壹,拾壹博客', '拾壹', '湘ICP备2022002110号-1', '2021-11-27 13:43:16', '2022-01-20 13:30:44', 'http://www.shiyit.com', '', '', 'https://github.com/quequnlong', 'https://gitee.com/quequnlong', '1248954763', '1248954763@qq.com', '1,2,3,4', '1,4,3,2', '1', 1, 'http://img.shiyit.com/touristAvatar.png', '如入你眼，请上码云给仓库点上您的小星星', '永远都是一个学者。', 'http://img.shiyit.com/FjzfvfWYZVED7eXMS4EL8KNR949K', '> 特别鸣谢博客作者：[gitee仓库](https://gitee.com/feng_meiyu/blog)\n#### 前端用的vue，后端用的springboot\n\n[![buzhiming/拾壹博客](https://gitee.com/quequnlong/shiyi-blog/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,e3e9ed,666666,9b9b9b)](https://gitee.com/quequnlong/shiyi-blog)\n\n', 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
