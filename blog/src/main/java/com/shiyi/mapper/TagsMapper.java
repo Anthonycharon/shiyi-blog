@@ -3,10 +3,12 @@ package com.shiyi.mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.entity.Tags;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -32,4 +34,7 @@ public interface TagsMapper extends BaseMapper<Tags> {
     List<Tags> findByArticleIdToTags(Long id);
 
     Page<Tags> selectPageRecord(@Param("page") Page<Tags> objectPage,@Param("name") String name);
+
+    @MapKey("id")
+    List<Map<String, Object>> countTags();
 }

@@ -22,6 +22,7 @@ public class HomeDataDTO {
     private Map<String, Object> contribute;
     private Map<String, Object> categoryList;
     private List<Map<String,Object>> userAccess;
+    private List<Map<String,Object>> tagsList;
     private String dashboard;
     private List<BlogArticle> blogArticles;
 }

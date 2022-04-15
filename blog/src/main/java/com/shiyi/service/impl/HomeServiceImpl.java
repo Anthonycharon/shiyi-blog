@@ -63,7 +63,7 @@ public class HomeServiceImpl {
         map.put("article", articleMapper.selectList(null).size());
         map.put("message",messageMapper.selectList(null).size());
         map.put("user",userMapper.selectCount(null));
-        map.put("ipCount",sysLogMapper.getToday());
+        map.put("viewsCount",(Integer) getViewsCount());
         return map;
     }
 
@@ -72,19 +72,47 @@ public class HomeServiceImpl {
         List<BlogArticle> blogArticles = articleMapper.selectList(new LambdaQueryWrapper<BlogArticle>()
                 .select(BlogArticle::getQuantity,BlogArticle::getTitle,BlogArticle::getId)
                 .eq(BlogArticle::getIsPublish, PublishEnum.PUBLISH.getCode())
-                .orderByDesc(BlogArticle::getQuantity).last("limit 5"));
+                .orderByDesc(BlogArticle::getQuantity).last("limit 6"));
         //文章贡献度
         Map<String, Object> contribute = this.contribute();
-        //标签统计
+        //分类统计
         Map<String, Object> categoryCount = this.categoryCount();
         //用户访问量
         List<Map<String, Object>> userAccess = this.userAccess();
+
+        List<Map<String,Object>> tagsList = tagsMapper.countTags();
         //弹出框
         SystemConfig systemConfig = systemConfigService.getCustomizeOne();
 
         HomeDataDTO dto = HomeDataDTO.builder().dashboard(systemConfig.getDashboardNotification())
-                .categoryList(categoryCount).contribute(contribute).blogArticles(blogArticles).userAccess(userAccess).build();
+                .categoryList(categoryCount).contribute(contribute).blogArticles(blogArticles).userAccess(userAccess).tagsList(tagsList).build();
         return dto;
+    }
+
+    /**
+     * redis监控
+     * @return
+     */
+    public ApiResult getCacheInfo() {
+        RedisTemplate redisTemplate = redisCache.redisTemplate;
+        Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info());
+        Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
+        Object dbSize = redisTemplate.execute((RedisCallback<Object>) connection -> connection.dbSize());
+
+        Map<String, Object> result = new HashMap<>(3);
+        result.put("info", info);
+        result.put("dbSize", dbSize);
+
+        List<Map<String, String>> pieList = new ArrayList<>();
+        commandStats.stringPropertyNames().forEach(key -> {
+            Map<String, String> data = new HashMap<>(2);
+            String property = commandStats.getProperty(key);
+            data.put("name", StringUtils.removeStart(key, "cmdstat_"));
+            data.put("value", StringUtils.substringBetween(property, "calls=", ",usec"));
+            pieList.add(data);
+        });
+        result.put("commandStats", pieList);
+        return ApiResult.success(result);
     }
 
     //----------web端开始------------
@@ -107,8 +135,7 @@ public class HomeServiceImpl {
         Integer tagCount = tagsMapper.selectCount(null);
         Integer categoryCount = categoryMapper.selectCount(null);
         // 查询访问量
-        Object count = redisCache.getCacheObject(RedisConstants.BLOG_VIEWS_COUNT);
-        String viewsCount = Optional.ofNullable(count).orElse(0).toString();
+        String viewsCount = getViewsCount().toString();
         Map<String,Object> map = new HashMap<>();
         map.put("articleCount",articleCount);
         map.put("categoryCount",categoryCount);
@@ -162,6 +189,8 @@ public class HomeServiceImpl {
         }
         return ApiResult.ok();
     }
+
+
 
     //--------------自定义方法开始---------------
     public static List<String> getMonths() {
@@ -228,28 +257,13 @@ public class HomeServiceImpl {
     }
 
     /**
-     * redis监控
+     * 获取网站访问量
      * @return
      */
-    public ApiResult getCacheInfo() {
-        RedisTemplate redisTemplate = redisCache.redisTemplate;
-        Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info());
-        Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
-        Object dbSize = redisTemplate.execute((RedisCallback<Object>) connection -> connection.dbSize());
-
-        Map<String, Object> result = new HashMap<>(3);
-        result.put("info", info);
-        result.put("dbSize", dbSize);
-
-        List<Map<String, String>> pieList = new ArrayList<>();
-        commandStats.stringPropertyNames().forEach(key -> {
-            Map<String, String> data = new HashMap<>(2);
-            String property = commandStats.getProperty(key);
-            data.put("name", StringUtils.removeStart(key, "cmdstat_"));
-            data.put("value", StringUtils.substringBetween(property, "calls=", ",usec"));
-            pieList.add(data);
-        });
-        result.put("commandStats", pieList);
-        return ApiResult.success(result);
+    private Object getViewsCount() {
+        Object count = redisCache.getCacheObject(RedisConstants.BLOG_VIEWS_COUNT);
+        Object viewsCount = Optional.ofNullable(count).orElse(0);
+        return viewsCount;
     }
+
 }

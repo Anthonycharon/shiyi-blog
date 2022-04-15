@@ -20,9 +20,9 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            今日ip数
+            总访问量
           </div>
-          <count-to :start-val="0" :end-val="lineData.ipCount" :duration="3600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="lineData.viewsCount" :duration="3600" class="card-panel-num" />
         </div>
       </div>
     </el-col>

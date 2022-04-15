@@ -41,4 +41,8 @@
             ( #{articleId},#{tagsId})
         </foreach>
     </insert>
+
+    <select id="countTags" resultType="java.util.Map">
+        select id,name from b_tags
+    </select>
 </mapper>

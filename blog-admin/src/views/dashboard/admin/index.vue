@@ -10,38 +10,47 @@
 
     <el-row :gutter="20" style="margin-top:1.25rem">
       <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <div id="categoryChart" class="chart" style="height:300px;width:100%" />
-        </div>
+        <el-card>
+          <div class="e-title">文章阅读量排行</div>
+          <el-table :data="list" style="width: 100%;padding-top: 15px">
+            <el-table-column label="标题" min-width="200">
+              <template slot-scope="scope">
+                <el-link :underline="false" @click="onClick(scope.row)">{{ scope.row.title }}</el-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="阅读量" prop="quantity" width="100" align="center"/>
+          </el-table>
+        </el-card>
       </el-col>
+
       <el-col :xs="24" :sm="24" :lg="8">
-        <el-table :data="list" style="width: 100%;padding-top: 15px;height: 318px">
-          <el-table-column label="标题" min-width="200">
-            <template slot-scope="scope">
-              <el-link :underline="false" @click="onClick(scope.row)">{{ scope.row.title }}</el-link>
-            </template>
-          </el-table-column>
-          <el-table-column label="阅读量" prop="quantity" width="100" align="center"/>
-        </el-table>
+        <el-card>
+          <div class="e-title">文章分类统计</div>
+          <div class="chart-wrapper">
+            <div id="categoryChart" class="chart" style="height:310px;width:100%" />
+          </div>
+        </el-card>
       </el-col>
+
+      <!-- 文章标签统计 -->
       <el-col :xs="24" :sm="24" :lg="8">
-        <box-card/>
+        <el-card style="height: 417px">
+          <div class="e-title">文章标签统计</div>
+          <div>
+            <tag-cloud style="margin-top:1.5rem" :data="tagDTOList" />
+          </div>
+        </el-card>
       </el-col>
     </el-row>
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <div id="access" class="chart" style="height:350px;width:100%" />
+
+
+    <el-row style="margin-top:1.25rem">
+      <el-card>
+        <div class="e-title">一周访问量</div>
+        <div id="access" class="chart" style="height:350px;width:100%" />
+      </el-card>
     </el-row>
-<!--    <el-row :gutter="8">
-      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
-        <transaction-table />
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-        <todo-list />
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-        <box-card />
-      </el-col>
-    </el-row>-->
+
     <el-dialog
       title="通知"
       :close-on-click-modal="false"
@@ -57,7 +66,6 @@
 <script>
 import GithubCorner from '@/components/GithubCorner'
 import PanelGroup from './components/PanelGroup'
-import TodoList from './components/TodoList'
 import BoxCard from './components/BoxCard'
 import * as echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
@@ -68,11 +76,11 @@ export default {
   components: {
     GithubCorner,
     PanelGroup,
-    TodoList,
     BoxCard
   },
   data() {
     return {
+      tagDTOList: [],
       categoryChart: null,
       chart: null,
       list: [],
@@ -99,6 +107,7 @@ export default {
       init().then(res =>{
         this.list = res.data.blogArticles
         this.dashboard = res.data.dashboard;
+        this.tagDTOList = res.data.tagsList;
         this.initContributeDate(res.data.contribute.contributeDate,res.data.contribute.blogContributeCount)
         this.initCategoryChart(res.data.categoryList.categoryList,res.data.categoryList.result)
         this.initChart(res.data.userAccess)
