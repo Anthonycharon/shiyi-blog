@@ -65,5 +65,7 @@ public class Constants {
 
     public static final String ZERO = "0";
 
+    public static final String IMG_URL_API = "https://api.btstu.cn/sjbz/api.php?lx=fengjing&format=json";
+
 
 }

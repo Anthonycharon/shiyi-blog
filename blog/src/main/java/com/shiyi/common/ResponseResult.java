@@ -61,12 +61,8 @@ public class ResponseResult {
         return new ResponseResult(SUCCESS.getCode(), SUCCESS.getDesc(), null);
     }
 
-    public static ResponseResult success(String message) {
-        return new ResponseResult(SUCCESS.getCode(), message, null);
-    }
-
     public static ResponseResult success(Object data) {
-        return new ResponseResult(SUCCESS.getCode(),"操作成功", data);
+        return new ResponseResult(SUCCESS.getCode(),SUCCESS.getDesc(), data);
     }
 
     public static ResponseResult success(String message, Object data) {

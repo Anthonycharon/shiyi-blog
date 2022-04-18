@@ -1,6 +1,8 @@
 package com.shiyi.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -38,8 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.MessageFormat;
 import java.util.*;
 
-import static com.shiyi.common.Constants.CURRENTPAGE;
-import static com.shiyi.common.Constants.RECORDS;
+import static com.shiyi.common.Constants.*;
 import static com.shiyi.common.RedisConstants.*;
 import static com.shiyi.common.ResultCode.*;
 
@@ -198,9 +199,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
 
     @Override
     public ResponseResult randomImg() {
-        //文章封面图片 由https://picsum.photos该网站随机获取
-        String url = MessageFormat.format("https://picsum.photos/id/{0}/info", RandomUtil.generationOneNumber(1000));
-        String imgUrl = restTemplate.getForObject(url, Map.class).get("download_url").toString();
+        //文章封面图片 由https://api.btstu.cn/该网站随机获取
+        String result = restTemplate.getForObject(IMG_URL_API, String.class);
+        JSONObject jsonObject = JSON.parseObject(result);
+        Object imgUrl = jsonObject.get("imgurl");
         return ResponseResult.success(imgUrl);
     }
 

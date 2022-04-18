@@ -2,6 +2,7 @@ package com.shiyi.webmagic;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shiyi.common.SqlConf;
 import com.shiyi.entity.BlogArticle;
@@ -27,6 +28,7 @@ import us.codecraft.webmagic.pipeline.Pipeline;
 import java.text.MessageFormat;
 import java.util.*;
 
+import static com.shiyi.common.Constants.IMG_URL_API;
 import static com.shiyi.common.Constants.OTHER_CATEGORY_ID;
 import static com.shiyi.common.ResultCode.CRAWLING_ARTICLE_FAILED;
 
@@ -61,13 +63,14 @@ public class BlogPipeline implements Pipeline {
         String markdown = FlexmarkHtmlConverter.builder(options).build().convert(newContent)
                 .replace("lang-java","java");
 
-        //文章封面图片 由https://picsum.photos该网站随机获取
-        String url = MessageFormat.format("https://picsum.photos/id/{0}/info", RandomUtil.generationOneNumber(1000));
-        Map map = restTemplate.getForObject(url, Map.class);
+        //文章封面图片 由https://api.btstu.cn/该网站随机获取
+        String strResult = restTemplate.getForObject(IMG_URL_API, String.class);
+        JSONObject jsonObject = JSON.parseObject(strResult);
+        Object imgUrl = jsonObject.get("imgurl");
 
         BlogArticle entity = BlogArticle.builder().userId(StpUtil.getLoginIdAsLong()).contentMd(markdown)
                 .categoryId(OTHER_CATEGORY_ID).isOriginal(YesOrNoEnum.NO.getCode()).originalUrl(originalUrl.toString())
-                .title(title.toString()).avatar(map.get("download_url").toString()).content(newContent).build();
+                .title(title.toString()).avatar(imgUrl.toString()).content(newContent).build();
 
         articleMapper.insert(entity);
         //为该文章添加标签
