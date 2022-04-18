@@ -38,6 +38,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.MessageFormat;
 import java.util.*;
 
+import static com.shiyi.common.Constants.CURRENTPAGE;
+import static com.shiyi.common.Constants.RECORDS;
 import static com.shiyi.common.RedisConstants.*;
 import static com.shiyi.common.ResultCode.*;
 
@@ -344,8 +346,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
             threadPoolTaskExecutor.execute(() ->this.incr(tagId,TAG_CLICK_VOLUME));
         }
         result.put(SqlConf.NAME,name);
-        result.put(SysConf.CURRENTPAGE,blogArticlePage.getCurrent());
-        result.put(SysConf.RECORDS,blogArticlePage.getRecords());
+        result.put(CURRENTPAGE,blogArticlePage.getCurrent());
+        result.put(RECORDS,blogArticlePage.getRecords());
         return ApiResult.success(result);
     }
 

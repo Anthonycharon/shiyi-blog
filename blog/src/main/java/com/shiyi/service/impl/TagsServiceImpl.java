@@ -3,7 +3,6 @@ package com.shiyi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.common.SysConf;
 import com.shiyi.entity.Tags;
 import com.shiyi.common.ApiResult;
 import com.shiyi.common.SqlConf;
@@ -15,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import java.util.List;
+
+import static com.shiyi.common.SqlConf.LIMIT_ONE;
 
 /**
  * <p>
@@ -109,7 +110,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
     @Transactional(rollbackFor = Exception.class)
     public ApiResult top(Long id) {
         Tags tags = baseMapper.selectOne(new QueryWrapper<Tags>()
-                .last(SysConf.LIMIT_ONE).orderByDesc(SqlConf.SORT));
+                .last(LIMIT_ONE).orderByDesc(SqlConf.SORT));
         Assert.isTrue(!tags.getId().equals(id),"改标签已在最顶端!");
         Tags entity = Tags.builder().id(id).sort(tags.getSort()+1).build();
         int rows = baseMapper.updateById(entity);

@@ -16,8 +16,6 @@ public class SqlConf {
 
     public static final String URL = "url";
 
-    public static final String TAG_ID = "tag_id";
-
     public static final String TYPE = "type";
 
     public static final String STATUS = "status";
@@ -44,12 +42,13 @@ public class SqlConf {
 
     public static final String JOB_ID = "job_id";
 
-    public static final String SUMMARY = "summary";
-
     public static final String CONTENT = "content";
 
     public static final String ALBUM_ID = "album_id";
 
     public static final String NICKNAME = "nickname";
+
+    public static final String LIMIT_ONE = "LIMIT 1";
+
 
 }

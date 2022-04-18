@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.shiyi.common.SqlConf.LIMIT_ONE;
+
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class HomeServiceImpl {
@@ -128,7 +130,7 @@ public class HomeServiceImpl {
                         WebConfig::getAboutMe,WebConfig::getEmail,WebConfig::getShowList,WebConfig::getLoginTypeList,
                         WebConfig::getRecordNum,WebConfig::getAuthor,WebConfig::getAliPay,WebConfig::getWeixinPay,
                         WebConfig::getWebUrl, WebConfig::getSummary,WebConfig::getName,WebConfig::getKeyword)
-        .last(SysConf.LIMIT_ONE));
+        .last(LIMIT_ONE));
 
         //文章分类标签
         Integer articleCount = articleMapper.selectCount(new QueryWrapper<BlogArticle>().eq(SqlConf.IS_PUBLISH, PublishEnum.PUBLISH.getCode()));

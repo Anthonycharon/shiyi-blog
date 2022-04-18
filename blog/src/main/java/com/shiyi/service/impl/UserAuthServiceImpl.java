@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
 import static com.shiyi.common.Constants.USER_STATUS_ONE;
 import static com.shiyi.common.ResultCode.*;
 import static com.shiyi.common.ResultCode.ERROR_MUST_REGISTER;
+import static com.shiyi.common.SqlConf.LIMIT_ONE;
 
 /**
  * <p>
@@ -71,7 +72,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         User user = getByUserName(vo.getEmail());
         Assert.isNull(user,EMAIL_IS_EXIST.getDesc());
 
-        WebConfig config = webConfigService.getOne(new QueryWrapper<WebConfig>().last(SysConf.LIMIT_ONE));
+        WebConfig config = webConfigService.getOne(new QueryWrapper<WebConfig>().last(LIMIT_ONE));
         UserAuth auth = UserAuth.builder().email(vo.getEmail()).avatar(config.getTouristAvatar()).nickname(vo.getNickname()).build();
         baseMapper.insert(auth);
 

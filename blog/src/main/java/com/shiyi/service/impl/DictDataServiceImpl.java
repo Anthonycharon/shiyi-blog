@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.service.DictDataService;
 import com.shiyi.common.ApiResult;
 import com.shiyi.common.SqlConf;
-import com.shiyi.common.SysConf;
 import com.shiyi.entity.Dict;
 import com.shiyi.entity.DictData;
 import com.shiyi.enums.PublishEnum;
@@ -14,18 +13,18 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.service.DictService;
 import com.shiyi.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.shiyi.common.Constants.*;
 import static com.shiyi.common.ResultCode.DATA_TAG_IS_EXIST;
+import static com.shiyi.common.SqlConf.LIMIT_ONE;
 
 /**
  * <p>
@@ -133,15 +132,15 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
             String defaultValue = null;
             for (DictData dictData : dataList) {
                 //选取默认值
-                if (dictData.getIsDefault().equals(SysConf.ONE)){
+                if (dictData.getIsDefault().equals(ONE)){
                     defaultValue = dictData.getValue();
                     break;
 
                 }
             }
             Map<String, Object> result = new HashMap<>();
-            result.put(SysConf.DEFAULT_VALUE,defaultValue);
-            result.put(SysConf.LIST,dataList);
+            result.put(DEFAULT_VALUE,defaultValue);
+            result.put(LIST,dataList);
             map.put(item.getType(),result);
         });
         return ApiResult.success(map);
@@ -152,7 +151,7 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
         DictData temp = baseMapper.selectOne(new QueryWrapper<DictData>()
                 .eq(SqlConf.DICT_LABEL, dictData.getLabel())
                 .eq(SqlConf.DICT_TYPE_ID, dictData.getDictId())
-                .last(SysConf.LIMIT_ONE));
+                .last(LIMIT_ONE));
         Assert.notNull(temp,DATA_TAG_IS_EXIST.getDesc());
     }
 }

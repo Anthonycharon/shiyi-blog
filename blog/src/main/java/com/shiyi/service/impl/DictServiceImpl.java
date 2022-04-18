@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ApiResult;
 import com.shiyi.common.SqlConf;
-import com.shiyi.common.SysConf;
 import com.shiyi.entity.Dict;
 import com.shiyi.entity.DictData;
 import com.shiyi.mapper.DictMapper;
@@ -15,13 +14,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
+
+import static com.shiyi.common.SqlConf.LIMIT_ONE;
 
 /**
  * <p>
@@ -124,7 +124,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
     /* ---------自定义方法开始------------*/
     public void validateType(String type){
-        Dict temp  = baseMapper.selectOne(new QueryWrapper<Dict>().eq(SqlConf.TYPE, type).last(SysConf.LIMIT_ONE));
+        Dict temp  = baseMapper.selectOne(new QueryWrapper<Dict>().eq(SqlConf.TYPE, type).last(LIMIT_ONE));
         Assert.isNull(temp,"该字典类型已存在!");
     }
 }

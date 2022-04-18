@@ -1,15 +1,14 @@
 package com.shiyi.webmagic;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shiyi.common.SqlConf;
-import com.shiyi.common.SysConf;
 import com.shiyi.entity.BlogArticle;
 import com.shiyi.entity.Tags;
 import com.shiyi.enums.YesOrNoEnum;
 import com.shiyi.mapper.ArticleMapper;
 import com.shiyi.mapper.TagsMapper;
-import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.RandomUtil;
 import com.vladsch.flexmark.html2md.converter.FlexmarkHtmlConverter;
 import com.vladsch.flexmark.util.data.MutableDataSet;
@@ -28,6 +27,7 @@ import us.codecraft.webmagic.pipeline.Pipeline;
 import java.text.MessageFormat;
 import java.util.*;
 
+import static com.shiyi.common.Constants.OTHER_CATEGORY_ID;
 import static com.shiyi.common.ResultCode.CRAWLING_ARTICLE_FAILED;
 
 /**
@@ -65,8 +65,8 @@ public class BlogPipeline implements Pipeline {
         String url = MessageFormat.format("https://picsum.photos/id/{0}/info", RandomUtil.generationOneNumber(1000));
         Map map = restTemplate.getForObject(url, Map.class);
 
-        BlogArticle entity = BlogArticle.builder().userId(SysConf.ADMIN_USER_ID).contentMd(markdown)
-                .categoryId(SysConf.OTHER_CATEGORY_ID).isOriginal(YesOrNoEnum.NO.getCode()).originalUrl(originalUrl.toString())
+        BlogArticle entity = BlogArticle.builder().userId(StpUtil.getLoginIdAsLong()).contentMd(markdown)
+                .categoryId(OTHER_CATEGORY_ID).isOriginal(YesOrNoEnum.NO.getCode()).originalUrl(originalUrl.toString())
                 .title(title.toString()).avatar(map.get("download_url").toString()).content(newContent).build();
 
         articleMapper.insert(entity);

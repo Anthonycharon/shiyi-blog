@@ -3,7 +3,6 @@ package com.shiyi.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shiyi.common.ApiResult;
-import com.shiyi.common.SysConf;
 import com.shiyi.entity.SystemConfig;
 import com.shiyi.entity.User;
 import com.shiyi.mapper.SystemConfigMapper;
@@ -14,6 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.shiyi.common.Constants.USER_ROLE_ID;
+import static com.shiyi.common.SqlConf.ID;
+import static com.shiyi.common.SqlConf.LIMIT_ONE;
 
 /**
  * <p>
@@ -38,8 +41,8 @@ public class SystemConfigServiceImpl extends ServiceImpl<SystemConfigMapper, Sys
     public ApiResult getConfig() {
         QueryWrapper<SystemConfig> queryWrapper = new QueryWrapper<>();
         User user = userService.getById(StpUtil.getLoginIdAsInt());
-        if (user.getRoleId() > SysConf.ROLE_ID) queryWrapper.orderByDesc("id");
-        queryWrapper.last(SysConf.LIMIT_ONE);
+        if (user.getRoleId() > USER_ROLE_ID) queryWrapper.orderByDesc(ID);
+        queryWrapper.last(LIMIT_ONE);
         SystemConfig systemConfig = baseMapper.selectOne(queryWrapper);
         return ApiResult.success(systemConfig);
     }
@@ -59,8 +62,6 @@ public class SystemConfigServiceImpl extends ServiceImpl<SystemConfigMapper, Sys
     //---------自定义方法----------
     @Override
     public SystemConfig getCustomizeOne() {
-        QueryWrapper<SystemConfig> queryWrapper = new QueryWrapper<>();
-        queryWrapper.last(SysConf.LIMIT_ONE);
-        return baseMapper.selectOne(queryWrapper);
+        return baseMapper.selectOne(new QueryWrapper<SystemConfig>().last(LIMIT_ONE));
     }
 }

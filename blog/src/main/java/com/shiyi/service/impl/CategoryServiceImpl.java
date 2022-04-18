@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ApiResult;
 import com.shiyi.common.SqlConf;
-import com.shiyi.common.SysConf;
 import com.shiyi.entity.BlogArticle;
 import com.shiyi.entity.Category;
 import com.shiyi.mapper.ArticleMapper;
@@ -15,7 +14,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +24,7 @@ import java.util.List;
 
 import static com.shiyi.common.ResultCode.CATEGORY_IS_EXIST;
 import static com.shiyi.common.ResultCode.CATEGORY_IS_TOP;
+import static com.shiyi.common.SqlConf.LIMIT_ONE;
 
 /**
  * <p>
@@ -112,7 +111,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ApiResult top(Long id) {
-        Category category = baseMapper.selectOne(new QueryWrapper<Category>().orderByDesc(SqlConf.SORT).last(SysConf.LIMIT_ONE));
+        Category category = baseMapper.selectOne(new QueryWrapper<Category>().orderByDesc(SqlConf.SORT).last(LIMIT_ONE));
         Assert.isTrue(!category.getId().equals(id), CATEGORY_IS_TOP.getDesc());
 
         Category vo = Category.builder()
@@ -134,7 +133,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         list.forEach(item -> ids.add(item.getId()));
 
         int rows = baseMapper.deleteBatchIds(ids);
-
         return rows > 0 ?ApiResult.ok():ApiResult.fail("批量删除分类失败");
     }
 

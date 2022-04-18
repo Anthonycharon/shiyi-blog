@@ -4,7 +4,6 @@ import com.shiyi.entity.Job;
 import com.shiyi.entity.JobLog;
 import com.shiyi.enums.ScheduleConstants;
 import com.shiyi.mapper.JobLogMapper;
-import com.shiyi.common.SysConf;
 import com.shiyi.utils.SpringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobExecutionContext;
@@ -16,6 +15,9 @@ import org.springframework.beans.BeanUtils;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
+
+import static com.shiyi.common.Constants.ONE;
+import static com.shiyi.common.Constants.ZERO;
 
 /**
  * @author blue
@@ -74,14 +76,14 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
         long runMs = jobLog.getStopTime().getTime() - jobLog.getStartTime().getTime();
         jobLog.setJobMessage(jobLog.getJobName() + " 总共耗时：" + runMs + "毫秒");
         if (e != null) {
-            jobLog.setStatus(SysConf.ONE);
+            jobLog.setStatus(ONE);
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw, true));
             String str = sw.toString();
             String errorMsg = StringUtils.substring(str, 0, 2000);
             jobLog.setExceptionInfo(errorMsg);
         } else {
-            jobLog.setStatus(SysConf.ZERO);
+            jobLog.setStatus(ZERO);
         }
 
         // 写入数据库当中

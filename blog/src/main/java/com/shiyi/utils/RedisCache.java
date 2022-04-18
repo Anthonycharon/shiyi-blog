@@ -2,7 +2,6 @@ package com.shiyi.utils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shiyi.common.RedisConstants;
-import com.shiyi.common.SysConf;
 import com.shiyi.entity.SystemConfig;
 import com.shiyi.service.SystemConfigService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +16,8 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.shiyi.common.SqlConf.LIMIT_ONE;
 
 /**
  * spring redis 工具类
@@ -273,7 +274,7 @@ public class RedisCache {
 
     private Set<String> getImg(String htmlStr) {
         QueryWrapper<SystemConfig> queryWrapper = new QueryWrapper<>();
-        queryWrapper.last(SysConf.LIMIT_ONE);
+        queryWrapper.last(LIMIT_ONE);
         SystemConfig systemConfig = systemConfigService.getOne(queryWrapper);
         if (htmlStr == null) {
             return null;
