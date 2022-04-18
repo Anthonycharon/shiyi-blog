@@ -564,10 +564,10 @@ export default {
       fetchArticle(this.params).then(res => {
         this.tableData = res.data.records
         this.total = res.data.total
-        this.loading.close();
       }).catch(err => {
         console.log(err)
       })
+      this.loading.close();
     },
     submit: function () {
       this.$refs['dataForm'].validate((valid) => {
@@ -799,7 +799,10 @@ export default {
         this.article.avatar = res.data;
         this.visible = false
         this.loading.close()
+      }).catch(err =>{
+        console.error(err)
       });
+      this.loading.close()
     },
     uploadBefore: function (){
       this.openLoading()
@@ -812,8 +815,8 @@ export default {
       formData.append('multipartFile', this.files)
       upload(formData).then(res => {
         this.article.avatar = res.data
-        this.loading.close()
       })
+      this.loading.close()
     },
     imgAdd: function (pos, $file) {
       var formdata = new FormData();
