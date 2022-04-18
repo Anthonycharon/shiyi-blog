@@ -68,7 +68,7 @@ public class BlogPipeline implements Pipeline {
         JSONObject jsonObject = JSON.parseObject(strResult);
         Object imgUrl = jsonObject.get("imgurl");
 
-        BlogArticle entity = BlogArticle.builder().userId(StpUtil.getLoginIdAsLong()).contentMd(markdown)
+        BlogArticle entity = BlogArticle.builder().userId(7L).contentMd(markdown)
                 .categoryId(OTHER_CATEGORY_ID).isOriginal(YesOrNoEnum.NO.getCode()).originalUrl(originalUrl.toString())
                 .title(title.toString()).avatar(imgUrl.toString()).content(newContent).build();
 
