@@ -1,11 +1,10 @@
 package com.shiyi.service.impl;
 
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.Page;
 import com.shiyi.mapper.PageMapper;
 import com.shiyi.service.PageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.utils.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,9 +26,9 @@ public class PageServiceImpl extends ServiceImpl<PageMapper, Page> implements Pa
      * @return
      */
     @Override
-    public ApiResult listData() {
+    public ResponseResult listData() {
         List<Page> pages = baseMapper.selectList(null);
-        return ApiResult.success(pages);
+        return ResponseResult.success(pages);
     }
 
     /**
@@ -39,9 +38,9 @@ public class PageServiceImpl extends ServiceImpl<PageMapper, Page> implements Pa
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult addPage(Page page) {
+    public ResponseResult addPage(Page page) {
         int rows = baseMapper.insert(page);
-        return rows > 0 ? ApiResult.success(page):ApiResult.fail("添加失败");
+        return rows > 0 ? ResponseResult.success(page): ResponseResult.error("添加失败");
     }
 
     /**
@@ -51,9 +50,9 @@ public class PageServiceImpl extends ServiceImpl<PageMapper, Page> implements Pa
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updatePage(Page page) {
+    public ResponseResult updatePage(Page page) {
         int rows = baseMapper.updateById(page);
-        return rows > 0 ? ApiResult.ok():ApiResult.fail("添加失败");
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error("修改失败");
     }
 
     /**
@@ -63,8 +62,8 @@ public class PageServiceImpl extends ServiceImpl<PageMapper, Page> implements Pa
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult deletePage(Long id) {
+    public ResponseResult deletePage(Long id) {
         int rows = baseMapper.deleteById(id);
-        return rows > 0 ? ApiResult.ok():ApiResult.fail("添加失败");
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error("删除失败");
     }
 }

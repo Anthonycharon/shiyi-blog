@@ -1,7 +1,7 @@
 package com.shiyi.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.Menu;
 import java.util.List;
 
@@ -14,11 +14,11 @@ public interface MenuService extends IService<Menu>{
 
     List<Menu> getMenuTree(List<Menu> list);
 
-    ApiResult getMenuApi(Integer id);
+    ResponseResult getMenuApi(Integer id);
 
-    ApiResult saveMenu(Menu menu);
+    ResponseResult saveMenu(Menu menu);
 
-    ApiResult updateMenu(Menu menu);
+    ResponseResult updateMenu(Menu menu);
 
-    ApiResult removeMenu(Integer id);
+    ResponseResult removeMenu(Integer id);
 }

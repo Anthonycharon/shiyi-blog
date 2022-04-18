@@ -1,7 +1,7 @@
 package com.shiyi.controller.api;
 
 
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.service.PhotoAlbumService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,14 +28,14 @@ public class ApiPhotoAlbumController {
     private final PhotoAlbumService albumService;
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    @ApiOperation(value = "相册列表", httpMethod = "GET", response = ApiResult.class, notes = "相册列表")
-    public ApiResult webAlbumList(){
+    @ApiOperation(value = "相册列表", httpMethod = "GET", response = ResponseResult.class, notes = "相册列表")
+    public ResponseResult webAlbumList(){
         return albumService.webAlbumList();
     }
 
     @RequestMapping(value = "/listPhotos",method = RequestMethod.GET)
-    @ApiOperation(value = "照片列表", httpMethod = "GET", response = ApiResult.class, notes = "照片列表")
-    public ApiResult webListPhotos(Integer albumId){
+    @ApiOperation(value = "照片列表", httpMethod = "GET", response = ResponseResult.class, notes = "照片列表")
+    public ResponseResult webListPhotos(Integer albumId){
         return albumService.webListPhotos(albumId);
     }
 }

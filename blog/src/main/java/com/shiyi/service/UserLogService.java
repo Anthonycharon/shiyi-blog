@@ -1,6 +1,6 @@
 package com.shiyi.service;
 
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.UserLog;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface UserLogService extends IService<UserLog> {
 
-    ApiResult listData();
+    ResponseResult listData();
 
-    ApiResult delete(List<Long> ids);
+    ResponseResult delete(List<Long> ids);
 }

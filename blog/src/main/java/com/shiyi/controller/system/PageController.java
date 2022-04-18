@@ -4,7 +4,7 @@ package com.shiyi.controller.system;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.annotation.OperationLogger;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.Page;
 import com.shiyi.service.PageService;
 import io.swagger.annotations.Api;
@@ -31,32 +31,32 @@ public class PageController {
 
     @GetMapping(value = "/list")
     @SaCheckLogin
-    @ApiOperation(value = "页面列表", httpMethod = "GET", response = ApiResult.class, notes = "页面列表")
-    public ApiResult query() {
+    @ApiOperation(value = "页面列表", httpMethod = "GET", response = ResponseResult.class, notes = "页面列表")
+    public ResponseResult query() {
         return pageService.listData();
     }
 
     @PostMapping(value = "/add")
     @SaCheckPermission("/system/page/add")
-    @ApiOperation(value = "新增页面", httpMethod = "POST", response = ApiResult.class, notes = "新增页面")
+    @ApiOperation(value = "新增页面", httpMethod = "POST", response = ResponseResult.class, notes = "新增页面")
     @OperationLogger(value = "新增页面")
-    public ApiResult add(@RequestBody Page page) {
+    public ResponseResult add(@RequestBody Page page) {
         return pageService.addPage(page);
     }
 
     @PostMapping(value = "/update")
     @SaCheckPermission("/system/page/update")
-    @ApiOperation(value = "修改页面", httpMethod = "POST", response = ApiResult.class, notes = "修改页面")
+    @ApiOperation(value = "修改页面", httpMethod = "POST", response = ResponseResult.class, notes = "修改页面")
     @OperationLogger(value = "修改页面")
-    public ApiResult update(@RequestBody Page page) {
+    public ResponseResult update(@RequestBody Page page) {
         return pageService.updatePage(page);
     }
 
     @DeleteMapping(value = "/delete")
     @SaCheckPermission("/system/page/delete")
-    @ApiOperation(value = "删除页面", httpMethod = "DELETE", response = ApiResult.class, notes = "删除页面")
+    @ApiOperation(value = "删除页面", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除页面")
     @OperationLogger(value = "删除页面")
-    public ApiResult delete(Long id) {
+    public ResponseResult delete(Long id) {
         return pageService.deletePage(id);
     }
 }

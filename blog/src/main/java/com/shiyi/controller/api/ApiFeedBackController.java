@@ -1,7 +1,7 @@
 package com.shiyi.controller.api;
 
 import com.shiyi.annotation.BusinessLog;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.FeedBack;
 import com.shiyi.service.FeedBackService;
 import io.swagger.annotations.Api;
@@ -28,9 +28,9 @@ public class ApiFeedBackController {
 
 
     @PostMapping(value = "/add")
-    @ApiOperation(value = "添加反馈", httpMethod = "POST", response = ApiResult.class, notes = "添加反馈")
+    @ApiOperation(value = "添加反馈", httpMethod = "POST", response = ResponseResult.class, notes = "添加反馈")
     @BusinessLog(value = "首页-用户添加反馈",type = "添加",desc = "添加反馈")
-    public ApiResult addFeedback(@RequestBody FeedBack feedBack) {
+    public ResponseResult addFeedback(@RequestBody FeedBack feedBack) {
         return  feedBackService.addFeedback(feedBack);
     }
 

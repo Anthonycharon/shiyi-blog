@@ -1,6 +1,6 @@
 package com.shiyi.service;
 
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.BlogArticle;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shiyi.vo.ArticleVO;
@@ -18,41 +18,41 @@ import java.util.Map;
  */
 public interface ArticleService extends IService<BlogArticle> {
 
-    ApiResult listData(Map<String,Object> map);
+    ResponseResult listData(Map<String,Object> map);
 
-    ApiResult deleteById(Long id);
+    ResponseResult deleteById(Long id);
 
-    ApiResult deleteBatch(List<Long> ids);
+    ResponseResult deleteBatch(List<Long> ids);
 
-    ApiResult info(Long id);
+    ResponseResult info(Long id);
 
-    ApiResult addArticle(ArticleVO article);
+    ResponseResult addArticle(ArticleVO article);
 
-    ApiResult updateArticle(ArticleVO article);
+    ResponseResult updateArticle(ArticleVO article);
 
-    ApiResult baiduSeo(List<Long> ids);
+    ResponseResult baiduSeo(List<Long> ids);
 
-    ApiResult reptile(String url);
+    ResponseResult reptile(String url);
 
-    ApiResult pubOrShelf(ArticleVO article);
+    ResponseResult pubOrShelf(ArticleVO article);
 
-    ApiResult randomImg();
+    ResponseResult randomImg();
 
 
 
 
     //    ----------web端开始------
-    ApiResult webArticleList();
+    ResponseResult webArticleList();
 
-    ApiResult webArticleInfo(Integer id);
+    ResponseResult webArticleInfo(Integer id);
 
-    ApiResult condition(Long categoryId, Long tagId,Integer pageSize);
+    ResponseResult condition(Long categoryId, Long tagId, Integer pageSize);
 
-    ApiResult checkSecret(String code);
+    ResponseResult checkSecret(String code);
 
-    ApiResult archive();
+    ResponseResult archive();
 
-    ApiResult searchArticle(String keywords);
+    ResponseResult searchArticle(String keywords);
 
-    ApiResult articleLike(Integer articleId);
+    ResponseResult articleLike(Integer articleId);
 }

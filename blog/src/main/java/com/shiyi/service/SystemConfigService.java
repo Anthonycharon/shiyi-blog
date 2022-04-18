@@ -1,6 +1,6 @@
 package com.shiyi.service;
 
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.SystemConfig;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -14,9 +14,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SystemConfigService extends IService<SystemConfig> {
 
-    ApiResult getConfig();
+    ResponseResult getConfig();
 
-    ApiResult updateConfig(SystemConfig systemConfig);
+    ResponseResult updateConfig(SystemConfig systemConfig);
 
     SystemConfig getCustomizeOne();
 }

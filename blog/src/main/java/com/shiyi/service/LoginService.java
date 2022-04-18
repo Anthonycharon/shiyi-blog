@@ -1,7 +1,7 @@
 package com.shiyi.service;
 
 
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.vo.LoginVO;
 
 import javax.servlet.http.HttpServletResponse;
@@ -18,5 +18,5 @@ public interface LoginService {
     Map<String, String> getCode(HttpServletResponse response) throws IOException;
 
 
-    ApiResult doLogin(LoginVO vo);
+    ResponseResult doLogin(LoginVO vo);
 }

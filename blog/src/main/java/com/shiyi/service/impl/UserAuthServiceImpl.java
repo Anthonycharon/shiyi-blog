@@ -63,7 +63,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult emailRegister(EmailRegisterVO vo) {
+    public ResponseResult emailRegister(EmailRegisterVO vo) {
 
         checkEmail(vo.getEmail());
 
@@ -82,7 +82,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
 
         redisCache.deleteObject(RedisConstants.EMAIL_CODE + vo.getEmail());
 
-        return insert  ? ApiResult.ok("注册成功"):ApiResult.fail(ERROR_DEFAULT.getDesc());
+        return insert  ? ResponseResult.success("注册成功"): ResponseResult.error(ERROR_DEFAULT.getDesc());
     }
 
     /**
@@ -92,7 +92,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updatePassword(EmailRegisterVO vo) {
+    public ResponseResult updatePassword(EmailRegisterVO vo) {
 
         checkEmail(vo.getEmail());
         checkCode(RedisConstants.EMAIL_CODE + vo.getEmail(), vo.getCode());
@@ -105,7 +105,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
 
         redisCache.deleteObject(RedisConstants.EMAIL_CODE + vo.getEmail());
 
-        return update  ? ApiResult.ok("修改成功"):ApiResult.fail(ERROR_DEFAULT.getDesc());
+        return update  ? ResponseResult.success("修改成功"): ResponseResult.error(ERROR_DEFAULT.getDesc());
     }
 
     /**
@@ -115,7 +115,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult emailLogin(EmailLoginVO vo) {
+    public ResponseResult emailLogin(EmailLoginVO vo) {
 
         checkEmail(vo.getEmail());
 
@@ -138,25 +138,25 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         UserInfoDTO userInfoDTO = UserInfoDTO.builder().id(user.getId()).userInfoId(auth.getId()).avatar(auth.getAvatar()).nickname(auth.getNickname())
                 .intro(auth.getIntro()).webSite(auth.getWebSite()).email(user.getUsername()).loginType(user.getLoginType()).token(StpUtil.getTokenValue()).build();
 
-        return ApiResult.success(userInfoDTO);
+        return ResponseResult.success(userInfoDTO);
     }
 
     @Override
-    public ApiResult qqLogin(QQLoginVO qqLoginVO) {
+    public ResponseResult qqLogin(QQLoginVO qqLoginVO) {
         UserInfoDTO userInfoDTO = socialLoginStrategyContext.executeLoginStrategy(JSON.toJSONString(qqLoginVO), LoginTypeEnum.QQ);
-        return ApiResult.success(userInfoDTO);
+        return ResponseResult.success(userInfoDTO);
     }
 
     @Override
-    public ApiResult weiboLogin(String code) {
+    public ResponseResult weiboLogin(String code) {
         UserInfoDTO userInfoDTO = socialLoginStrategyContext.executeLoginStrategy(code, LoginTypeEnum.WEIBO);
-        return ApiResult.success(userInfoDTO);
+        return ResponseResult.success(userInfoDTO);
     }
 
     @Override
-    public ApiResult giteeLogin(String code) {
+    public ResponseResult giteeLogin(String code) {
         UserInfoDTO userInfoDTO = socialLoginStrategyContext.executeLoginStrategy(code, LoginTypeEnum.GITEE);
-        return ApiResult.success(userInfoDTO);
+        return ResponseResult.success(userInfoDTO);
     }
 
     /**
@@ -165,13 +165,13 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      * @return
      */
     @Override
-    public ApiResult sendEmailCode(String email) {
+    public ResponseResult sendEmailCode(String email) {
         try {
             emailUtil.sendCode(email);
-            return ApiResult.ok("验证码已发送，请前往邮箱查看!!");
+            return ResponseResult.success("验证码已发送，请前往邮箱查看!!");
         } catch (MessagingException e) {
             e.printStackTrace();
-            return ApiResult.ok(ERROR_DEFAULT.getDesc());
+            return ResponseResult.error(ERROR_DEFAULT.getDesc());
         }
 
     }
@@ -183,7 +183,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult bindEmail(UserAuthVO vo) {
+    public ResponseResult bindEmail(UserAuthVO vo) {
         String key = RedisConstants.EMAIL_CODE + vo.getEmail();
         checkCode(key, vo.getCode());
 
@@ -191,7 +191,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         userAuth.setEmail(vo.getEmail());
         boolean update = updateById(userAuth);
         redisCache.deleteObject(key);
-        return update ? ApiResult.ok("绑定邮箱成功"):ApiResult.fail(ERROR_DEFAULT.getDesc());
+        return update ? ResponseResult.success("绑定邮箱成功"): ResponseResult.error(ERROR_DEFAULT.getDesc());
     }
 
     /**
@@ -201,7 +201,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updateUser(UserAuthVO vo) {
+    public ResponseResult updateUser(UserAuthVO vo) {
         UserAuth userAuth = getUserAuth();
         userAuth.setNickname(vo.getNickname());
         userAuth.setWebSite(vo.getWebSite());
@@ -210,7 +210,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         userAuth.setAvatar(vo.getAvatar());
 
         boolean update = updateById(userAuth);
-        return update ? ApiResult.ok("修改信息成功"):ApiResult.fail(ERROR_DEFAULT.getDesc());
+        return update ? ResponseResult.success("修改信息成功"): ResponseResult.error(ERROR_DEFAULT.getDesc());
     }
 
 

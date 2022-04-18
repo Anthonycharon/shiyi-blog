@@ -3,7 +3,7 @@ package com.shiyi.controller.system;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.annotation.OperationLogger;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.User;
 import com.shiyi.service.UserService;
 import io.swagger.annotations.Api;
@@ -29,76 +29,76 @@ public class UserController {
 
     @GetMapping(value = "/list")
     @SaCheckLogin
-    @ApiOperation(value = "用户列表", httpMethod = "GET", response = ApiResult.class, notes = "用户列表")
-    public ApiResult listPage(String username,Integer loginType) {
+    @ApiOperation(value = "用户列表", httpMethod = "GET", response = ResponseResult.class, notes = "用户列表")
+    public ResponseResult listPage(String username, Integer loginType) {
         return userService.listData(username,loginType);
     }
 
     @PostMapping(value = "/create")
     @SaCheckPermission("/system/user/create")
-    @ApiOperation(value = "添加用户", httpMethod = "POST", response = ApiResult.class, notes = "添加用户")
+    @ApiOperation(value = "添加用户", httpMethod = "POST", response = ResponseResult.class, notes = "添加用户")
     @OperationLogger(value = "添加用户")
-    public ApiResult create(@RequestBody User user) {
+    public ResponseResult create(@RequestBody User user) {
         return userService.saveUser(user);
     }
 
     @GetMapping(value = "/info")
     @SaCheckPermission("/system/user/info")
-    @ApiOperation(value = "用户详情", httpMethod = "GET", response = ApiResult.class, notes = "用户详情")
-    public ApiResult info(Integer id) {
+    @ApiOperation(value = "用户详情", httpMethod = "GET", response = ResponseResult.class, notes = "用户详情")
+    public ResponseResult info(Integer id) {
         return userService.info(id);
     }
 
     @PostMapping(value = "/update")
     @SaCheckPermission("/system/user/update")
-    @ApiOperation(value = "修改用户", httpMethod = "POST", response = ApiResult.class, notes = "修改用户")
+    @ApiOperation(value = "修改用户", httpMethod = "POST", response = ResponseResult.class, notes = "修改用户")
     @OperationLogger(value = "修改用户")
-    public ApiResult update(@RequestBody User user) {
+    public ResponseResult update(@RequestBody User user) {
         return userService.updateUser(user);
     }
 
     @RequestMapping(value = "/remove",method = RequestMethod.DELETE)
     @SaCheckPermission("/system/user/remove")
-    @ApiOperation(value = "删除用户", httpMethod = "DELETE", response = ApiResult.class, notes = "删除用户")
+    @ApiOperation(value = "删除用户", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除用户")
     @OperationLogger(value = "删除用户")
-    public ApiResult remove(@RequestBody List<Integer> ids) {
+    public ResponseResult remove(@RequestBody List<Integer> ids) {
         return userService.delete(ids);
     }
 
     @PostMapping(value = "/getCurrentUserInfo")
     @SaCheckLogin
-    @ApiOperation(value = "获取当前登录用户信息", httpMethod = "POST", response = ApiResult.class, notes = "获取当前登录用户信息")
-    public ApiResult getCurrentUserInfo() {
-        return ApiResult.ok(200, "获取当前登录用户信息成功", userService.getCurrentUserInfo());
+    @ApiOperation(value = "获取当前登录用户信息", httpMethod = "POST", response = ResponseResult.class, notes = "获取当前登录用户信息")
+    public ResponseResult getCurrentUserInfo() {
+        return ResponseResult.success("获取当前登录用户信息成功", userService.getCurrentUserInfo());
     }
 
     @PostMapping(value = "/getUserMenu")
     @SaCheckLogin
-    @ApiOperation(value = "获取用户菜单", httpMethod = "POST", response = ApiResult.class, notes = "获取用户菜单")
-    public ApiResult getUserMenu() {
+    @ApiOperation(value = "获取用户菜单", httpMethod = "POST", response = ResponseResult.class, notes = "获取用户菜单")
+    public ResponseResult getUserMenu() {
         return userService.getUserMenu();
     }
 
     @PostMapping(value = "/updatePassword")
     @SaCheckPermission("/system/user/updatePassword")
-    @ApiOperation(value = "修改密码", httpMethod = "POST", response = ApiResult.class, notes = "修改密码")
+    @ApiOperation(value = "修改密码", httpMethod = "POST", response = ResponseResult.class, notes = "修改密码")
     @OperationLogger(value = "修改密码")
-    public ApiResult updatePassword(@RequestBody Map<String,String> map) {
+    public ResponseResult updatePassword(@RequestBody Map<String,String> map) {
         return userService.updatePassword(map);
     }
 
     @GetMapping(value = "/online")
     @SaCheckLogin
-    @ApiOperation(value = "查看在线用户", httpMethod = "GET", response = ApiResult.class, notes = "查看在线用户")
-    public ApiResult listOnlineUsers(String keywords) {
+    @ApiOperation(value = "查看在线用户", httpMethod = "GET", response = ResponseResult.class, notes = "查看在线用户")
+    public ResponseResult listOnlineUsers(String keywords) {
         return userService.listOnlineUsers(keywords);
     }
 
     @GetMapping(value = "/kick")
     @SaCheckPermission("/system/user/kick")
     @OperationLogger(value = "踢人下线")
-    @ApiOperation(value = "踢人下线", httpMethod = "GET", response = ApiResult.class, notes = "踢人下线")
-    public ApiResult kick(String token) {
+    @ApiOperation(value = "踢人下线", httpMethod = "GET", response = ResponseResult.class, notes = "踢人下线")
+    public ResponseResult kick(String token) {
         return userService.kick(token);
     }
 }

@@ -2,7 +2,7 @@ package com.shiyi.controller.api;
 
 
 import com.shiyi.annotation.BusinessLog;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.service.CategoryService;
 import com.shiyi.service.TagsService;
 import io.swagger.annotations.Api;
@@ -34,15 +34,15 @@ public class ApiTagsController {
 
     @BusinessLog(value = "标签模块-用户访问页面",type = "查询",desc = "用户访问页面")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    @ApiOperation(value = "标签列表", httpMethod = "GET", response = ApiResult.class, notes = "标签列表")
-    public ApiResult tagList(){
+    @ApiOperation(value = "标签列表", httpMethod = "GET", response = ResponseResult.class, notes = "标签列表")
+    public ResponseResult tagList(){
         return tagsService.webList();
     }
 
     @BusinessLog(value = "分类模块-用户访问页面",type = "查询",desc = "用户访问页面")
     @RequestMapping(value = "/categoryList",method = RequestMethod.GET)
-    @ApiOperation(value = "分类列表", httpMethod = "GET", response = ApiResult.class, notes = "分类列表")
-    public ApiResult categoryList(){
+    @ApiOperation(value = "分类列表", httpMethod = "GET", response = ResponseResult.class, notes = "分类列表")
+    public ResponseResult categoryList(){
         return categoryService.webList();
     }
 

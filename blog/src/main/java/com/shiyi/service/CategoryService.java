@@ -1,6 +1,6 @@
 package com.shiyi.service;
 
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -16,23 +16,23 @@ import java.util.List;
  */
 public interface CategoryService extends IService<Category> {
 
-    ApiResult listData(String name);
+    ResponseResult listData(String name);
 
-    ApiResult addCategory(Category category);
+    ResponseResult addCategory(Category category);
 
-    ApiResult top(Long id);
+    ResponseResult top(Long id);
 
-    ApiResult deleteBatch(List<Category> list);
+    ResponseResult deleteBatch(List<Category> list);
 
-    ApiResult updateCategory(Category category);
+    ResponseResult updateCategory(Category category);
 
-    ApiResult infoCategory(Long id);
+    ResponseResult infoCategory(Long id);
 
-    ApiResult deleteCategory(Long id);
+    ResponseResult deleteCategory(Long id);
 
 
 
     //web端方法开始
-    ApiResult webList();
+    ResponseResult webList();
 
 }

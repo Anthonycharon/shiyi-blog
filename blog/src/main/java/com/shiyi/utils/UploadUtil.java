@@ -1,7 +1,7 @@
 package com.shiyi.utils;
 
 import com.google.gson.Gson;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
@@ -25,8 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
-import static com.shiyi.common.ResultCode.ERROR;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -68,15 +66,15 @@ public class UploadUtil {
      * @param file
      * @return
      */
-    public ApiResult upload(MultipartFile file) {
+    public ResponseResult upload(MultipartFile file) {
         logger.info("文件上传开始,时间 {}",DateUtils.getNowDate());
         if (file.getSize() > 1024 * 1024 * 10) {
-            return ApiResult.fail("文件大小不能大于10M");
+            return ResponseResult.error("文件大小不能大于10M");
         }
         //获取文件后缀
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1, file.getOriginalFilename().length());
         if (!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
-            return ApiResult.fail("请选择jpg,jpeg,gif,png格式的图片");
+            return ResponseResult.error("请选择jpg,jpeg,gif,png格式的图片");
         }
 
         SystemConfig systemConfig = systemConfigService.getCustomizeOne();
@@ -91,7 +89,7 @@ public class UploadUtil {
         return fileUploadWay == 0 ? localUpload(file,suffix) : qiNiuUpload(file,suffix);
     }
 
-    private ApiResult qiNiuUpload(MultipartFile file,String suffix) {
+    private ResponseResult qiNiuUpload(MultipartFile file, String suffix) {
         //构造一个带指定 Region 对象的配置类
         Configuration cfg = new Configuration(region);
         //...其他参数参考类注释
@@ -109,7 +107,7 @@ public class UploadUtil {
             if (allImg.isEmpty()) allImg = new HashSet<>();
             allImg.add(key);
             redisCache.setCacheSet(RedisConstants.ALL_IMG,allImg);*/
-            return ApiResult.success(qiNiuUrl + putRet.key);
+            return ResponseResult.success(qiNiuUrl + putRet.key);
         } catch (QiniuException ex) {
             Response r = ex.response;
             logger.info("QiniuException:{}",r.toString());
@@ -118,10 +116,10 @@ public class UploadUtil {
             } catch (QiniuException ex2) {
                 //ignore
             }
-            return ApiResult.fail("七牛云上传失败");
+            return ResponseResult.error("七牛云上传失败");
         } catch (IOException e) {
             e.printStackTrace();
-            return ApiResult.fail(ERROR.getDesc());
+            return ResponseResult.error();
         }finally {
             if (inputStream != null){
                 try {
@@ -133,7 +131,7 @@ public class UploadUtil {
         }
     }
 
-    private ApiResult localUpload(MultipartFile file,String suffix){
+    private ResponseResult localUpload(MultipartFile file, String suffix){
         String savePath = UPLOAD_FOLDER;
         File savePathFile = new File(savePath);
         if (!savePathFile.exists()) {
@@ -147,10 +145,10 @@ public class UploadUtil {
             file.transferTo(new File(savePath + filename));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResult.fail("保存文件异常");
+            return ResponseResult.error("保存文件异常");
         }
         //返回文件名称
-        return ApiResult.success(localFileUrl + filename);
+        return ResponseResult.success(localFileUrl + filename);
     }
 
     /**

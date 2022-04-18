@@ -2,7 +2,7 @@ package com.shiyi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
 import com.shiyi.entity.FeedBack;
 import com.shiyi.mapper.FeedBackMapper;
@@ -31,11 +31,11 @@ public class FeedBackServiceImpl extends ServiceImpl<FeedBackMapper, FeedBack> i
      * @return
      */
     @Override
-    public ApiResult listData(Integer type) {
+    public ResponseResult listData(Integer type) {
         QueryWrapper<FeedBack> queryWrapper = new QueryWrapper<FeedBack>()
                 .orderByDesc(SqlConf.CREATE_TIME).eq(type != null,SqlConf.TYPE,type);
         Page<FeedBack> feedBackPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
-        return ApiResult.success(feedBackPage);
+        return ResponseResult.success(feedBackPage);
     }
 
     /**
@@ -45,9 +45,9 @@ public class FeedBackServiceImpl extends ServiceImpl<FeedBackMapper, FeedBack> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult delete(List<Integer> ids) {
+    public ResponseResult delete(List<Integer> ids) {
         int rows = baseMapper.deleteBatchIds(ids);
-        return rows > 0 ?ApiResult.ok():ApiResult.fail("删除反馈失败");
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error("删除反馈失败");
     }
 
     /**
@@ -57,8 +57,8 @@ public class FeedBackServiceImpl extends ServiceImpl<FeedBackMapper, FeedBack> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult addFeedback(FeedBack feedBack) {
+    public ResponseResult addFeedback(FeedBack feedBack) {
         int rows = baseMapper.insert(feedBack);
-        return rows > 0 ?ApiResult.ok():ApiResult.fail("添加反馈失败");
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error("添加反馈失败");
     }
 }

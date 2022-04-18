@@ -4,7 +4,7 @@ package com.shiyi.controller.system;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.annotation.OperationLogger;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.Photo;
 import com.shiyi.service.PhotoService;
 import io.swagger.annotations.Api;
@@ -34,47 +34,47 @@ public class PhotoController {
 
     @GetMapping(value = "/list")
     @SaCheckLogin
-    @ApiOperation(value = "照片列表", httpMethod = "GET", response = ApiResult.class, notes = "照片列表")
-    public ApiResult query(Integer albumId) {
+    @ApiOperation(value = "照片列表", httpMethod = "GET", response = ResponseResult.class, notes = "照片列表")
+    public ResponseResult query(Integer albumId) {
         return photoService.listData(albumId);
     }
 
     @GetMapping(value = "/info")
     @SaCheckPermission("/system/photo/info")
-    @ApiOperation(value = "照片详情", httpMethod = "GET", response = ApiResult.class, notes = "照片详情")
-    public ApiResult infoAlbum(Integer id) {
+    @ApiOperation(value = "照片详情", httpMethod = "GET", response = ResponseResult.class, notes = "照片详情")
+    public ResponseResult infoAlbum(Integer id) {
         return photoService.infoPhoto(id);
     }
 
     @PostMapping(value = "/add")
     @SaCheckPermission("/system/photo/add")
-    @ApiOperation(value = "添加照片", httpMethod = "POST", response = ApiResult.class, notes = "添加照片")
+    @ApiOperation(value = "添加照片", httpMethod = "POST", response = ResponseResult.class, notes = "添加照片")
     @OperationLogger(value = "添加照片")
-    public ApiResult addAlbum(@RequestBody Photo photo) {
+    public ResponseResult addAlbum(@RequestBody Photo photo) {
         return photoService.addPhoto(photo);
     }
 
     @PostMapping(value = "/update")
     @SaCheckPermission("/system/photo/update")
-    @ApiOperation(value = "修改照片", httpMethod = "POST", response = ApiResult.class, notes = "修改照片")
+    @ApiOperation(value = "修改照片", httpMethod = "POST", response = ResponseResult.class, notes = "修改照片")
     @OperationLogger(value = "修改照片")
-    public ApiResult updateAlbum(@RequestBody Photo photo) {
+    public ResponseResult updateAlbum(@RequestBody Photo photo) {
         return photoService.updatePhoto(photo);
     }
 
     @PostMapping(value = "/movePhoto")
     @SaCheckPermission("/system/photo/movePhoto")
-    @ApiOperation(value = "移动照片", httpMethod = "POST", response = ApiResult.class, notes = "移动照片")
+    @ApiOperation(value = "移动照片", httpMethod = "POST", response = ResponseResult.class, notes = "移动照片")
     @OperationLogger(value = "移动照片")
-    public ApiResult movePhoto(@RequestBody Map<String,Object> map) {
+    public ResponseResult movePhoto(@RequestBody Map<String,Object> map) {
         return photoService.movePhoto(map);
     }
 
     @DeleteMapping(value = "/deleteBatch")
     @SaCheckPermission("/system/photo/deleteBatch")
-    @ApiOperation(value = "批量删除照片", httpMethod = "DELETE", response = ApiResult.class, notes = "批量删除照片")
+    @ApiOperation(value = "批量删除照片", httpMethod = "DELETE", response = ResponseResult.class, notes = "批量删除照片")
     @OperationLogger(value = "批量删除照片")
-    public ApiResult deleteBatch(@RequestBody List<Integer> ids) {
+    public ResponseResult deleteBatch(@RequestBody List<Integer> ids) {
         return photoService.deleteBatch(ids);
     }
 

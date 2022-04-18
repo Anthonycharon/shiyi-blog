@@ -1,6 +1,6 @@
 package com.shiyi.service;
 
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.DictData;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -16,16 +16,16 @@ import java.util.List;
  */
 public interface DictDataService extends IService<DictData> {
 
-    ApiResult listDictData(Integer dictId, Integer isPublish);
+    ResponseResult listDictData(Integer dictId, Integer isPublish);
 
-    ApiResult addDictData(DictData dictData);
+    ResponseResult addDictData(DictData dictData);
 
-    ApiResult updateDictData(DictData dictData);
+    ResponseResult updateDictData(DictData dictData);
 
-    ApiResult deleteBatch(List<Long> ids);
+    ResponseResult deleteBatch(List<Long> ids);
 
-    ApiResult delete(Long id);
+    ResponseResult delete(Long id);
 
-    ApiResult getDataByDictType(List<String> types);
+    ResponseResult getDataByDictType(List<String> types);
 
 }

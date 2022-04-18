@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.entity.Tags;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
 import com.shiyi.mapper.TagsMapper;
 import com.shiyi.service.TagsService;
@@ -34,9 +34,9 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      * @return
      */
     @Override
-    public ApiResult listData(String name) {
+    public ResponseResult listData(String name) {
         Page<Tags> list = baseMapper.selectPageRecord(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),name);
-        return ApiResult.success(list);
+        return ResponseResult.success(list);
     }
 
     /**
@@ -45,9 +45,9 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      * @return
      */
     @Override
-    public ApiResult info(Long id) {
+    public ResponseResult info(Long id) {
         Tags tags = baseMapper.selectById(id);
-        return ApiResult.success(tags);
+        return ResponseResult.success(tags);
     }
 
     /**
@@ -57,10 +57,10 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult addTag(Tags tags) {
+    public ResponseResult addTag(Tags tags) {
         validateName(tags.getName());
         baseMapper.insert(tags);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -70,11 +70,11 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updateTag(Tags tags) {
+    public ResponseResult updateTag(Tags tags) {
         Tags entity = baseMapper.selectById(tags.getId());
         if (!entity.getName().equals(tags.getName())) validateName(tags.getName());
         baseMapper.updateById(tags);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -84,9 +84,9 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult delete(Long id) {
+    public ResponseResult delete(Long id) {
         baseMapper.deleteById(id);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -96,9 +96,9 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult deleteBatch(List<Long> ids) {
+    public ResponseResult deleteBatch(List<Long> ids) {
         baseMapper.deleteBatchIds(ids);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -108,13 +108,13 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult top(Long id) {
+    public ResponseResult top(Long id) {
         Tags tags = baseMapper.selectOne(new QueryWrapper<Tags>()
                 .last(LIMIT_ONE).orderByDesc(SqlConf.SORT));
         Assert.isTrue(!tags.getId().equals(id),"改标签已在最顶端!");
         Tags entity = Tags.builder().id(id).sort(tags.getSort()+1).build();
         int rows = baseMapper.updateById(entity);
-        return rows > 0 ?ApiResult.ok():ApiResult.fail("操作失败");
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error();
     }
 
 
@@ -124,10 +124,10 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      * @return
      */
     @Override
-    public ApiResult webList() {
+    public ResponseResult webList() {
         List<Tags> list = baseMapper.selectList(new LambdaQueryWrapper<Tags>()
         .select(Tags::getId,Tags::getName).orderByDesc(Tags::getSort));
-        return ApiResult.success(list);
+        return ResponseResult.success(list);
     }
 
     //-----------自定义方法开始------------

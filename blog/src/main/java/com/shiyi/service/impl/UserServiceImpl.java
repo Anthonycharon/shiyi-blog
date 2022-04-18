@@ -4,7 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.common.Constants;
 import com.shiyi.config.satoken.MySaTokenListener;
 import com.shiyi.config.satoken.OnlineUser;
@@ -55,9 +55,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    public ApiResult listData(String username,Integer loginType) {
+    public ResponseResult listData(String username, Integer loginType) {
         Page<UserDTO> page = baseMapper.selectPageRecord(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),username,loginType);
-        return ApiResult.success(page);
+        return ResponseResult.success(page);
     }
 
     /**
@@ -66,9 +66,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    public ApiResult info(Integer id) {
+    public ResponseResult info(Integer id) {
         SystemUserDTO user = baseMapper.getById(id);
-        return ApiResult.success(user);
+        return ResponseResult.success(user);
     }
 
     /**
@@ -78,12 +78,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult saveUser(User user) {
+    public ResponseResult saveUser(User user) {
         user.setPassword(PasswordUtils.aesEncrypt(user.getPassword()));
         user.setStatus(Constants.USER_STATUS_ONE);
         baseMapper.insert(user);
        // roleMapper.insertToUserId(user.getId(),user.getRoleId());
-        return ApiResult.success(user);
+        return ResponseResult.success(user);
     }
 
     /**
@@ -93,10 +93,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updateUser(User user) {
+    public ResponseResult updateUser(User user) {
         baseMapper.updateById(user);
         //roleMapper.updateByUserId(user.getId(),user.getRoleId());
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -106,10 +106,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult delete(List<Integer> ids) {
+    public ResponseResult delete(List<Integer> ids) {
         userAuthMapper.deleteByUserIds(ids);
         int rows = baseMapper.deleteBatchIds(ids);
-        return rows > 0?ApiResult.ok():ApiResult.fail("删除失败");
+        return rows > 0? ResponseResult.success(): ResponseResult.error("删除失败");
     }
 
     /**
@@ -126,11 +126,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    public ApiResult getUserMenu() {
+    public ResponseResult getUserMenu() {
         List<Integer> menuIds = baseMapper.getMenuId(StpUtil.getLoginIdAsInt());
         List<Menu> menus = menuService.listByIds(menuIds);
         List<Menu> menuTree = menuService.getMenuTree(menus);
-        return ApiResult.success(menuTree);
+        return ResponseResult.success(menuTree);
     }
 
     /**
@@ -140,7 +140,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updatePassword(Map<String, String> map) {
+    public ResponseResult updatePassword(Map<String, String> map) {
 
         User user = baseMapper.selectById(StpUtil.getLoginIdAsInt());
         Assert.notNull(user,ERROR_USER_NOT_EXIST.getDesc());
@@ -151,7 +151,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String newPassword = PasswordUtils.aesEncrypt(map.get("newPassword"));
         user.setPassword(newPassword);
         baseMapper.updateById(user);
-        return ApiResult.ok("修改成功");
+        return ResponseResult.success("修改成功");
     }
 
     /**
@@ -160,7 +160,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    public ApiResult listOnlineUsers(String keywords) {
+    public ResponseResult listOnlineUsers(String keywords) {
         int pageNo = PageUtils.getPageNo().intValue();
         int pageSize = PageUtils.getPageSize().intValue();
 
@@ -179,7 +179,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Map<String,Object> map = new HashMap<>();
         map.put("total",onlineUsers.size());
         map.put("records",userOnlineList);
-        return ApiResult.success(map);
+        return ResponseResult.success(map);
     }
 
     /**
@@ -188,9 +188,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    public ApiResult kick(String token) {
+    public ResponseResult kick(String token) {
         logger.info("当前踢下线的用户token为:{}",token);
         StpUtil.kickoutByTokenValue(token);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 }

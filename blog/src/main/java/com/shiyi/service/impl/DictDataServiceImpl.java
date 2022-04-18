@@ -3,7 +3,7 @@ package com.shiyi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.service.DictDataService;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
 import com.shiyi.entity.Dict;
 import com.shiyi.entity.DictData;
@@ -47,7 +47,7 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
      * @return
      */
     @Override
-    public ApiResult listDictData(Integer dictId, Integer isPublish) {
+    public ResponseResult listDictData(Integer dictId, Integer isPublish) {
         QueryWrapper<DictData> queryWrapper = new QueryWrapper<DictData>()
                 .eq(SqlConf.DICT_TYPE_ID,dictId).eq(isPublish != null,SqlConf.IS_PUBLISH,isPublish);
         Page<DictData> data = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
@@ -55,7 +55,7 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
             Dict dict = dictService.getById(item.getDictId());
             item.setDict(dict);
         });
-        return ApiResult.success(data);
+        return ResponseResult.success(data);
     }
 
     /**
@@ -65,11 +65,11 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult addDictData(DictData dictData) {
+    public ResponseResult addDictData(DictData dictData) {
         // 判断添加的字典数据是否存在
         isExist(dictData);
         baseMapper.insert(dictData);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -79,13 +79,13 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updateDictData(DictData sysDictData) {
+    public ResponseResult updateDictData(DictData sysDictData) {
 
         DictData dictData = baseMapper.selectOne(new QueryWrapper<DictData>().eq(SqlConf.DICT_LABEL,sysDictData.getLabel()));
-        if (dictData != null && !dictData.getId().equals(sysDictData.getId())) return ApiResult.fail("该标签已存在!");
+        if (dictData != null && !dictData.getId().equals(sysDictData.getId())) return ResponseResult.error("该标签已存在!");
 
         baseMapper.updateById(sysDictData);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -95,9 +95,9 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult deleteBatch(List<Long> ids) {
+    public ResponseResult deleteBatch(List<Long> ids) {
         baseMapper.deleteBatchIds(ids);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -107,9 +107,9 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult delete(Long id) {
+    public ResponseResult delete(Long id) {
         baseMapper.deleteById(id);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -118,7 +118,7 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
      * @return
      */
     @Override
-    public ApiResult getDataByDictType(List<String> types) {
+    public ResponseResult getDataByDictType(List<String> types) {
         Map<String, Map<String, Object>> map = new HashMap<>();
         QueryWrapper<Dict> queryWrapper = new QueryWrapper<>();
         queryWrapper.in(SqlConf.TYPE,types).eq(SqlConf.IS_PUBLISH, PublishEnum.PUBLISH.getCode());
@@ -143,7 +143,7 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
             result.put(LIST,dataList);
             map.put(item.getType(),result);
         });
-        return ApiResult.success(map);
+        return ResponseResult.success(map);
     }
 
     //-------------自定义方法开始-----------

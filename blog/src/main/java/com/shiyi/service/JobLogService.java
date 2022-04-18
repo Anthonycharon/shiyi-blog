@@ -1,7 +1,7 @@
 package com.shiyi.service;
 
 import com.shiyi.entity.JobLog;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -16,10 +16,10 @@ import java.util.List;
  */
 public interface JobLogService extends IService<JobLog> {
 
-    ApiResult listData(String jobName,String jobGroup,String status,String startTime,
-                       String endTime,Long jobId);
+    ResponseResult listData(String jobName, String jobGroup, String status, String startTime,
+                            String endTime, Long jobId);
 
-    ApiResult deleteBatch(List<Long> ids);
+    ResponseResult deleteBatch(List<Long> ids);
 
-    ApiResult clean();
+    ResponseResult clean();
 }

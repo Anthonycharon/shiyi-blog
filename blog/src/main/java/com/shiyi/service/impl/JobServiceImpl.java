@@ -9,7 +9,7 @@ import com.shiyi.enums.ScheduleConstants;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.quartz.CronUtils;
 import com.shiyi.quartz.ScheduleUtils;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.User;
 import com.shiyi.enums.TaskException;
 import com.shiyi.mapper.JobMapper;
@@ -66,14 +66,14 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
      * @return
      */
     @Override
-    public ApiResult listData(String jobName,String jobGroup,String status) {
+    public ResponseResult listData(String jobName, String jobGroup, String status) {
         QueryWrapper<Job> queryWrapper = new QueryWrapper<Job>()
                 .like(StringUtils.isNotBlank(jobName),SqlConf.JOB_NAME,jobName)
                 .eq(StringUtils.isNotBlank(jobGroup),SqlConf.JOB_GROUP,jobGroup)
                 .eq(StringUtils.isNotBlank(status),SqlConf.STATUS,status);
 
         Page<Job> sysJobPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
-        return ApiResult.success(sysJobPage);
+        return ResponseResult.success(sysJobPage);
     }
 
     /**
@@ -82,11 +82,11 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
      * @return
      */
     @Override
-    public ApiResult info(Long jobId) {
+    public ResponseResult info(Long jobId) {
         Job job = baseMapper.selectById(jobId);
         Date nextExecution = CronUtils.getNextExecution(job.getCronExpression());
         job.setNextValidTime(nextExecution);
-        return ApiResult.success(job);
+        return ResponseResult.success(job);
     }
 
     /**
@@ -99,7 +99,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult addJob(Job job) throws SchedulerException, TaskException {
+    public ResponseResult addJob(Job job) throws SchedulerException, TaskException {
         checkCronIsValid(job);
 
         User user = userMapper.selectById(StpUtil.getLoginIdAsInt());
@@ -107,13 +107,13 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         int row = baseMapper.insert(job);
         if (row > 0) ScheduleUtils.createScheduleJob(scheduler, job);
 
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updateJob(Job job) throws SchedulerException, TaskException {
+    public ResponseResult updateJob(Job job) throws SchedulerException, TaskException {
         checkCronIsValid(job);
 
         User user = userMapper.selectById(StpUtil.getLoginIdAsInt());
@@ -122,7 +122,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         int row = baseMapper.updateById(job);
         if (row > 0) updateSchedulerJob(job, properties.getJobGroup());
 
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -134,13 +134,13 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult deleteJob(Long jobId) throws SchedulerException {
+    public ResponseResult deleteJob(Long jobId) throws SchedulerException {
 
         Job job = baseMapper.selectById(jobId);
         int row = baseMapper.deleteById(jobId);
         if (row > 0) scheduler.deleteJob(ScheduleUtils.getJobKey(jobId, job.getJobGroup()));
 
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
     /**
      * 批量删除任务
@@ -150,9 +150,9 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult deleteBatch(List<Long> ids) {
+    public ResponseResult deleteBatch(List<Long> ids) {
         baseMapper.deleteBatchIds(ids);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -162,7 +162,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult pauseJob(Job job) throws SchedulerException {
+    public ResponseResult pauseJob(Job job) throws SchedulerException {
         Long jobId = job.getJobId();
         String jobGroup = job.getJobGroup();
         job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
@@ -170,7 +170,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         if (rows > 0) {
             scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
         }
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -180,7 +180,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult run(Job job) throws SchedulerException {
+    public ResponseResult run(Job job) throws SchedulerException {
         Long jobId = job.getJobId();
         String jobGroup = job.getJobGroup();
         // 参数
@@ -188,7 +188,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
         dataMap.put(ScheduleConstants.TASK_PROPERTIES, job);
         scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, jobGroup), dataMap);
 
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -199,7 +199,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult changeStatus(Job job) throws SchedulerException {
+    public ResponseResult changeStatus(Job job) throws SchedulerException {
         String status = job.getStatus();
         Long jobId = job.getJobId();
         String jobGroup = job.getJobGroup();
@@ -212,7 +212,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
             }
         }
 
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
 

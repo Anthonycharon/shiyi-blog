@@ -3,7 +3,7 @@ package com.shiyi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
 import com.shiyi.entity.Photo;
 import com.shiyi.entity.PhotoAlbum;
@@ -12,7 +12,6 @@ import com.shiyi.mapper.PhotoAlbumMapper;
 import com.shiyi.mapper.PhotoMapper;
 import com.shiyi.service.PhotoAlbumService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -46,7 +45,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
      * @return
      */
     @Override
-    public ApiResult listData(String name) {
+    public ResponseResult listData(String name) {
         QueryWrapper<PhotoAlbum> queryWrapper = new QueryWrapper<PhotoAlbum>()
                 .like(StringUtils.isNotBlank(name),SqlConf.NAME,name);
         Page<PhotoAlbum> photoAlbumPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
@@ -54,7 +53,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
             Integer count = photoMapper.selectCount(new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, item.getId()));
             item.setPhotoCount(count);
         });
-        return ApiResult.success(photoAlbumPage);
+        return ResponseResult.success(photoAlbumPage);
     }
 
     /**
@@ -63,11 +62,11 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
      * @return
      */
     @Override
-    public ApiResult infoAlbum(Integer id) {
+    public ResponseResult infoAlbum(Integer id) {
         PhotoAlbum photoAlbum = baseMapper.selectById(id);
         Integer count = photoMapper.selectCount(new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, photoAlbum.getId()));
         photoAlbum.setPhotoCount(count);
-        return ApiResult.success(photoAlbum);
+        return ResponseResult.success(photoAlbum);
     }
 
     /**
@@ -77,9 +76,9 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult addAlbum(PhotoAlbum photoAlbum) {
+    public ResponseResult addAlbum(PhotoAlbum photoAlbum) {
         int rows = baseMapper.insert(photoAlbum);
-        return rows > 0 ? ApiResult.ok():ApiResult.fail("添加相册失败");
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error("添加相册失败");
     }
 
     /**
@@ -89,9 +88,9 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updateAlbum(PhotoAlbum photoAlbum) {
+    public ResponseResult updateAlbum(PhotoAlbum photoAlbum) {
         int rows = baseMapper.updateById(photoAlbum);
-        return rows > 0 ? ApiResult.ok():ApiResult.fail("修改相册失败");
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error("修改相册失败");
     }
 
     /**
@@ -101,10 +100,10 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult deleteAlbum(Integer id) {
+    public ResponseResult deleteAlbum(Integer id) {
         baseMapper.deleteById(id);
         int rows = photoMapper.delete(new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, id));
-        return rows > 0 ? ApiResult.ok():ApiResult.fail("删除相册失败");
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error("删除相册失败");
     }
 
 
@@ -115,11 +114,11 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
      * @return
      */
     @Override
-    public ApiResult webAlbumList() {
+    public ResponseResult webAlbumList() {
         List<PhotoAlbum> photoAlbums = baseMapper.selectList(new LambdaQueryWrapper<PhotoAlbum>().select(PhotoAlbum::getId, PhotoAlbum::getName,
                 PhotoAlbum::getInfo, PhotoAlbum::getCover).eq(PhotoAlbum::getStatus, YesOrNoEnum.NO.getCode()));
 
-        return ApiResult.success(photoAlbums);
+        return ResponseResult.success(photoAlbums);
     }
 
     /**
@@ -128,7 +127,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
      * @return
      */
     @Override
-    public ApiResult webListPhotos(Integer albumId) {
+    public ResponseResult webListPhotos(Integer albumId) {
         Page<Photo> photoPage = photoMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new LambdaQueryWrapper<Photo>().select(Photo::getUrl).eq(Photo::getAlbumId, albumId));
         List<String> urlList = new ArrayList<>();
         photoPage.getRecords().forEach(item -> urlList.add(item.getUrl()));
@@ -140,6 +139,6 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
         result.put("photoAlbumCover",photoAlbum.getCover());
         result.put("photoAlbumName",photoAlbum.getName());
 
-        return ApiResult.success(result);
+        return ResponseResult.success(result);
     }
 }

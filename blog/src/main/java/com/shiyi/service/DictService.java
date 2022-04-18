@@ -1,10 +1,9 @@
 package com.shiyi.service;
 
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.Dict;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -17,14 +16,14 @@ import java.util.List;
  */
 public interface DictService extends IService<Dict> {
 
-    ApiResult listData(String name, Integer isPublish,String descColumn,String ascColumn);
+    ResponseResult listData(String name, Integer isPublish, String descColumn, String ascColumn);
 
-    ApiResult addSysDict(Dict dict);
+    ResponseResult addSysDict(Dict dict);
 
-    ApiResult updateSysDict(Dict dict);
+    ResponseResult updateSysDict(Dict dict);
 
-    ApiResult delete(int id);
+    ResponseResult delete(int id);
 
-    ApiResult deleteBatch(List<Long> list);
+    ResponseResult deleteBatch(List<Long> list);
 
 }

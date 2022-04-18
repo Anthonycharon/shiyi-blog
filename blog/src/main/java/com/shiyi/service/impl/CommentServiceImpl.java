@@ -7,29 +7,24 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.dto.ReplyCountDTO;
 import com.shiyi.dto.ReplyDTO;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
 import com.shiyi.dto.SystemCommentDTO;
 import com.shiyi.entity.Comment;
-import com.shiyi.entity.User;
 import com.shiyi.entity.UserAuth;
 import com.shiyi.utils.PageUtils;
 import com.shiyi.vo.CommentVO;
 import com.shiyi.mapper.CommentMapper;
 import com.shiyi.mapper.UserAuthMapper;
-import com.shiyi.mapper.UserMapper;
 import com.shiyi.service.CommentService;
 import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.HTMLUtils;
-import com.shiyi.utils.RedisCache;
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -51,9 +46,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      * @return
      */
     @Override
-    public ApiResult listData(String keywords) {
+    public ResponseResult listData(String keywords) {
         Page<SystemCommentDTO> dtoPage = baseMapper.selectPageList(new Page<>(PageUtils.getPageNo(),PageUtils.getPageSize()),keywords);
-        return ApiResult.success(dtoPage);
+        return ResponseResult.success(dtoPage);
     }
 
     /**
@@ -62,9 +57,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      * @return
      */
     @Override
-    public ApiResult deleteBatch(List<Integer> ids) {
+    public ResponseResult deleteBatch(List<Integer> ids) {
         baseMapper.deleteBatchIds(ids);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
 
@@ -73,14 +68,14 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     //-----------------------web端方法开始-------------
     @Override
-    public ApiResult comments(Long articleId) {
+    public ResponseResult comments(Long articleId) {
         // 查询文章评论量
         Integer commentCount = baseMapper.selectCount(new LambdaQueryWrapper<Comment>()
                 .eq(Objects.nonNull(articleId), Comment::getArticleId, articleId)
                 .isNull(Objects.isNull(articleId), Comment::getArticleId)
                 .isNull(Comment::getParentId));
         if (commentCount == 0) {
-            return ApiResult.ok();
+            return ResponseResult.success();
         }
         Page<Comment> pages = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),
                 new QueryWrapper<Comment>().eq(SqlConf.ARTICLE_ID, articleId).isNull(SqlConf.PARENT_ID)
@@ -88,7 +83,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         // 分页查询评论集合
         List<Comment> comments = pages.getRecords();
         if (CollectionUtils.isEmpty(comments)) {
-            return ApiResult.ok();
+            return ResponseResult.success();
         }
         List<com.shiyi.dto.CommentDTO> commentDTOList = new ArrayList<>();
         List<ReplyDTO> replyDTOList;
@@ -111,12 +106,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         Map<String,Object> map =new HashMap<>();
         map.put("commentCount",commentCount);
         map.put("commentDTOList",commentDTOList);
-        return ApiResult.success(map);
+        return ResponseResult.success(map);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult addComment(CommentVO commentVO) {
+    public ResponseResult addComment(CommentVO commentVO) {
         // 过滤标签
         commentVO.setCommentContent(HTMLUtils.deleteTag(commentVO.getCommentContent()));
         Comment comment = Comment.builder()
@@ -131,11 +126,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if (websiteConfig.getIsEmailNotice().equals(TRUE)) {
             notice(comment);
         }*/
-        return rows > 0?ApiResult.success(comment):ApiResult.fail("评论失败");
+        return rows > 0? ResponseResult.success(comment): ResponseResult.error("评论失败");
     }
 
     @Override
-    public ApiResult repliesByComId(Integer commentId) {
+    public ResponseResult repliesByComId(Integer commentId) {
         Page<Comment> page = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new QueryWrapper<Comment>().eq(SqlConf.PARENT_ID, commentId));
         List<ReplyDTO> result = new ArrayList<>();
         for (Comment comment: page.getRecords()) {
@@ -151,6 +146,6 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             dto.setReplyNickname(replyUser.getNickname());
             result.add(dto);
         }
-        return ApiResult.success(result);
+        return ResponseResult.success(result);
     }
 }

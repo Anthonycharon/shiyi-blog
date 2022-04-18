@@ -2,7 +2,7 @@ package com.shiyi.controller.system;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.annotation.OperationLogger;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.utils.UploadUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,16 +24,16 @@ public class UploadController {
 
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     @SaCheckPermission("/file/upload")
-    @ApiOperation(value = "上传图片",httpMethod = "POST", response = ApiResult.class, notes = "上传图片")
-    public ApiResult upload(MultipartFile multipartFile){
+    @ApiOperation(value = "上传图片",httpMethod = "POST", response = ResponseResult.class, notes = "上传图片")
+    public ResponseResult upload(MultipartFile multipartFile){
         return uploadUtil.upload(multipartFile);
     }
 
     @RequestMapping(value = "/delBatchFile",method = RequestMethod.POST)
     @SaCheckPermission("/file/delBatchFile")
-    @ApiOperation(value = "批量删除文件",httpMethod = "POST", response = ApiResult.class, notes = "批量删除文件")
+    @ApiOperation(value = "批量删除文件",httpMethod = "POST", response = ResponseResult.class, notes = "批量删除文件")
     @OperationLogger("批量删除图片")
-    public ApiResult delBatchFile(String key){
-        return uploadUtil.delBatchFile(key)?ApiResult.ok("删除成功"):ApiResult.ok("删除失败");
+    public ResponseResult delBatchFile(String key){
+        return uploadUtil.delBatchFile(key)? ResponseResult.success("删除成功") : ResponseResult.error("删除失败");
     }
 }

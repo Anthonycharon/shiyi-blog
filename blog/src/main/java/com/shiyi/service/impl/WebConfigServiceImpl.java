@@ -1,7 +1,7 @@
 package com.shiyi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.WebConfig;
 import com.shiyi.mapper.WebConfigMapper;
 import com.shiyi.service.WebConfigService;
@@ -28,10 +28,10 @@ public class WebConfigServiceImpl extends ServiceImpl<WebConfigMapper, WebConfig
      * @return
      */
     @Override
-    public ApiResult listData() {
+    public ResponseResult listData() {
         WebConfig webConfig = baseMapper.selectOne(new QueryWrapper<WebConfig>()
                 .last(LIMIT_ONE));
-        return ApiResult.success(webConfig);
+        return ResponseResult.success(webConfig);
     }
 
     /**
@@ -41,8 +41,8 @@ public class WebConfigServiceImpl extends ServiceImpl<WebConfigMapper, WebConfig
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updateData(WebConfig webConfig) {
+    public ResponseResult updateData(WebConfig webConfig) {
         baseMapper.updateById(webConfig);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 }

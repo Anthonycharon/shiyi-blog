@@ -1,6 +1,6 @@
 package com.shiyi.service;
 
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.Photo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -17,16 +17,16 @@ import java.util.Map;
  */
 public interface PhotoService extends IService<Photo> {
 
-    ApiResult listData(Integer albumId);
+    ResponseResult listData(Integer albumId);
 
-    ApiResult infoPhoto(Integer id);
+    ResponseResult infoPhoto(Integer id);
 
-    ApiResult addPhoto(Photo photo);
+    ResponseResult addPhoto(Photo photo);
 
-    ApiResult updatePhoto(Photo photo);
+    ResponseResult updatePhoto(Photo photo);
 
-    ApiResult movePhoto(Map<String,Object> map);
+    ResponseResult movePhoto(Map<String,Object> map);
 
-    ApiResult deleteBatch(List<Integer> ids);
+    ResponseResult deleteBatch(List<Integer> ids);
 
 }

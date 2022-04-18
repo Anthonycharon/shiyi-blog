@@ -1,6 +1,6 @@
 package com.shiyi.service;
 
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.WebConfig;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface WebConfigService extends IService<WebConfig> {
 
-    ApiResult listData();
+    ResponseResult listData();
 
-    ApiResult updateData(WebConfig webConfig);
+    ResponseResult updateData(WebConfig webConfig);
 }

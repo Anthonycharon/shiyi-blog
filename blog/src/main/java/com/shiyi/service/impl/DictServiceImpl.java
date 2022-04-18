@@ -2,7 +2,7 @@ package com.shiyi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
 import com.shiyi.entity.Dict;
 import com.shiyi.entity.DictData;
@@ -46,7 +46,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      * @return
      */
     @Override
-    public ApiResult listData(String name, Integer isPublish, String descColumn, String ascColumn) {
+    public ResponseResult listData(String name, Integer isPublish, String descColumn, String ascColumn) {
         QueryWrapper<Dict> queryWrapper = new QueryWrapper<Dict>()
                 .eq(isPublish != null,SqlConf.IS_PUBLISH,isPublish)
                 .like(StringUtils.isNotBlank(name),SqlConf.NAME,name);
@@ -63,7 +63,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         }
         Page<Dict> page = new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize());
         Page<Dict> data = baseMapper.selectPage(page, queryWrapper);
-        return ApiResult.success(data);
+        return ResponseResult.success(data);
     }
 
     /**
@@ -73,10 +73,10 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult addSysDict(Dict dict) {
+    public ResponseResult addSysDict(Dict dict) {
         validateType(dict.getType());
         baseMapper.insert(dict);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -86,11 +86,11 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updateSysDict(Dict dict) {
+    public ResponseResult updateSysDict(Dict dict) {
         Dict temp = baseMapper.selectById(dict.getId());
         if (!temp.getType().equals(dict.getType())) validateType(dict.getType());
         baseMapper.updateById(dict);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -100,11 +100,11 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult delete(int id) {
+    public ResponseResult delete(int id) {
         int count  = dictDataService.count(new QueryWrapper<DictData>().eq(SqlConf.DICT_TYPE_ID,id));
         Assert.isTrue(count==0,"该字典类型存在字典数据!");
         baseMapper.deleteById(id);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -114,11 +114,11 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult deleteBatch(List<Long> ids) {
+    public ResponseResult deleteBatch(List<Long> ids) {
         int count  = dictDataService.count(new QueryWrapper<DictData>().in(SqlConf.DICT_TYPE_ID,ids));
         Assert.isTrue(count==0,"所选字典类型中存在字典数据!");
         baseMapper.deleteBatchIds(ids);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
 

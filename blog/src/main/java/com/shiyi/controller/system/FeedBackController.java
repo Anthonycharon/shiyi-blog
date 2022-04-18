@@ -4,7 +4,7 @@ package com.shiyi.controller.system;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.annotation.OperationLogger;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.service.FeedBackService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,16 +32,16 @@ public class FeedBackController {
 
     @GetMapping(value = "/list")
     @SaCheckLogin
-    @ApiOperation(value = "反馈列表", httpMethod = "GET", response = ApiResult.class, notes = "反馈列表")
-    public ApiResult list(Integer type) {
+    @ApiOperation(value = "反馈列表", httpMethod = "GET", response = ResponseResult.class, notes = "反馈列表")
+    public ResponseResult list(Integer type) {
         return feedBackService.listData(type);
     }
 
     @DeleteMapping(value = "/deleteBatch")
     @SaCheckPermission("/system/feedback/deleteBatch")
-    @ApiOperation(value = "删除反馈", httpMethod = "DELETE", response = ApiResult.class, notes = "删除反馈")
+    @ApiOperation(value = "删除反馈", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除反馈")
     @OperationLogger(value = "删除反馈")
-    public ApiResult delete(@RequestBody List<Integer> ids) {
+    public ResponseResult delete(@RequestBody List<Integer> ids) {
         return feedBackService.delete(ids);
     }
 }

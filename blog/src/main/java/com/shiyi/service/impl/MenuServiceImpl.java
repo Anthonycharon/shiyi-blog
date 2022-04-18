@@ -1,7 +1,7 @@
 package com.shiyi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
 import com.shiyi.entity.Menu;
 import com.shiyi.mapper.MenuMapper;
@@ -46,7 +46,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      * @return
      */
     @Override
-    public ApiResult getMenuApi(Integer id) {
+    public ResponseResult getMenuApi(Integer id) {
         QueryWrapper<Menu> queryWrapper = new QueryWrapper<Menu>()
                 .eq("level",1).eq(id != null, SqlConf.ID,id);
         List<Menu> list = baseMapper.selectList(queryWrapper);
@@ -54,7 +54,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             List<Menu> childrens = baseMapper.selectList(new QueryWrapper<Menu>().eq(SqlConf.PARENT_ID,menu.getId()));
             menu.setChildren(childrens);
         }
-        return ApiResult.success(list);
+        return ResponseResult.success(list);
     }
 
     /**
@@ -64,9 +64,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult saveMenu(Menu menu) {
+    public ResponseResult saveMenu(Menu menu) {
         int rows = baseMapper.insert(menu);
-        return rows > 0 ?ApiResult.ok():ApiResult.fail("添加菜单失败");
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error("添加菜单失败");
     }
 
     /**
@@ -76,9 +76,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updateMenu(Menu menu) {
+    public ResponseResult updateMenu(Menu menu) {
         int rows = baseMapper.updateById(menu);
-        return rows > 0 ?ApiResult.ok():ApiResult.fail("修改菜单失败");
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error("修改菜单失败");
     }
 
     /**
@@ -88,9 +88,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult removeMenu(Integer id) {
+    public ResponseResult removeMenu(Integer id) {
         int rows = baseMapper.deleteById(id);
-        return rows > 0 ?ApiResult.ok():ApiResult.fail("删除菜单失败");
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error("删除菜单失败");
     }
 
 

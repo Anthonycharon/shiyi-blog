@@ -3,12 +3,11 @@ package com.shiyi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
 import com.shiyi.entity.Message;
 import com.shiyi.mapper.MessageMapper;
 import com.shiyi.service.MessageService;
-import com.shiyi.utils.DateUtils;
 import com.shiyi.utils.IpUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.utils.PageUtils;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -44,11 +42,11 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      * @return
      */
     @Override
-    public ApiResult listData(String name) {
+    public ResponseResult listData(String name) {
         QueryWrapper<Message> queryWrapper = new QueryWrapper<Message>()
                 .like(StringUtils.isNotBlank(name),SqlConf.NICKNAME,name);
         Page<Message> list = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),queryWrapper);
-        return ApiResult.success(list);
+        return ResponseResult.success(list);
     }
 
     /**
@@ -58,10 +56,10 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult passBatch(List<Integer> ids) {
+    public ResponseResult passBatch(List<Integer> ids) {
         Assert.notEmpty(ids,"参数不合法!");
         baseMapper.passBatch(ids);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -71,9 +69,9 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult deleteById(int id) {
+    public ResponseResult deleteById(int id) {
         baseMapper.deleteById(id);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -83,9 +81,9 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult deleteBatch(List<Integer> ids) {
+    public ResponseResult deleteBatch(List<Integer> ids) {
         int rows = baseMapper.deleteBatchIds(ids);
-        return rows > 0 ?ApiResult.ok():ApiResult.fail("批量删除留言失败");
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error("批量删除留言失败");
     }
 
 
@@ -96,12 +94,12 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      * @return
      */
     @Override
-    public ApiResult webMessage() {
+    public ResponseResult webMessage() {
         // 查询留言列表
         List<Message> messageList = baseMapper.selectList(new LambdaQueryWrapper<Message>()
                 .select(Message::getId, Message::getNickname, Message::getAvatar,
                         Message::getContent, Message::getTime));
-        return ApiResult.success(messageList);
+        return ResponseResult.success(messageList);
     }
 
     /**
@@ -111,14 +109,14 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult webAddMessage(Message message) {
+    public ResponseResult webAddMessage(Message message) {
         // 获取用户ip
         String ipAddress = IpUtils.getIp(request);
         String ipSource = IpUtils.getCityInfo(ipAddress);
         message.setIpAddress(ipAddress);
         message.setIpSource(ipSource);
         baseMapper.insert(message);
-        return ApiResult.ok("留言成功");
+        return ResponseResult.success("留言成功");
     }
 
 

@@ -3,7 +3,7 @@ package com.shiyi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
 import com.shiyi.entity.UserLog;
 import com.shiyi.mapper.UserLogMapper;
@@ -30,11 +30,11 @@ public class LogServiceImpl extends ServiceImpl<UserLogMapper, UserLog> implemen
      * @return
      */
     @Override
-    public ApiResult listData() {
+    public ResponseResult listData() {
         QueryWrapper<UserLog> queryWrapper = new QueryWrapper<UserLog>()
                 .orderByDesc(SqlConf.CREATE_TIME);
         Page<UserLog> sysLogPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
-        return ApiResult.success(sysLogPage);
+        return ResponseResult.success(sysLogPage);
     }
 
     /**
@@ -44,8 +44,8 @@ public class LogServiceImpl extends ServiceImpl<UserLogMapper, UserLog> implemen
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult delete(List<Long> ids) {
+    public ResponseResult delete(List<Long> ids) {
         int rows = baseMapper.deleteBatchIds(ids);
-        return rows > 0 ?ApiResult.ok():ApiResult.fail("批量删除用户日志失败");
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error("批量删除用户日志失败");
     }
 }

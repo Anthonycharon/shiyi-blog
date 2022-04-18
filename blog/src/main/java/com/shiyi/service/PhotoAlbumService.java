@@ -1,6 +1,6 @@
 package com.shiyi.service;
 
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.PhotoAlbum;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -14,23 +14,23 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PhotoAlbumService extends IService<PhotoAlbum> {
 
-    ApiResult listData(String name);
+    ResponseResult listData(String name);
 
-    ApiResult infoAlbum(Integer id);
+    ResponseResult infoAlbum(Integer id);
 
-    ApiResult addAlbum(PhotoAlbum photoAlbum);
+    ResponseResult addAlbum(PhotoAlbum photoAlbum);
 
-    ApiResult updateAlbum(PhotoAlbum photoAlbum);
+    ResponseResult updateAlbum(PhotoAlbum photoAlbum);
 
-    ApiResult deleteAlbum(Integer id);
+    ResponseResult deleteAlbum(Integer id);
 
 
 
 
 
     //web端方法开始
-    ApiResult webAlbumList();
+    ResponseResult webAlbumList();
 
-    ApiResult webListPhotos(Integer albumId);
+    ResponseResult webListPhotos(Integer albumId);
 
 }

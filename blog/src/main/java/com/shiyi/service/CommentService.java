@@ -1,7 +1,7 @@
 package com.shiyi.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.Comment;
 import com.shiyi.vo.CommentVO;
 
@@ -17,17 +17,17 @@ import java.util.List;
  */
 public interface CommentService extends IService<Comment> {
 
-    ApiResult listData(String keywords);
+    ResponseResult listData(String keywords);
 
-    ApiResult deleteBatch(List<Integer> ids);
+    ResponseResult deleteBatch(List<Integer> ids);
 
 
 
 //    ------web端方法开始------
-    ApiResult comments(Long articleId);
+    ResponseResult comments(Long articleId);
 
-    ApiResult addComment(CommentVO comment);
+    ResponseResult addComment(CommentVO comment);
 
-    ApiResult repliesByComId(Integer commentId);
+    ResponseResult repliesByComId(Integer commentId);
 
 }

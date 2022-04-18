@@ -1,9 +1,8 @@
 package com.shiyi.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.common.ApiResult;
+import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
 import com.shiyi.dto.FriendLinkDTO;
 import com.shiyi.entity.FriendLink;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.Date;
 import java.util.List;
 
 import static com.shiyi.enums.FriendLinkEnum.APPLY;
@@ -52,12 +50,12 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
      * @return
      */
     @Override
-    public ApiResult listData(String name, Integer status) {
+    public ResponseResult listData(String name, Integer status) {
         QueryWrapper<FriendLink> queryWrapper= new QueryWrapper<FriendLink>()
                 .orderByDesc(SqlConf.SORT).like(StringUtils.isNotBlank(name),SqlConf.NAME,name)
                 .eq(status != null,SqlConf.STATUS,status);
         Page<FriendLink> friendLinkPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),queryWrapper);
-        return ApiResult.success(friendLinkPage);
+        return ResponseResult.success(friendLinkPage);
     }
 
     /**
@@ -67,9 +65,9 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult addData(FriendLink friendLink) {
+    public ResponseResult addData(FriendLink friendLink) {
         baseMapper.insert(friendLink);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -79,13 +77,13 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult updateData(FriendLink friendLink) {
+    public ResponseResult updateData(FriendLink friendLink) {
         baseMapper.updateById(friendLink);
         //审核通过发送邮件通知
         if(friendLink.getStatus().equals(UP.getCode())){
             emailUtil.friendPassSendEmail(friendLink.getEmail());
         }
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     /**
@@ -95,9 +93,9 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult delete(List<Integer> ids) {
+    public ResponseResult delete(List<Integer> ids) {
         int rows = baseMapper.deleteBatchIds(ids);
-        return rows > 0 ? ApiResult.ok():ApiResult.fail("删除友链失败");
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error("删除友链失败");
     }
 
     /**
@@ -107,10 +105,10 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult top(Integer id) {
+    public ResponseResult top(Integer id) {
         Integer sort = baseMapper.getMaxSort();
         baseMapper.top(id,sort+1);
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 
     //    ---------web端方法开始------
@@ -119,9 +117,9 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
      * @return
      */
     @Override
-    public ApiResult webFriendLinkList() {
+    public ResponseResult webFriendLinkList() {
         List<FriendLinkDTO> list = baseMapper.selectLinkList();
-        return ApiResult.success(list);
+        return ResponseResult.success(list);
     }
 
     /**
@@ -131,7 +129,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ApiResult applyFriendLink(FriendLink friendLink) {
+    public ResponseResult applyFriendLink(FriendLink friendLink) {
 
         Assert.isTrue(StringUtils.isNotBlank(friendLink.getUrl()),"输入正确的网址!");
         friendLink.setStatus(APPLY.getCode());
@@ -148,6 +146,6 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
 
         //不影响用户体验 新一个线程操作邮箱发送
         threadPoolTaskExecutor.execute(() -> emailUtil.emailNoticeMe("友链接入通知","网站有新的友链接入啦，快去审核吧!!!"));
-        return ApiResult.ok();
+        return ResponseResult.success();
     }
 }
