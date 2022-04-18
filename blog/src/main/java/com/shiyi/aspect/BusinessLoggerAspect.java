@@ -1,6 +1,6 @@
 package com.shiyi.aspect;
 
-import com.shiyi.annotation.BusinessLog;
+import com.shiyi.annotation.BusinessLogger;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.UserLog;
 import com.shiyi.mapper.UserLogMapper;
@@ -29,21 +29,21 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class BusinessLogAspect {
+public class BusinessLoggerAspect {
 
-    private static final Logger logger = LoggerFactory.getLogger(BusinessLogAspect.class);
+    private static final Logger logger = LoggerFactory.getLogger(BusinessLoggerAspect.class);
 
     private final UserLogMapper sysLogMapper;
 
     /**
      * 设置操作日志切入点   在注解的位置切入代码
      */
-    @Pointcut("@annotation(businessLog)")
-    public void pointcut(BusinessLog businessLog) {
+    @Pointcut("@annotation(businessLogger)")
+    public void pointcut(BusinessLogger businessLogger) {
     }
 
-    @Around(value = "pointcut(businessLog)")
-    public Object doAround(ProceedingJoinPoint joinPoint, BusinessLog businessLog) throws Throwable {
+    @Around(value = "pointcut(businessLogger)")
+    public Object doAround(ProceedingJoinPoint joinPoint, BusinessLogger businessLogger) throws Throwable {
 
         //先执行业务
         Object result = joinPoint.proceed();
@@ -75,7 +75,7 @@ public class BusinessLogAspect {
             //获取切入点所在的方法
             Method method = signature.getMethod();
             //获取操作
-            BusinessLog annotation = method.getAnnotation(BusinessLog.class);
+            BusinessLogger annotation = method.getAnnotation(BusinessLogger.class);
             if (!annotation.save()) return;
 
             String ip = IpUtils.getIp(request);

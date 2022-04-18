@@ -1,7 +1,7 @@
 package com.shiyi.controller.api;
 
 
-import com.shiyi.annotation.BusinessLog;
+import com.shiyi.annotation.BusinessLogger;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.service.CategoryService;
 import com.shiyi.service.TagsService;
@@ -32,14 +32,14 @@ public class ApiTagsController {
 
     private final CategoryService categoryService;
 
-    @BusinessLog(value = "标签模块-用户访问页面",type = "查询",desc = "用户访问页面")
+    @BusinessLogger(value = "标签模块-用户访问页面",type = "查询",desc = "用户访问页面")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     @ApiOperation(value = "标签列表", httpMethod = "GET", response = ResponseResult.class, notes = "标签列表")
     public ResponseResult tagList(){
         return tagsService.webList();
     }
 
-    @BusinessLog(value = "分类模块-用户访问页面",type = "查询",desc = "用户访问页面")
+    @BusinessLogger(value = "分类模块-用户访问页面",type = "查询",desc = "用户访问页面")
     @RequestMapping(value = "/categoryList",method = RequestMethod.GET)
     @ApiOperation(value = "分类列表", httpMethod = "GET", response = ResponseResult.class, notes = "分类列表")
     public ResponseResult categoryList(){

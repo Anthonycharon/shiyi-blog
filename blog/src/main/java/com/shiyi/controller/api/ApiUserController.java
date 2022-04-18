@@ -1,7 +1,7 @@
 package com.shiyi.controller.api;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
-import com.shiyi.annotation.BusinessLog;
+import com.shiyi.annotation.BusinessLogger;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.service.UserAuthService;
 import com.shiyi.vo.EmailLoginVO;
@@ -40,7 +40,7 @@ public class ApiUserController {
     }
 
     @RequestMapping(value = "/updatePassword",method = RequestMethod.POST)
-    @BusinessLog(value = "个人中心模块-邮箱账号修改密码",type = "修改",desc = "邮箱账号修改密码")
+    @BusinessLogger(value = "个人中心模块-邮箱账号修改密码",type = "修改",desc = "邮箱账号修改密码")
     public ResponseResult updatePassword(@Valid @RequestBody EmailRegisterVO emailRegisterVO){
         return userAuthService.updatePassword(emailRegisterVO);
     }
@@ -71,12 +71,12 @@ public class ApiUserController {
 
     @RequestMapping(value = "/bindEmail",method = RequestMethod.POST)
     @SaCheckLogin
-    @BusinessLog(value = "个人中心模块-绑定邮箱",type = "修改",desc = "绑定邮箱")
+    @BusinessLogger(value = "个人中心模块-绑定邮箱",type = "修改",desc = "绑定邮箱")
     public ResponseResult bindEmail(@RequestBody UserAuthVO vo){
         return userAuthService.bindEmail(vo);
     }
 
-    @BusinessLog(value = "个人中心模块-修改用户信息",type = "修改",desc = "修改用户信息")
+    @BusinessLogger(value = "个人中心模块-修改用户信息",type = "修改",desc = "修改用户信息")
     @SaCheckLogin
     @RequestMapping(value = "/updateUser",method = RequestMethod.POST)
     public ResponseResult updateUser(@RequestBody UserAuthVO vo){

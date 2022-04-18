@@ -44,9 +44,9 @@ import static com.shiyi.common.Constants.CURRENT_USER;
 @Aspect
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class LoggerAspect {
+public class OperationLoggerAspect {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
+    private static final Logger logger = LoggerFactory.getLogger(OperationLoggerAspect.class);
 
     private final AdminLogMapper adminLogMapper;
 
@@ -117,7 +117,7 @@ public class LoggerAspect {
 
         boolean save = annotation.save();
 
-        String bussinessName = AspectUtil.INSTANCE.parseParams(point.getArgs(), annotation.value());
+        String operationName = AspectUtil.INSTANCE.parseParams(point.getArgs(), annotation.value());
         if (!save) {
             return;
         }
@@ -135,7 +135,7 @@ public class LoggerAspect {
         Long spendTime = endTime.getTime() - startTime.getTime();
         AdminLog adminLog = new AdminLog(ip, IpUtils.getCityInfo(ip), type, url, user.getNickname(),
                 paramsJson, point.getTarget().getClass().getName(),
-                point.getSignature().getName(), bussinessName,spendTime);
+                point.getSignature().getName(), operationName,spendTime);
         adminLogMapper.insert(adminLog);
     }
 

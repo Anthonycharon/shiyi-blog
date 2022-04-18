@@ -1,7 +1,7 @@
 package com.shiyi.controller.api;
 
 
-import com.shiyi.annotation.BusinessLog;
+import com.shiyi.annotation.BusinessLogger;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.Message;
 import com.shiyi.service.MessageService;
@@ -27,7 +27,7 @@ public class ApiMessageController {
 
     private final MessageService messageService;
 
-    @BusinessLog(value = "留言模块-留言列表",type = "查询",desc = "留言列表")
+    @BusinessLogger(value = "留言模块-留言列表",type = "查询",desc = "留言列表")
     @RequestMapping(value = "/webMessage",method = RequestMethod.GET)
     @ApiOperation(value = "留言列表", httpMethod = "GET", response = ResponseResult.class, notes = "留言列表")
     public ResponseResult webMessage(){
@@ -35,7 +35,7 @@ public class ApiMessageController {
     }
 
 
-    @BusinessLog(value = "留言模块-用户留言",type = "添加",desc = "用户留言")
+    @BusinessLogger(value = "留言模块-用户留言",type = "添加",desc = "用户留言")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ApiOperation(value = "添加留言", httpMethod = "POST", response = ResponseResult.class, notes = "添加留言")
     public ResponseResult addMessage(@RequestBody Message message){
