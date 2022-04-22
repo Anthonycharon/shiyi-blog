@@ -145,7 +145,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = baseMapper.selectById(StpUtil.getLoginIdAsInt());
         Assert.notNull(user,ERROR_USER_NOT_EXIST.getDesc());
 
-        boolean isValid = PasswordUtils.isValidPassword(map.get("oldPassword"), user.getPassword());
+        boolean isValid = PasswordUtils.isValidPassword(user.getPassword(),map.get("oldPassword"));
         Assert.isTrue(isValid,"旧密码校验不通过!");
 
         String newPassword = PasswordUtils.aesEncrypt(map.get("newPassword"));
