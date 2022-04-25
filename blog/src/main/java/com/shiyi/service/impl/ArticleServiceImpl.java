@@ -391,7 +391,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult searchArticle(String keywords) {
-        Assert.isTrue(StringUtils.isNotBlank(keywords), KEYWORDS_ARE_ILLEGAL.getDesc());
+        Assert.isTrue(StringUtils.isNotBlank(keywords), PARAMS_ILLEGAL.getDesc());
         //获取搜索模式（es搜索或mysql搜索）
         SystemConfig systemConfig = systemConfigService.getCustomizeOne();
         String strategy = SearchModelEnum.getStrategy(systemConfig.getSearchModel());

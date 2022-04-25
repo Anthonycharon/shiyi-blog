@@ -40,7 +40,7 @@ public enum ResultCode {
     ERROR_EXCEPTION_MOBILE_CODE(10003,"验证码不正确或已过期，请重新输入"),
     ERROR_USER_NOT_EXIST(10009, "用户不存在"),
     ERROR_MUST_REGISTER(10017,"请先注册帐号!"),
-    KEYWORDS_ARE_ILLEGAL(10018,"关键词不合法!!"),
+    PARAMS_ILLEGAL(10018,"参数不合法!!"),
     CATEGORY_IS_EXIST(10019,"该分类名称已存在!"),
     CATEGORY_IS_TOP(10020,"该分类已经在顶端!!"),
     DATA_TAG_IS_EXIST(10021,"该数据标签已存在!"),

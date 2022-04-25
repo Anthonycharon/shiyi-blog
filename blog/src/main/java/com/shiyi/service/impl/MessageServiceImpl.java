@@ -21,6 +21,8 @@ import org.springframework.util.Assert;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static com.shiyi.common.ResultCode.PARAMS_ILLEGAL;
+
 /**
  * <p>
  *  服务实现类
@@ -33,7 +35,6 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> implements MessageService {
 
-
     private final HttpServletRequest request;
 
     /**
@@ -43,8 +44,8 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      */
     @Override
     public ResponseResult listData(String name) {
-        QueryWrapper<Message> queryWrapper = new QueryWrapper<Message>()
-                .like(StringUtils.isNotBlank(name),SqlConf.NICKNAME,name);
+        LambdaQueryWrapper<Message> queryWrapper = new QueryWrapper<Message>().lambda()
+                .like(StringUtils.isNotBlank(name),Message::getNickname,name).orderByDesc(Message::getCreateTime);
         Page<Message> list = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),queryWrapper);
         return ResponseResult.success(list);
     }
@@ -57,7 +58,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult passBatch(List<Integer> ids) {
-        Assert.notEmpty(ids,"参数不合法!");
+        Assert.notEmpty(ids,PARAMS_ILLEGAL.getDesc());
         baseMapper.passBatch(ids);
         return ResponseResult.success();
     }
