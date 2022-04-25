@@ -30,6 +30,8 @@ public interface ArticleService extends IService<BlogArticle> {
 
     ResponseResult updateArticle(ArticleVO article);
 
+    ResponseResult topArticle(ArticleVO article);
+
     ResponseResult baiduSeo(List<Long> ids);
 
     ResponseResult reptile(String url);

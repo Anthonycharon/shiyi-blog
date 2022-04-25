@@ -152,6 +152,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         return ResponseResult.success();
     }
 
+    /**
+     *  置顶文章
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseResult topArticle(ArticleVO article) {
+        BlogArticle blogArticle = BeanCopyUtils.copyObject(article, BlogArticle.class);
+        baseMapper.updateById(blogArticle);
+        return ResponseResult.success();
+    }
+
 
     /**
      *  文章百度推送

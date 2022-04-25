@@ -30,6 +30,13 @@ export function update(data) {
     data
   })
 }
+export function top(data) {
+  return request({
+    url: '/system/article/top',
+    method: 'post',
+    data
+  })
+}
 export function pubOrShelf(data) {
   return request({
     url: '/system/article/pubOrShelf',

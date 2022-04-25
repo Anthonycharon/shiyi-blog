@@ -400,6 +400,7 @@ import {
   remove,
   baiduSeo,
   update,
+  top,
   save,
   info,
   reptile,
@@ -622,7 +623,11 @@ export default {
       })
     },
     handleTop: function (scope) {
-      update(scope.row).then(res => {
+      let article = {
+        id:scope.row.id,
+        isStick:scope.row.isStick
+      }
+      top(article).then(res => {
         this.$message.success("置顶文章成功")
         this.queryList()
       }).catch(err => {

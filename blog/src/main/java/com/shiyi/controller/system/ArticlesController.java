@@ -52,6 +52,14 @@ public class ArticlesController {
         return articleService.updateArticle(article);
     }
 
+    @PostMapping(value = "/top")
+    @SaCheckPermission("/system/article/top")
+    @ApiOperation(value = "置顶文章", httpMethod = "POST", response = ResponseResult.class, notes = "置顶文章")
+    @OperationLogger(value = "置顶文章")
+    public ResponseResult topArticle(@RequestBody ArticleVO article) {
+        return articleService.topArticle(article);
+    }
+
     @PostMapping(value = "/pubOrShelf")
     @SaCheckPermission("/system/article/pubOrShelf")
     @ApiOperation(value = "发布或下架文章", httpMethod = "POST", response = ResponseResult.class, notes = "发布或下架文章")
