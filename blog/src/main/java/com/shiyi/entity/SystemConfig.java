@@ -88,4 +88,14 @@ public class SystemConfig implements Serializable {
     @ApiModelProperty(value = "更新时间")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
+
+    @ApiModelProperty(value = "阿里云AccessKey")
+    private String aliYunAccessKey;
+    @ApiModelProperty(value = "阿里云SecretKey")
+    private String aliYunSecretKey;
+    @ApiModelProperty(value = "阿里云Bucket名称")
+    private String aliYunBucket;
+    @ApiModelProperty(value = "阿里云Endpoint")
+    private String aliYunEndpoint;
+
 }

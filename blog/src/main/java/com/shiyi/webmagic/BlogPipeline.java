@@ -1,6 +1,5 @@
 package com.shiyi.webmagic;
 
-import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -10,7 +9,6 @@ import com.shiyi.entity.Tags;
 import com.shiyi.enums.YesOrNoEnum;
 import com.shiyi.mapper.ArticleMapper;
 import com.shiyi.mapper.TagsMapper;
-import com.shiyi.utils.RandomUtil;
 import com.vladsch.flexmark.html2md.converter.FlexmarkHtmlConverter;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +22,6 @@ import org.springframework.web.client.RestTemplate;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
-
-import java.text.MessageFormat;
 import java.util.*;
 
 import static com.shiyi.common.Constants.IMG_URL_API;

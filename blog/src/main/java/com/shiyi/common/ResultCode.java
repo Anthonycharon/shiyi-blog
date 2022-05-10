@@ -38,6 +38,8 @@ public enum ResultCode {
     EMAIL_IS_EXIST(-11,"该邮箱已注册，请直接登录!"),
     PASSWORD_ILLEGAL(-13,"密码格式不合法!"),
     ERROR_EXCEPTION_MOBILE_CODE(10003,"验证码不正确或已过期，请重新输入"),
+    FILE_UPLOAD_WAY_ERROR(10004,"文件上传方式不合法"),
+    FILE_UPLOAD_ERROR(10005,"上传文件失败"),
     ERROR_USER_NOT_EXIST(10009, "用户不存在"),
     ERROR_MUST_REGISTER(10017,"请先注册帐号!"),
     PARAMS_ILLEGAL(10018,"参数不合法!!"),
