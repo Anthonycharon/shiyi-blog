@@ -212,8 +212,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     @Override
     public ResponseResult randomImg() {
         //文章封面图片 由https://api.btstu.cn/该网站随机获取
-        String result = restTemplate.getForObject(IMG_URL_API, String.class);
-        JSONObject jsonObject = JSON.parseObject(result);
+        JSONObject jsonObject = restTemplate.getForObject(IMG_URL_API, JSONObject.class);
         Object imgUrl = jsonObject.get("imgurl");
         return ResponseResult.success(imgUrl);
     }
