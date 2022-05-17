@@ -922,6 +922,10 @@ CREATE TABLE `b_system_config`  (
   `open_email` int(1) NULL DEFAULT NULL COMMENT '启用邮箱发送',
   `local_file_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '本地文件地址',
   `file_upload_way` int(1) NULL DEFAULT NULL COMMENT '文件上传方式 1:本地 2：七牛云',
+  `ali_yun_access_key` varchar(100) DEFAULT NULL COMMENT '阿里云ak',
+  `ali_yun_secret_key` varchar(100) DEFAULT NULL COMMENT '阿里云sk',
+  `ali_yun_bucket` varchar(100) DEFAULT NULL COMMENT '阿里云存储桶名',
+  `ali_yun_endpoint` varchar(100) DEFAULT NULL COMMENT '阿里云Endpoint',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统配置表' ROW_FORMAT = Dynamic;
 
