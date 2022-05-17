@@ -60,10 +60,6 @@ spring:
     timeout: 3000
     password:
 
-jasypt:
-  encryptor:
-    password: RequiredEncryptionconfigurationpropertymissing
-
 #==============================IP限流次数和时间配置==============================
 IpLimit:
   #请求次数
