@@ -49,7 +49,7 @@ public class MySaTokenListener implements SaTokenListener {
     public void doLogin(String loginType, Object loginId, SaLoginModel loginModel) {
         //修改登录信息
         String ip = IpUtils.getIp(request);
-        String cityInfo = IpUtils.getCityInfo(ip);
+        String cityInfo = IpUtils.getCityInfoToNew(ip);
         UserAgent userAgent = IpUtils.getUserAgent(request);
         userMapper.updateLoginInfo(loginId,ip,cityInfo,userAgent.getOperatingSystem().getName(),userAgent.getBrowser().getName());
         //暂时使用内存方式存储在线用户信息

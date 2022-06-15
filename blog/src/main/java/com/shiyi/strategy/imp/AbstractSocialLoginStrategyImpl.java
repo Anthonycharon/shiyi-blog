@@ -57,7 +57,7 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         SocialTokenDTO socialToken = getSocialToken(data);
         // 获取用户ip信息
         String ipAddress = IpUtils.getIp(request);
-        String ipSource = IpUtils.getCityInfo(ipAddress);
+        String ipSource = IpUtils.getCityInfoToNew(ipAddress);
         // 获取第三方用户信息
         SocialUserInfoDTO socialUserInfo = getSocialUserInfo(socialToken);
         if (socialToken.getLoginType().equals(LoginTypeEnum.GITEE.getType())){
@@ -175,7 +175,7 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         Set<Object> articleLikeSet = redisCache.sMembers(RedisConstants.ARTICLE_USER_LIKE + user.getId());
         // 获取设备信息
         String ipAddress = IpUtils.getIp(request);
-        String ipSource = IpUtils.getCityInfo(ipAddress);
+        String ipSource = IpUtils.getCityInfoToNew(ipAddress);
         UserAgent userAgent = IpUtils.getUserAgent(request);
         // 查询账号角色
         Role role = roleMapper.selectById(user.getRoleId());

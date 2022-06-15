@@ -86,7 +86,7 @@ public class BusinessLoggerAspect {
 
             UserLog userLog = UserLog.builder().model(annotation.value()).type(annotation.type())
                     .description(annotation.desc()).createTime(DateUtils.getNowDate())
-                    .ip(ip).address(IpUtils.getCityInfo(ip)).clientType(clientType).accessOs(os)
+                    .ip(ip).address(IpUtils.getCityInfoToNew(ip)).clientType(clientType).accessOs(os)
                     .browser(browser).result(result.getMessage()).build();
             sysLogMapper.insert(userLog);
         } catch (Exception e) {

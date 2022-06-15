@@ -2,12 +2,19 @@ package com.shiyi.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import eu.bitwalker.useragentutils.UserAgent;
+import org.apache.commons.lang3.StringUtils;
+import org.lionsoul.ip2region.DataBlock;
+import org.lionsoul.ip2region.DbConfig;
+import org.lionsoul.ip2region.DbMakerConfigException;
+import org.lionsoul.ip2region.DbSearcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLConnection;
@@ -21,6 +28,23 @@ import static com.shiyi.common.Constants.UNKNOWN;
 public class IpUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(IpUtils.class);
+    private static String dbPath;
+    private static DbSearcher searcher;
+    private static DbConfig config;
+
+    static {
+        dbPath = IpUtils.class.getResource("/ip2region.db").getPath();
+        try {
+            config = new DbConfig();
+        } catch (DbMakerConfigException e) {
+            e.printStackTrace();
+        }
+        try {
+            searcher = new DbSearcher(config, dbPath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static String getIp(HttpServletRequest request){
         String ipAddress;
@@ -79,6 +103,57 @@ public class IpUtils {
             address= nation + "-" + province + "-" + city;
         }
         return address;
+    }
+
+    /**
+     * 新版解析ip地址
+     *
+     * @param ip ip地址
+     * @return 解析后的ip地址
+     */
+    public static String getCityInfoToNew(String ip)  {
+        if (StringUtils.isEmpty(dbPath)) {
+            logger.error("Error: Invalid ip2region.db file");
+            return null;
+        }
+        if(config == null || searcher == null){
+            logger.error("Error: DbSearcher or DbConfig is null");
+            return null;
+        }
+
+        //查询算法
+        //B-tree, B树搜索（更快）
+        int algorithm = DbSearcher.BTREE_ALGORITHM;
+        try {
+            //define the method
+            Method method = null;
+            switch (algorithm) {
+                case DbSearcher.BTREE_ALGORITHM:
+                    method = searcher.getClass().getMethod("btreeSearch", String.class);
+                    break;
+                case DbSearcher.BINARY_ALGORITHM:
+                    method = searcher.getClass().getMethod("binarySearch", String.class);
+                    break;
+                case DbSearcher.MEMORY_ALGORITYM:
+                    method = searcher.getClass().getMethod("memorySearch", String.class);
+                    break;
+                default:
+            }
+
+            DataBlock dataBlock;
+            dataBlock = (DataBlock) method.invoke(searcher, ip);
+            String ipInfo = dataBlock.getRegion();
+            if (!StringUtils.isEmpty(ipInfo)) {
+                ipInfo = ipInfo.replace("|0", "");
+                ipInfo = ipInfo.replace("0|", "");
+            }
+            return ipInfo;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     /**

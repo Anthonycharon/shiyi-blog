@@ -175,7 +175,7 @@ public class HomeServiceImpl {
         // 判断是否访问
         if (!redisCache.sIsMember(RedisConstants.UNIQUE_VISITOR, md5)) {
             // 统计游客地域分布
-            String ipSource = IpUtils.getCityInfo(ipAddress);
+            String ipSource = IpUtils.getCityInfoToNew(ipAddress);
             if (StringUtils.isNotBlank(ipSource)) {
                 ipSource = ipSource.substring(0, 2)
                         .replaceAll(Constants.PROVINCE, "")
