@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -26,7 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * 自定义侦听器的实现
  */
 @Component
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class MySaTokenListener implements SaTokenListener {
 
     private static final Logger logger = LoggerFactory.getLogger(MySaTokenListener.class);

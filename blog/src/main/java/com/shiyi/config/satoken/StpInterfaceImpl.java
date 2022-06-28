@@ -6,7 +6,6 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.shiyi.mapper.MenuMapper;
 import com.shiyi.mapper.RoleMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
  * 自定义权限验证接口扩展
  */
 @Component    // 保证此类被SpringBoot扫描，完成Sa-Token的自定义权限验证扩展
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class StpInterfaceImpl implements StpInterface {
 
     private final MenuMapper menuMapper;

@@ -10,7 +10,6 @@ import com.shiyi.service.DictService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -30,7 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/system/dict")
 @Api(tags = "字典类型管理")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class DictController {
 
     private final DictService dictService;

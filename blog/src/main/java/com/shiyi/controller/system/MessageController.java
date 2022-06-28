@@ -9,7 +9,6 @@ import com.shiyi.service.MessageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -29,7 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/system/message")
 @Api(tags = "留言管理-接口")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class MessageController {
 
     private final MessageService messageService;

@@ -7,7 +7,6 @@ import com.shiyi.utils.UploadUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/file")
 @Api(tags = "图片上传-接口")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class UploadController {
 
     private final UploadUtil uploadUtil;

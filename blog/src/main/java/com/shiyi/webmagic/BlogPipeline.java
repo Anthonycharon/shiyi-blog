@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
@@ -34,7 +33,7 @@ import static com.shiyi.common.ResultCode.CRAWLING_ARTICLE_FAILED;
  * @apiNote
  */
 @Component
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class BlogPipeline implements Pipeline {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BlogPipeline.class);

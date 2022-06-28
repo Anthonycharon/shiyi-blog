@@ -9,7 +9,6 @@ import com.shiyi.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/system/user")
 @Api(tags = "系统用户管理-接口")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;

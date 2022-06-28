@@ -23,7 +23,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestAttributes;
@@ -43,7 +42,7 @@ import static com.shiyi.common.Constants.CURRENT_USER;
  */
 @Aspect
 @Component
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class OperationLoggerAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(OperationLoggerAspect.class);

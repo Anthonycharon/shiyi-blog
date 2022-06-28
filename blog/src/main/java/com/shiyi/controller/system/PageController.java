@@ -10,7 +10,6 @@ import com.shiyi.service.PageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/system/page")
 @Api(tags = "后台页面管理")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class PageController {
 
     private final PageService pageService;

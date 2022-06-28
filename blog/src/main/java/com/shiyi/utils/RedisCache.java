@@ -5,7 +5,6 @@ import com.shiyi.common.RedisConstants;
 import com.shiyi.entity.SystemConfig;
 import com.shiyi.service.SystemConfigService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,7 +25,7 @@ import static com.shiyi.common.SqlConf.LIMIT_ONE;
  **/
 @SuppressWarnings(value = { "unchecked", "rawtypes" })
 @Component
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class RedisCache {
 
     public final RedisTemplate redisTemplate;

@@ -9,7 +9,6 @@ import com.shiyi.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/system/menu")
 @Api(tags = "系统菜单管理-接口")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class MenuController {
 
     private final MenuService menuService;

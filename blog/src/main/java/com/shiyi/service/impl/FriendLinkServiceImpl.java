@@ -37,8 +37,6 @@ import static com.shiyi.enums.FriendLinkEnum.UP;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendLink> implements FriendLinkService {
 
-    private final WebConfigMapper webConfigMapper;
-
     private final EmailUtil emailUtil;
 
     private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
@@ -118,7 +116,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
      */
     @Override
     public ResponseResult webFriendLinkList() {
-        List<FriendLinkDTO> list = baseMapper.selectLinkList();
+        List<FriendLinkDTO> list = baseMapper.selectLinkList(UP.code);
         return ResponseResult.success(list);
     }
 

@@ -16,7 +16,6 @@ import com.qiniu.storage.model.BatchStatus;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import com.shiyi.entity.SystemConfig;
-import com.shiyi.enums.FileUploadWayEnum;
 import com.shiyi.enums.QiNiuAreaEnum;
 import com.shiyi.service.SystemConfigService;
 import lombok.RequiredArgsConstructor;

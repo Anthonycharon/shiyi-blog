@@ -9,7 +9,6 @@ import com.shiyi.service.AdminLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/system/adminLog")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 @Api(tags = "操作日志管理")
 public class AdminLogController {
 
