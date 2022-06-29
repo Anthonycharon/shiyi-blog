@@ -240,7 +240,7 @@ export default {
       // 文件对象
       formData.append('multipartFile', this.files)
       upload(formData).then(res => {
-        this.albumForum.cover = this.img + res.data
+        this.albumForum.cover = res.data
         this.imgLoading = false
       })
     },

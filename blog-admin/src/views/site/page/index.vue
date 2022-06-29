@@ -182,7 +182,7 @@ export default {
       // 文件对象
       formData.append('multipartFile', this.files)
       upload(formData).then(res => {
-        this.pageForum.pageCover = this.img + res.data
+        this.pageForum.pageCover = res.data
         this.imgLoading = false
       })
     },

@@ -337,7 +337,7 @@ export default {
       // 文件对象
       formData.append('multipartFile', this.files)
       upload(formData).then(res => {
-        this.photoForm.url = this.img + res.data
+        this.photoForm.url =  res.data
         this.imgLoading = false
       })
     },
