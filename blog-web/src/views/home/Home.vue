@@ -216,6 +216,9 @@
               </ul>
             </div>
           </v-card>
+          <v-card class="blog-card animated zoomIn mt-5">
+            <div id="he-plugin-standard"></div>
+          </v-card>
           <!-- 网站信息 -->
           <v-card class="blog-card animated zoomIn mt-5">
             <div class="web-info-title">
@@ -260,6 +263,23 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.heartBeat);
+  },
+  mounted:function(){
+    window.WIDGET = {
+      "CONFIG": {
+        "layout": "2",
+        "width": 230,
+        "height": 300,
+        "background": "2",
+        "dataColor": "000000",
+        "borderRadius": "5",
+        "key": "4034255d0cc94897b5f745367ccb81f2"
+      }
+    };
+    let script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://widget.qweather.net/standard/static/js/he-standard-common.js?v=2.0";
+    document.getElementsByTagName("head")[0].appendChild(script)
   },
   metaInfo:{
     meta: [{
