@@ -282,7 +282,7 @@ export default {
           } else {
             create(this.form).then(res => {
               this.$message.success("添加友链成功")
-              this.tableData.unshift(res.data)
+              this.fetchList()
               this.close()
             }).catch(err => {
               console.error(err)
