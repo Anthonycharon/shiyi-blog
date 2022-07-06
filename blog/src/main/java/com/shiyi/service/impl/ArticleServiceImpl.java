@@ -1,6 +1,7 @@
 package com.shiyi.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -210,8 +211,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     @Override
     public ResponseResult randomImg() {
         //文章封面图片 由https://api.btstu.cn/该网站随机获取
-        JSONObject jsonObject = restTemplate.getForObject(IMG_URL_API, JSONObject.class);
-        Object imgUrl = jsonObject.get("imgurl");
+        String result = restTemplate.getForObject(IMG_URL_API, String.class);
+        Object imgUrl = JSON.parseObject(result).get("imgurl");
         return ResponseResult.success(imgUrl);
     }
 
