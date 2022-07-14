@@ -3,9 +3,15 @@
 <mapper namespace="com.shiyi.mapper.ArticleMapper">
 
     <select id="selectRecordPage" resultType="com.shiyi.dto.ArticleListDTO">
-        select a.*,b.name as categoryName,group_concat(d.name separator ',') as tagNames from b_article a left join (select name,id from b_category) b on a.category_id=b.id
-        left join  (select article_id,tag_id from b_article_tag) c on a.id=c.article_id
-            left join (select id,name from b_tags) d on c.tag_id=d.id
+        SELECT
+            a.*,
+            b.NAME AS categoryName,
+            group_concat( t.NAME SEPARATOR ',' ) AS tagNames
+            FROM
+            b_article a
+        JOIN b_category b ON a.category_id = b.id
+        JOIN b_article_tag atg ON a.id = atg.article_id
+        JOIN b_tags t ON atg.tag_id = t.id
         <where>
             <if test="param.title != null and param.title != ''">
                 a.title like concat('%',#{param.title},'%')
@@ -17,7 +23,7 @@
                  and a.is_publish=#{param.isPublish}
             </if>
             <if test="param.tagId != null and param.tagId != ''">
-                and c.tag_id=#{param.tagId}
+                and atg.tag_id=#{param.tagId}
             </if>
         </where>
         GROUP BY a.id order by a.is_stick desc ,a.create_time desc

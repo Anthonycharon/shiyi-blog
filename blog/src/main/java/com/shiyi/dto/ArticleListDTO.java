@@ -19,6 +19,7 @@ import java.util.List;
 @Data
 public class ArticleListDTO {
 
+    @ApiModelProperty(value = "主键id")
     private Long id;
 
     @ApiModelProperty(value = "文章标题")

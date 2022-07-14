@@ -56,7 +56,9 @@ public class BlogQuartz {
         for (Map.Entry<String, Object> stringEntry : map.entrySet()) {
             String id = stringEntry.getKey();
             Integer value = (Integer) stringEntry.getValue();
-            BlogArticle blogArticle = new BlogArticle(Long.parseLong(id),value);
+            BlogArticle blogArticle = BlogArticle.builder()
+                    .id(Long.parseLong(id)).quantity(value)
+                    .build();
             blogArticles.add(blogArticle);
         }
         articleService.updateBatchById(blogArticles);

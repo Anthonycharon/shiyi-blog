@@ -8,9 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * <p>
@@ -52,8 +50,12 @@ public class BlogArticle implements Serializable {
 
     @ApiModelProperty(value = "文章内容")
     private String content;
+
     @ApiModelProperty(value = "文章内容MD版")
     private String contentMd;
+
+    @ApiModelProperty(value = "发布状态 0：下架；1：上架")
+    private Integer isPublish;
 
     @ApiModelProperty(value = "是否是私密文章 0 否 1是")
     private Integer isSecret;
@@ -63,6 +65,9 @@ public class BlogArticle implements Serializable {
 
     @ApiModelProperty(value = "是否原创 0：转载 1:原创")
     private Integer isOriginal;
+
+    @ApiModelProperty(value = "转发地址")
+    private String originalUrl;
 
     @ApiModelProperty(value = "文章阅读量")
     private Integer quantity;
@@ -83,22 +88,4 @@ public class BlogArticle implements Serializable {
     @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
     private Date updateTime;
 
-    @ApiModelProperty(value = "状态")
-    private Integer isPublish;
-
-    private String originalUrl;
-
-    @TableField(exist = false)
-    private List<Tags> tagList = new ArrayList<>();
-
-    @TableField(exist = false)
-    private List<String> tags;
-
-    @TableField(exist = false)
-    private Category category;
-
-    public BlogArticle(Long id, Integer quantity) {
-        this.id = id;
-        this.quantity = quantity;
-    }
 }
