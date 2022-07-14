@@ -33,10 +33,10 @@
                 {{ item.createTime | date }}
                 <!-- 文章分类 -->
                 <router-link
-                  :to="'/categories/' + item.category.id"
+                  :to="'/categories/' + item.categoryId"
                   class="float-right"
                 >
-                  <v-icon>mdi-bookmark</v-icon>{{ item.category.name }}
+                  <v-icon>mdi-bookmark</v-icon>{{ item.categoryName }}
                 </router-link>
               </div>
             </div>
@@ -45,7 +45,7 @@
             <!-- 文章标签 -->
             <div class="tag-wrapper">
               <router-link
-                v-for="tag of item.tagList"
+                v-for="tag of item.tagDTOList"
                 :key="tag.id"
                 :to="'/tags/' + tag.id"
                 class="tag-btn"
@@ -89,7 +89,7 @@ export default {
     return {
       current: 1,
       img: process.env.VUE_APP_IMG_API,
-      size: 10,
+      size: 6,
       articleList: [],
       name: "",
       title: ""
@@ -100,19 +100,21 @@ export default {
      queryIdToArticles({
             categoryId: this.$route.params.categoryId,
             tagId: this.$route.params.tagId,
-            pageNo: this.current
+            pageNo: this.current,
+            pageSize: this.size
           }).then(res => {
           if (res.data.name) {
             this.name = res.data.name;
             document.title = this.title + " - " + this.name;
           }
-          if ( res.data.records.length) {
+          if (res.data.records.length) {
             this.current++;
             this.articleList.push(...res.data.records);
             $state.loaded();
           } else {
             $state.complete();
           }
+          
         });
     }
   },
