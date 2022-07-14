@@ -62,8 +62,8 @@ export default {
   methods: {
     listArchives() {
       getArchive({pageNo:this.current,pageSize:10}).then(res => {
-          this.archiveList = res.data.recordList;
-          this.count =  res.data.articleCount;
+          this.archiveList = res.data.records;
+          this.count =  res.data.total;
         });
     }
   },

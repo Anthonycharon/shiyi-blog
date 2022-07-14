@@ -94,9 +94,9 @@
               {{ item.createTime | date }}
               <span class="separator">|</span>
               <!-- 文章分类 -->
-              <router-link :to="'/categories/' + item.category.id">
+              <router-link :to="'/categories/' + item.categoryId">
                 <v-icon size="14">mdi-inbox-full</v-icon>
-                {{item.category.name}}
+                {{item.categoryName}}
               </router-link>
               <span class="separator">|</span>
               <!-- 文章标签 -->
@@ -104,7 +104,7 @@
                 style="display:inline-block"
                 :to="'/tags/' + tag.id"
                 class="mr-1"
-                v-for="tag of item.tagList"
+                v-for="tag of item.tagDTOList"
                 :key="tag.id"
               >
                 <v-icon size="14">mdi-tag-multiple</v-icon>{{ tag.name }}
