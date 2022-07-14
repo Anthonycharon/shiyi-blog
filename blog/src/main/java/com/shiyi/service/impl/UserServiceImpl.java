@@ -5,13 +5,13 @@ import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.Constants;
 import com.shiyi.config.satoken.MySaTokenListener;
 import com.shiyi.config.satoken.OnlineUser;
 import com.shiyi.dto.SystemUserDTO;
 import com.shiyi.dto.UserDTO;
 import com.shiyi.entity.Menu;
 import com.shiyi.entity.User;
+import com.shiyi.enums.UserStatusEnum;
 import com.shiyi.mapper.UserAuthMapper;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.service.MenuService;
@@ -80,7 +80,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult saveUser(User user) {
         user.setPassword(PasswordUtils.aesEncrypt(user.getPassword()));
-        user.setStatus(Constants.USER_STATUS_ONE);
+        user.setStatus(UserStatusEnum.normal.code);
         baseMapper.insert(user);
        // roleMapper.insertToUserId(user.getId(),user.getRoleId());
         return ResponseResult.success(user);

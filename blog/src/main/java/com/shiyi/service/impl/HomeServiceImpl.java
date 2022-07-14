@@ -6,7 +6,6 @@ import com.shiyi.common.*;
 import com.shiyi.dto.CategoryCountDTO;
 import com.shiyi.dto.HomeDataDTO;
 import com.shiyi.entity.*;
-import com.shiyi.enums.PublishEnum;
 import com.shiyi.mapper.*;
 import com.shiyi.service.SystemConfigService;
 import com.shiyi.service.WebConfigService;
@@ -29,6 +28,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.shiyi.common.SqlConf.LIMIT_ONE;
+import static com.shiyi.enums.PublishEnum.PUBLISH;
 
 @Service
 @RequiredArgsConstructor
@@ -72,7 +72,7 @@ public class HomeServiceImpl {
         //文章排行
         List<BlogArticle> blogArticles = articleMapper.selectList(new LambdaQueryWrapper<BlogArticle>()
                 .select(BlogArticle::getQuantity,BlogArticle::getTitle,BlogArticle::getId)
-                .eq(BlogArticle::getIsPublish, PublishEnum.PUBLISH.getCode())
+                .eq(BlogArticle::getIsPublish, PUBLISH.getCode())
                 .orderByDesc(BlogArticle::getQuantity).last("limit 6"));
         //文章贡献度
         Map<String, Object> contribute = this.contribute();
@@ -132,7 +132,7 @@ public class HomeServiceImpl {
         .last(LIMIT_ONE));
 
         //文章分类标签
-        Integer articleCount = articleMapper.selectCount(new QueryWrapper<BlogArticle>().eq(SqlConf.IS_PUBLISH, PublishEnum.PUBLISH.getCode()));
+        Integer articleCount = articleMapper.selectCount(new QueryWrapper<BlogArticle>().eq(SqlConf.IS_PUBLISH, PUBLISH.getCode()));
         Integer tagCount = tagsMapper.selectCount(null);
         Integer categoryCount = categoryMapper.selectCount(null);
         // 查询访问量

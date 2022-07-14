@@ -1,5 +1,8 @@
 package com.shiyi.enums;
 
+/**
+ * 友链状态枚举类
+ */
 public enum FriendLinkEnum {
     /**
      * 友链下架

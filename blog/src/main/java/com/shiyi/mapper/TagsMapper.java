@@ -1,6 +1,7 @@
 package com.shiyi.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.shiyi.dto.TagDTO;
 import com.shiyi.entity.Tags;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.MapKey;
@@ -25,16 +26,14 @@ public interface TagsMapper extends BaseMapper<Tags> {
 
     void deleteArticleToTags(@Param("ids") List<Long> ids);
 
-    List<Long> findByArticleId(Long articleId);
-
     List<String> getTagsName(Long articleId);
 
-    List<Long> findByTagId(Long tagId);
-
-    List<Tags> findByArticleIdToTags(Long id);
+    List<TagDTO> findByArticleIdToTags(Long id);
 
     Page<Tags> selectPageRecord(@Param("page") Page<Tags> objectPage,@Param("name") String name);
 
     @MapKey("id")
     List<Map<String, Object>> countTags();
+
+    List<TagDTO> selectAll();
 }

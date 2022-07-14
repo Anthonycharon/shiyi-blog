@@ -1,11 +1,9 @@
 package com.shiyi.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.dto.ArticleListDTO;
-import com.shiyi.dto.ArticleRecoDTO;
+import com.shiyi.dto.*;
 import com.shiyi.entity.BlogArticle;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.shiyi.dto.ContributeDTO;
 import com.shiyi.vo.ArticleVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -26,11 +24,13 @@ public interface ArticleMapper extends BaseMapper<BlogArticle> {
 
     List<ContributeDTO> contribute(@Param("lastTime") String lastTime, @Param("nowTime")String nowTime);
 
-    List<ArticleRecoDTO> listRecommendArticles(@Param("articleId") Integer articleId);
+    List<LatestArticleDTO> listRecommendArticles(@Param("articleId") Integer articleId);
 
-    ArticleRecoDTO getNextOrLastArticle(@Param("id") Integer id, @Param("type") Integer type,@Param("publish")Integer code);
+    LatestArticleDTO getNextOrLastArticle(@Param("id") Integer id, @Param("type") Integer type, @Param("publish")int code);
 
-    List<ArticleRecoDTO> getNewArticles(@Param("id") Integer id,@Param("publish")Integer code);
+
+
+    List<LatestArticleDTO> getNewArticles(@Param("id") Integer id, @Param("publish") int code);
 
     ArticleVO info(Long id);
 
@@ -38,4 +38,10 @@ public interface ArticleMapper extends BaseMapper<BlogArticle> {
 
     void pubOrShelf(@Param("article") ArticleVO article);
 
+    ArticleInfoDTO selectPrimaryKeyById(@Param("id") Integer id);
+
+    Page<ArticlePreviewDTO> selectPreviewPage(@Param("page") Page<Object> page, @Param("publish")int publish,
+                                                  @Param("categoryId") Long categoryId,@Param("tagId") Long tagId);
+
+    Page<ArticlePreviewDTO> selectArchivePage(@Param("page")Page<Object> page, @Param("code")int code);
 }

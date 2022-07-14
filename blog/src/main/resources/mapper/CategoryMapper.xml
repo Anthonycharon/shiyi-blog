@@ -14,5 +14,9 @@
             </if>
         </where>
     </select>
+    <select id="selectAll" resultType="com.shiyi.dto.CategoryDTO">
+        select c.id,c.name,count(b.id) as articleNum
+        from b_category c left join b_article b on c.id=b.category_id group by c.id order by c.sort desc
+    </select>
 
 </mapper>

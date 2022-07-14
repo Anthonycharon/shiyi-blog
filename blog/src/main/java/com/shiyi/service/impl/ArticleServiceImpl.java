@@ -2,21 +2,17 @@ package com.shiyi.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.dto.ArticleListDTO;
-import com.shiyi.dto.ArticleRecoDTO;
-import com.shiyi.dto.ArticleSearchDTO;
+import com.shiyi.dto.*;
 import com.shiyi.common.*;
 import com.shiyi.entity.*;
 import com.shiyi.enums.SearchModelEnum;
 import com.shiyi.enums.YesOrNoEnum;
 import com.shiyi.mapper.*;
 import com.shiyi.service.ArticleService;
-import com.shiyi.enums.PublishEnum;
 import com.shiyi.service.SystemConfigService;
 import com.shiyi.strategy.context.SearchStrategyContext;
 import com.shiyi.utils.*;
@@ -42,6 +38,7 @@ import java.util.*;
 import static com.shiyi.common.Constants.*;
 import static com.shiyi.common.RedisConstants.*;
 import static com.shiyi.common.ResultCode.*;
+import static com.shiyi.enums.PublishEnum.PUBLISH;
 
 /**
  * <p>
@@ -248,19 +245,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult webArticleList() {
-        QueryWrapper<BlogArticle> queryWrapper = new QueryWrapper<BlogArticle>()
-                .eq(SqlConf.IS_PUBLISH, PublishEnum.PUBLISH.getCode()).orderByDesc(SqlConf.IS_STICK,SqlConf.CREATE_TIME);
-
-        Page<BlogArticle> page = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
-
-        page.getRecords().forEach(item ->{
-            Category category = categoryMapper.selectOne(new LambdaQueryWrapper<Category>().select(Category::getId, Category::getName)
-                    .eq(Category::getId, item.getCategoryId()));
-            item.setCategory(category);
-            List<Tags> tags = tagsMapper.findByArticleIdToTags(item.getId());
-            item.setTagList(tags);
-        });
-        return ResponseResult.success(page);
+        Page<ArticlePreviewDTO> articlePreviewDTOPage = baseMapper.selectPreviewPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), PUBLISH.code,null,null);
+        articlePreviewDTOPage.getRecords().forEach(item -> item.setTagDTOList(tagsMapper.findByArticleIdToTags(item.getId())));
+        return ResponseResult.success(articlePreviewDTOPage);
     }
 
     /**
@@ -269,9 +256,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult webArticleInfo(Integer id) {
-        BlogArticle blogArticle = baseMapper.selectById(id);
+        ArticleInfoDTO blogArticle = baseMapper.selectPrimaryKeyById(id);
         //标签
-        List<Tags> tags = tagsMapper.findByArticleIdToTags(blogArticle.getId());
+        List<TagDTO> tags = tagsMapper.findByArticleIdToTags(blogArticle.getId());
         blogArticle.setTagList(tags);
         //分类
         Category category = categoryMapper.selectOne(new LambdaQueryWrapper<Category>().select(Category::getId,Category::getName)
@@ -284,17 +271,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         blogArticle.setComments(list);
 
         //最新文章
-        List<ArticleRecoDTO> blogArticles = baseMapper.getNewArticles(id,PublishEnum.PUBLISH.getCode());
+        List<LatestArticleDTO> blogArticles = baseMapper.getNewArticles(id, PUBLISH.getCode());
         blogArticle.setNewestArticleList(blogArticles);
 
         // 查询上一篇下一篇文章
-        ArticleRecoDTO lastArticle = baseMapper.getNextOrLastArticle(id,0,PublishEnum.PUBLISH.getCode());
+        LatestArticleDTO lastArticle = baseMapper.getNextOrLastArticle(id,0, PUBLISH.getCode());
         blogArticle.setLastArticle(lastArticle);
-        ArticleRecoDTO nextArticle = baseMapper.getNextOrLastArticle(id,1,PublishEnum.PUBLISH.getCode());
+        LatestArticleDTO nextArticle = baseMapper.getNextOrLastArticle(id,1, PUBLISH.getCode());
         blogArticle.setNextArticle(nextArticle);
 
         //相关推荐
-        List<ArticleRecoDTO> recommendArticleList = baseMapper.listRecommendArticles(id);
+        List<LatestArticleDTO> recommendArticleList = baseMapper.listRecommendArticles(id);
         blogArticle.setRecommendArticleList(recommendArticleList);
 
         // 封装点赞量和浏览量
@@ -320,45 +307,20 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     @Override
     public ResponseResult condition(Long categoryId, Long tagId, Integer pageSize) {
         Map<String,Object> result = new HashMap<>();
-        Page<BlogArticle> blogArticlePage;
+        Page<ArticlePreviewDTO>  blogArticlePage = baseMapper.selectPreviewPage(new Page<>(PageUtils.getPageNo(),pageSize),PUBLISH.getCode(),categoryId,tagId);
+        blogArticlePage.getRecords().forEach(item -> {
+            List<TagDTO> tagList = tagsMapper.findByArticleIdToTags(item.getId());
+            item.setTagDTOList(tagList);
+        });
         String name;
         if (categoryId != null){
-            //分类
-            Category category = categoryMapper.selectOne(new LambdaQueryWrapper<Category>().select(Category::getId,Category::getName)
-                    .eq(Category::getId,categoryId));
-            blogArticlePage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), pageSize), new LambdaQueryWrapper<BlogArticle>()
-                    .select(BlogArticle::getId,BlogArticle::getCategoryId, BlogArticle::getAvatar, BlogArticle::getTitle, BlogArticle::getCreateTime)
-                    .eq(BlogArticle::getIsPublish, PublishEnum.PUBLISH.getCode()).eq(BlogArticle::getCategoryId,categoryId)
-                    .orderByDesc(BlogArticle::getIsStick,BlogArticle::getCreateTime));
-            for (BlogArticle blogArticle : blogArticlePage.getRecords()) {
-                //标签
-                List<Long> tagsId = tagsMapper.findByArticleId(blogArticle.getId());
-                List<Tags> tagsList = tagsMapper.selectList(new LambdaQueryWrapper<Tags>().select(Tags::getId, Tags::getName)
-                        .in(Tags::getId, tagsId));
-                blogArticle.setTagList(tagsList);
-                blogArticle.setCategory(category);
-            }
-            name = category.getName();
+            name = categoryMapper.selectById(categoryId).getName();
         }else {
-            Tags tags = tagsMapper.selectById(tagId);
-            List<Long> articleId = tagsMapper.findByTagId(tagId);
-            blogArticlePage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), pageSize), new LambdaQueryWrapper<BlogArticle>()
-                    .select(BlogArticle::getId,BlogArticle::getCategoryId, BlogArticle::getAvatar, BlogArticle::getTitle, BlogArticle::getCreateTime)
-                    .eq(BlogArticle::getIsPublish, PublishEnum.PUBLISH.getCode()).in(BlogArticle::getId,articleId)
-                    .orderByDesc(BlogArticle::getIsStick,BlogArticle::getCreateTime));
-            for (BlogArticle blogArticle : blogArticlePage.getRecords()) {
-                //标签
-                blogArticle.getTagList().add(tags);
-                Category category = categoryMapper.selectOne(new LambdaQueryWrapper<Category>().select(Category::getId,Category::getName)
-                        .eq(Category::getId,blogArticle.getCategoryId()));
-                blogArticle.setCategory(category);
-            }
-            name = tags.getName();
+            name = tagsMapper.selectById(tagId).getName();
 
             threadPoolTaskExecutor.execute(() ->this.incr(tagId,TAG_CLICK_VOLUME));
         }
         result.put(SqlConf.NAME,name);
-        result.put(CURRENTPAGE,blogArticlePage.getCurrent());
         result.put(RECORDS,blogArticlePage.getRecords());
         return ResponseResult.success(result);
     }
@@ -369,18 +331,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult archive() {
-
-        Page<BlogArticle> articlePage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(),PageUtils.getPageSize()), new LambdaQueryWrapper<BlogArticle>()
-                .select(BlogArticle::getId, BlogArticle::getTitle, BlogArticle::getCreateTime)
-                .orderByDesc(BlogArticle::getIsStick,BlogArticle::getCreateTime)
-                .eq(BlogArticle::getIsPublish, PublishEnum.PUBLISH.getCode()));
-
-        Integer articleCount = baseMapper.selectCount(new QueryWrapper<BlogArticle>().eq(SqlConf.IS_PUBLISH, PublishEnum.PUBLISH.getCode()));
-
-        Map<String,Object> result = new HashMap<>();
-        result.put("articleCount",articleCount);
-        result.put("recordList",articlePage.getRecords());
-        return ResponseResult.success(result);
+        Page<ArticlePreviewDTO> articlePage = baseMapper.selectArchivePage(new Page<>(PageUtils.getPageNo(),PageUtils.getPageSize()),PUBLISH.code);
+        return ResponseResult.success(articlePage);
     }
 
     /**

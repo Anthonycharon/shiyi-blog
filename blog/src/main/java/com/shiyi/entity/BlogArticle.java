@@ -2,7 +2,6 @@ package com.shiyi.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shiyi.dto.ArticleRecoDTO;
 import com.shiyi.utils.DateUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -90,27 +89,13 @@ public class BlogArticle implements Serializable {
     private String originalUrl;
 
     @TableField(exist = false)
-    private List<Comment> comments = new ArrayList<>();
-
-    @TableField(exist = false)
     private List<Tags> tagList = new ArrayList<>();
-    @TableField(exist = false)
-    private List<ArticleRecoDTO> newestArticleList = new ArrayList<>();
-    @TableField(exist = false)
-    private List<ArticleRecoDTO> recommendArticleList = new ArrayList<>();
-    @TableField(exist = false)
-    private ArticleRecoDTO lastArticle;
-    @TableField(exist = false)
-    private ArticleRecoDTO nextArticle;
 
     @TableField(exist = false)
     private List<String> tags;
 
     @TableField(exist = false)
     private Category category;
-
-    @TableField(exist = false)
-    private Integer likeCount;
 
     public BlogArticle(Long id, Integer quantity) {
         this.id = id;

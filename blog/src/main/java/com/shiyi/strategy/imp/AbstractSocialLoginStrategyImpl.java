@@ -7,7 +7,6 @@ import com.shiyi.dto.SocialTokenDTO;
 import com.shiyi.dto.SocialUserInfoDTO;
 import com.shiyi.dto.UserDetailDTO;
 import com.shiyi.dto.UserInfoDTO;
-import com.shiyi.common.Constants;
 import com.shiyi.common.RedisConstants;
 import com.shiyi.entity.Role;
 import com.shiyi.entity.User;
@@ -28,7 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
+
+import static com.shiyi.enums.UserStatusEnum.disable;
 
 /**
  * 第三方登录抽象模板
@@ -73,7 +73,7 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
             userDetailDTO = saveUserDetail(socialToken, ipAddress, ipSource,socialUserInfo);
         }
         // 判断账号是否禁用
-        Assert.isTrue(!userDetailDTO.getIsDisable().equals(Constants.USER_STATUS_ZERO),"账号已被禁用!");
+        Assert.isTrue(!userDetailDTO.getIsDisable().equals(disable.code),"账号已被禁用!");
 
         // 返回用户信息
         UserInfoDTO userInfoDTO = BeanCopyUtils.copyObject(userDetailDTO, UserInfoDTO.class);
@@ -197,7 +197,7 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
                 .articleLikeSet(articleLikeSet)
                 .ipAddress(ipAddress)
                 .ipSource(ipSource)
-                .isDisable(userAuth.getIsDisable())
+                .isDisable(user.getStatus())
                 .browser(userAgent.getBrowser().getName())
                 .os(userAgent.getOperatingSystem().getName())
                 .lastLoginTime(LocalDateTime.now(ZoneId.of("Asia/Shanghai")))

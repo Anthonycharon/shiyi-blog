@@ -3,6 +3,7 @@ package com.shiyi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.shiyi.dto.TagDTO;
 import com.shiyi.entity.Tags;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
@@ -125,8 +126,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      */
     @Override
     public ResponseResult webList() {
-        List<Tags> list = baseMapper.selectList(new LambdaQueryWrapper<Tags>()
-        .select(Tags::getId,Tags::getName).orderByDesc(Tags::getSort));
+        List<TagDTO> list = baseMapper.selectAll();
         return ResponseResult.success(list);
     }
 

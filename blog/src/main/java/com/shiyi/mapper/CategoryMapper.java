@@ -2,6 +2,7 @@ package com.shiyi.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.dto.CategoryCountDTO;
+import com.shiyi.dto.CategoryDTO;
 import com.shiyi.entity.Category;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -23,4 +24,7 @@ public interface CategoryMapper extends BaseMapper<Category> {
     List<CategoryCountDTO> countArticle();
 
     Page<Category> selectPageRecord(@Param("page")Page<Category> objectPage, @Param("name")String name);
+
+    List<CategoryDTO> selectAll();
+
 }

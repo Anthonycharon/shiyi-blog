@@ -1,32 +1,31 @@
 package com.shiyi.enums;
 
+/**
+ * 文章发布状态枚举类
+ */
 public enum PublishEnum {
-
-    /**
-     * 文章发布
-     */
-    PUBLISH (1, "发布"),
 
     /**
      * 文章下架
      */
-    NO_PUBLISH (0, "下架");
+    shelf(0),
 
-    //创建构造函数
-    PublishEnum(Integer code, String message) {
+    /**
+     * 文章发布
+     */
+    PUBLISH(1);
+
+    public int code;
+
+    PublishEnum(int code) {
         this.code = code;
-        this.message = message;
     }
 
-    //定义私有方法，获取枚举值
-    private final Integer code;
-    private final String message;
+    public void setCode(int code) {
+        this.code = code;
+    }
 
-    public Integer getCode() {
+    public int getCode() {
         return code;
-    }
-
-    public String getMessage() {
-        return message;
     }
 }

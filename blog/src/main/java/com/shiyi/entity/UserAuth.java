@@ -38,8 +38,6 @@ public class UserAuth implements Serializable {
 
     private String webSite;
 
-    private Integer isDisable;
-
       @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 

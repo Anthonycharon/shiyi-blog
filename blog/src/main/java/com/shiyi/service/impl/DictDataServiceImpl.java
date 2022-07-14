@@ -7,7 +7,6 @@ import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
 import com.shiyi.entity.Dict;
 import com.shiyi.entity.DictData;
-import com.shiyi.enums.PublishEnum;
 import com.shiyi.mapper.DictDataMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.service.DictService;
@@ -25,6 +24,7 @@ import java.util.Map;
 import static com.shiyi.common.Constants.*;
 import static com.shiyi.common.ResultCode.DATA_TAG_IS_EXIST;
 import static com.shiyi.common.SqlConf.LIMIT_ONE;
+import static com.shiyi.enums.PublishEnum.PUBLISH;
 
 /**
  * <p>
@@ -121,11 +121,11 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
     public ResponseResult getDataByDictType(List<String> types) {
         Map<String, Map<String, Object>> map = new HashMap<>();
         QueryWrapper<Dict> queryWrapper = new QueryWrapper<>();
-        queryWrapper.in(SqlConf.TYPE,types).eq(SqlConf.IS_PUBLISH, PublishEnum.PUBLISH.getCode());
+        queryWrapper.in(SqlConf.TYPE,types).eq(SqlConf.IS_PUBLISH, PUBLISH.getCode());
         List<Dict> dictList = dictService.list(queryWrapper);
         dictList.forEach(item ->{
             QueryWrapper<DictData> sysDictDataQueryWrapper = new QueryWrapper<>();
-            sysDictDataQueryWrapper.eq(SqlConf.IS_PUBLISH, PublishEnum.PUBLISH.getCode());
+            sysDictDataQueryWrapper.eq(SqlConf.IS_PUBLISH, PUBLISH.getCode());
             sysDictDataQueryWrapper.eq(SqlConf.DICT_TYPE_ID, item.getId());
             sysDictDataQueryWrapper.orderByAsc(SqlConf.SORT);
             List<DictData> dataList = baseMapper.selectList(sysDictDataQueryWrapper);

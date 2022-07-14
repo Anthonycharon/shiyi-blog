@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
+import com.shiyi.dto.CategoryDTO;
 import com.shiyi.entity.BlogArticle;
 import com.shiyi.entity.Category;
 import com.shiyi.mapper.ArticleMapper;
@@ -145,12 +146,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      */
     @Override
     public ResponseResult webList() {
-        List<Category> categories = baseMapper.selectList(new LambdaQueryWrapper<Category>().select(Category::getId, Category::getName)
-        .orderByDesc(Category::getSort));
-        categories.forEach(item ->{
-            Integer count = articleMapper.selectCount(new QueryWrapper<BlogArticle>().eq(SqlConf.CATEGORY_ID, item.getId()));
-            item.setArticleCount(count);
-        });
+        List<CategoryDTO> categories = baseMapper.selectAll();
         return ResponseResult.success(categories);
     }
 }

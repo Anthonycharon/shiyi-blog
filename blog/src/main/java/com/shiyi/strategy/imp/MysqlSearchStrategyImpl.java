@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.shiyi.common.Constants;
 import com.shiyi.dto.ArticleSearchDTO;
 import com.shiyi.entity.BlogArticle;
-import com.shiyi.enums.PublishEnum;
 import com.shiyi.mapper.ArticleMapper;
 import com.shiyi.strategy.SearchStrategy;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.shiyi.enums.PublishEnum.PUBLISH;
 
 @Service("mysqlStrategyImpl")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -24,7 +25,7 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
     public List<ArticleSearchDTO> searchArticle(String keywords){
         // 搜索文章
         List<BlogArticle> blogArticles = mapper.selectList(new LambdaQueryWrapper<BlogArticle>()
-                .eq(BlogArticle::getIsPublish, PublishEnum.PUBLISH.getCode())
+                .eq(BlogArticle::getIsPublish, PUBLISH.getCode())
                 .and(i -> i.like(BlogArticle::getTitle, keywords)
                         .or()
                         .like(BlogArticle::getContent, keywords)).orderByDesc(BlogArticle::getIsStick,BlogArticle::getCreateTime));

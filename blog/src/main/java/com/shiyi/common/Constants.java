@@ -1,10 +1,5 @@
 package com.shiyi.common;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  *  <p> 全局常用变量 </p>
  *
@@ -13,13 +8,6 @@ import java.util.Map;
  * @date : 2019/10/12 14:47
  */
 public class Constants {
-
-    /**
-     * 用户状态
-     */
-    public static final int USER_STATUS_ONE = 1;
-
-    public static final int USER_STATUS_ZERO = 0;
 
     /**
      * 未知的

@@ -9,6 +9,7 @@ import com.shiyi.entity.User;
 import com.shiyi.entity.UserAuth;
 import com.shiyi.entity.WebConfig;
 import com.shiyi.enums.LoginTypeEnum;
+import com.shiyi.enums.UserStatusEnum;
 import com.shiyi.mapper.UserAuthMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.service.UserAuthService;
@@ -29,7 +30,6 @@ import org.springframework.util.Assert;
 import javax.mail.MessagingException;
 import java.util.regex.Pattern;
 
-import static com.shiyi.common.Constants.USER_STATUS_ONE;
 import static com.shiyi.common.ResultCode.*;
 import static com.shiyi.common.ResultCode.ERROR_MUST_REGISTER;
 import static com.shiyi.common.SqlConf.LIMIT_ONE;
@@ -124,7 +124,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
 
         User user = getByUserName(vo.getEmail());
         Assert.notNull(user, ERROR_MUST_REGISTER.getDesc());
-        Assert.isTrue(user.getStatus() == USER_STATUS_ONE,EMAIL_DISABLE_LOGIN.getDesc());
+        Assert.isTrue(user.getStatus() == UserStatusEnum.disable.code,EMAIL_DISABLE_LOGIN.getDesc());
 
         boolean validate = PasswordUtils.isValidPassword(user.getPassword(),vo.getPassword());
         Assert.isTrue(validate,ERROR_PASSWORD.getDesc());
