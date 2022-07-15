@@ -33,6 +33,6 @@ public class UploadController {
     @ApiOperation(value = "批量删除文件",httpMethod = "POST", response = ResponseResult.class, notes = "批量删除文件")
     @OperationLogger("批量删除图片")
     public ResponseResult delBatchFile(String key){
-        return uploadUtil.delBatchFile(key)? ResponseResult.success("删除成功") : ResponseResult.error("删除失败");
+        return uploadUtil.delBatchFile(key);
     }
 }

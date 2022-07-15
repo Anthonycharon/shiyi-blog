@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author blue
  * @date 2022/1/5
- * @apiNote 第三方登录策略上下文
+ * @apiNote 搜索策略上下文
  */
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
