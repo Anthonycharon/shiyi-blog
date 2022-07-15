@@ -34,22 +34,22 @@ public class CategoryController {
     @SaCheckLogin
     @ApiOperation(value = "分类列表", httpMethod = "GET", response = ResponseResult.class, notes = "分类列表")
     public ResponseResult query(String name){
-        return categoryService.listData(name);
+        return categoryService.selectCategory(name);
+    }
+
+    @RequestMapping(value = "/info",method = RequestMethod.GET)
+    @SaCheckPermission("/system/category/info")
+    @ApiOperation(value = "分类详情", httpMethod = "GET", response = ResponseResult.class, notes = "分类详情")
+    public ResponseResult info(@RequestParam() Long id){
+        return categoryService.infoCategory(id);
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @SaCheckPermission("/system/category/add")
     @ApiOperation(value = "新增分类", httpMethod = "POST", response = ResponseResult.class, notes = "新增分类")
     @OperationLogger(value = "新增分类")
-    public ResponseResult add(@RequestBody Category category){
-        return categoryService.addCategory(category);
-    }
-
-    @RequestMapping(value = "/info",method = RequestMethod.GET)
-    @SaCheckPermission("/system/category/info")
-    @ApiOperation(value = "分类详情", httpMethod = "GET", response = ResponseResult.class, notes = "分类详情")
-    public ResponseResult info(@RequestParam(required = true) Long id){
-        return categoryService.infoCategory(id);
+    public ResponseResult insertCategory(@RequestBody Category category){
+        return categoryService.insertCategory(category);
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)

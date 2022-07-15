@@ -7,16 +7,23 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
 
 /**
- * <p>
- *  服务类
- * </p>
+ *  操作日志服务类
  *
  * @author blue
  * @since 2021-11-10
  */
 public interface AdminLogService extends IService<AdminLog> {
 
-    ResponseResult listLog();
+    /**
+     * 分页查询操作日志
+     * @return
+     */
+    ResponseResult selectAdminLog();
 
+    /**
+     * 批量删除操作日志
+     * @param ids 操作日志id集合
+     * @return
+     */
     ResponseResult delete(List<Long> ids);
 }

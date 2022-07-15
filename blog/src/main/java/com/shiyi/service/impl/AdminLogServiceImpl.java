@@ -25,15 +25,22 @@ import java.util.List;
 @Service
 public class AdminLogServiceImpl extends ServiceImpl<AdminLogMapper, AdminLog> implements AdminLogService {
 
+    /**
+     * 分页查询操作日志
+     * @return
+     */
     @Override
-    public ResponseResult listLog() {
-        QueryWrapper<AdminLog> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByDesc(SqlConf.CREATE_TIME);
-        Page<AdminLog> pg = new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize());
-        Page<AdminLog> sysLogPage = baseMapper.selectPage(pg, queryWrapper);
+    public ResponseResult selectAdminLog() {
+        Page<AdminLog> sysLogPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),
+                new QueryWrapper<AdminLog>().orderByDesc(SqlConf.CREATE_TIME));
         return ResponseResult.success(sysLogPage);
     }
 
+    /**
+     * 批量删除操作日志
+     * @param ids 操作日志id集合
+     * @return
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult delete(List<Long> ids) {

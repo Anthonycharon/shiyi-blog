@@ -1,14 +1,11 @@
 package com.shiyi.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
 import com.shiyi.dto.CategoryDTO;
-import com.shiyi.entity.BlogArticle;
 import com.shiyi.entity.Category;
-import com.shiyi.mapper.ArticleMapper;
 import com.shiyi.mapper.CategoryMapper;
 import com.shiyi.service.CategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -39,22 +36,20 @@ import static com.shiyi.common.SqlConf.LIMIT_ONE;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
-    private final ArticleMapper articleMapper;
-
     /**
      * 分类列表
-     * @param name
+     * @param name 分类名
      * @return
      */
     @Override
-    public ResponseResult listData(String name) {
-        Page<Category> categoryPage = baseMapper.selectPageRecord(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), name);
+    public ResponseResult selectCategory(String name) {
+        Page<Category> categoryPage = baseMapper.selectCategory(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), name);
         return ResponseResult.success(categoryPage);
     }
 
     /**
      * 分类详情
-     * @param id
+     * @param id 分类id
      * @return
      */
     @Override
@@ -62,27 +57,14 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         Category category = baseMapper.selectById(id);
         return ResponseResult.success(category);
     }
-
-    /**
-     * 删除分类
-     * @param id
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public ResponseResult deleteCategory(Long id) {
-        int rows = baseMapper.deleteById(id);
-        return rows > 0 ? ResponseResult.success(): ResponseResult.error("删除分类失败");
-    }
-
     /**
      * 添加分类
-     * @param category
+     * @param category 分类对象
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult addCategory(Category category) {
+    public ResponseResult insertCategory(Category category) {
         Category vo = baseMapper.selectOne(new QueryWrapper<Category>().eq(SqlConf.NAME, category.getName()));
         Assert.isNull(vo,"该分类名称已存在!");
         int rows = baseMapper.insert(category);
@@ -91,7 +73,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     /**
      * 修改分类
-     * @param category
+     * @param category 分类对象
      * @return
      */
     @Override
@@ -106,20 +88,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     /**
-     * 置顶分类
+     * 删除分类
+     * @param id 分类id
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult top(Long id) {
-        Category category = baseMapper.selectOne(new QueryWrapper<Category>().orderByDesc(SqlConf.SORT).last(LIMIT_ONE));
-        Assert.isTrue(!category.getId().equals(id), CATEGORY_IS_TOP.getDesc());
-
-        Category vo = Category.builder()
-                .sort(category.getSort() + 1).updateTime(DateUtils.getNowDate()).id(id).build();
-        int rows = baseMapper.updateById(vo);
-
-        return rows > 0? ResponseResult.success(): ResponseResult.error("置顶失败");
+    public ResponseResult deleteCategory(Long id) {
+        int rows = baseMapper.deleteById(id);
+        return rows > 0 ? ResponseResult.success(): ResponseResult.error("删除分类失败");
     }
 
     /**
@@ -137,11 +114,27 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("批量删除分类失败");
     }
 
+    /**
+     * 置顶分类
+     * @return 置顶分类
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseResult top(Long id) {
+        Category category = baseMapper.selectOne(new QueryWrapper<Category>().orderByDesc(SqlConf.SORT).last(LIMIT_ONE));
+        Assert.isTrue(!category.getId().equals(id), CATEGORY_IS_TOP.getDesc());
+
+        Category vo = Category.builder()
+                .sort(category.getSort() + 1).updateTime(DateUtils.getNowDate()).id(id).build();
+        int rows = baseMapper.updateById(vo);
+
+        return rows > 0? ResponseResult.success(): ResponseResult.error("置顶失败");
+    }
 
     //-----------------web端方法开始-------------
 
     /**
-     * 分类列表
+     * 首页分类列表
      * @return
      */
     @Override

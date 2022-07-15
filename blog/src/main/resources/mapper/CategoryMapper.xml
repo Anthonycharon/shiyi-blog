@@ -5,7 +5,7 @@
         select a.name,count(b.id) as value from b_category a left join b_article b on a.id=b.category_id GROUP BY a.id
     </select>
 
-    <select id="selectPageRecord" resultType="com.shiyi.entity.Category">
+    <select id="selectCategory" resultType="com.shiyi.entity.Category">
         select a.id,a.name,a.sort,a.create_time,a.click_volume,b.articleCount from b_category a
             left join (select category_id,count(id) as articleCount from b_article group by category_id) b on a.id=b.category_id
         <where>
@@ -14,6 +14,7 @@
             </if>
         </where>
     </select>
+
     <select id="selectAll" resultType="com.shiyi.dto.CategoryDTO">
         select c.id,c.name,count(b.id) as articleNum
         from b_category c left join b_article b on c.id=b.category_id group by c.id order by c.sort desc

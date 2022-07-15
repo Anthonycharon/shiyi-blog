@@ -21,10 +21,24 @@ import java.util.List;
 @Repository
 public interface CategoryMapper extends BaseMapper<Category> {
 
+    /**
+     * 分页获取分类
+     * @param objectPage 分页对象
+     * @param name 分类名
+     * @return
+     */
+    Page<Category> selectCategory(@Param("page")Page<Category> objectPage, @Param("name")String name);
+
+    /**
+     * 统计分类
+     * @return
+     */
     List<CategoryCountDTO> countArticle();
 
-    Page<Category> selectPageRecord(@Param("page")Page<Category> objectPage, @Param("name")String name);
-
+    /**
+     * 首页获取所有分类
+     * @return
+     */
     List<CategoryDTO> selectAll();
 
 }
