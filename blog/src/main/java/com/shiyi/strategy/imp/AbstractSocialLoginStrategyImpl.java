@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
+import static com.shiyi.common.ResultCode.DISABLE_ACCOUNT;
 import static com.shiyi.enums.UserStatusEnum.disable;
 
 /**
@@ -56,8 +57,8 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         // 获取第三方token信息
         SocialTokenDTO socialToken = getSocialToken(data);
         // 获取用户ip信息
-        String ipAddress = IpUtils.getIp(request);
-        String ipSource = IpUtils.getCityInfo(ipAddress);
+        String ipAddress = IpUtil.getIp(request);
+        String ipSource = IpUtil.getCityInfo(ipAddress);
         // 获取第三方用户信息
         SocialUserInfoDTO socialUserInfo = getSocialUserInfo(socialToken);
         if (socialToken.getLoginType().equals(LoginTypeEnum.GITEE.getType())){
@@ -73,10 +74,10 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
             userDetailDTO = saveUserDetail(socialToken, ipAddress, ipSource,socialUserInfo);
         }
         // 判断账号是否禁用
-        Assert.isTrue(!userDetailDTO.getIsDisable().equals(disable.code),"账号已被禁用!");
+        Assert.isTrue(!userDetailDTO.getIsDisable().equals(disable.code),DISABLE_ACCOUNT.desc);
 
         // 返回用户信息
-        UserInfoDTO userInfoDTO = BeanCopyUtils.copyObject(userDetailDTO, UserInfoDTO.class);
+        UserInfoDTO userInfoDTO = BeanCopyUtil.copyObject(userDetailDTO, UserInfoDTO.class);
         StpUtil.login(userInfoDTO.getId().longValue());
         userInfoDTO.setToken(StpUtil.getTokenValue());
         return userInfoDTO;
@@ -158,7 +159,7 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
                 .username(socialToken.getOpenId())
                 .password(socialToken.getAccessToken())
                 .loginType(socialToken.getLoginType())
-                .lastLoginTime(DateUtils.getNowDate())
+                .lastLoginTime(DateUtil.getNowDate())
                 .ipAddress(ipAddress)
                 .ipSource(ipSource)
                 .roleId(2)
@@ -174,9 +175,9 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         // 查询账号点赞信息
         Set<Object> articleLikeSet = redisCache.sMembers(RedisConstants.ARTICLE_USER_LIKE + user.getId());
         // 获取设备信息
-        String ipAddress = IpUtils.getIp(request);
-        String ipSource = IpUtils.getCityInfo(ipAddress);
-        UserAgent userAgent = IpUtils.getUserAgent(request);
+        String ipAddress = IpUtil.getIp(request);
+        String ipSource = IpUtil.getCityInfo(ipAddress);
+        UserAgent userAgent = IpUtil.getUserAgent(request);
         // 查询账号角色
         Role role = roleMapper.selectById(user.getRoleId());
         List<String> roleList = new ArrayList<>();

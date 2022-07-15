@@ -7,7 +7,7 @@ import java.util.Date;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shiyi.utils.DateUtils;
+import com.shiyi.utils.DateUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -46,12 +46,12 @@ public class Tags implements Serializable {
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
-    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
+    @JsonFormat(pattern = DateUtil.FORMAT_STRING,timezone="GMT+8")
     private Date createTime;
 
     @ApiModelProperty(value = "最后更新时间")
     @TableField(fill = FieldFill.UPDATE)
-    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
+    @JsonFormat(pattern = DateUtil.FORMAT_STRING,timezone="GMT+8")
     private Date updateTime;
 
     @TableField(exist = false)

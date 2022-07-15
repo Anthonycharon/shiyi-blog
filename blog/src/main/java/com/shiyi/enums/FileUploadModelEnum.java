@@ -24,7 +24,7 @@ public enum FileUploadModelEnum {
 
 
     /**
-     * 搜索方式
+     * 上传方式
      */
     private final Integer type;
     /**

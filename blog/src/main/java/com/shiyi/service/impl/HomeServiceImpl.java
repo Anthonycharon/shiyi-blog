@@ -9,8 +9,8 @@ import com.shiyi.entity.*;
 import com.shiyi.mapper.*;
 import com.shiyi.service.SystemConfigService;
 import com.shiyi.service.WebConfigService;
-import com.shiyi.utils.DateUtils;
-import com.shiyi.utils.IpUtils;
+import com.shiyi.utils.DateUtil;
+import com.shiyi.utils.IpUtil;
 import com.shiyi.utils.RedisCache;
 import com.shiyi.dto.ContributeDTO;
 import eu.bitwalker.useragentutils.Browser;
@@ -163,9 +163,9 @@ public class HomeServiceImpl {
      */
     public ResponseResult report(HttpServletRequest request) {
         // 获取ip
-        String ipAddress = IpUtils.getIp(request);
+        String ipAddress = IpUtil.getIp(request);
         // 获取访问设备
-        UserAgent userAgent = IpUtils.getUserAgent(request);
+        UserAgent userAgent = IpUtil.getUserAgent(request);
         Browser browser = userAgent.getBrowser();
         OperatingSystem operatingSystem = userAgent.getOperatingSystem();
         // 生成唯一用户标识
@@ -174,7 +174,7 @@ public class HomeServiceImpl {
         // 判断是否访问
         if (!redisCache.sIsMember(RedisConstants.UNIQUE_VISITOR, md5)) {
             // 统计游客地域分布
-            String ipSource = IpUtils.getCityInfo(ipAddress);
+            String ipSource = IpUtil.getCityInfo(ipAddress);
             if (StringUtils.isNotBlank(ipSource)) {
                 ipSource = ipSource.substring(0, 2)
                         .replaceAll(Constants.PROVINCE, "")
@@ -199,10 +199,10 @@ public class HomeServiceImpl {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -1);
-        dateList.add(DateUtils.formateDate(calendar.getTime(),DateUtils.YYYY_MM_DD));
+        dateList.add(DateUtil.formateDate(calendar.getTime(), DateUtil.YYYY_MM_DD));
         while (date.after(calendar.getTime())) { //倒序时间,顺序after改before其他相应的改动。
             calendar.add(Calendar.DAY_OF_MONTH, 1);
-            dateList.add(DateUtils.formateDate(calendar.getTime(),DateUtils.YYYY_MM_DD));
+            dateList.add(DateUtil.formateDate(calendar.getTime(), DateUtil.YYYY_MM_DD));
         }
         return dateList;
     }
@@ -253,7 +253,7 @@ public class HomeServiceImpl {
     public List<Map<String,Object>> userAccess() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - 7);
-        List<Map<String,Object>> userAccess = sysLogMapper.getUserAccess(DateUtils.formateDate(calendar.getTime(),DateUtils.YYYY_MM_DD));
+        List<Map<String,Object>> userAccess = sysLogMapper.getUserAccess(DateUtil.formateDate(calendar.getTime(), DateUtil.YYYY_MM_DD));
         return userAccess;
     }
 

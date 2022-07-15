@@ -10,7 +10,7 @@ import com.shiyi.entity.DictData;
 import com.shiyi.mapper.DictDataMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.service.DictService;
-import com.shiyi.utils.PageUtils;
+import com.shiyi.utils.PageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -50,7 +50,7 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
     public ResponseResult listDictData(Integer dictId, Integer isPublish) {
         QueryWrapper<DictData> queryWrapper = new QueryWrapper<DictData>()
                 .eq(SqlConf.DICT_TYPE_ID,dictId).eq(isPublish != null,SqlConf.IS_PUBLISH,isPublish);
-        Page<DictData> data = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
+        Page<DictData> data = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), queryWrapper);
         data.getRecords().forEach(item ->{
             Dict dict = dictService.getById(item.getDictId());
             item.setDict(dict);

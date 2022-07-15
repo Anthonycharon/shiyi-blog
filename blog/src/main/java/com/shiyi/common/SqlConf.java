@@ -4,8 +4,6 @@ public class SqlConf {
 
     public static final String ID = "id";
 
-    public static final String CATEGORY_ID = "category_id";
-
     public static final String NAME = "name";
 
     public static final String USERNAME = "username";
@@ -45,8 +43,6 @@ public class SqlConf {
     public static final String CONTENT = "content";
 
     public static final String ALBUM_ID = "album_id";
-
-    public static final String NICKNAME = "nickname";
 
     public static final String LIMIT_ONE = "LIMIT 1";
 

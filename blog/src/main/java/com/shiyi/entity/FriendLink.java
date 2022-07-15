@@ -2,7 +2,7 @@ package com.shiyi.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shiyi.utils.DateUtils;
+import com.shiyi.utils.DateUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -54,12 +54,12 @@ public class FriendLink implements Serializable {
 
     @ApiModelProperty(value = "创建时间")
       @TableField(fill = FieldFill.INSERT)
-    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
+    @JsonFormat(pattern = DateUtil.FORMAT_STRING,timezone="GMT+8")
     private Date createTime;
 
     @ApiModelProperty(value = "修改时间")
       @TableField(fill = FieldFill.UPDATE)
-    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
+    @JsonFormat(pattern = DateUtil.FORMAT_STRING,timezone="GMT+8")
     private Date updateTime;
 
 

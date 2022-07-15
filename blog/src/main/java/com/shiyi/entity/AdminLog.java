@@ -7,7 +7,7 @@ import java.util.Date;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shiyi.utils.DateUtils;
+import com.shiyi.utils.DateUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -66,7 +66,7 @@ public class AdminLog implements Serializable {
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
-    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
+    @JsonFormat(pattern = DateUtil.FORMAT_STRING,timezone="GMT+8")
     private Date createTime;
 
     public AdminLog(){}

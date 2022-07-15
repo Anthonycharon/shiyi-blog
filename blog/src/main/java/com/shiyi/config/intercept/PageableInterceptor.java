@@ -1,7 +1,7 @@
 package com.shiyi.config.intercept;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.utils.PageUtils;
+import com.shiyi.utils.PageUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -22,14 +22,14 @@ public class PageableInterceptor implements HandlerInterceptor {
         String currentPage = request.getParameter(PAGE_NO);
         String pageSize = Optional.ofNullable(request.getParameter(PAGE_SIZE)).orElse(DEFAULT_SIZE);
         if (StringUtils.isNoneBlank(currentPage)) {
-            PageUtils.setCurrentPage(new Page<>(Long.parseLong(currentPage), Long.parseLong(pageSize)));
+            PageUtil.setCurrentPage(new Page<>(Long.parseLong(currentPage), Long.parseLong(pageSize)));
         }
         return true;
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        PageUtils.remove();
+        PageUtil.remove();
     }
 
 }

@@ -8,7 +8,7 @@ import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
 import com.shiyi.service.JobLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.utils.PageUtils;
+import com.shiyi.utils.PageUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +45,7 @@ public class JobLogServiceImpl extends ServiceImpl<JobLogMapper, JobLog> impleme
                 .like(StringUtils.isNotBlank(jobGroup),SqlConf.JOB_GROUP,jobGroup)
                 .eq(StringUtils.isNotBlank(status),SqlConf.STATUS,status)
                 .between(StringUtils.isNotBlank(startTime),SqlConf.START_TIME,startTime,endTime);
-        Page<JobLog> page = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
+        Page<JobLog> page = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), queryWrapper);
         return ResponseResult.success(page);
     }
 

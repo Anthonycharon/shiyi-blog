@@ -14,14 +14,14 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class DateUtils {
+public class DateUtil {
 
     public static final String STARTTIME = " 00:00:00";
     public static final String ENDTIME = " 23:59:59";
     public final static String FORMAT_STRING = "yyyy-MM-dd HH:mm:ss";
     public final static String[] REPLACE_STRING = new String[]{"GMT+0800", "GMT+08:00"};
     public final static String SPLIT_STRING = "(中国标准时间)";
-    public static Logger log = LoggerFactory.getLogger(DateUtils.class);
+    public static Logger log = LoggerFactory.getLogger(DateUtil.class);
 
     public static String YYYY = "yyyy";
 
@@ -38,7 +38,7 @@ public class DateUtils {
             "yyyy/MM/dd", "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM",
             "yyyy.MM.dd", "yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm", "yyyy.MM"};
 
-    private DateUtils() {
+    private DateUtil() {
     }
 
     /**

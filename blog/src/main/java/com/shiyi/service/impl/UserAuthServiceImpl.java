@@ -77,7 +77,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         baseMapper.insert(auth);
 
         user = User.builder().username(vo.getEmail()).roleId(Constants.USER_ROLE_ID).userAuthId(auth.getId()).loginType(LoginTypeEnum.EMAIL.getType())
-                .password(PasswordUtils.aesEncrypt(vo.getPassword())).build();
+                .password(PasswordUtil.aesEncrypt(vo.getPassword())).build();
         boolean insert = userService.save(user);
 
         redisCache.deleteObject(RedisConstants.EMAIL_CODE + vo.getEmail());
@@ -100,7 +100,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         User user = getByUserName(vo.getEmail());
         Assert.notNull(user,ERROR_MUST_REGISTER.getDesc());
 
-        user.setPassword(PasswordUtils.aesEncrypt(vo.getPassword()));
+        user.setPassword(PasswordUtil.aesEncrypt(vo.getPassword()));
         boolean update = userService.updateById(user);
 
         redisCache.deleteObject(RedisConstants.EMAIL_CODE + vo.getEmail());
@@ -126,7 +126,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         Assert.notNull(user, ERROR_MUST_REGISTER.getDesc());
         Assert.isTrue(user.getStatus() == UserStatusEnum.disable.code,EMAIL_DISABLE_LOGIN.getDesc());
 
-        boolean validate = PasswordUtils.isValidPassword(user.getPassword(),vo.getPassword());
+        boolean validate = PasswordUtil.isValidPassword(user.getPassword(),vo.getPassword());
         Assert.isTrue(validate,ERROR_PASSWORD.getDesc());
 
         UserAuth auth = baseMapper.selectById(user.getUserAuthId());

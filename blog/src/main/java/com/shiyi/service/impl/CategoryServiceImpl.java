@@ -9,16 +9,16 @@ import com.shiyi.entity.Category;
 import com.shiyi.mapper.CategoryMapper;
 import com.shiyi.service.CategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.utils.DateUtils;
-import com.shiyi.utils.PageUtils;
+import com.shiyi.utils.DateUtil;
+import com.shiyi.utils.PageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.shiyi.common.ResultCode.CATEGORY_IS_EXIST;
 import static com.shiyi.common.ResultCode.CATEGORY_IS_TOP;
@@ -43,7 +43,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      */
     @Override
     public ResponseResult selectCategory(String name) {
-        Page<Category> categoryPage = baseMapper.selectCategory(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), name);
+        Page<Category> categoryPage = baseMapper.selectCategory(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), name);
         return ResponseResult.success(categoryPage);
     }
 
@@ -107,9 +107,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult deleteBatch(List<Category> list) {
-        List<Long> ids = new ArrayList<>();
-        list.forEach(item -> ids.add(item.getId()));
-
+        List<Long> ids = list.stream().map(Category::getId).collect(Collectors.toList());
         int rows = baseMapper.deleteBatchIds(ids);
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("批量删除分类失败");
     }
@@ -125,7 +123,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         Assert.isTrue(!category.getId().equals(id), CATEGORY_IS_TOP.getDesc());
 
         Category vo = Category.builder()
-                .sort(category.getSort() + 1).updateTime(DateUtils.getNowDate()).id(id).build();
+                .sort(category.getSort() + 1).updateTime(DateUtil.getNowDate()).id(id).build();
         int rows = baseMapper.updateById(vo);
 
         return rows > 0? ResponseResult.success(): ResponseResult.error("置顶失败");

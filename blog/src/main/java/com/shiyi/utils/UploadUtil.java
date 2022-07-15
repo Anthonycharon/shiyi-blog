@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Objects;
+
 @Component
 @RequiredArgsConstructor
 public class UploadUtil {
@@ -34,7 +36,7 @@ public class UploadUtil {
             return ResponseResult.error("文件大小不能大于10M");
         }
         //获取文件后缀
-        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+        String suffix = Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf(".") + 1);
         if (!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())) {
             return ResponseResult.error("请选择jpg,jpeg,gif,png格式的图片");
         }
@@ -44,7 +46,11 @@ public class UploadUtil {
     }
 
 
-
+    /**
+     * 删除文件
+     * @param key
+     * @return
+     */
     public ResponseResult delBatchFile(String ...key) {
         getFileUploadWay();
         Boolean isSuccess = fileUploadStrategyContext.executeDeleteFileStrategy(strategy, key);

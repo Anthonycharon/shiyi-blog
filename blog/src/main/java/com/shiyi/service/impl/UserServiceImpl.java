@@ -16,8 +16,8 @@ import com.shiyi.mapper.UserAuthMapper;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.service.MenuService;
 import com.shiyi.service.UserService;
-import com.shiyi.utils.PageUtils;
-import com.shiyi.utils.PasswordUtils;
+import com.shiyi.utils.PageUtil;
+import com.shiyi.utils.PasswordUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -56,7 +56,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public ResponseResult listData(String username, Integer loginType) {
-        Page<UserDTO> page = baseMapper.selectPageRecord(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),username,loginType);
+        Page<UserDTO> page = baseMapper.selectPageRecord(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),username,loginType);
         return ResponseResult.success(page);
     }
 
@@ -79,7 +79,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult saveUser(User user) {
-        user.setPassword(PasswordUtils.aesEncrypt(user.getPassword()));
+        user.setPassword(PasswordUtil.aesEncrypt(user.getPassword()));
         user.setStatus(UserStatusEnum.normal.code);
         baseMapper.insert(user);
        // roleMapper.insertToUserId(user.getId(),user.getRoleId());
@@ -145,10 +145,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = baseMapper.selectById(StpUtil.getLoginIdAsInt());
         Assert.notNull(user,ERROR_USER_NOT_EXIST.getDesc());
 
-        boolean isValid = PasswordUtils.isValidPassword(user.getPassword(),map.get("oldPassword"));
+        boolean isValid = PasswordUtil.isValidPassword(user.getPassword(),map.get("oldPassword"));
         Assert.isTrue(isValid,"旧密码校验不通过!");
 
-        String newPassword = PasswordUtils.aesEncrypt(map.get("newPassword"));
+        String newPassword = PasswordUtil.aesEncrypt(map.get("newPassword"));
         user.setPassword(newPassword);
         baseMapper.updateById(user);
         return ResponseResult.success("修改成功");
@@ -161,8 +161,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public ResponseResult listOnlineUsers(String keywords) {
-        int pageNo = PageUtils.getPageNo().intValue();
-        int pageSize = PageUtils.getPageSize().intValue();
+        int pageNo = PageUtil.getPageNo().intValue();
+        int pageSize = PageUtil.getPageSize().intValue();
 
         List<OnlineUser> onlineUsers = MySaTokenListener.ONLINE_USERS;
         //根据关键词过滤

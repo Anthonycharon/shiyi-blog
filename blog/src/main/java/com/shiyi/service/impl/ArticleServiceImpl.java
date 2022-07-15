@@ -70,7 +70,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
 
     private final HttpServletRequest request;
 
-    private final ElasticsearchUtils elasticsearchUtils;
+    private final ElasticsearchUtil elasticsearchUtil;
 
     private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
@@ -106,7 +106,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult insertArticle(ArticleVO article) {
-        BlogArticle blogArticle = BeanCopyUtils.copyObject(article, BlogArticle.class);
+        BlogArticle blogArticle = BeanCopyUtil.copyObject(article, BlogArticle.class);
         blogArticle.setUserId(StpUtil.getLoginIdAsLong());
         //添加分类
         Long categoryId = savaCategory(article.getCategoryName());
@@ -137,7 +137,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         //添加标签
         List<Long> tagList = getTagsList(article);
 
-        blogArticle = BeanCopyUtils.copyObject(article, BlogArticle.class);
+        blogArticle = BeanCopyUtil.copyObject(article, BlogArticle.class);
         blogArticle.setCategoryId(categoryId);
         blogArticle.setUserId(StpUtil.getLoginIdAsLong());
         baseMapper.updateById(blogArticle);
@@ -250,7 +250,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult webArticleList() {
-        Page<ArticlePreviewDTO> articlePreviewDTOPage = baseMapper.selectPreviewPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), PUBLISH.code,null,null);
+        Page<ArticlePreviewDTO> articlePreviewDTOPage = baseMapper.selectPreviewPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), PUBLISH.code,null,null);
         articlePreviewDTOPage.getRecords().forEach(item -> item.setTagDTOList(tagsMapper.findByArticleIdToTags(item.getId())));
         return ResponseResult.success(articlePreviewDTOPage);
     }
@@ -295,7 +295,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         //校验私密文章是否已经进行过验证
         if(blogArticle.getIsSecret().equals(YesOrNoEnum.YES.getCode())){
             List<Object> cacheList = redisCache.getCacheList(RedisConstants.CHECK_CODE_IP);
-            String ip = IpUtils.getIp(request);
+            String ip = IpUtil.getIp(request);
             if (cacheList.contains(ip)) blogArticle.setIsSecret(YesOrNoEnum.NO.getCode());
         }
 
@@ -312,7 +312,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     @Override
     public ResponseResult condition(Long categoryId, Long tagId, Integer pageSize) {
         Map<String,Object> result = new HashMap<>();
-        Page<ArticlePreviewDTO>  blogArticlePage = baseMapper.selectPreviewPage(new Page<>(PageUtils.getPageNo(),pageSize),PUBLISH.getCode(),categoryId,tagId);
+        Page<ArticlePreviewDTO>  blogArticlePage = baseMapper.selectPreviewPage(new Page<>(PageUtil.getPageNo(),pageSize),PUBLISH.getCode(),categoryId,tagId);
         blogArticlePage.getRecords().forEach(item -> {
             List<TagDTO> tagList = tagsMapper.findByArticleIdToTags(item.getId());
             item.setTagDTOList(tagList);
@@ -336,7 +336,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult archive() {
-        Page<ArticlePreviewDTO> articlePage = baseMapper.selectArchivePage(new Page<>(PageUtils.getPageNo(),PageUtils.getPageSize()),PUBLISH.code);
+        Page<ArticlePreviewDTO> articlePage = baseMapper.selectArchivePage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),PUBLISH.code);
         return ResponseResult.success(articlePage);
     }
 
@@ -394,7 +394,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         if (cacheList.isEmpty()) {
             cacheList = new ArrayList<>();
         }
-        cacheList.add(IpUtils.getIp(request));
+        cacheList.add(IpUtil.getIp(request));
         redisCache.setCacheList(CHECK_CODE_IP,cacheList);
         //通过删除验证码
         redisCache.deleteObject(key);
@@ -433,7 +433,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @param ids
      */
     private void deleteEsData(List<Long> ids){
-        ids.forEach(elasticsearchUtils::delete);
+        ids.forEach(elasticsearchUtil::delete);
     }
 
     /**

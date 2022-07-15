@@ -11,7 +11,7 @@ import com.shiyi.service.DictDataService;
 import com.shiyi.service.DictService;
 import com.shiyi.utils.HumpLineUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.utils.PageUtils;
+import com.shiyi.utils.PageUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
@@ -61,7 +61,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         } else {
             queryWrapper.orderByDesc(SqlConf.SORT, SqlConf.CREATE_TIME);
         }
-        Page<Dict> page = new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize());
+        Page<Dict> page = new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize());
         Page<Dict> data = baseMapper.selectPage(page, queryWrapper);
         return ResponseResult.success(data);
     }

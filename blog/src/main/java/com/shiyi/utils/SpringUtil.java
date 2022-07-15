@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @apiNote
  */
 @Component
-public class SpringUtils implements BeanFactoryPostProcessor, ApplicationContextAware {
+public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextAware {
     /** Spring应用上下文环境 */
     private static ConfigurableListableBeanFactory beanFactory;
 
@@ -24,13 +24,13 @@ public class SpringUtils implements BeanFactoryPostProcessor, ApplicationContext
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException
     {
-        SpringUtils.beanFactory = beanFactory;
+        SpringUtil.beanFactory = beanFactory;
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
     {
-        SpringUtils.applicationContext = applicationContext;
+        SpringUtil.applicationContext = applicationContext;
     }
 
     /**

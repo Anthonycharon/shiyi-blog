@@ -20,9 +20,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ElasticsearchUtils {
+public class ElasticsearchUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(ElasticsearchUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(ElasticsearchUtil.class);
 
     private final ElasticsearchRestTemplate elasticsearchRestTemplate;
     /**

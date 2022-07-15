@@ -3,9 +3,7 @@ package com.shiyi.vo;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shiyi.utils.DateUtils;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.models.auth.In;
+import com.shiyi.utils.DateUtil;
 import lombok.Data;
 
 import java.util.Date;
@@ -37,9 +35,9 @@ public class ArticleVO {
     private List<String> tags;
 
     @TableField(fill = FieldFill.INSERT)
-    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
+    @JsonFormat(pattern = DateUtil.FORMAT_STRING,timezone="GMT+8")
     private Date createTime;
     @TableField(fill = FieldFill.UPDATE)
-    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
+    @JsonFormat(pattern = DateUtil.FORMAT_STRING,timezone="GMT+8")
     private Date updateTime;
 }

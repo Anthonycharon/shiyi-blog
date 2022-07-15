@@ -9,7 +9,7 @@ import com.shiyi.common.SqlConf;
 import com.shiyi.entity.Role;
 import com.shiyi.mapper.RoleMapper;
 import com.shiyi.service.RoleService;
-import com.shiyi.utils.PageUtils;
+import com.shiyi.utils.PageUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +28,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     public ResponseResult listData(String name) {
-        Page<Role> data = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new QueryWrapper<Role>()
+        Page<Role> data = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), new QueryWrapper<Role>()
                 .like(StringUtils.isNotBlank(name),SqlConf.NAME,name));
         return ResponseResult.success(data);
     }

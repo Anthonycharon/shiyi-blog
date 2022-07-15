@@ -1,6 +1,5 @@
 package com.shiyi.utils;
 
-import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +21,9 @@ import java.util.Objects;
  * @since 1.0.0
  **/
 @Component
-public class SensitiveUtils {
+public class SensitiveUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(SensitiveUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(SensitiveUtil.class);
 
     /**
      * 敏感词文件

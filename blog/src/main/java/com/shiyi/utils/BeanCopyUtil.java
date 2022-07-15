@@ -9,7 +9,7 @@ import java.util.List;
  * @author
  * @date 2021/08/10
  */
-public class BeanCopyUtils {
+public class BeanCopyUtil {
 
     /**
      * 复制对象
@@ -42,7 +42,7 @@ public class BeanCopyUtils {
         List<T> list = new ArrayList<>();
         if (null != source && source.size() > 0) {
             for (Object obj : source) {
-                list.add(BeanCopyUtils.copyObject(obj, target));
+                list.add(BeanCopyUtil.copyObject(obj, target));
             }
         }
         return list;

@@ -1,15 +1,11 @@
 package com.shiyi.dto;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shiyi.entity.Category;
-import com.shiyi.utils.DateUtils;
+import com.shiyi.utils.DateUtil;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author blue
@@ -41,7 +37,7 @@ public class ArticleListDTO {
     private Integer quantity;
 
     @ApiModelProperty(value = "创建时间")
-    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
+    @JsonFormat(pattern = DateUtil.FORMAT_STRING,timezone="GMT+8")
     private Date createTime;
 
     @ApiModelProperty(value = "状态")

@@ -25,15 +25,15 @@ import java.util.Map;
 import static com.shiyi.common.Constants.UNKNOWN;
 
 @Component
-public class IpUtils {
+public class IpUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(IpUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(IpUtil.class);
     private static String dbPath;
     private static DbSearcher searcher;
     private static DbConfig config;
 
     static {
-        dbPath = IpUtils.class.getResource("/ip2region.db").getPath();
+        dbPath = IpUtil.class.getResource("/ip2region.db").getPath();
         try {
             config = new DbConfig();
         } catch (DbMakerConfigException e) {

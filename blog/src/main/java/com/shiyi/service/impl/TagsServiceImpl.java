@@ -1,6 +1,5 @@
 package com.shiyi.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.dto.TagDTO;
@@ -10,7 +9,7 @@ import com.shiyi.common.SqlConf;
 import com.shiyi.mapper.TagsMapper;
 import com.shiyi.service.TagsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.utils.PageUtils;
+import com.shiyi.utils.PageUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -36,7 +35,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      */
     @Override
     public ResponseResult listData(String name) {
-        Page<Tags> list = baseMapper.selectPageRecord(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),name);
+        Page<Tags> list = baseMapper.selectPageRecord(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),name);
         return ResponseResult.success(list);
     }
 

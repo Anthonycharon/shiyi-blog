@@ -8,7 +8,7 @@ import com.shiyi.entity.FeedBack;
 import com.shiyi.mapper.FeedBackMapper;
 import com.shiyi.service.FeedBackService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.utils.PageUtils;
+import com.shiyi.utils.PageUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +34,7 @@ public class FeedBackServiceImpl extends ServiceImpl<FeedBackMapper, FeedBack> i
     public ResponseResult listData(Integer type) {
         QueryWrapper<FeedBack> queryWrapper = new QueryWrapper<FeedBack>()
                 .orderByDesc(SqlConf.CREATE_TIME).eq(type != null,SqlConf.TYPE,type);
-        Page<FeedBack> feedBackPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
+        Page<FeedBack> feedBackPage = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), queryWrapper);
         return ResponseResult.success(feedBackPage);
     }
 

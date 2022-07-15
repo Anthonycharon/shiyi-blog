@@ -7,11 +7,10 @@ import com.shiyi.common.SqlConf;
 import com.shiyi.dto.FriendLinkDTO;
 import com.shiyi.entity.FriendLink;
 import com.shiyi.mapper.FriendLinkMapper;
-import com.shiyi.mapper.WebConfigMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.service.FriendLinkService;
 import com.shiyi.utils.EmailUtil;
-import com.shiyi.utils.PageUtils;
+import com.shiyi.utils.PageUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +51,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         QueryWrapper<FriendLink> queryWrapper= new QueryWrapper<FriendLink>()
                 .orderByDesc(SqlConf.SORT).like(StringUtils.isNotBlank(name),SqlConf.NAME,name)
                 .eq(status != null,SqlConf.STATUS,status);
-        Page<FriendLink> friendLinkPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),queryWrapper);
+        Page<FriendLink> friendLinkPage = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),queryWrapper);
         return ResponseResult.success(friendLinkPage);
     }
 

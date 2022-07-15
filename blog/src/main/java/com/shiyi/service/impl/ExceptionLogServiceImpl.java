@@ -8,7 +8,7 @@ import com.shiyi.entity.ExceptionLog;
 import com.shiyi.mapper.ExceptionLogMapper;
 import com.shiyi.service.ExceptionLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.utils.PageUtils;
+import com.shiyi.utils.PageUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +29,7 @@ public class ExceptionLogServiceImpl extends ServiceImpl<ExceptionLogMapper, Exc
     public ResponseResult listLog() {
         QueryWrapper<ExceptionLog> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc(SqlConf.CREATE_TIME);
-        Page<ExceptionLog> pg = new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize());
+        Page<ExceptionLog> pg = new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize());
         Page<ExceptionLog> sysLogPage = baseMapper.selectPage(pg, queryWrapper);
         return ResponseResult.success(sysLogPage);
     }

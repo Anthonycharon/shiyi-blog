@@ -9,7 +9,7 @@ import cn.dev33.satoken.secure.SaSecureUtil;
  * @author: blue
  * @date: 2019/10/13 0013 15:25
  */
-public class PasswordUtils {
+public class PasswordUtil {
 
     final static String key = "shiyi2022";
     /**

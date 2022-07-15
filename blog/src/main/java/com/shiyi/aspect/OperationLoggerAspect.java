@@ -10,8 +10,8 @@ import com.shiyi.entity.AdminLog;
 import com.shiyi.mapper.ExceptionLogMapper;
 import com.shiyi.mapper.AdminLogMapper;
 import com.shiyi.utils.AspectUtil;
-import com.shiyi.utils.DateUtils;
-import com.shiyi.utils.IpUtils;
+import com.shiyi.utils.DateUtil;
+import com.shiyi.utils.IpUtil;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -88,16 +88,16 @@ public class OperationLoggerAspect {
         if (e.toString().contains("IllegalArgumentException")) return;
 
         HttpServletRequest request = getHttpServletRequest();
-        String ip = IpUtils.getIp(request);
+        String ip = IpUtil.getIp(request);
         String operationName = AspectUtil.INSTANCE.parseParams(joinPoint.getArgs(), operationLogger.value());
         // 获取参数名称字符串
         String paramsJson = getParamsJson((ProceedingJoinPoint) joinPoint);
         SystemUserDTO user = (SystemUserDTO) StpUtil.getSession().get(CURRENT_USER);
 
-        ExceptionLog exception = ExceptionLog.builder().ip(ip).ipSource(IpUtils.getCityInfo(ip))
+        ExceptionLog exception = ExceptionLog.builder().ip(ip).ipSource(IpUtil.getCityInfo(ip))
                 .params(paramsJson).username(user.getUsername()).method(joinPoint.getSignature().getName())
                 .exceptionJson(JSON.toJSONString(e)).exceptionMessage(e.getMessage()).operation(operationName)
-                .createTime(DateUtils.getNowDate()).build();
+                .createTime(DateUtil.getNowDate()).build();
         exceptionLogMapper.insert(exception);
     }
 
@@ -126,13 +126,13 @@ public class OperationLoggerAspect {
         // 当前操作用户
         SystemUserDTO user = (SystemUserDTO) StpUtil.getSession().get(CURRENT_USER);
         String type = request.getMethod();
-        String ip = IpUtils.getIp(request);
+        String ip = IpUtil.getIp(request);
         String url = request.getRequestURI();
 
         // 存储日志
         Date endTime = new Date();
         Long spendTime = endTime.getTime() - startTime.getTime();
-        AdminLog adminLog = new AdminLog(ip, IpUtils.getCityInfo(ip), type, url, user.getNickname(),
+        AdminLog adminLog = new AdminLog(ip, IpUtil.getCityInfo(ip), type, url, user.getNickname(),
                 paramsJson, point.getTarget().getClass().getName(),
                 point.getSignature().getName(), operationName,spendTime);
         adminLogMapper.insert(adminLog);

@@ -12,7 +12,7 @@ import com.shiyi.mapper.PhotoAlbumMapper;
 import com.shiyi.mapper.PhotoMapper;
 import com.shiyi.service.PhotoAlbumService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.utils.PageUtils;
+import com.shiyi.utils.PageUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
     public ResponseResult listData(String name) {
         QueryWrapper<PhotoAlbum> queryWrapper = new QueryWrapper<PhotoAlbum>()
                 .like(StringUtils.isNotBlank(name),SqlConf.NAME,name);
-        Page<PhotoAlbum> photoAlbumPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
+        Page<PhotoAlbum> photoAlbumPage = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), queryWrapper);
         photoAlbumPage.getRecords().forEach(item ->{
             Integer count = photoMapper.selectCount(new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, item.getId()));
             item.setPhotoCount(count);
@@ -128,7 +128,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
      */
     @Override
     public ResponseResult webListPhotos(Integer albumId) {
-        Page<Photo> photoPage = photoMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new LambdaQueryWrapper<Photo>().select(Photo::getUrl).eq(Photo::getAlbumId, albumId));
+        Page<Photo> photoPage = photoMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), new LambdaQueryWrapper<Photo>().select(Photo::getUrl).eq(Photo::getAlbumId, albumId));
         List<String> urlList = new ArrayList<>();
         photoPage.getRecords().forEach(item -> urlList.add(item.getUrl()));
 

@@ -4,8 +4,8 @@ import com.shiyi.annotation.BusinessLogger;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.UserLog;
 import com.shiyi.mapper.UserLogMapper;
-import com.shiyi.utils.DateUtils;
-import com.shiyi.utils.IpUtils;
+import com.shiyi.utils.DateUtil;
+import com.shiyi.utils.IpUtil;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -77,15 +77,15 @@ public class BusinessLoggerAspect {
             BusinessLogger annotation = method.getAnnotation(BusinessLogger.class);
             if (!annotation.save()) return;
 
-            String ip = IpUtils.getIp(request);
+            String ip = IpUtil.getIp(request);
             UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("user-agent"));
             String clientType = userAgent.getOperatingSystem().getDeviceType().toString();
             String os = userAgent.getOperatingSystem().getName();
             String browser = userAgent.getBrowser().toString();
 
             UserLog userLog = UserLog.builder().model(annotation.value()).type(annotation.type())
-                    .description(annotation.desc()).createTime(DateUtils.getNowDate())
-                    .ip(ip).address(IpUtils.getCityInfo(ip)).clientType(clientType).accessOs(os)
+                    .description(annotation.desc()).createTime(DateUtil.getNowDate())
+                    .ip(ip).address(IpUtil.getCityInfo(ip)).clientType(clientType).accessOs(os)
                     .browser(browser).result(result.getMessage()).build();
             sysLogMapper.insert(userLog);
         } catch (Exception e) {

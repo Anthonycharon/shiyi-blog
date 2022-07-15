@@ -8,7 +8,7 @@ import java.util.Objects;
  * 分页工具类
  *
  **/
-public class PageUtils {
+public class PageUtil {
 
     private static final ThreadLocal<Page<?>> PAGE_HOLDER = new ThreadLocal<>();
 
