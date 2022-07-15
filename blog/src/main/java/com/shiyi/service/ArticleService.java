@@ -18,43 +18,133 @@ import java.util.Map;
  */
 public interface ArticleService extends IService<BlogArticle> {
 
-    ResponseResult listData(Map<String,Object> map);
+    /**
+     * 后台分页获取文章
+     * @param map 参数map
+     * @return
+     */
+    ResponseResult selectArticle(Map<String,Object> map);
 
-    ResponseResult deleteById(Long id);
-
-    ResponseResult deleteBatch(List<Long> ids);
-
+    /**
+     * 后台根据主键获取文章详情
+     * @param id 主键id
+     * @return
+     */
     ResponseResult info(Long id);
 
-    ResponseResult addArticle(ArticleVO article);
+    /**
+     * 添加文章
+     * @param article 文章对象
+     * @return
+     */
+    ResponseResult insertArticle(ArticleVO article);
 
+    /**
+     * 修改文章
+     * @param article 文章对象
+     * @return
+     */
     ResponseResult updateArticle(ArticleVO article);
 
-    ResponseResult topArticle(ArticleVO article);
+    /**
+     * 后台根据文章id删除文章
+     * @param id 文章id
+     * @return
+     */
+    ResponseResult deleteById(Long id);
 
+    /**
+     * 后台批量删除文章
+     * @param ids 文章id集合
+     * @return
+     */
+    ResponseResult deleteBatch(List<Long> ids);
+
+    /**
+     * 置顶文章
+     * @param article 文章对象
+     * @return
+     */
+    ResponseResult putTopArticle(ArticleVO article);
+
+    /**
+     * 发布或下架文章
+     * @param article 文章对象
+     * @return
+     */
+    ResponseResult publishAndShelf(ArticleVO article);
+
+    /**
+     * 百度seo
+     * @param ids 文章id集合
+     * @return
+     */
     ResponseResult baiduSeo(List<Long> ids);
 
+    /**
+     * 爬取文章
+     * @param url 文章地址
+     * @return
+     */
     ResponseResult reptile(String url);
 
-    ResponseResult pubOrShelf(ArticleVO article);
-
+    /**
+     * 随机获取图片
+     * @return
+     */
     ResponseResult randomImg();
 
 
 
 
     //    ----------web端开始------
+
+    /**
+     * 首页分页获取文章
+     * @return
+     */
     ResponseResult webArticleList();
 
+    /**
+     * 首页获取文章详情
+     * @param id 文章id
+     * @return
+     */
     ResponseResult webArticleInfo(Integer id);
 
+    /**
+     * 根据分类id或标签id获取文章
+     * @param categoryId 分类id
+     * @param tagId 标签id
+     * @param pageSize 每页数量
+     * @return
+     */
     ResponseResult condition(Long categoryId, Long tagId, Integer pageSize);
 
+    /**
+     * 校验秘钥
+     * @param code 验证码
+     * @return
+     */
     ResponseResult checkSecret(String code);
 
+    /**
+     * 文章归档
+     * @return
+     */
     ResponseResult archive();
 
+    /**
+     * 搜索文章
+     * @param keywords 搜索关键词
+     * @return
+     */
     ResponseResult searchArticle(String keywords);
 
+    /**
+     * 文章点赞
+     * @param articleId 文章id
+     * @return
+     */
     ResponseResult articleLike(Integer articleId);
 }

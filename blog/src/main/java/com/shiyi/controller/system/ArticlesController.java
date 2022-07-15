@@ -25,7 +25,7 @@ public class ArticlesController {
     @SaCheckLogin
     @ApiOperation(value = "文章列表", httpMethod = "POST", response = ResponseResult.class, notes = "文章列表")
     public ResponseResult list(@RequestBody Map<String,Object> map) {
-        return articleService.listData(map);
+        return articleService.selectArticle(map);
     }
 
     @GetMapping(value = "/info")
@@ -39,8 +39,8 @@ public class ArticlesController {
     @SaCheckPermission("/system/article/add")
     @ApiOperation(value = "保存文章", httpMethod = "POST", response = ResponseResult.class, notes = "保存文章")
     @OperationLogger(value = "保存文章")
-    public ResponseResult save(@RequestBody ArticleVO article) {
-        return  articleService.addArticle(article);
+    public ResponseResult insert(@RequestBody ArticleVO article) {
+        return  articleService.insertArticle(article);
     }
 
     @PostMapping(value = "/update")
@@ -49,22 +49,6 @@ public class ArticlesController {
     @OperationLogger(value = "修改文章")
     public ResponseResult update(@RequestBody ArticleVO article) {
         return articleService.updateArticle(article);
-    }
-
-    @PostMapping(value = "/top")
-    @SaCheckPermission("/system/article/top")
-    @ApiOperation(value = "置顶文章", httpMethod = "POST", response = ResponseResult.class, notes = "置顶文章")
-    @OperationLogger(value = "置顶文章")
-    public ResponseResult topArticle(@RequestBody ArticleVO article) {
-        return articleService.topArticle(article);
-    }
-
-    @PostMapping(value = "/pubOrShelf")
-    @SaCheckPermission("/system/article/pubOrShelf")
-    @ApiOperation(value = "发布或下架文章", httpMethod = "POST", response = ResponseResult.class, notes = "发布或下架文章")
-    @OperationLogger(value = "发布或下架文章")
-    public ResponseResult pubOrShelf(@RequestBody ArticleVO article) {
-        return articleService.pubOrShelf(article);
     }
 
     @DeleteMapping(value = "/delete")
@@ -81,6 +65,22 @@ public class ArticlesController {
     @OperationLogger(value = "批量删除文章")
     public ResponseResult deleteBatch(@RequestBody List<Long> ids) {
         return articleService.deleteBatch(ids);
+    }
+
+    @PostMapping(value = "/top")
+    @SaCheckPermission("/system/article/top")
+    @ApiOperation(value = "置顶文章", httpMethod = "POST", response = ResponseResult.class, notes = "置顶文章")
+    @OperationLogger(value = "置顶文章")
+    public ResponseResult putTopArticle(@RequestBody ArticleVO article) {
+        return articleService.putTopArticle(article);
+    }
+
+    @PostMapping(value = "/pubOrShelf")
+    @SaCheckPermission("/system/article/pubOrShelf")
+    @ApiOperation(value = "发布或下架文章", httpMethod = "POST", response = ResponseResult.class, notes = "发布或下架文章")
+    @OperationLogger(value = "发布或下架文章")
+    public ResponseResult publishAndShelf(@RequestBody ArticleVO article) {
+        return articleService.publishAndShelf(article);
     }
 
     @PostMapping(value = "/baiduSeo")

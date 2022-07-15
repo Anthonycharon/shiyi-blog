@@ -22,11 +22,11 @@ import java.util.Map;
 @Repository
 public interface TagsMapper extends BaseMapper<Tags> {
 
-    void saveArticleToTags(@Param("articleId") Long articleId, @Param("tags")List<Long> tags);
+    void saveArticleTags(@Param("articleId") Long articleId, @Param("tags")List<Long> tags);
 
-    void deleteArticleToTags(@Param("ids") List<Long> ids);
+    void deleteByArticleIds(@Param("ids") List<Long> ids);
 
-    List<String> getTagsName(Long articleId);
+    List<String> selectByArticleId(Long articleId);
 
     List<TagDTO> findByArticleIdToTags(Long id);
 

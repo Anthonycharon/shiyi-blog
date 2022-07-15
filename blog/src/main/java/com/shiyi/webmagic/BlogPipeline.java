@@ -78,7 +78,7 @@ public class BlogPipeline implements Pipeline {
             }
             tagsId.add(result.getId());
         });
-        tagsMapper.saveArticleToTags(entity.getId(),tagsId);
+        tagsMapper.saveArticleTags(entity.getId(),tagsId);
 
         LOGGER.info("文章抓取成功，内容为:{}", JSON.toJSONString(entity));
     }

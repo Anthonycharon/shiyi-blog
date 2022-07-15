@@ -83,8 +83,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @return
      */
     @Override
-    public ResponseResult listData(Map<String,Object> map) {
-        Page<ArticleListDTO> data = baseMapper.selectRecordPage(new Page<>((Integer)map.get("pageNo"), (Integer)map.get("pageSize")),map);
+    public ResponseResult selectArticle(Map<String,Object> map) {
+        Page<ArticleListDTO> data = baseMapper.selectArticle(new Page<>((Integer)map.get("pageNo"), (Integer)map.get("pageSize")),map);
         return ResponseResult.success(data);
     }
 
@@ -94,8 +94,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult info(Long id) {
-        ArticleVO articleVO = baseMapper.info(id);
-        articleVO.setTags(tagsMapper.getTagsName(id));
+        ArticleVO articleVO = baseMapper.selectPrimaryKey(id);
+        articleVO.setTags(tagsMapper.selectByArticleId(id));
         return ResponseResult.success(articleVO);
     }
 
@@ -105,7 +105,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult addArticle(ArticleVO article) {
+    public ResponseResult insertArticle(ArticleVO article) {
         BlogArticle blogArticle = BeanCopyUtils.copyObject(article, BlogArticle.class);
         blogArticle.setUserId(StpUtil.getLoginIdAsLong());
         //添加分类
@@ -115,8 +115,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
 
         blogArticle.setCategoryId(categoryId);
 
-        baseMapper.insert(blogArticle);
-        tagsMapper.saveArticleToTags(blogArticle.getId(),tagList);
+        int insert = baseMapper.insert(blogArticle);
+        if (insert > 0) {
+            tagsMapper.saveArticleTags(blogArticle.getId(),tagList);
+        }
         return ResponseResult.success();
     }
 
@@ -141,10 +143,39 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         baseMapper.updateById(blogArticle);
 
         //先删出所有标签
-        tagsMapper.deleteArticleToTags(Collections.singletonList(blogArticle.getId()));
+        tagsMapper.deleteByArticleIds(Collections.singletonList(blogArticle.getId()));
         //然后新增标签
-        tagsMapper.saveArticleToTags(blogArticle.getId(),tagList);
+        tagsMapper.saveArticleTags(blogArticle.getId(),tagList);
 
+        return ResponseResult.success();
+    }
+
+    /**
+     *  删除文章
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseResult deleteById(Long id) {
+        int row = baseMapper.deleteById(id);
+        if (row > 0) {
+            this.deleteAfter(Collections.singletonList(id));
+        }
+        return ResponseResult.success();
+    }
+
+    /**
+     * 批量删除文章
+     * @param ids
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseResult deleteBatch(List<Long> ids) {
+        int rows = baseMapper.deleteBatchIds(ids);
+        if (rows > 0) {
+            this.deleteAfter(ids);
+        }
         return ResponseResult.success();
     }
 
@@ -154,9 +185,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult topArticle(ArticleVO article) {
-        BlogArticle blogArticle = BeanCopyUtils.copyObject(article, BlogArticle.class);
-        baseMapper.updateById(blogArticle);
+    public ResponseResult putTopArticle(ArticleVO article) {
+        baseMapper.putTopArticle(article);
         return ResponseResult.success();
     }
 
@@ -200,8 +230,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult pubOrShelf(ArticleVO article) {
-        baseMapper.pubOrShelf(article);
+    public ResponseResult publishAndShelf(ArticleVO article) {
+        baseMapper.publishAndShelf(article);
         return ResponseResult.success();
     }
 
@@ -211,31 +241,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         String result = restTemplate.getForObject(IMG_URL_API, String.class);
         Object imgUrl = JSON.parseObject(result).get("imgurl");
         return ResponseResult.success(imgUrl);
-    }
-
-    /**
-     *  删除文章
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public ResponseResult deleteById(Long id) {
-        baseMapper.deleteById(id);
-        this.deleteAfter(Collections.singletonList(id));
-        return ResponseResult.success("删除文章成功");
-    }
-
-    /**
-     * 批量删除文章
-     * @param ids
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public ResponseResult deleteBatch(List<Long> ids) {
-        int rows = baseMapper.deleteBatchIds(ids);
-        this.deleteAfter(ids);
-        return rows > 0 ? ResponseResult.success(): ResponseResult.error("批量删除文章失败");
     }
 
     //    ----------web端方法开始-------
@@ -271,13 +276,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         blogArticle.setComments(list);
 
         //最新文章
-        List<LatestArticleDTO> blogArticles = baseMapper.getNewArticles(id, PUBLISH.getCode());
+        List<LatestArticleDTO> blogArticles = baseMapper.getNewArticles(id, PUBLISH.code);
         blogArticle.setNewestArticleList(blogArticles);
 
         // 查询上一篇下一篇文章
-        LatestArticleDTO lastArticle = baseMapper.getNextOrLastArticle(id,0, PUBLISH.getCode());
+        LatestArticleDTO lastArticle = baseMapper.getNextOrLastArticle(id,0, PUBLISH.code);
         blogArticle.setLastArticle(lastArticle);
-        LatestArticleDTO nextArticle = baseMapper.getNextOrLastArticle(id,1, PUBLISH.getCode());
+        LatestArticleDTO nextArticle = baseMapper.getNextOrLastArticle(id,1, PUBLISH.code);
         blogArticle.setNextArticle(nextArticle);
 
         //相关推荐
@@ -419,7 +424,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @param ids
      */
     private void deleteAfter(List<Long> ids){
-        tagsMapper.deleteArticleToTags(ids);
+        tagsMapper.deleteByArticleIds(ids);
         threadPoolTaskExecutor.execute(()->this.deleteEsData(ids));
     }
 
