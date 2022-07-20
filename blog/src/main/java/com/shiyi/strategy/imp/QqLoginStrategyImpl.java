@@ -3,15 +3,15 @@ package com.shiyi.strategy.imp;
 import com.alibaba.fastjson.JSON;
 
 import com.shiyi.config.properties.QqConfigProperties;
-import com.shiyi.dto.QQTokenDTO;
-import com.shiyi.dto.QQUserInfoDTO;
-import com.shiyi.dto.SocialTokenDTO;
-import com.shiyi.dto.SocialUserInfoDTO;
+import com.shiyi.dto.QQTokenVO;
+import com.shiyi.dto.QQUserInfoVO;
+import com.shiyi.dto.SocialTokenVO;
+import com.shiyi.dto.SocialUserInfoVO;
 import com.shiyi.common.ResultCode;
 import com.shiyi.common.SocialLoginConst;
 import com.shiyi.enums.LoginTypeEnum;
 import com.shiyi.exception.BusinessException;
-import com.shiyi.vo.QQLoginVO;
+import com.shiyi.vo.QQLoginDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,48 +36,48 @@ public class QqLoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
     private final RestTemplate restTemplate;
 
     @Override
-    public SocialTokenDTO getSocialToken(String data) {
-        QQLoginVO qqLoginVO = JSON.parseObject(data, QQLoginVO.class);
+    public SocialTokenVO getSocialToken(String data) {
+        QQLoginDTO qqLoginDTO = JSON.parseObject(data, QQLoginDTO.class);
         // 校验QQ token信息
-        checkQQToken(qqLoginVO);
+        checkQQToken(qqLoginDTO);
         // 返回token信息
-        return SocialTokenDTO.builder()
-                .openId(qqLoginVO.getOpenId())
-                .accessToken(qqLoginVO.getAccessToken())
+        return SocialTokenVO.builder()
+                .openId(qqLoginDTO.getOpenId())
+                .accessToken(qqLoginDTO.getAccessToken())
                 .loginType(LoginTypeEnum.QQ.getType())
                 .build();
     }
 
     @Override
-    public SocialUserInfoDTO getSocialUserInfo(SocialTokenDTO socialTokenDTO) {
+    public SocialUserInfoVO getSocialUserInfo(SocialTokenVO socialTokenVO) {
         // 定义请求参数
         Map<String, String> formData = new HashMap<>(3);
-        formData.put(SocialLoginConst.QQ_OPEN_ID, socialTokenDTO.getOpenId());
-        formData.put(SocialLoginConst.ACCESS_TOKEN, socialTokenDTO.getAccessToken());
+        formData.put(SocialLoginConst.QQ_OPEN_ID, socialTokenVO.getOpenId());
+        formData.put(SocialLoginConst.ACCESS_TOKEN, socialTokenVO.getAccessToken());
         formData.put(SocialLoginConst.OAUTH_CONSUMER_KEY, qqConfigProperties.getAppId());
         // 获取QQ返回的用户信息
-        QQUserInfoDTO qqUserInfoDTO = JSON.parseObject(restTemplate.getForObject(qqConfigProperties.getUserInfoUrl(), String.class, formData), QQUserInfoDTO.class);
+        QQUserInfoVO qqUserInfoVO = JSON.parseObject(restTemplate.getForObject(qqConfigProperties.getUserInfoUrl(), String.class, formData), QQUserInfoVO.class);
         // 返回用户信息
-        return SocialUserInfoDTO.builder()
-                .nickname(Objects.requireNonNull(qqUserInfoDTO).getNickname())
-                .avatar(qqUserInfoDTO.getFigureurl_qq_1())
+        return SocialUserInfoVO.builder()
+                .nickname(Objects.requireNonNull(qqUserInfoVO).getNickname())
+                .avatar(qqUserInfoVO.getFigureurl_qq_1())
                 .build();
     }
 
     /**
      * 校验qq token信息
      *
-     * @param qqLoginVO qq登录信息
+     * @param qqLoginDTO qq登录信息
      */
-    private void checkQQToken(QQLoginVO qqLoginVO) {
+    private void checkQQToken(QQLoginDTO qqLoginDTO) {
         // 根据token获取qq openId信息
         Map<String, String> qqData = new HashMap<>(1);
-        qqData.put(SocialLoginConst.ACCESS_TOKEN, qqLoginVO.getAccessToken());
+        qqData.put(SocialLoginConst.ACCESS_TOKEN, qqLoginDTO.getAccessToken());
         try {
             String result = restTemplate.getForObject(qqConfigProperties.getCheckTokenUrl(), String.class, qqData);
-            QQTokenDTO qqTokenDTO = JSON.parseObject(getBracketsContent(Objects.requireNonNull(result)), QQTokenDTO.class);
+            QQTokenVO qqTokenVO = JSON.parseObject(getBracketsContent(Objects.requireNonNull(result)), QQTokenVO.class);
             // 判断openId是否一致
-            if (!qqLoginVO.getOpenId().equals(qqTokenDTO.getOpenid())) {
+            if (!qqLoginDTO.getOpenId().equals(qqTokenVO.getOpenid())) {
                 throw new BusinessException(ResultCode.QQ_LOGIN_ERROR.getDesc());
             }
         } catch (Exception e) {

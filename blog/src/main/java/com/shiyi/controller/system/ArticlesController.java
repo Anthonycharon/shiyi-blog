@@ -5,7 +5,7 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.service.ArticleService;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.vo.ArticleVO;
+import com.shiyi.vo.ArticleDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class ArticlesController {
     @SaCheckPermission("/system/article/add")
     @ApiOperation(value = "保存文章", httpMethod = "POST", response = ResponseResult.class, notes = "保存文章")
     @OperationLogger(value = "保存文章")
-    public ResponseResult insert(@RequestBody ArticleVO article) {
+    public ResponseResult insert(@RequestBody ArticleDTO article) {
         return  articleService.insertArticle(article);
     }
 
@@ -47,7 +47,7 @@ public class ArticlesController {
     @SaCheckPermission("/system/article/update")
     @ApiOperation(value = "修改文章", httpMethod = "POST", response = ResponseResult.class, notes = "修改文章")
     @OperationLogger(value = "修改文章")
-    public ResponseResult update(@RequestBody ArticleVO article) {
+    public ResponseResult update(@RequestBody ArticleDTO article) {
         return articleService.updateArticle(article);
     }
 
@@ -71,7 +71,7 @@ public class ArticlesController {
     @SaCheckPermission("/system/article/top")
     @ApiOperation(value = "置顶文章", httpMethod = "POST", response = ResponseResult.class, notes = "置顶文章")
     @OperationLogger(value = "置顶文章")
-    public ResponseResult putTopArticle(@RequestBody ArticleVO article) {
+    public ResponseResult putTopArticle(@RequestBody ArticleDTO article) {
         return articleService.putTopArticle(article);
     }
 
@@ -79,7 +79,7 @@ public class ArticlesController {
     @SaCheckPermission("/system/article/pubOrShelf")
     @ApiOperation(value = "发布或下架文章", httpMethod = "POST", response = ResponseResult.class, notes = "发布或下架文章")
     @OperationLogger(value = "发布或下架文章")
-    public ResponseResult publishAndShelf(@RequestBody ArticleVO article) {
+    public ResponseResult publishAndShelf(@RequestBody ArticleDTO article) {
         return articleService.publishAndShelf(article);
     }
 

@@ -4,7 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.service.LoginService;
-import com.shiyi.vo.LoginVO;
+import com.shiyi.vo.LoginDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public class LoginController {
 
 
     @PostMapping("login")
-    public ResponseResult doLogin(@Validated @RequestBody LoginVO vo) {
+    public ResponseResult doLogin(@Validated @RequestBody LoginDTO vo) {
         return loginService.doLogin(vo);
     }
 

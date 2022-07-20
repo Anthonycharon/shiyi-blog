@@ -7,8 +7,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.config.satoken.MySaTokenListener;
 import com.shiyi.config.satoken.OnlineUser;
-import com.shiyi.dto.SystemUserDTO;
-import com.shiyi.dto.UserDTO;
+import com.shiyi.dto.SystemUserVO;
+import com.shiyi.dto.UserVO;
 import com.shiyi.entity.Menu;
 import com.shiyi.entity.User;
 import com.shiyi.enums.UserStatusEnum;
@@ -56,7 +56,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public ResponseResult listData(String username, Integer loginType) {
-        Page<UserDTO> page = baseMapper.selectPageRecord(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),username,loginType);
+        Page<UserVO> page = baseMapper.selectPageRecord(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),username,loginType);
         return ResponseResult.success(page);
     }
 
@@ -67,7 +67,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public ResponseResult info(Integer id) {
-        SystemUserDTO user = baseMapper.getById(id);
+        SystemUserVO user = baseMapper.getById(id);
         return ResponseResult.success(user);
     }
 
@@ -117,7 +117,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    public SystemUserDTO getCurrentUserInfo() {
+    public SystemUserVO getCurrentUserInfo() {
         return baseMapper.getById(StpUtil.getLoginIdAsInt());
     }
 

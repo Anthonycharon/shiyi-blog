@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.dto.*;
 import com.shiyi.entity.BlogArticle;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.shiyi.vo.ArticleVO;
+import com.shiyi.vo.ArticleDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -25,26 +25,26 @@ public interface ArticleMapper extends BaseMapper<BlogArticle> {
      * @param map 参数map
      * @return
      */
-    Page<ArticleListDTO> selectArticle(@Param("page") Page<Object> page, @Param("param") Map<String,Object> map);
+    Page<ArticleListVO> selectArticle(@Param("page") Page<Object> page, @Param("param") Map<String,Object> map);
 
     /**
      * 后台根据主键获取文章详情
      * @param id 主键id
      * @return
      */
-    ArticleVO selectPrimaryKey(Long id);
+    ArticleDTO selectPrimaryKey(Long id);
 
     /**
      * 置顶文章
      * @param article 文章对象
      */
-    void putTopArticle(@Param("article") ArticleVO article);
+    void putTopArticle(@Param("article") ArticleDTO article);
 
     /**
      * 发布或下架文章
      * @param article 文章对象
      */
-    void publishAndShelf(@Param("article") ArticleVO article);
+    void publishAndShelf(@Param("article") ArticleDTO article);
 
     /**
      * 文章贡献度
@@ -52,14 +52,14 @@ public interface ArticleMapper extends BaseMapper<BlogArticle> {
      * @param nowTime 结束时间
      * @return
      */
-    List<ContributeDTO> contribute(@Param("lastTime") String lastTime, @Param("nowTime")String nowTime);
+    List<ContributeVO> contribute(@Param("lastTime") String lastTime, @Param("nowTime")String nowTime);
 
     /**
      * 首页获取推荐文章
      * @param articleId 文章id
      * @return
      */
-    List<LatestArticleDTO> listRecommendArticles(@Param("articleId") Integer articleId);
+    List<LatestArticleVO> listRecommendArticles(@Param("articleId") Integer articleId);
 
     /**
      * 首页获取下一篇或上一篇文章
@@ -68,7 +68,7 @@ public interface ArticleMapper extends BaseMapper<BlogArticle> {
      * @param code 发布状态
      * @return
      */
-    LatestArticleDTO getNextOrLastArticle(@Param("id") Integer id, @Param("type") Integer type, @Param("publish")int code);
+    LatestArticleVO getNextOrLastArticle(@Param("id") Integer id, @Param("type") Integer type, @Param("publish")int code);
 
     /**
      * 首页获取最新文章
@@ -76,14 +76,14 @@ public interface ArticleMapper extends BaseMapper<BlogArticle> {
      * @param publish 发布状态
      * @return
      */
-    List<LatestArticleDTO> getNewArticles(@Param("id") Integer id, @Param("publish") int publish);
+    List<LatestArticleVO> getNewArticles(@Param("id") Integer id, @Param("publish") int publish);
 
     /**
      * 首页根据主键获取文章详情
      * @param id 文章id
      * @return
      */
-    ArticleInfoDTO selectPrimaryKeyById(@Param("id") Integer id);
+    ArticleInfoVO selectPrimaryKeyById(@Param("id") Integer id);
 
     /**
      * 首页分页获取文章
@@ -93,8 +93,8 @@ public interface ArticleMapper extends BaseMapper<BlogArticle> {
      * @param tagId 标签id
      * @return
      */
-    Page<ArticlePreviewDTO> selectPreviewPage(@Param("page") Page<Object> page, @Param("publish")int publish,
-                                                  @Param("categoryId") Long categoryId,@Param("tagId") Long tagId);
+    Page<ArticlePreviewVO> selectPreviewPage(@Param("page") Page<Object> page, @Param("publish")int publish,
+                                             @Param("categoryId") Long categoryId, @Param("tagId") Long tagId);
 
     /**
      * 首页分页获取归档
@@ -102,6 +102,6 @@ public interface ArticleMapper extends BaseMapper<BlogArticle> {
      * @param publish 发布状态
      * @return
      */
-    Page<ArticlePreviewDTO> selectArchivePage(@Param("page")Page<Object> page, @Param("publish")int publish);
+    Page<ArticlePreviewVO> selectArchivePage(@Param("page")Page<Object> page, @Param("publish")int publish);
 
 }

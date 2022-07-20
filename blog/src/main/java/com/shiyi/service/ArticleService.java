@@ -3,7 +3,7 @@ package com.shiyi.service;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.BlogArticle;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shiyi.vo.ArticleVO;
+import com.shiyi.vo.ArticleDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -37,14 +37,14 @@ public interface ArticleService extends IService<BlogArticle> {
      * @param article 文章对象
      * @return
      */
-    ResponseResult insertArticle(ArticleVO article);
+    ResponseResult insertArticle(ArticleDTO article);
 
     /**
      * 修改文章
      * @param article 文章对象
      * @return
      */
-    ResponseResult updateArticle(ArticleVO article);
+    ResponseResult updateArticle(ArticleDTO article);
 
     /**
      * 后台根据文章id删除文章
@@ -65,14 +65,14 @@ public interface ArticleService extends IService<BlogArticle> {
      * @param article 文章对象
      * @return
      */
-    ResponseResult putTopArticle(ArticleVO article);
+    ResponseResult putTopArticle(ArticleDTO article);
 
     /**
      * 发布或下架文章
      * @param article 文章对象
      * @return
      */
-    ResponseResult publishAndShelf(ArticleVO article);
+    ResponseResult publishAndShelf(ArticleDTO article);
 
     /**
      * 百度seo

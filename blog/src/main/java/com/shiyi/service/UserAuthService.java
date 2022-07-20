@@ -3,10 +3,10 @@ package com.shiyi.service;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.UserAuth;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shiyi.vo.EmailLoginVO;
-import com.shiyi.vo.EmailRegisterVO;
-import com.shiyi.vo.QQLoginVO;
-import com.shiyi.vo.UserAuthVO;
+import com.shiyi.vo.EmailLoginDTO;
+import com.shiyi.vo.EmailRegisterDTO;
+import com.shiyi.vo.QQLoginDTO;
+import com.shiyi.vo.UserAuthDTO;
 
 /**
  * <p>
@@ -18,13 +18,13 @@ import com.shiyi.vo.UserAuthVO;
  */
 public interface UserAuthService extends IService<UserAuth> {
 
-    ResponseResult emailRegister(EmailRegisterVO emailRegisterVO);
+    ResponseResult emailRegister(EmailRegisterDTO emailRegisterDTO);
 
-    ResponseResult updatePassword(EmailRegisterVO emailRegisterVO);
+    ResponseResult updatePassword(EmailRegisterDTO emailRegisterDTO);
 
-    ResponseResult emailLogin(EmailLoginVO emailLoginVO);
+    ResponseResult emailLogin(EmailLoginDTO emailLoginDTO);
 
-    ResponseResult qqLogin(QQLoginVO qqLoginVO);
+    ResponseResult qqLogin(QQLoginDTO qqLoginDTO);
 
     ResponseResult weiboLogin(String code);
 
@@ -32,8 +32,8 @@ public interface UserAuthService extends IService<UserAuth> {
 
     ResponseResult sendEmailCode(String email);
 
-    ResponseResult bindEmail(UserAuthVO vo);
+    ResponseResult bindEmail(UserAuthDTO vo);
 
-    ResponseResult updateUser(UserAuthVO vo);
+    ResponseResult updateUser(UserAuthDTO vo);
 
 }

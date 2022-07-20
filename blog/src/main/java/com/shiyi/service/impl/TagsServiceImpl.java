@@ -2,7 +2,7 @@ package com.shiyi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.dto.TagDTO;
+import com.shiyi.dto.TagVO;
 import com.shiyi.entity.Tags;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
@@ -125,7 +125,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      */
     @Override
     public ResponseResult webList() {
-        List<TagDTO> list = baseMapper.selectAll();
+        List<TagVO> list = baseMapper.selectAll();
         return ResponseResult.success(list);
     }
 

@@ -13,7 +13,7 @@
         select name from b_tags where id in(select tag_id from b_article_tag where article_id=#{articleId})
     </select>
 
-    <select id="findByArticleIdToTags" resultType="com.shiyi.dto.TagDTO">
+    <select id="findByArticleIdToTags" resultType="com.shiyi.dto.TagVO">
         select id,name from b_tags where id in (select tag_id from b_article_tag where article_id=#{articleId})
     </select>
 
@@ -37,7 +37,7 @@
     <select id="countTags" resultType="java.util.Map">
         select id,name from b_tags
     </select>
-    <select id="selectAll" resultType="com.shiyi.dto.TagDTO">
+    <select id="selectAll" resultType="com.shiyi.dto.TagVO">
         select id,name from b_tags order by sort desc
     </select>
 

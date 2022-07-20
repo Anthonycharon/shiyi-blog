@@ -3,7 +3,7 @@ package com.shiyi.strategy.imp;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.shiyi.dto.ArticleSearchDTO;
+import com.shiyi.dto.ArticleSearchVO;
 import com.shiyi.common.Constants;
 import com.shiyi.common.SqlConf;
 import com.shiyi.strategy.SearchStrategy;
@@ -30,7 +30,7 @@ public class EsSearchStrategyImpl implements SearchStrategy {
     private final ElasticsearchRestTemplate elasticsearchRestTemplate;
 
     @Override
-    public List<ArticleSearchDTO> searchArticle(String keywords) {
+    public List<ArticleSearchVO> searchArticle(String keywords) {
         if (StringUtils.isBlank(keywords)) {
             return new ArrayList<>();
         }
@@ -60,7 +60,7 @@ public class EsSearchStrategyImpl implements SearchStrategy {
      * @param nativeSearchQueryBuilder es条件构造器
      * @return 搜索结果
      */
-    private List<ArticleSearchDTO> search(NativeSearchQueryBuilder nativeSearchQueryBuilder) {
+    private List<ArticleSearchVO> search(NativeSearchQueryBuilder nativeSearchQueryBuilder) {
         // 添加文章标题高亮
         HighlightBuilder.Field titleField = new HighlightBuilder.Field(SqlConf.TITLE);
         titleField.preTags(Constants.PRE_TAG);
@@ -73,9 +73,9 @@ public class EsSearchStrategyImpl implements SearchStrategy {
         nativeSearchQueryBuilder.withHighlightFields(titleField, contentField);
         // 搜索
         try {
-            SearchHits<ArticleSearchDTO> search = elasticsearchRestTemplate.search(nativeSearchQueryBuilder.build(), ArticleSearchDTO.class);
+            SearchHits<ArticleSearchVO> search = elasticsearchRestTemplate.search(nativeSearchQueryBuilder.build(), ArticleSearchVO.class);
             return search.getSearchHits().stream().map(hit -> {
-                ArticleSearchDTO article = hit.getContent();
+                ArticleSearchVO article = hit.getContent();
                 // 获取文章标题高亮数据
                 List<String> titleHighLightList = hit.getHighlightFields().get(SqlConf.TITLE);
                 if (CollectionUtils.isNotEmpty(titleHighLightList)) {

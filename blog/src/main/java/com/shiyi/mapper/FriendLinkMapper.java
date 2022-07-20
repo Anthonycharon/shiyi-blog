@@ -1,9 +1,8 @@
 package com.shiyi.mapper;
 
-import com.shiyi.dto.FriendLinkDTO;
+import com.shiyi.dto.FriendLinkVO;
 import com.shiyi.entity.FriendLink;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +23,6 @@ public interface FriendLinkMapper extends BaseMapper<FriendLink> {
 
     void top(@Param("id") Integer id, @Param("sort") int sort);
 
-    List<FriendLinkDTO> selectLinkList(@Param("status") Integer status);
+    List<FriendLinkVO> selectLinkList(@Param("status") Integer status);
 
 }

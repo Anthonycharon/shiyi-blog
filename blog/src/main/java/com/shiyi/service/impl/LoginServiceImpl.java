@@ -9,7 +9,7 @@ import com.shiyi.entity.User;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.service.LoginService;
 import com.shiyi.utils.PasswordUtil;
-import com.shiyi.vo.LoginVO;
+import com.shiyi.vo.LoginDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,7 +59,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public ResponseResult doLogin(LoginVO vo) {
+    public ResponseResult doLogin(LoginDTO vo) {
         //校验用户名和密码
         User user = userMapper.selectNameAndPassword(vo.getUsername(), PasswordUtil.aesEncrypt(vo.getPassword()));
         Assert.isTrue(user != null, ERROR_PASSWORD.getDesc());

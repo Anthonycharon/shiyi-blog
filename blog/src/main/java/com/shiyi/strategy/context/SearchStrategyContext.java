@@ -1,6 +1,6 @@
 package com.shiyi.strategy.context;
 
-import com.shiyi.dto.ArticleSearchDTO;
+import com.shiyi.dto.ArticleSearchVO;
 import com.shiyi.strategy.SearchStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,9 @@ public class SearchStrategyContext {
      * 执行搜索策略
      *
      * @param keywords 关键字
-     * @return {@link List<ArticleSearchDTO>} 搜索文章
+     * @return {@link List< ArticleSearchVO >} 搜索文章
      */
-    public List<ArticleSearchDTO> executeSearchStrategy(String searchMode,String keywords) {
+    public List<ArticleSearchVO> executeSearchStrategy(String searchMode, String keywords) {
         return searchStrategyMap.get(searchMode).searchArticle(keywords);
     }
 

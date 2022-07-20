@@ -4,7 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.shiyi.annotation.OperationLogger;
-import com.shiyi.dto.SystemUserDTO;
+import com.shiyi.dto.SystemUserVO;
 import com.shiyi.entity.ExceptionLog;
 import com.shiyi.entity.AdminLog;
 import com.shiyi.mapper.ExceptionLogMapper;
@@ -92,7 +92,7 @@ public class OperationLoggerAspect {
         String operationName = AspectUtil.INSTANCE.parseParams(joinPoint.getArgs(), operationLogger.value());
         // 获取参数名称字符串
         String paramsJson = getParamsJson((ProceedingJoinPoint) joinPoint);
-        SystemUserDTO user = (SystemUserDTO) StpUtil.getSession().get(CURRENT_USER);
+        SystemUserVO user = (SystemUserVO) StpUtil.getSession().get(CURRENT_USER);
 
         ExceptionLog exception = ExceptionLog.builder().ip(ip).ipSource(IpUtil.getCityInfo(ip))
                 .params(paramsJson).username(user.getUsername()).method(joinPoint.getSignature().getName())
@@ -124,7 +124,7 @@ public class OperationLoggerAspect {
         String paramsJson = getParamsJson(point) ;
 
         // 当前操作用户
-        SystemUserDTO user = (SystemUserDTO) StpUtil.getSession().get(CURRENT_USER);
+        SystemUserVO user = (SystemUserVO) StpUtil.getSession().get(CURRENT_USER);
         String type = request.getMethod();
         String ip = IpUtil.getIp(request);
         String url = request.getRequestURI();

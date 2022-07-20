@@ -1,6 +1,6 @@
 package com.shiyi.strategy;
 
-import com.shiyi.dto.ArticleSearchDTO;
+import com.shiyi.dto.ArticleSearchVO;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface SearchStrategy {
      * 搜索文章
      *
      * @param keywords 关键字
-     * @return {@link List<ArticleSearchDTO>} 文章列表
+     * @return {@link List< ArticleSearchVO >} 文章列表
      */
-    List<ArticleSearchDTO> searchArticle(String keywords);
+    List<ArticleSearchVO> searchArticle(String keywords);
 }

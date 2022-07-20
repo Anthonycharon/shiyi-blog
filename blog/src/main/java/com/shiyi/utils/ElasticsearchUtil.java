@@ -1,7 +1,7 @@
 package com.shiyi.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.shiyi.dto.ArticleSearchDTO;
+import com.shiyi.dto.ArticleSearchVO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +27,11 @@ public class ElasticsearchUtil {
     private final ElasticsearchRestTemplate elasticsearchRestTemplate;
     /**
      * 新增数据
-     * @param articleSearchDTO 数据对象
+     * @param articleSearchVO 数据对象
      */
-    public void save(ArticleSearchDTO articleSearchDTO) {
+    public void save(ArticleSearchVO articleSearchVO) {
         long time = System.currentTimeMillis();
-        elasticsearchRestTemplate.save(articleSearchDTO);
+        elasticsearchRestTemplate.save(articleSearchVO);
         logger.info("耗时:"+(System.currentTimeMillis() - time));
     }
 
@@ -40,23 +40,23 @@ public class ElasticsearchUtil {
      * @param id 文章ID
      */
     public void delete(Long id) {
-        elasticsearchRestTemplate.delete(id.toString(), ArticleSearchDTO.class);
+        elasticsearchRestTemplate.delete(id.toString(), ArticleSearchVO.class);
     }
 
     /**
      * 修改数据
-     * @param articleSearchDTO 数据对象
+     * @param articleSearchVO 数据对象
      */
-    public void update(ArticleSearchDTO articleSearchDTO) {
-        String obj = JSON.toJSONString(articleSearchDTO);
+    public void update(ArticleSearchVO articleSearchVO) {
+        String obj = JSON.toJSONString(articleSearchVO);
         Document document = Document.parse(obj);
 
         UpdateQuery query = UpdateQuery
-                .builder(String.valueOf(articleSearchDTO.getId()))
+                .builder(String.valueOf(articleSearchVO.getId()))
                 .withDocument(document)
                 .build();
 
-        IndexCoordinates indexCoordinates = elasticsearchRestTemplate.getIndexCoordinatesFor(ArticleSearchDTO.class);
+        IndexCoordinates indexCoordinates = elasticsearchRestTemplate.getIndexCoordinatesFor(ArticleSearchVO.class);
 
         UpdateResponse update = elasticsearchRestTemplate.update(query, indexCoordinates);
     }

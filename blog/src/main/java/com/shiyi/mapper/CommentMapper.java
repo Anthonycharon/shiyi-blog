@@ -1,10 +1,10 @@
 package com.shiyi.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.dto.CommentDTO;
-import com.shiyi.dto.ReplyCountDTO;
-import com.shiyi.dto.ReplyDTO;
-import com.shiyi.dto.SystemCommentDTO;
+import com.shiyi.dto.CommentVO;
+import com.shiyi.dto.ReplyCountVO;
+import com.shiyi.dto.ReplyVO;
+import com.shiyi.dto.SystemCommentVO;
 import com.shiyi.entity.Comment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -23,11 +23,11 @@ import java.util.List;
 @Repository
 public interface CommentMapper extends BaseMapper<Comment> {
 
-    List<CommentDTO> listComments(@Param("page") int page, @Param("size") int size, @Param("articleId") Long articleId);
+    List<CommentVO> listComments(@Param("page") int page, @Param("size") int size, @Param("articleId") Long articleId);
 
-    List<ReplyDTO> listReplies(Integer id);
+    List<ReplyVO> listReplies(Integer id);
 
-    ReplyCountDTO listReplyCountByCommentId(Integer id);
+    ReplyCountVO listReplyCountByCommentId(Integer id);
 
-    Page<SystemCommentDTO> selectPageList(@Param("page")Page<Object> objectPage, @Param("keywords")String keywords);
+    Page<SystemCommentVO> selectPageList(@Param("page")Page<Object> objectPage, @Param("keywords")String keywords);
 }

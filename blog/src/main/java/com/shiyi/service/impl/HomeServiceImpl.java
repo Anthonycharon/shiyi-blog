@@ -3,8 +3,8 @@ package com.shiyi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shiyi.common.*;
-import com.shiyi.dto.CategoryCountDTO;
-import com.shiyi.dto.HomeDataDTO;
+import com.shiyi.dto.CategoryCountVO;
+import com.shiyi.dto.HomeDataVO;
 import com.shiyi.entity.*;
 import com.shiyi.mapper.*;
 import com.shiyi.service.SystemConfigService;
@@ -12,7 +12,7 @@ import com.shiyi.service.WebConfigService;
 import com.shiyi.utils.DateUtil;
 import com.shiyi.utils.IpUtil;
 import com.shiyi.utils.RedisCache;
-import com.shiyi.dto.ContributeDTO;
+import com.shiyi.dto.ContributeVO;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -68,7 +68,7 @@ public class HomeServiceImpl {
         return map;
     }
 
-    public HomeDataDTO init() {
+    public HomeDataVO init() {
         //文章排行
         List<BlogArticle> blogArticles = articleMapper.selectList(new LambdaQueryWrapper<BlogArticle>()
                 .select(BlogArticle::getQuantity,BlogArticle::getTitle,BlogArticle::getId)
@@ -85,7 +85,7 @@ public class HomeServiceImpl {
         //弹出框
         SystemConfig systemConfig = systemConfigService.getCustomizeOne();
 
-        HomeDataDTO dto = HomeDataDTO.builder().dashboard(systemConfig.getDashboardNotification())
+        HomeDataVO dto = HomeDataVO.builder().dashboard(systemConfig.getDashboardNotification())
                 .categoryList(categoryCount).contribute(contribute).blogArticles(blogArticles).userAccess(userAccess).tagsList(tagsList).build();
         return dto;
     }
@@ -216,11 +216,11 @@ public class HomeServiceImpl {
         List<Object> result = new ArrayList<>();
         List<String> months = getMonths();
         String lastTime = months.get(0), nowTime = months.get(months.size() - 1);
-        List<ContributeDTO> articles = articleMapper.contribute(lastTime, nowTime);
+        List<ContributeVO> articles = articleMapper.contribute(lastTime, nowTime);
         months.forEach(item -> {
             List<Object> list = new ArrayList<>();
             list.add(item);
-            List<ContributeDTO> collect = articles.stream().filter(article -> article.getDate().equals(item)).collect(Collectors.toList());
+            List<ContributeVO> collect = articles.stream().filter(article -> article.getDate().equals(item)).collect(Collectors.toList());
             if (!collect.isEmpty()) list.add(collect.get(0).getCount());
             else list.add(0);
             result.add(list);
@@ -238,7 +238,7 @@ public class HomeServiceImpl {
      */
     public Map<String, Object> categoryCount(){
         Map<String, Object> map = new HashMap<>();
-        List<CategoryCountDTO> result = categoryMapper.countArticle();
+        List<CategoryCountVO> result = categoryMapper.countArticle();
         List<String> list = new ArrayList<>();
         result.forEach(item -> list.add(item.getName()));
         map.put("result",result);

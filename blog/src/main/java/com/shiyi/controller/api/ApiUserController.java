@@ -4,10 +4,10 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.shiyi.annotation.BusinessLogger;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.service.UserAuthService;
-import com.shiyi.vo.EmailLoginVO;
-import com.shiyi.vo.EmailRegisterVO;
-import com.shiyi.vo.QQLoginVO;
-import com.shiyi.vo.UserAuthVO;
+import com.shiyi.vo.EmailLoginDTO;
+import com.shiyi.vo.EmailRegisterDTO;
+import com.shiyi.vo.QQLoginDTO;
+import com.shiyi.vo.UserAuthDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -28,26 +28,26 @@ public class ApiUserController {
 
     @RequestMapping(value = "/emailLogin",method = RequestMethod.POST)
     @ApiOperation(value = "邮箱登录", httpMethod = "POST", response = ResponseResult.class, notes = "邮箱登录")
-    public ResponseResult emailLogin(@Valid @RequestBody EmailLoginVO emailLoginVO){
-        return userAuthService.emailLogin(emailLoginVO);
+    public ResponseResult emailLogin(@Valid @RequestBody EmailLoginDTO emailLoginDTO){
+        return userAuthService.emailLogin(emailLoginDTO);
     }
 
     @RequestMapping(value = "/emailRegister",method = RequestMethod.POST)
     @ApiOperation(value = "邮箱账号注册", httpMethod = "POST", response = ResponseResult.class, notes = "邮箱账号注册")
-    public ResponseResult emailRegister(@Valid @RequestBody EmailRegisterVO emailRegisterVO){
-        return userAuthService.emailRegister(emailRegisterVO);
+    public ResponseResult emailRegister(@Valid @RequestBody EmailRegisterDTO emailRegisterDTO){
+        return userAuthService.emailRegister(emailRegisterDTO);
     }
 
     @RequestMapping(value = "/updatePassword",method = RequestMethod.POST)
     @BusinessLogger(value = "个人中心模块-邮箱账号修改密码",type = "修改",desc = "邮箱账号修改密码")
-    public ResponseResult updatePassword(@Valid @RequestBody EmailRegisterVO emailRegisterVO){
-        return userAuthService.updatePassword(emailRegisterVO);
+    public ResponseResult updatePassword(@Valid @RequestBody EmailRegisterDTO emailRegisterDTO){
+        return userAuthService.updatePassword(emailRegisterDTO);
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ApiOperation(value = "QQ登录", httpMethod = "POST", response = ResponseResult.class, notes = "QQ登录")
-    public ResponseResult login(@Valid @RequestBody QQLoginVO qqLoginVO){
-        return userAuthService.qqLogin(qqLoginVO);
+    public ResponseResult login(@Valid @RequestBody QQLoginDTO qqLoginDTO){
+        return userAuthService.qqLogin(qqLoginDTO);
     }
 
     @RequestMapping(value = "/gitEELogin",method = RequestMethod.GET)
@@ -71,14 +71,14 @@ public class ApiUserController {
     @RequestMapping(value = "/bindEmail",method = RequestMethod.POST)
     @SaCheckLogin
     @BusinessLogger(value = "个人中心模块-绑定邮箱",type = "修改",desc = "绑定邮箱")
-    public ResponseResult bindEmail(@RequestBody UserAuthVO vo){
+    public ResponseResult bindEmail(@RequestBody UserAuthDTO vo){
         return userAuthService.bindEmail(vo);
     }
 
     @BusinessLogger(value = "个人中心模块-修改用户信息",type = "修改",desc = "修改用户信息")
     @SaCheckLogin
     @RequestMapping(value = "/updateUser",method = RequestMethod.POST)
-    public ResponseResult updateUser(@RequestBody UserAuthVO vo){
+    public ResponseResult updateUser(@RequestBody UserAuthDTO vo){
         return userAuthService.updateUser(vo);
     }
 }

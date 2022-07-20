@@ -4,7 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shiyi.common.*;
-import com.shiyi.dto.UserInfoDTO;
+import com.shiyi.dto.UserInfoVO;
 import com.shiyi.entity.User;
 import com.shiyi.entity.UserAuth;
 import com.shiyi.entity.WebConfig;
@@ -17,10 +17,10 @@ import com.shiyi.service.UserService;
 import com.shiyi.service.WebConfigService;
 import com.shiyi.strategy.context.SocialLoginStrategyContext;
 import com.shiyi.utils.*;
-import com.shiyi.vo.EmailLoginVO;
-import com.shiyi.vo.EmailRegisterVO;
-import com.shiyi.vo.QQLoginVO;
-import com.shiyi.vo.UserAuthVO;
+import com.shiyi.vo.EmailLoginDTO;
+import com.shiyi.vo.EmailRegisterDTO;
+import com.shiyi.vo.QQLoginDTO;
+import com.shiyi.vo.UserAuthDTO;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +63,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult emailRegister(EmailRegisterVO vo) {
+    public ResponseResult emailRegister(EmailRegisterDTO vo) {
 
         checkEmail(vo.getEmail());
 
@@ -92,7 +92,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult updatePassword(EmailRegisterVO vo) {
+    public ResponseResult updatePassword(EmailRegisterDTO vo) {
 
         checkEmail(vo.getEmail());
         checkCode(RedisConstants.EMAIL_CODE + vo.getEmail(), vo.getCode());
@@ -115,7 +115,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult emailLogin(EmailLoginVO vo) {
+    public ResponseResult emailLogin(EmailLoginDTO vo) {
 
         checkEmail(vo.getEmail());
 
@@ -135,28 +135,28 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         StpUtil.login(user.getId().longValue());
 
         //组装数据
-        UserInfoDTO userInfoDTO = UserInfoDTO.builder().id(user.getId()).userInfoId(auth.getId()).avatar(auth.getAvatar()).nickname(auth.getNickname())
+        UserInfoVO userInfoVO = UserInfoVO.builder().id(user.getId()).userInfoId(auth.getId()).avatar(auth.getAvatar()).nickname(auth.getNickname())
                 .intro(auth.getIntro()).webSite(auth.getWebSite()).email(user.getUsername()).loginType(user.getLoginType()).token(StpUtil.getTokenValue()).build();
 
-        return ResponseResult.success(userInfoDTO);
+        return ResponseResult.success(userInfoVO);
     }
 
     @Override
-    public ResponseResult qqLogin(QQLoginVO qqLoginVO) {
-        UserInfoDTO userInfoDTO = socialLoginStrategyContext.executeLoginStrategy(JSON.toJSONString(qqLoginVO), LoginTypeEnum.QQ);
-        return ResponseResult.success(userInfoDTO);
+    public ResponseResult qqLogin(QQLoginDTO qqLoginDTO) {
+        UserInfoVO userInfoVO = socialLoginStrategyContext.executeLoginStrategy(JSON.toJSONString(qqLoginDTO), LoginTypeEnum.QQ);
+        return ResponseResult.success(userInfoVO);
     }
 
     @Override
     public ResponseResult weiboLogin(String code) {
-        UserInfoDTO userInfoDTO = socialLoginStrategyContext.executeLoginStrategy(code, LoginTypeEnum.WEIBO);
-        return ResponseResult.success(userInfoDTO);
+        UserInfoVO userInfoVO = socialLoginStrategyContext.executeLoginStrategy(code, LoginTypeEnum.WEIBO);
+        return ResponseResult.success(userInfoVO);
     }
 
     @Override
     public ResponseResult giteeLogin(String code) {
-        UserInfoDTO userInfoDTO = socialLoginStrategyContext.executeLoginStrategy(code, LoginTypeEnum.GITEE);
-        return ResponseResult.success(userInfoDTO);
+        UserInfoVO userInfoVO = socialLoginStrategyContext.executeLoginStrategy(code, LoginTypeEnum.GITEE);
+        return ResponseResult.success(userInfoVO);
     }
 
     /**
@@ -183,7 +183,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult bindEmail(UserAuthVO vo) {
+    public ResponseResult bindEmail(UserAuthDTO vo) {
         String key = RedisConstants.EMAIL_CODE + vo.getEmail();
         checkCode(key, vo.getCode());
 
@@ -201,7 +201,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult updateUser(UserAuthVO vo) {
+    public ResponseResult updateUser(UserAuthDTO vo) {
         UserAuth userAuth = getUserAuth();
         userAuth.setNickname(vo.getNickname());
         userAuth.setWebSite(vo.getWebSite());

@@ -39,12 +39,12 @@ public class GitEELoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
     private final GiteeConfigProperties giteeConfigProperties;
 
     @Override
-    public SocialTokenDTO getSocialToken(String code) {
+    public SocialTokenVO getSocialToken(String code) {
         // 获取码云token信息
         String token  = getGitEEToken(code);
         logger.info("GitEE login as accessToken :{}",token);
         // 返回token信息
-        return SocialTokenDTO.builder()
+        return SocialTokenVO.builder()
                 .openId(null)
                 .accessToken(token)
                 .loginType(LoginTypeEnum.GITEE.getType())
@@ -52,18 +52,18 @@ public class GitEELoginStrategyImpl extends AbstractSocialLoginStrategyImpl {
     }
 
     @Override
-    public SocialUserInfoDTO getSocialUserInfo(SocialTokenDTO socialTokenDTO) {
+    public SocialUserInfoVO getSocialUserInfo(SocialTokenVO socialTokenVO) {
         // 定义请求参数
         Map<String, String> data = new HashMap<>(1);
-        data.put(ACCESS_TOKEN, socialTokenDTO.getAccessToken());
+        data.put(ACCESS_TOKEN, socialTokenVO.getAccessToken());
         // 获取码云用户信息
-        GiteeUserInfoDTO giteeUserInfoDTO = restTemplate.getForObject(giteeConfigProperties.getUserInfoUrl(), GiteeUserInfoDTO.class, data);
-        logger.info("GitEE login as info :{}",giteeUserInfoDTO.toString());
+        GiteeUserInfoVO giteeUserInfoVO = restTemplate.getForObject(giteeConfigProperties.getUserInfoUrl(), GiteeUserInfoVO.class, data);
+        logger.info("GitEE login as info :{}", giteeUserInfoVO.toString());
         // 返回用户信息
-        return SocialUserInfoDTO.builder()
-                .id(Objects.requireNonNull(giteeUserInfoDTO).getId())
-                .nickname(Objects.requireNonNull(giteeUserInfoDTO).getName())
-                .avatar(giteeUserInfoDTO.getAvatar_url())
+        return SocialUserInfoVO.builder()
+                .id(Objects.requireNonNull(giteeUserInfoVO).getId())
+                .nickname(Objects.requireNonNull(giteeUserInfoVO).getName())
+                .avatar(giteeUserInfoVO.getAvatar_url())
                 .build();
     }
 

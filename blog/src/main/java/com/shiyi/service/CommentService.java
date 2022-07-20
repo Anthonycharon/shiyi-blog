@@ -3,7 +3,7 @@ package com.shiyi.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.Comment;
-import com.shiyi.vo.CommentVO;
+import com.shiyi.vo.CommentDTO;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public interface CommentService extends IService<Comment> {
 //    ------web端方法开始------
     ResponseResult comments(Long articleId);
 
-    ResponseResult addComment(CommentVO comment);
+    ResponseResult addComment(CommentDTO comment);
 
     ResponseResult repliesByComId(Integer commentId);
 

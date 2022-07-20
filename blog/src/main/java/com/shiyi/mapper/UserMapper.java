@@ -2,8 +2,8 @@ package com.shiyi.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.dto.SystemUserDTO;
-import com.shiyi.dto.UserDTO;
+import com.shiyi.dto.SystemUserVO;
+import com.shiyi.dto.UserVO;
 import com.shiyi.entity.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -24,9 +24,9 @@ public interface UserMapper extends BaseMapper<User> {
 
     List<Integer> getMenuId(Integer userId);
 
-    Page<UserDTO> selectPageRecord(@Param("page") Page<UserDTO> page, @Param("username")String username, @Param("loginType")Integer loginType);
+    Page<UserVO> selectPageRecord(@Param("page") Page<UserVO> page, @Param("username")String username, @Param("loginType")Integer loginType);
 
-    SystemUserDTO getById(Object id);
+    SystemUserVO getById(Object id);
 
     User selectNameAndPassword(@Param("username") String username, @Param("password") String password);
 

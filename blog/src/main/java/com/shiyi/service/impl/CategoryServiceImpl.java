@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
-import com.shiyi.dto.CategoryDTO;
+import com.shiyi.dto.CategoryVO;
 import com.shiyi.entity.Category;
 import com.shiyi.mapper.CategoryMapper;
 import com.shiyi.service.CategoryService;
@@ -137,7 +137,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      */
     @Override
     public ResponseResult webList() {
-        List<CategoryDTO> categories = baseMapper.selectAll();
+        List<CategoryVO> categories = baseMapper.selectAll();
         return ResponseResult.success(categories);
     }
 }

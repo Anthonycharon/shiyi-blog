@@ -1,6 +1,6 @@
 package com.shiyi.strategy;
 
-import com.shiyi.dto.UserInfoDTO;
+import com.shiyi.dto.UserInfoVO;
 
 /**
  * @author blue
@@ -12,7 +12,7 @@ public interface SocialLoginStrategy {
      * 登录
      *
      * @param data 数据
-     * @return {@link UserInfoDTO} 用户信息
+     * @return {@link UserInfoVO} 用户信息
      */
-    UserInfoDTO login(String data);
+    UserInfoVO login(String data);
 }

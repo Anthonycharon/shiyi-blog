@@ -1,6 +1,6 @@
 package com.shiyi.strategy.context;
 
-import com.shiyi.dto.UserInfoDTO;
+import com.shiyi.dto.UserInfoVO;
 import com.shiyi.enums.LoginTypeEnum;
 import com.shiyi.strategy.SocialLoginStrategy;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +25,9 @@ public class SocialLoginStrategyContext {
      *
      * @param data          数据
      * @param loginTypeEnum 登录枚举类型
-     * @return {@link UserInfoDTO} 用户信息
+     * @return {@link UserInfoVO} 用户信息
      */
-    public UserInfoDTO executeLoginStrategy(String data, LoginTypeEnum loginTypeEnum) {
+    public UserInfoVO executeLoginStrategy(String data, LoginTypeEnum loginTypeEnum) {
         return socialLoginStrategyMap.get(loginTypeEnum.getStrategy()).login(data);
     }
 

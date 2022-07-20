@@ -3,10 +3,10 @@ package com.shiyi.strategy.imp;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.shiyi.dto.SocialTokenDTO;
-import com.shiyi.dto.SocialUserInfoDTO;
-import com.shiyi.dto.UserDetailDTO;
-import com.shiyi.dto.UserInfoDTO;
+import com.shiyi.dto.SocialTokenVO;
+import com.shiyi.dto.SocialUserInfoVO;
+import com.shiyi.dto.UserDetailVO;
+import com.shiyi.dto.UserInfoVO;
 import com.shiyi.common.RedisConstants;
 import com.shiyi.entity.Role;
 import com.shiyi.entity.User;
@@ -51,16 +51,16 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
     private RoleMapper roleMapper;
 
     @Override
-    public UserInfoDTO login(String data) {
+    public UserInfoVO login(String data) {
         // 创建登录信息
-        UserDetailDTO userDetailDTO;
+        UserDetailVO userDetailVO;
         // 获取第三方token信息
-        SocialTokenDTO socialToken = getSocialToken(data);
+        SocialTokenVO socialToken = getSocialToken(data);
         // 获取用户ip信息
         String ipAddress = IpUtil.getIp(request);
         String ipSource = IpUtil.getCityInfo(ipAddress);
         // 获取第三方用户信息
-        SocialUserInfoDTO socialUserInfo = getSocialUserInfo(socialToken);
+        SocialUserInfoVO socialUserInfo = getSocialUserInfo(socialToken);
         if (socialToken.getLoginType().equals(LoginTypeEnum.GITEE.getType())){
             socialToken.setOpenId(socialUserInfo.getId());
         }
@@ -68,46 +68,46 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         User user = getUser(socialToken);
         if (Objects.nonNull(user)) {
             // 返回数据库用户信息
-            userDetailDTO = getUserDetail(user, ipAddress, ipSource,socialUserInfo);
+            userDetailVO = getUserDetail(user, ipAddress, ipSource,socialUserInfo);
         } else {
             // 获取第三方用户信息，保存到数据库返回
-            userDetailDTO = saveUserDetail(socialToken, ipAddress, ipSource,socialUserInfo);
+            userDetailVO = saveUserDetail(socialToken, ipAddress, ipSource,socialUserInfo);
         }
         // 判断账号是否禁用
-        Assert.isTrue(!userDetailDTO.getIsDisable().equals(disable.code),DISABLE_ACCOUNT.desc);
+        Assert.isTrue(!userDetailVO.getIsDisable().equals(disable.code),DISABLE_ACCOUNT.desc);
 
         // 返回用户信息
-        UserInfoDTO userInfoDTO = BeanCopyUtil.copyObject(userDetailDTO, UserInfoDTO.class);
-        StpUtil.login(userInfoDTO.getId().longValue());
-        userInfoDTO.setToken(StpUtil.getTokenValue());
-        return userInfoDTO;
+        UserInfoVO userInfoVO = BeanCopyUtil.copyObject(userDetailVO, UserInfoVO.class);
+        StpUtil.login(userInfoVO.getId().longValue());
+        userInfoVO.setToken(StpUtil.getTokenValue());
+        return userInfoVO;
     }
 
     /**
      * 获取第三方token信息
      *
      * @param data 数据
-     * @return {@link SocialTokenDTO} 第三方token信息
+     * @return {@link SocialTokenVO} 第三方token信息
      */
-    public abstract SocialTokenDTO getSocialToken(String data);
+    public abstract SocialTokenVO getSocialToken(String data);
 
     /**
      * 获取第三方用户信息
      *
-     * @param socialTokenDTO 第三方token信息
-     * @return {@link SocialUserInfoDTO} 第三方用户信息
+     * @param socialTokenVO 第三方token信息
+     * @return {@link SocialUserInfoVO} 第三方用户信息
      */
-    public abstract SocialUserInfoDTO getSocialUserInfo(SocialTokenDTO socialTokenDTO);
+    public abstract SocialUserInfoVO getSocialUserInfo(SocialTokenVO socialTokenVO);
 
     /**
      * 获取用户账号
      *
      * @return {@link UserAuth} 用户账号
      */
-    private User getUser(SocialTokenDTO socialTokenDTO) {
+    private User getUser(SocialTokenVO socialTokenVO) {
         return userMapper.selectOne(new LambdaQueryWrapper<User>()
-                .eq(User::getUsername, socialTokenDTO.getOpenId())
-                .eq(User::getLoginType, socialTokenDTO.getLoginType()));
+                .eq(User::getUsername, socialTokenVO.getOpenId())
+                .eq(User::getLoginType, socialTokenVO.getLoginType()));
     }
 
     /**
@@ -116,9 +116,9 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
      * @param user      用户账号
      * @param ipAddress ip地址
      * @param ipSource  ip源
-     * @return {@link UserDetailDTO} 用户信息
+     * @return {@link UserDetailVO} 用户信息
      */
-    private UserDetailDTO getUserDetail(User user, String ipAddress, String ipSource,SocialUserInfoDTO socialUserInfo) {
+    private UserDetailVO getUserDetail(User user, String ipAddress, String ipSource, SocialUserInfoVO socialUserInfo) {
         // 更新登录信息
         userMapper.update(new User(), new LambdaUpdateWrapper<User>()
                 .set(User::getLastLoginTime, LocalDateTime.now())
@@ -143,9 +143,9 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
      * @param socialToken token信息
      * @param ipAddress   ip地址
      * @param ipSource    ip源
-     * @return {@link UserDetailDTO} 用户信息
+     * @return {@link UserDetailVO} 用户信息
      */
-    private UserDetailDTO saveUserDetail(SocialTokenDTO socialToken, String ipAddress, String ipSource,SocialUserInfoDTO socialUserInfo) {
+    private UserDetailVO saveUserDetail(SocialTokenVO socialToken, String ipAddress, String ipSource, SocialUserInfoVO socialUserInfo) {
 
         // 保存用户信息
         UserAuth userAuth = UserAuth.builder()
@@ -169,7 +169,7 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         return convertUserDetail(user);
     }
 
-    private UserDetailDTO convertUserDetail(User user) {
+    private UserDetailVO convertUserDetail(User user) {
         // 查询账号信息
         UserAuth userAuth = userAuthMapper.selectById(user.getUserAuthId());
         // 查询账号点赞信息
@@ -183,7 +183,7 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         List<String> roleList = new ArrayList<>();
         roleList.add(role.getCode());
         // 封装权限集合
-        return UserDetailDTO.builder()
+        return UserDetailVO.builder()
                 .id(user.getId())
                 .loginType(user.getLoginType())
                 .userAuthId(userAuth.getId())

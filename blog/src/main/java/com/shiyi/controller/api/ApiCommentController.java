@@ -3,7 +3,7 @@ package com.shiyi.controller.api;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.shiyi.annotation.BusinessLogger;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.vo.CommentVO;
+import com.shiyi.vo.CommentDTO;
 import com.shiyi.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +25,7 @@ public class ApiCommentController {
     @RequestMapping(value = "/addComment",method = RequestMethod.POST)
     @SaCheckLogin
     @ApiOperation(value = "添加评论", httpMethod = "POST", response = ResponseResult.class, notes = "添加评论")
-    public ResponseResult addComment(@RequestBody CommentVO comment){
+    public ResponseResult addComment(@RequestBody CommentDTO comment){
         return commentService.addComment(comment);
     }
 

@@ -1,6 +1,5 @@
 package com.shiyi.mapper;
 
-import com.shiyi.dto.FriendLinkDTO;
 import com.shiyi.entity.WebConfig;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 

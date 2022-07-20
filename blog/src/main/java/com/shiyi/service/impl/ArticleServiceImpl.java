@@ -16,7 +16,7 @@ import com.shiyi.service.ArticleService;
 import com.shiyi.service.SystemConfigService;
 import com.shiyi.strategy.context.SearchStrategyContext;
 import com.shiyi.utils.*;
-import com.shiyi.vo.ArticleVO;
+import com.shiyi.vo.ArticleDTO;
 import com.shiyi.webmagic.BlogPipeline;
 import com.shiyi.webmagic.CSDNPageProcessor;
 import lombok.RequiredArgsConstructor;
@@ -84,7 +84,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult selectArticle(Map<String,Object> map) {
-        Page<ArticleListDTO> data = baseMapper.selectArticle(new Page<>((Integer)map.get("pageNo"), (Integer)map.get("pageSize")),map);
+        Page<ArticleListVO> data = baseMapper.selectArticle(new Page<>((Integer)map.get("pageNo"), (Integer)map.get("pageSize")),map);
         return ResponseResult.success(data);
     }
 
@@ -94,9 +94,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult info(Long id) {
-        ArticleVO articleVO = baseMapper.selectPrimaryKey(id);
-        articleVO.setTags(tagsMapper.selectByArticleId(id));
-        return ResponseResult.success(articleVO);
+        ArticleDTO articleDTO = baseMapper.selectPrimaryKey(id);
+        articleDTO.setTags(tagsMapper.selectByArticleId(id));
+        return ResponseResult.success(articleDTO);
     }
 
     /**
@@ -105,7 +105,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult insertArticle(ArticleVO article) {
+    public ResponseResult insertArticle(ArticleDTO article) {
         BlogArticle blogArticle = BeanCopyUtil.copyObject(article, BlogArticle.class);
         blogArticle.setUserId(StpUtil.getLoginIdAsLong());
         //添加分类
@@ -128,7 +128,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult updateArticle(ArticleVO article) {
+    public ResponseResult updateArticle(ArticleDTO article) {
         BlogArticle blogArticle = baseMapper.selectById(article.getId());
         Assert.notNull(blogArticle,ARTICLE_NOT_EXIST.getDesc());
 
@@ -185,7 +185,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult putTopArticle(ArticleVO article) {
+    public ResponseResult putTopArticle(ArticleDTO article) {
         baseMapper.putTopArticle(article);
         return ResponseResult.success();
     }
@@ -230,7 +230,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult publishAndShelf(ArticleVO article) {
+    public ResponseResult publishAndShelf(ArticleDTO article) {
         baseMapper.publishAndShelf(article);
         return ResponseResult.success();
     }
@@ -250,8 +250,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult webArticleList() {
-        Page<ArticlePreviewDTO> articlePreviewDTOPage = baseMapper.selectPreviewPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), PUBLISH.code,null,null);
-        articlePreviewDTOPage.getRecords().forEach(item -> item.setTagDTOList(tagsMapper.findByArticleIdToTags(item.getId())));
+        Page<ArticlePreviewVO> articlePreviewDTOPage = baseMapper.selectPreviewPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), PUBLISH.code,null,null);
+        articlePreviewDTOPage.getRecords().forEach(item -> item.setTagVOList(tagsMapper.findByArticleIdToTags(item.getId())));
         return ResponseResult.success(articlePreviewDTOPage);
     }
 
@@ -261,9 +261,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult webArticleInfo(Integer id) {
-        ArticleInfoDTO blogArticle = baseMapper.selectPrimaryKeyById(id);
+        ArticleInfoVO blogArticle = baseMapper.selectPrimaryKeyById(id);
         //标签
-        List<TagDTO> tags = tagsMapper.findByArticleIdToTags(blogArticle.getId());
+        List<TagVO> tags = tagsMapper.findByArticleIdToTags(blogArticle.getId());
         blogArticle.setTagList(tags);
         //分类
         Category category = categoryMapper.selectOne(new LambdaQueryWrapper<Category>().select(Category::getId,Category::getName)
@@ -276,17 +276,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         blogArticle.setComments(list);
 
         //最新文章
-        List<LatestArticleDTO> blogArticles = baseMapper.getNewArticles(id, PUBLISH.code);
+        List<LatestArticleVO> blogArticles = baseMapper.getNewArticles(id, PUBLISH.code);
         blogArticle.setNewestArticleList(blogArticles);
 
         // 查询上一篇下一篇文章
-        LatestArticleDTO lastArticle = baseMapper.getNextOrLastArticle(id,0, PUBLISH.code);
+        LatestArticleVO lastArticle = baseMapper.getNextOrLastArticle(id,0, PUBLISH.code);
         blogArticle.setLastArticle(lastArticle);
-        LatestArticleDTO nextArticle = baseMapper.getNextOrLastArticle(id,1, PUBLISH.code);
+        LatestArticleVO nextArticle = baseMapper.getNextOrLastArticle(id,1, PUBLISH.code);
         blogArticle.setNextArticle(nextArticle);
 
         //相关推荐
-        List<LatestArticleDTO> recommendArticleList = baseMapper.listRecommendArticles(id);
+        List<LatestArticleVO> recommendArticleList = baseMapper.listRecommendArticles(id);
         blogArticle.setRecommendArticleList(recommendArticleList);
 
         // 封装点赞量和浏览量
@@ -312,10 +312,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     @Override
     public ResponseResult condition(Long categoryId, Long tagId, Integer pageSize) {
         Map<String,Object> result = new HashMap<>();
-        Page<ArticlePreviewDTO>  blogArticlePage = baseMapper.selectPreviewPage(new Page<>(PageUtil.getPageNo(),pageSize),PUBLISH.getCode(),categoryId,tagId);
+        Page<ArticlePreviewVO>  blogArticlePage = baseMapper.selectPreviewPage(new Page<>(PageUtil.getPageNo(),pageSize),PUBLISH.getCode(),categoryId,tagId);
         blogArticlePage.getRecords().forEach(item -> {
-            List<TagDTO> tagList = tagsMapper.findByArticleIdToTags(item.getId());
-            item.setTagDTOList(tagList);
+            List<TagVO> tagList = tagsMapper.findByArticleIdToTags(item.getId());
+            item.setTagVOList(tagList);
         });
         String name;
         if (categoryId != null){
@@ -336,7 +336,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult archive() {
-        Page<ArticlePreviewDTO> articlePage = baseMapper.selectArchivePage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),PUBLISH.code);
+        Page<ArticlePreviewVO> articlePage = baseMapper.selectArchivePage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),PUBLISH.code);
         return ResponseResult.success(articlePage);
     }
 
@@ -351,8 +351,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         SystemConfig systemConfig = systemConfigService.getCustomizeOne();
         String strategy = SearchModelEnum.getStrategy(systemConfig.getSearchModel());
         //搜索逻辑
-        List<ArticleSearchDTO> articleSearchDTOS = searchStrategyContext.executeSearchStrategy(strategy, keywords);
-        return ResponseResult.success(articleSearchDTOS);
+        List<ArticleSearchVO> articleSearchVOS = searchStrategyContext.executeSearchStrategy(strategy, keywords);
+        return ResponseResult.success(articleSearchVOS);
     }
 
     /**
@@ -441,7 +441,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @param article
      * @return
      */
-    private List<Long> getTagsList(ArticleVO article) {
+    private List<Long> getTagsList(ArticleDTO article) {
         List<Long> tagList = new ArrayList<>();
         article.getTags().forEach(item ->{
             Tags tags = tagsMapper.selectOne(new QueryWrapper<Tags>().eq(SqlConf.NAME, item));

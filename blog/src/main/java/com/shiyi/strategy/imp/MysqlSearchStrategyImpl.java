@@ -3,7 +3,7 @@ package com.shiyi.strategy.imp;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.shiyi.common.Constants;
-import com.shiyi.dto.ArticleSearchDTO;
+import com.shiyi.dto.ArticleSearchVO;
 import com.shiyi.entity.BlogArticle;
 import com.shiyi.mapper.ArticleMapper;
 import com.shiyi.strategy.SearchStrategy;
@@ -22,7 +22,7 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
     private final ArticleMapper mapper;
 
     @Override
-    public List<ArticleSearchDTO> searchArticle(String keywords){
+    public List<ArticleSearchVO> searchArticle(String keywords){
         // 搜索文章
         List<BlogArticle> blogArticles = mapper.selectList(new LambdaQueryWrapper<BlogArticle>()
                 .eq(BlogArticle::getIsPublish, PUBLISH.getCode())
@@ -48,7 +48,7 @@ public class MysqlSearchStrategyImpl implements SearchStrategy {
             }
             // 文章标题高亮
             String articleTitle = item.getTitle().replaceAll(keywords, Constants.PRE_TAG + keywords + Constants.POST_TAG);
-            return ArticleSearchDTO.builder()
+            return ArticleSearchVO.builder()
                     .id(item.getId())
                     .title(articleTitle)
                     .content(articleContent)

@@ -1,8 +1,8 @@
 package com.shiyi.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.dto.CategoryCountDTO;
-import com.shiyi.dto.CategoryDTO;
+import com.shiyi.dto.CategoryCountVO;
+import com.shiyi.dto.CategoryVO;
 import com.shiyi.entity.Category;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -33,12 +33,12 @@ public interface CategoryMapper extends BaseMapper<Category> {
      * 统计分类
      * @return
      */
-    List<CategoryCountDTO> countArticle();
+    List<CategoryCountVO> countArticle();
 
     /**
      * 首页获取所有分类
      * @return
      */
-    List<CategoryDTO> selectAll();
+    List<CategoryVO> selectAll();
 
 }

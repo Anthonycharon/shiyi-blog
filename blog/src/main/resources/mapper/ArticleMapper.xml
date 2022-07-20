@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shiyi.mapper.ArticleMapper">
 
-    <select id="selectArticle" resultType="com.shiyi.dto.ArticleListDTO">
+    <select id="selectArticle" resultType="com.shiyi.dto.ArticleListVO">
         SELECT
             a.*,
             b.NAME AS categoryName,
@@ -29,13 +29,13 @@
         GROUP BY a.id order by a.is_stick desc ,a.create_time desc
     </select>
 
-    <select id="selectPrimaryKey" resultType="com.shiyi.vo.ArticleVO">
+    <select id="selectPrimaryKey" resultType="com.shiyi.vo.ArticleDTO">
         select a.id,a.title,a.avatar,a.summary,a.quantity,a.content,a.content_md,a.is_secret,a.is_stick,a.is_publish,a.is_original,a.original_url,
                a.remark,a.create_time,a.keywords,b.name as categoryName from b_article a
                                                                                  LEFT JOIN (SELECT id,name from b_category) b on a.category_id=b.id where a.id=#{id}
     </select>
 
-    <select id="contribute" resultType="com.shiyi.dto.ContributeDTO">
+    <select id="contribute" resultType="com.shiyi.dto.ContributeVO">
         select count,date from
         (SELECT
             count(id) as count,
@@ -48,7 +48,7 @@
             `create_time`) AS blog
         ORDER BY blog.create_time ASC
     </select>
-    <select id="listRecommendArticles" resultType="com.shiyi.dto.LatestArticleDTO">
+    <select id="listRecommendArticles" resultType="com.shiyi.dto.LatestArticleVO">
         SELECT
             id,
             title,
@@ -71,7 +71,7 @@
             LIMIT 6
     </select>
 
-    <select id="getNextOrLastArticle" resultType="com.shiyi.dto.LatestArticleDTO">
+    <select id="getNextOrLastArticle" resultType="com.shiyi.dto.LatestArticleVO">
         select id,title,avatar from b_article where is_publish=#{publish}
         <choose>
             <when test="type == 0">
@@ -83,18 +83,18 @@
         </choose>
          limit 1
     </select>
-    <select id="getNewArticles" resultType="com.shiyi.dto.LatestArticleDTO">
+    <select id="getNewArticles" resultType="com.shiyi.dto.LatestArticleVO">
         select id,title,avatar,create_time from b_article where is_publish=#{publish} and id != #{id}
         order by id desc limit 5
     </select>
 
 
 
-    <select id="selectPrimaryKeyById" resultType="com.shiyi.dto.ArticleInfoDTO">
+    <select id="selectPrimaryKeyById" resultType="com.shiyi.dto.ArticleInfoVO">
         select * from b_article where id=#{id}
     </select>
 
-    <select id="selectPreviewPage" resultType="com.shiyi.dto.ArticlePreviewDTO">
+    <select id="selectPreviewPage" resultType="com.shiyi.dto.ArticlePreviewVO">
         SELECT
         a.id AS id,
         a.title AS title,
@@ -121,7 +121,7 @@
         ORDER BY a.is_stick DESC,a.create_time desc
     </select>
 
-    <select id="selectArchivePage" resultType="com.shiyi.dto.ArticlePreviewDTO">
+    <select id="selectArchivePage" resultType="com.shiyi.dto.ArticlePreviewVO">
         select id,title,create_time from b_article where is_publish=#{publish} order by create_time desc,is_stick asc
     </select>
 

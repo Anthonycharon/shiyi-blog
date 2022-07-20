@@ -5,7 +5,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.service.impl.HomeServiceImpl;
-import com.shiyi.dto.SystemHardwareInfoDTO;
+import com.shiyi.dto.SystemHardwareInfoVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -39,13 +39,13 @@ public class HomeController {
     @SaCheckPermission("/system/home/systemInfo")
     @ApiOperation(value = "服务器监控", httpMethod = "GET", response = ResponseResult.class, notes = "服务器监控")
     public ResponseResult systemInfo() {
-        SystemHardwareInfoDTO systemHardwareInfoDTO = new SystemHardwareInfoDTO();
+        SystemHardwareInfoVO systemHardwareInfoVO = new SystemHardwareInfoVO();
         try {
-            systemHardwareInfoDTO.copyTo();
+            systemHardwareInfoVO.copyTo();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return ResponseResult.success(systemHardwareInfoDTO);
+        return ResponseResult.success(systemHardwareInfoVO);
     }
 
     @GetMapping(value = "/cache")

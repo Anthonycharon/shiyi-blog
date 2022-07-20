@@ -2,7 +2,7 @@ package com.shiyi.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.dto.SystemUserDTO;
+import com.shiyi.dto.SystemUserVO;
 import com.shiyi.entity.User;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public interface UserService extends IService<User> {
 
     ResponseResult delete(List<Integer> ids);
 
-    SystemUserDTO getCurrentUserInfo();
+    SystemUserVO getCurrentUserInfo();
 
     ResponseResult getUserMenu();
 

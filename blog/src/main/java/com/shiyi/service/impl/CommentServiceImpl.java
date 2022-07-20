@@ -5,15 +5,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.dto.ReplyCountDTO;
-import com.shiyi.dto.ReplyDTO;
+import com.shiyi.dto.ReplyCountVO;
+import com.shiyi.dto.ReplyVO;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
-import com.shiyi.dto.SystemCommentDTO;
+import com.shiyi.dto.SystemCommentVO;
 import com.shiyi.entity.Comment;
 import com.shiyi.entity.UserAuth;
 import com.shiyi.utils.PageUtil;
-import com.shiyi.vo.CommentVO;
+import com.shiyi.vo.CommentDTO;
 import com.shiyi.mapper.CommentMapper;
 import com.shiyi.mapper.UserAuthMapper;
 import com.shiyi.service.CommentService;
@@ -47,7 +47,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      */
     @Override
     public ResponseResult listData(String keywords) {
-        Page<SystemCommentDTO> dtoPage = baseMapper.selectPageList(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),keywords);
+        Page<SystemCommentVO> dtoPage = baseMapper.selectPageList(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),keywords);
         return ResponseResult.success(dtoPage);
     }
 
@@ -85,41 +85,41 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if (CollectionUtils.isEmpty(comments)) {
             return ResponseResult.success();
         }
-        List<com.shiyi.dto.CommentDTO> commentDTOList = new ArrayList<>();
-        List<ReplyDTO> replyDTOList;
+        List<com.shiyi.dto.CommentVO> commentVOList = new ArrayList<>();
+        List<ReplyVO> replyVOList;
         for (Comment comment : comments) {
             UserAuth userAuth = userAuthMapper.getByUserId(comment.getUserId());
             // 根据评论id集合查询回复数据
-            replyDTOList = baseMapper.listReplies(comment.getId());
-            ReplyCountDTO replyCountDTO = baseMapper.listReplyCountByCommentId(comment.getId());
-            com.shiyi.dto.CommentDTO dto = new com.shiyi.dto.CommentDTO();
+            replyVOList = baseMapper.listReplies(comment.getId());
+            ReplyCountVO replyCountVO = baseMapper.listReplyCountByCommentId(comment.getId());
+            com.shiyi.dto.CommentVO dto = new com.shiyi.dto.CommentVO();
             dto.setId(comment.getId());
             dto.setUserId(comment.getUserId());
             dto.setCommentContent(comment.getContent());
             dto.setCreateTime(comment.getCreateTime());
             dto.setAvatar(userAuth.getAvatar());
             dto.setNickname(userAuth.getNickname());
-            dto.setReplyDTOList(replyDTOList);
-            dto.setReplyCount(replyCountDTO == null ? 0 : replyCountDTO.getReplyCount());
-            commentDTOList.add(dto);
+            dto.setReplyVOList(replyVOList);
+            dto.setReplyCount(replyCountVO == null ? 0 : replyCountVO.getReplyCount());
+            commentVOList.add(dto);
         }
         Map<String,Object> map =new HashMap<>();
         map.put("commentCount",commentCount);
-        map.put("commentDTOList",commentDTOList);
+        map.put("commentDTOList", commentVOList);
         return ResponseResult.success(map);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult addComment(CommentVO commentVO) {
+    public ResponseResult addComment(CommentDTO commentDTO) {
         // 过滤标签
-        commentVO.setCommentContent(HTMLUtil.deleteTag(commentVO.getCommentContent()));
+        commentDTO.setCommentContent(HTMLUtil.deleteTag(commentDTO.getCommentContent()));
         Comment comment = Comment.builder()
-                .userId(commentVO.getUserId())
-                .replyUserId(commentVO.getReplyUserId())
-                .articleId(commentVO.getArticleId())
-                .content(commentVO.getCommentContent())
-                .parentId(commentVO.getParentId()).createTime(DateUtil.getNowDate())
+                .userId(commentDTO.getUserId())
+                .replyUserId(commentDTO.getReplyUserId())
+                .articleId(commentDTO.getArticleId())
+                .content(commentDTO.getCommentContent())
+                .parentId(commentDTO.getParentId()).createTime(DateUtil.getNowDate())
                 .build();
         int rows = baseMapper.insert(comment);
        /* // 判断是否开启邮箱通知,通知用户
@@ -132,11 +132,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Override
     public ResponseResult repliesByComId(Integer commentId) {
         Page<Comment> page = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), new QueryWrapper<Comment>().eq(SqlConf.PARENT_ID, commentId));
-        List<ReplyDTO> result = new ArrayList<>();
+        List<ReplyVO> result = new ArrayList<>();
         for (Comment comment: page.getRecords()) {
             UserAuth userAuth = userAuthMapper.getByUserId(comment.getUserId());
             UserAuth replyUser = userAuthMapper.getByUserId(comment.getReplyUserId());
-            ReplyDTO dto = new ReplyDTO();
+            ReplyVO dto = new ReplyVO();
             dto.setId(comment.getId());
             dto.setAvatar(userAuth.getAvatar());
             dto.setNickname(userAuth.getNickname());
