@@ -21,6 +21,7 @@ import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.shiyi.common.Constants.UNKNOWN;
 
@@ -28,12 +29,16 @@ import static com.shiyi.common.Constants.UNKNOWN;
 public class IpUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(IpUtil.class);
-    private static String dbPath;
+    private static final String dbPath;
     private static DbSearcher searcher;
     private static DbConfig config;
 
+    private final static String format_url = "https://apis.map.qq.com/ws/location/v1/ip?ip={}&key=XJIBZ-ZNUWU-ZHGVM-2Z3JG-VQKF2-HXFTB";
+
+    private final static String localIp = "127.0.0.1";
+
     static {
-        dbPath = IpUtil.class.getResource("/ip2region.db").getPath();
+        dbPath = Objects.requireNonNull(IpUtil.class.getResource("/ip2region.db")).getPath();
         try {
             config = new DbConfig();
         } catch (DbMakerConfigException e) {
@@ -46,6 +51,11 @@ public class IpUtil {
         }
     }
 
+    /**
+     * 获取ip地址
+     * @param request
+     * @return
+     */
     public static String getIp(HttpServletRequest request){
         String ipAddress;
         try {
@@ -58,7 +68,7 @@ public class IpUtil {
             }
             if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
                 ipAddress = request.getRemoteAddr();
-                if ("127.0.0.1".equals(ipAddress)) {
+                if (localIp.equals(ipAddress)) {
                     // 根据网卡取本机配置的IP
                     InetAddress inet = null;
                     try {
@@ -66,6 +76,7 @@ public class IpUtil {
                     } catch (UnknownHostException e) {
                         e.printStackTrace();
                     }
+                    assert inet != null;
                     ipAddress = inet.getHostAddress();
                 }
             }
@@ -79,7 +90,7 @@ public class IpUtil {
         } catch (Exception e) {
             ipAddress = "";
         }
-        return "0:0:0:0:0:0:0:1".equals(ipAddress) ? "127.0.0.1":ipAddress;
+        return "0:0:0:0:0:0:0:1".equals(ipAddress) ? localIp : ipAddress;
     }
 
     /**
@@ -121,24 +132,11 @@ public class IpUtil {
             return null;
         }
 
-        //查询算法
-        //B-tree, B树搜索（更快）
-        int algorithm = DbSearcher.BTREE_ALGORITHM;
         try {
             //define the method
             Method method = null;
-            switch (algorithm) {
-                case DbSearcher.BTREE_ALGORITHM:
-                    method = searcher.getClass().getMethod("btreeSearch", String.class);
-                    break;
-                case DbSearcher.BINARY_ALGORITHM:
-                    method = searcher.getClass().getMethod("binarySearch", String.class);
-                    break;
-                case DbSearcher.MEMORY_ALGORITYM:
-                    method = searcher.getClass().getMethod("memorySearch", String.class);
-                    break;
-                default:
-            }
+            //B-tree, B树搜索（更快）
+            method = searcher.getClass().getMethod("btreeSearch", String.class);
 
             DataBlock dataBlock;
             dataBlock = (DataBlock) method.invoke(searcher, ip);
@@ -176,7 +174,7 @@ public class IpUtil {
             return InetAddress.getLocalHost().getHostAddress();
         }catch (UnknownHostException e){
         }
-        return "127.0.0.1";
+        return localIp;
     }
 
     /**
@@ -187,20 +185,22 @@ public class IpUtil {
     public static String getHostName(){
         try{
             return InetAddress.getLocalHost().getHostName();
-        }catch (UnknownHostException e){
+        } catch (UnknownHostException e) {
         }
         return "未知";
     }
 
-
-    //根据在腾讯位置服务上申请的key进行请求操做
+    /**
+     * 根据在腾讯位置服务上申请的key进行请求解析ip
+     * @param ip ip地址
+     * @return
+     */
     public static String analyzeIp(String ip) {
-        String key = "XJIBZ-ZNUWU-ZHGVM-2Z3JG-VQKF2-HXFTB";
         StringBuilder result = new StringBuilder();
         BufferedReader in = null;
         try {
-            String urlNameString = "https://apis.map.qq.com/ws/location/v1/ip?ip="+ip+"&key="+key;
-            URL realUrl = new URL(urlNameString);
+            String url = format_url.replace("{}", ip);
+            URL realUrl = new URL(url);
             // 打开和URL之间的链接
             URLConnection connection = realUrl.openConnection();
             // 设置通用的请求属性
