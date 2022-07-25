@@ -89,8 +89,8 @@ public class IpUtil {
      * @return 解析后的ip地址
      */
     public static String getCityInfo(String ip)  {
-        String s = sendGet(ip);
-        logger.info("ip地址解析完成,结果为:{}",s);
+        //解析ip地址，获取省市区
+        String s = analyzeIp(ip);
         Map map = JSONObject.parseObject(s, Map.class);
         Integer status = (Integer) map.get("status");
         String address = UNKNOWN;
@@ -100,7 +100,7 @@ public class IpUtil {
             String nation = (String) addressInfo.get("nation");
             String province = (String) addressInfo.get("province");
             String city = (String) addressInfo.get("city");
-            address= nation + "-" + province + "-" + city;
+            address = nation + "-" + province + "-" + city;
         }
         return address;
     }
@@ -194,9 +194,9 @@ public class IpUtil {
 
 
     //根据在腾讯位置服务上申请的key进行请求操做
-    public static String sendGet(String ip) {
+    public static String analyzeIp(String ip) {
         String key = "XJIBZ-ZNUWU-ZHGVM-2Z3JG-VQKF2-HXFTB";
-        String result = "";
+        StringBuilder result = new StringBuilder();
         BufferedReader in = null;
         try {
             String urlNameString = "https://apis.map.qq.com/ws/location/v1/ip?ip="+ip+"&key="+key;
@@ -210,22 +210,15 @@ public class IpUtil {
                     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
             // 创建实际的链接
             connection.connect();
-            // 获取全部响应头字段
-            Map<String, List<String>> map = connection.getHeaderFields();
-            // 遍历全部的响应头字段
-//            for (Map.Entry entry : map.entrySet()) {
-//                System.out.println(key + "--->" + entry);
-//            }
             // 定义 BufferedReader输入流来读取URL的响应
             in = new BufferedReader(new InputStreamReader(
                     connection.getInputStream()));
             String line;
             while ((line = in.readLine()) != null) {
-                result += line;
+                result.append(line);
             }
         } catch (Exception e) {
-            System.out.println("发送GET请求出现异常！" + e);
-            e.printStackTrace();
+            logger.error("发送GET请求出现异常！异常信息为:{}",e.getMessage());
         }
         // 使用finally块来关闭输入流
         finally {
@@ -237,6 +230,6 @@ public class IpUtil {
                 e2.printStackTrace();
             }
         }
-        return result;
+        return result.toString();
     }
 }
