@@ -106,12 +106,12 @@ public class IpUtil {
     }
 
     /**
-     * 新版解析ip地址
+     * 根据ip2region解析ip地址
      *
      * @param ip ip地址
      * @return 解析后的ip地址
      */
-    public static String getCityInfoToNew(String ip)  {
+    public static String getIp2region(String ip)  {
         if (StringUtils.isEmpty(dbPath)) {
             logger.error("Error: Invalid ip2region.db file");
             return null;
