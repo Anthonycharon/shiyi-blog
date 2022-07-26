@@ -46,7 +46,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      * @return
      */
     @Override
-    public ResponseResult listData(String name, Integer isPublish, String descColumn, String ascColumn) {
+    public ResponseResult selectDict(String name, Integer isPublish, String descColumn, String ascColumn) {
         QueryWrapper<Dict> queryWrapper = new QueryWrapper<Dict>()
                 .eq(isPublish != null,SqlConf.IS_PUBLISH,isPublish)
                 .like(StringUtils.isNotBlank(name),SqlConf.NAME,name);
@@ -73,7 +73,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult addSysDict(Dict dict) {
+    public ResponseResult insertDict(Dict dict) {
         validateType(dict.getType());
         baseMapper.insert(dict);
         return ResponseResult.success();
@@ -86,7 +86,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult updateSysDict(Dict dict) {
+    public ResponseResult updateDict(Dict dict) {
         Dict temp = baseMapper.selectById(dict.getId());
         if (!temp.getType().equals(dict.getType())) validateType(dict.getType());
         baseMapper.updateById(dict);
@@ -100,7 +100,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult delete(int id) {
+    public ResponseResult deleteById(int id) {
         int count  = dictDataService.count(new QueryWrapper<DictData>().eq(SqlConf.DICT_TYPE_ID,id));
         Assert.isTrue(count==0,"该字典类型存在字典数据!");
         baseMapper.deleteById(id);

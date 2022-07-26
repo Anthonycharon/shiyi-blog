@@ -33,15 +33,15 @@ public class FeedBackController {
     @SaCheckLogin
     @ApiOperation(value = "反馈列表", httpMethod = "GET", response = ResponseResult.class, notes = "反馈列表")
     public ResponseResult list(Integer type) {
-        return feedBackService.listData(type);
+        return feedBackService.selectFeedBack(type);
     }
 
     @DeleteMapping(value = "/deleteBatch")
     @SaCheckPermission("/system/feedback/deleteBatch")
     @ApiOperation(value = "删除反馈", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除反馈")
     @OperationLogger(value = "删除反馈")
-    public ResponseResult delete(@RequestBody List<Integer> ids) {
-        return feedBackService.delete(ids);
+    public ResponseResult deleteBatch(@RequestBody List<Integer> ids) {
+        return feedBackService.deleteBatch(ids);
     }
 }
 

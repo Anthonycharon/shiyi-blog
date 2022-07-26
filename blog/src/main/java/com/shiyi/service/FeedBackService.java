@@ -16,11 +16,11 @@ import java.util.List;
  */
 public interface FeedBackService extends IService<FeedBack> {
 
-    ResponseResult listData(Integer type);
+    ResponseResult selectFeedBack(Integer type);
 
-    ResponseResult delete(List<Integer> ids);
+    ResponseResult deleteBatch(List<Integer> ids);
 
 
-    ResponseResult addFeedback(FeedBack feedBack);
+    ResponseResult insertFeedback(FeedBack feedBack);
 
 }

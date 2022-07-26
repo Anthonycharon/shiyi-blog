@@ -17,11 +17,11 @@ import java.util.Map;
  */
 public interface PhotoService extends IService<Photo> {
 
-    ResponseResult listData(Integer albumId);
+    ResponseResult selectPhoto(Integer albumId);
 
     ResponseResult infoPhoto(Integer id);
 
-    ResponseResult addPhoto(Photo photo);
+    ResponseResult insertAlbum(Photo photo);
 
     ResponseResult updatePhoto(Photo photo);
 

@@ -16,13 +16,13 @@ import java.util.List;
  */
 public interface TagsService extends IService<Tags> {
 
-    ResponseResult listData(String name);
+    ResponseResult selectTags(String name);
 
-    ResponseResult addTag(Tags tags);
+    ResponseResult insertTag(Tags tags);
 
     ResponseResult updateTag(Tags tags);
 
-    ResponseResult delete(Long id);
+    ResponseResult deleteById(Long id);
 
     ResponseResult deleteBatch(List<Long> ids);
 

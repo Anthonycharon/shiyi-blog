@@ -38,15 +38,15 @@ public class DictDataController {
     @SaCheckLogin
     @ApiOperation(value = "字典数据列表", httpMethod = "GET", response = ResponseResult.class, notes = "字典数据列表")
     public ResponseResult list(Integer dictId, Integer isPublish){
-        return dictDataService.listDictData(dictId,isPublish);
+        return dictDataService.selectDictData(dictId,isPublish);
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @SaCheckPermission("/system/dictData/add")
     @ApiOperation(value = "添加字典数据", httpMethod = "POST", response = ResponseResult.class, notes = "添加字典数据")
     @OperationLogger(value = "添加字典数据")
-    public ResponseResult add(@RequestBody DictData dictData){
-        return dictDataService.addDictData(dictData);
+    public ResponseResult insert(@RequestBody DictData dictData){
+        return dictDataService.insertDictData(dictData);
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
@@ -61,8 +61,8 @@ public class DictDataController {
     @SaCheckPermission("/system/dictData/delete")
     @ApiOperation(value = "删除字典数据", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除字典数据")
     @OperationLogger(value = "删除字典数据")
-    public ResponseResult delete(Long id){
-        return dictDataService.delete(id);
+    public ResponseResult deleteById(Long id){
+        return dictDataService.deleteById(id);
     }
 
     @RequestMapping(value = "/deleteBatch",method = RequestMethod.DELETE)

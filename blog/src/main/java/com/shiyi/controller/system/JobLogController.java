@@ -31,9 +31,9 @@ public class JobLogController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "定时任务日志列表", httpMethod = "GET", response = ResponseResult.class, notes = "定时任务日志列表")
-    public ResponseResult query(String jobName, String jobGroup, String status, String startTime,
+    public ResponseResult list(String jobName, String jobGroup, String status, String startTime,
                                 String endTime, Long jobId) {
-        return jobLogService.listData(jobName,jobGroup,status,startTime,endTime,jobId);
+        return jobLogService.selectJobLog(jobName,jobGroup,status,startTime,endTime,jobId);
     }
 
     @PostMapping(value = "/deleteBatch")

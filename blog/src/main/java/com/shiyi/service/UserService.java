@@ -15,19 +15,19 @@ import java.util.Map;
  */
 public interface UserService extends IService<User> {
 
-    ResponseResult listData(String username, Integer loginType);
+    ResponseResult selectUser(String username, Integer loginType);
 
     ResponseResult info(Integer id);
 
-    ResponseResult saveUser(User user);
+    ResponseResult insertUser(User user);
 
     ResponseResult updateUser(User user);
 
-    ResponseResult delete(List<Integer> ids);
+    ResponseResult deleteBatch(List<Integer> ids);
 
-    SystemUserVO getCurrentUserInfo();
+    ResponseResult getCurrentUserInfo();
 
-    ResponseResult getUserMenu();
+    ResponseResult getCurrentUserMenu();
 
     ResponseResult updatePassword(Map<String, String> map);
 

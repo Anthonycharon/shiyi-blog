@@ -45,7 +45,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
      * @return
      */
     @Override
-    public ResponseResult listData(String name) {
+    public ResponseResult selectAlbum(String name) {
         QueryWrapper<PhotoAlbum> queryWrapper = new QueryWrapper<PhotoAlbum>()
                 .like(StringUtils.isNotBlank(name),SqlConf.NAME,name);
         Page<PhotoAlbum> photoAlbumPage = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), queryWrapper);
@@ -76,7 +76,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult addAlbum(PhotoAlbum photoAlbum) {
+    public ResponseResult insertAlbum(PhotoAlbum photoAlbum) {
         int rows = baseMapper.insert(photoAlbum);
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("添加相册失败");
     }

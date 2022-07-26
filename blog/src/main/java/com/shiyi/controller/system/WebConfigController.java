@@ -32,7 +32,7 @@ public class WebConfigController {
     @SaCheckLogin
     @ApiOperation(value = "网站配置列表", httpMethod = "GET", response = ResponseResult.class, notes = "网站配置列表")
     public ResponseResult list() {
-        return webConfigService.listData();
+        return webConfigService.selectWebConfig();
     }
 
     @PostMapping(value = "/update")
@@ -40,7 +40,7 @@ public class WebConfigController {
     @ApiOperation(value = "修改网站配置", httpMethod = "POST", response = ResponseResult.class, notes = "网站配置列表")
     @OperationLogger(value = "修改网站配置")
     public ResponseResult update(@RequestBody WebConfig webConfig) {
-        return webConfigService.updateData(webConfig);
+        return webConfigService.updateWebConfig(webConfig);
     }
 }
 

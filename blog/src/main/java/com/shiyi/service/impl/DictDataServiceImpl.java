@@ -47,7 +47,7 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
      * @return
      */
     @Override
-    public ResponseResult listDictData(Integer dictId, Integer isPublish) {
+    public ResponseResult selectDictData(Integer dictId, Integer isPublish) {
         QueryWrapper<DictData> queryWrapper = new QueryWrapper<DictData>()
                 .eq(SqlConf.DICT_TYPE_ID,dictId).eq(isPublish != null,SqlConf.IS_PUBLISH,isPublish);
         Page<DictData> data = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), queryWrapper);
@@ -65,7 +65,7 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult addDictData(DictData dictData) {
+    public ResponseResult insertDictData(DictData dictData) {
         // 判断添加的字典数据是否存在
         isExist(dictData);
         baseMapper.insert(dictData);
@@ -107,7 +107,7 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult delete(Long id) {
+    public ResponseResult deleteById(Long id) {
         baseMapper.deleteById(id);
         return ResponseResult.success();
     }

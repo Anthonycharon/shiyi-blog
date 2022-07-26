@@ -66,7 +66,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
      * @return
      */
     @Override
-    public ResponseResult listData(String jobName, String jobGroup, String status) {
+    public ResponseResult selectJob(String jobName, String jobGroup, String status) {
         QueryWrapper<Job> queryWrapper = new QueryWrapper<Job>()
                 .like(StringUtils.isNotBlank(jobName),SqlConf.JOB_NAME,jobName)
                 .eq(StringUtils.isNotBlank(jobGroup),SqlConf.JOB_GROUP,jobGroup)
@@ -99,7 +99,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult addJob(Job job) throws SchedulerException, TaskException {
+    public ResponseResult insertJob(Job job) throws SchedulerException, TaskException {
         checkCronIsValid(job);
 
         User user = userMapper.selectById(StpUtil.getLoginIdAsInt());

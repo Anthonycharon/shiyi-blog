@@ -33,22 +33,22 @@ public class TagsController {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     @SaCheckLogin
     @ApiOperation(value = "标签列表", httpMethod = "GET", response = ResponseResult.class, notes = "标签列表")
-    public ResponseResult query(String name){
-        return tagsService.listData(name);
+    public ResponseResult list(String name){
+        return tagsService.selectTags(name);
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @SaCheckPermission("/system/tags/add")
     @ApiOperation(value = "新增标签", httpMethod = "POST", response = ResponseResult.class, notes = "新增标签")
     @OperationLogger(value = "新增标签")
-    public ResponseResult add(@RequestBody Tags tags){
-        return tagsService.addTag(tags);
+    public ResponseResult insert(@RequestBody Tags tags){
+        return tagsService.insertTag(tags);
     }
 
     @RequestMapping(value = "/info",method = RequestMethod.GET)
     @SaCheckPermission("/system/tags/info")
     @ApiOperation(value = "标签详情", httpMethod = "GET", response = ResponseResult.class, notes = "标签详情")
-    public ResponseResult info(@RequestParam(required = true) Long id){
+    public ResponseResult info(Long id){
         return tagsService.info(id);
     }
 
@@ -64,15 +64,15 @@ public class TagsController {
     @SaCheckPermission("/system/tags/remove")
     @ApiOperation(value = "删除标签", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除标签")
     @OperationLogger(value = "删除标签")
-    public ResponseResult remove(Long  id){
-        return tagsService.delete(id);
+    public ResponseResult deleteById(Long  id){
+        return tagsService.deleteById(id);
     }
 
     @RequestMapping(value = "/deleteBatch",method = RequestMethod.DELETE)
     @SaCheckPermission("/system/tags/deleteBatch")
     @ApiOperation(value = "批量删除标签", httpMethod = "DELETE", response = ResponseResult.class, notes = "批量删除标签")
     @OperationLogger(value = "批量删除标签")
-    public ResponseResult remove(@RequestBody List<Long> ids){
+    public ResponseResult deleteBatch(@RequestBody List<Long> ids){
         return tagsService.deleteBatch(ids);
     }
 

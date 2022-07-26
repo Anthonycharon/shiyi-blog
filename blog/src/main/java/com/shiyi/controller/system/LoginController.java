@@ -35,8 +35,8 @@ public class LoginController {
 
 
     @PostMapping("login")
-    public ResponseResult doLogin(@Validated @RequestBody LoginDTO vo) {
-        return loginService.doLogin(vo);
+    public ResponseResult login(@Validated @RequestBody LoginDTO vo) {
+        return loginService.login(vo);
     }
 
     @SaCheckLogin

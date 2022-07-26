@@ -36,8 +36,8 @@ public class MessageController {
     @RequestMapping(value="/list",method = RequestMethod.GET)
     @SaCheckLogin
     @ApiOperation(value = "留言列表", httpMethod = "GET", response = ResponseResult.class, notes = "留言列表")
-    public ResponseResult listPage(String name){
-        return messageService.listData(name);
+    public ResponseResult list(String name){
+        return messageService.selectMessage(name);
     }
 
     @RequestMapping(value="/passBatch",method = RequestMethod.POST)
@@ -53,7 +53,7 @@ public class MessageController {
     @SaCheckPermission("/system/message/remove")
     @OperationLogger(value = "删除留言")
     @ApiOperation(value = "删除留言", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除留言")
-    public ResponseResult remove(int id){
+    public ResponseResult deleteById(int id){
         return messageService.deleteById(id);
     }
 

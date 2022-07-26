@@ -37,7 +37,7 @@ public class JobLogServiceImpl extends ServiceImpl<JobLogMapper, JobLog> impleme
      * @return
      */
     @Override
-    public ResponseResult listData(String jobName, String jobGroup, String status, String startTime,
+    public ResponseResult selectJobLog(String jobName, String jobGroup, String status, String startTime,
                                    String endTime, Long jobId) {
         QueryWrapper<JobLog> queryWrapper = new QueryWrapper<JobLog>()
                 .orderByDesc(SqlConf.CREATE_TIME).eq(jobId != null,SqlConf.JOB_ID,jobId)

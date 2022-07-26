@@ -32,7 +32,7 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
      * @return
      */
     @Override
-    public ResponseResult listData(Integer albumId) {
+    public ResponseResult selectPhoto(Integer albumId) {
         Page<Photo> photoPage = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, albumId));
         return ResponseResult.success(photoPage);
     }
@@ -55,7 +55,7 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult addPhoto(Photo photo) {
+    public ResponseResult insertAlbum(Photo photo) {
         int rows = baseMapper.insert(photo);
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("添加照片失败");
     }

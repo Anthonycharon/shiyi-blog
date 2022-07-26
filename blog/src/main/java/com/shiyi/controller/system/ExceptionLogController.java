@@ -32,16 +32,16 @@ public class ExceptionLogController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "异常日志列表", httpMethod = "GET", response = ResponseResult.class, notes = "异常日志列表")
-    public ResponseResult query() {
-        return exceptionLogService.listLog();
+    public ResponseResult list() {
+        return exceptionLogService.selectExceptionLog();
     }
 
     @DeleteMapping(value = "/delete")
     @SaCheckPermission("/system/exceptionLog/delete")
     @OperationLogger(value = "删除异常日志")
     @ApiOperation(value = "删除异常日志", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除异常日志")
-    public ResponseResult delete(@RequestBody List<Long> ids) {
-        return exceptionLogService.delete(ids);
+    public ResponseResult deleteBatch(@RequestBody List<Long> ids) {
+        return exceptionLogService.deleteBatch(ids);
     }
 }
 

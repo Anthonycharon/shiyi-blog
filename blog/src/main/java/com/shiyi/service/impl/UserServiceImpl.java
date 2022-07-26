@@ -55,7 +55,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    public ResponseResult listData(String username, Integer loginType) {
+    public ResponseResult selectUser(String username, Integer loginType) {
         Page<UserVO> page = baseMapper.selectPageRecord(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),username,loginType);
         return ResponseResult.success(page);
     }
@@ -78,7 +78,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult saveUser(User user) {
+    public ResponseResult insertUser(User user) {
         user.setPassword(PasswordUtil.aesEncrypt(user.getPassword()));
         user.setStatus(UserStatusEnum.normal.code);
         baseMapper.insert(user);
@@ -106,7 +106,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult delete(List<Integer> ids) {
+    public ResponseResult deleteBatch(List<Integer> ids) {
         userAuthMapper.deleteByUserIds(ids);
         int rows = baseMapper.deleteBatchIds(ids);
         return rows > 0? ResponseResult.success(): ResponseResult.error("删除失败");
@@ -117,8 +117,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    public SystemUserVO getCurrentUserInfo() {
-        return baseMapper.getById(StpUtil.getLoginIdAsInt());
+    public ResponseResult getCurrentUserInfo() {
+        return ResponseResult.success("获取当前登录用户信息成功", baseMapper.getById(StpUtil.getLoginIdAsInt()));
     }
 
     /**
@@ -126,7 +126,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    public ResponseResult getUserMenu() {
+    public ResponseResult getCurrentUserMenu() {
         List<Integer> menuIds = baseMapper.getMenuId(StpUtil.getLoginIdAsInt());
         List<Menu> menus = menuService.listByIds(menuIds);
         List<Menu> menuTree = menuService.getMenuTree(menus);

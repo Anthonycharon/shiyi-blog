@@ -32,16 +32,16 @@ public class UserLogController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "用户日志列表", httpMethod = "GET", response = ResponseResult.class, notes = "用户日志列表")
-    public ResponseResult query() {
-        return userLogService.listData();
+    public ResponseResult list() {
+        return userLogService.selectUserLog();
     }
 
     @DeleteMapping(value = "/delete")
     @SaCheckPermission("/system/userLog/delete")
     @OperationLogger(value = "删除用户日志")
     @ApiOperation(value = "删除用户日志", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除用户日志")
-    public ResponseResult delete(@RequestBody List<Long> ids) {
-        return userLogService.delete(ids);
+    public ResponseResult deleteBatch(@RequestBody List<Long> ids) {
+        return userLogService.deleteBatch(ids);
     }
 }
 

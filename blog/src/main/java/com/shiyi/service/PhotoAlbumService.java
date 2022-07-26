@@ -14,11 +14,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PhotoAlbumService extends IService<PhotoAlbum> {
 
-    ResponseResult listData(String name);
+    ResponseResult selectAlbum(String name);
 
     ResponseResult infoAlbum(Integer id);
 
-    ResponseResult addAlbum(PhotoAlbum photoAlbum);
+    ResponseResult insertAlbum(PhotoAlbum photoAlbum);
 
     ResponseResult updateAlbum(PhotoAlbum photoAlbum);
 

@@ -26,7 +26,7 @@ public class PageServiceImpl extends ServiceImpl<PageMapper, Page> implements Pa
      * @return
      */
     @Override
-    public ResponseResult listData() {
+    public ResponseResult selectPage() {
         List<Page> pages = baseMapper.selectList(null);
         return ResponseResult.success(pages);
     }
@@ -38,7 +38,7 @@ public class PageServiceImpl extends ServiceImpl<PageMapper, Page> implements Pa
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult addPage(Page page) {
+    public ResponseResult insertPage(Page page) {
         int rows = baseMapper.insert(page);
         return rows > 0 ? ResponseResult.success(page): ResponseResult.error("添加失败");
     }

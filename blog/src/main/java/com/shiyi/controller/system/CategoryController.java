@@ -33,7 +33,7 @@ public class CategoryController {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     @SaCheckLogin
     @ApiOperation(value = "分类列表", httpMethod = "GET", response = ResponseResult.class, notes = "分类列表")
-    public ResponseResult query(String name){
+    public ResponseResult list(String name){
         return categoryService.selectCategory(name);
     }
 
@@ -64,7 +64,7 @@ public class CategoryController {
     @SaCheckPermission("/system/category/delete")
     @ApiOperation(value = "删除分类", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除分类")
     @OperationLogger(value = "删除分类")
-    public ResponseResult remove(Long id){
+    public ResponseResult deleteCategory(Long id){
         return categoryService.deleteCategory(id);
     }
 
@@ -72,7 +72,7 @@ public class CategoryController {
     @SaCheckPermission("/system/category/deleteBatch")
     @ApiOperation(value = "批量删除分类", httpMethod = "DELETE", response = ResponseResult.class, notes = "批量删除分类")
     @OperationLogger(value = "批量删除分类")
-    public ResponseResult remove(@RequestBody List<Category> list){
+    public ResponseResult deleteBatch(@RequestBody List<Category> list){
         return categoryService.deleteBatch(list);
     }
 

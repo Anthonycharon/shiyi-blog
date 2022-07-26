@@ -30,7 +30,7 @@ public class LogServiceImpl extends ServiceImpl<UserLogMapper, UserLog> implemen
      * @return
      */
     @Override
-    public ResponseResult listData() {
+    public ResponseResult selectUserLog() {
         QueryWrapper<UserLog> queryWrapper = new QueryWrapper<UserLog>()
                 .orderByDesc(SqlConf.CREATE_TIME);
         Page<UserLog> sysLogPage = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), queryWrapper);
@@ -44,7 +44,7 @@ public class LogServiceImpl extends ServiceImpl<UserLogMapper, UserLog> implemen
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult delete(List<Long> ids) {
+    public ResponseResult deleteBatch(List<Long> ids) {
         int rows = baseMapper.deleteBatchIds(ids);
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("批量删除用户日志失败");
     }

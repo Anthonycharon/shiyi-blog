@@ -37,16 +37,16 @@ public class FriendLinkController {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     @SaCheckLogin
     @ApiOperation(value = "友链列表", httpMethod = "GET", response = ResponseResult.class, notes = "友链列表")
-    public ResponseResult query(String name, Integer status){
-        return friendLinkService.listData(name,status);
+    public ResponseResult list(String name, Integer status){
+        return friendLinkService.selectFriendLink(name,status);
     }
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     @SaCheckPermission("/system/friend/create")
     @ApiOperation(value = "添加友链", httpMethod = "POST", response = ResponseResult.class, notes = "添加友链")
     @OperationLogger(value = "添加友链")
-    public ResponseResult create(@RequestBody FriendLink friendLink){
-        return friendLinkService.addData(friendLink);
+    public ResponseResult insert(@RequestBody FriendLink friendLink){
+        return friendLinkService.insertFriendLink(friendLink);
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
@@ -54,15 +54,15 @@ public class FriendLinkController {
     @ApiOperation(value = "修改友链", httpMethod = "POST", response = ResponseResult.class, notes = "修改友链")
     @OperationLogger(value = "修改友链")
     public ResponseResult update(@RequestBody FriendLink friendLink){
-        return friendLinkService.updateData(friendLink);
+        return friendLinkService.updateFriendLink(friendLink);
     }
 
     @RequestMapping(value = "/remove",method = RequestMethod.DELETE)
     @SaCheckPermission("/system/friend/remove")
     @ApiOperation(value = "删除友链", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除友链")
     @OperationLogger(value = "删除友链")
-    public ResponseResult remove(@RequestBody List<Integer> ids){
-        return friendLinkService.delete(ids);
+    public ResponseResult deleteBatch(@RequestBody List<Integer> ids){
+        return friendLinkService.deleteBatch(ids);
     }
 
     @RequestMapping(value = "/top",method = RequestMethod.GET)

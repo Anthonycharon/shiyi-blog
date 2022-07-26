@@ -27,7 +27,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @return
      */
     @Override
-    public ResponseResult listData(String name) {
+    public ResponseResult selectRole(String name) {
         Page<Role> data = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), new QueryWrapper<Role>()
                 .like(StringUtils.isNotBlank(name),SqlConf.NAME,name));
         return ResponseResult.success(data);
@@ -40,7 +40,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult addRole(Role role) {
+    public ResponseResult insertRole(Role role) {
         baseMapper.insert(role);
         baseMapper.insertBatchByRole(role.getMenus(), role.getId());
         return ResponseResult.success();
@@ -69,7 +69,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult delete(List<Integer> ids) {
+    public ResponseResult deleteBatch(List<Integer> ids) {
         baseMapper.deleteBatchIds(ids);
         ids.forEach(id -> baseMapper.delByRoleId(id, null));
         return ResponseResult.success();
@@ -81,7 +81,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @return
      */
     @Override
-    public ResponseResult queryByUser() {
+    public ResponseResult getCurrentUserRole() {
         Integer roleId = baseMapper.queryByUserId(StpUtil.getLoginId());
         List<Integer> list = baseMapper.queryByRoleMenu(roleId);
         return ResponseResult.success(list);
@@ -93,7 +93,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @return
      */
     @Override
-    public ResponseResult queryRoleId(Integer roleId) {
+    public ResponseResult selectById(Integer roleId) {
         List<Integer> list = baseMapper.queryByRoleMenu(roleId);
         return ResponseResult.success(list);
     }

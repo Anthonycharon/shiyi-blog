@@ -16,15 +16,15 @@ import java.util.List;
  */
 public interface DictDataService extends IService<DictData> {
 
-    ResponseResult listDictData(Integer dictId, Integer isPublish);
+    ResponseResult selectDictData(Integer dictId, Integer isPublish);
 
-    ResponseResult addDictData(DictData dictData);
+    ResponseResult insertDictData(DictData dictData);
 
     ResponseResult updateDictData(DictData dictData);
 
     ResponseResult deleteBatch(List<Long> ids);
 
-    ResponseResult delete(Long id);
+    ResponseResult deleteById(Long id);
 
     ResponseResult getDataByDictType(List<String> types);
 

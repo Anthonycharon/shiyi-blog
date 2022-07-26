@@ -42,7 +42,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      * @return
      */
     @Override
-    public ResponseResult listData(String name) {
+    public ResponseResult selectMessage(String name) {
         LambdaQueryWrapper<Message> queryWrapper = new QueryWrapper<Message>().lambda()
                 .like(StringUtils.isNotBlank(name),Message::getNickname,name).orderByDesc(Message::getCreateTime);
         Page<Message> list = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),queryWrapper);

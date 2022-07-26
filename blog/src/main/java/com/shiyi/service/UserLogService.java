@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface UserLogService extends IService<UserLog> {
 
-    ResponseResult listData();
+    ResponseResult selectUserLog();
 
-    ResponseResult delete(List<Long> ids);
+    ResponseResult deleteBatch(List<Long> ids);
 }

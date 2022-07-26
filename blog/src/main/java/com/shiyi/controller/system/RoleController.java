@@ -25,30 +25,30 @@ public class RoleController {
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @SaCheckLogin
     @ApiOperation(value = "角色列表", httpMethod = "GET", response = ResponseResult.class, notes = "角色列表")
-    public ResponseResult listRole(String name) {
-        return roleService.listData(name);
+    public ResponseResult list(String name) {
+        return roleService.selectRole(name);
     }
 
     @RequestMapping(value = "queryUserRole", method = RequestMethod.GET)
     @SaCheckLogin
     @ApiOperation(value = "获取当前登录用户所拥有的权限", httpMethod = "GET", response = ResponseResult.class, notes = "获取当前登录用户所拥有的权限")
-    public ResponseResult queryByUser() {
-        return roleService.queryByUser();
+    public ResponseResult getCurrentUserRole() {
+        return roleService.getCurrentUserRole();
     }
 
     @RequestMapping(value = "queryRoleId", method = RequestMethod.GET)
     @SaCheckLogin
     @ApiOperation(value = "获取该角色所有的权限", httpMethod = "GET", response = ResponseResult.class, notes = "获取该角色所有的权限")
-    public ResponseResult queryRoleId(Integer roleId) {
-        return roleService.queryRoleId(roleId);
+    public ResponseResult selectById(Integer roleId) {
+        return roleService.selectById(roleId);
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
     @SaCheckPermission("/system/role/create")
     @ApiOperation(value = "添加角色", httpMethod = "POST", response = ResponseResult.class, notes = "添加角色")
     @OperationLogger(value = "添加角色")
-    public ResponseResult create(@RequestBody Role role) {
-        return roleService.addRole(role);
+    public ResponseResult insert(@RequestBody Role role) {
+        return roleService.insertRole(role);
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
@@ -63,8 +63,8 @@ public class RoleController {
     @SaCheckPermission("/system/role/remove")
     @ApiOperation(value = "删除角色", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除角色")
     @OperationLogger(value = "删除角色")
-    public ResponseResult remove(@RequestBody List<Integer> ids) {
-        return roleService.delete(ids);
+    public ResponseResult deleteBatch(@RequestBody List<Integer> ids) {
+        return roleService.deleteBatch(ids);
     }
 
 

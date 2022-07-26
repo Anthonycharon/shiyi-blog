@@ -18,5 +18,5 @@ public interface LoginService {
     Map<String, String> getCode(HttpServletResponse response) throws IOException;
 
 
-    ResponseResult doLogin(LoginDTO vo);
+    ResponseResult login(LoginDTO vo);
 }

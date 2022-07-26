@@ -26,7 +26,7 @@ import java.util.List;
 public class ExceptionLogServiceImpl extends ServiceImpl<ExceptionLogMapper, ExceptionLog> implements ExceptionLogService {
 
     @Override
-    public ResponseResult listLog() {
+    public ResponseResult selectExceptionLog() {
         QueryWrapper<ExceptionLog> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc(SqlConf.CREATE_TIME);
         Page<ExceptionLog> pg = new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize());
@@ -36,7 +36,7 @@ public class ExceptionLogServiceImpl extends ServiceImpl<ExceptionLogMapper, Exc
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult delete(List<Long> ids) {
+    public ResponseResult deleteBatch(List<Long> ids) {
         int rows = baseMapper.deleteBatchIds(ids);
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("批量删除操作日志失败");
     }

@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface MessageService extends IService<Message> {
 
-    ResponseResult listData(String name);
+    ResponseResult selectMessage(String name);
 
     ResponseResult deleteById(int id);
 

@@ -47,7 +47,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
      * @return
      */
     @Override
-    public ResponseResult listData(String name, Integer status) {
+    public ResponseResult selectFriendLink(String name, Integer status) {
         QueryWrapper<FriendLink> queryWrapper= new QueryWrapper<FriendLink>()
                 .orderByDesc(SqlConf.SORT).like(StringUtils.isNotBlank(name),SqlConf.NAME,name)
                 .eq(status != null,SqlConf.STATUS,status);
@@ -62,7 +62,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult addData(FriendLink friendLink) {
+    public ResponseResult insertFriendLink(FriendLink friendLink) {
         baseMapper.insert(friendLink);
         return ResponseResult.success();
     }
@@ -74,7 +74,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult updateData(FriendLink friendLink) {
+    public ResponseResult updateFriendLink(FriendLink friendLink) {
         baseMapper.updateById(friendLink);
         //审核通过发送邮件通知
         if(friendLink.getStatus().equals(UP.getCode())){
@@ -90,7 +90,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult delete(List<Integer> ids) {
+    public ResponseResult deleteBatch(List<Integer> ids) {
         int rows = baseMapper.deleteBatchIds(ids);
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("删除友链失败");
     }

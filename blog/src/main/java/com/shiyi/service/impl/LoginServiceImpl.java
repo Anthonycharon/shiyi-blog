@@ -59,7 +59,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public ResponseResult doLogin(LoginDTO vo) {
+    public ResponseResult login(LoginDTO vo) {
         //校验用户名和密码
         User user = userMapper.selectNameAndPassword(vo.getUsername(), PasswordUtil.aesEncrypt(vo.getPassword()));
         Assert.isTrue(user != null, ERROR_PASSWORD.getDesc());

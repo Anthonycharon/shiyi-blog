@@ -32,8 +32,8 @@ public class PhotoAlbumController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "相册列表", httpMethod = "GET", response = ResponseResult.class, notes = "相册列表")
-    public ResponseResult query(String name) {
-        return albumService.listData(name);
+    public ResponseResult list(String name) {
+        return albumService.selectAlbum(name);
     }
 
     @GetMapping(value = "/info")
@@ -47,8 +47,8 @@ public class PhotoAlbumController {
     @SaCheckPermission("/system/album/add")
     @ApiOperation(value = "添加相册", httpMethod = "POST", response = ResponseResult.class, notes = "添加相册")
     @OperationLogger(value = "添加相册")
-    public ResponseResult addAlbum(@RequestBody PhotoAlbum photoAlbum) {
-        return albumService.addAlbum(photoAlbum);
+    public ResponseResult insertAlbum(@RequestBody PhotoAlbum photoAlbum) {
+        return albumService.insertAlbum(photoAlbum);
     }
 
     @PostMapping(value = "/update")

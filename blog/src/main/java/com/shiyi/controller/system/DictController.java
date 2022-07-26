@@ -38,15 +38,15 @@ public class DictController {
     @SaCheckLogin
     @ApiOperation(value = "字典类型列表", httpMethod = "GET", response = ResponseResult.class, notes = "字典类型列表")
     public ResponseResult list(String name, Integer isPublish, String descColumn, String ascColumn){
-        return dictService.listData(name,isPublish,descColumn,ascColumn);
+        return dictService.selectDict(name,isPublish,descColumn,ascColumn);
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @SaCheckPermission("/system/dict/add")
     @ApiOperation(value = "添加字典", httpMethod = "POST", response = ResponseResult.class, notes = "添加字典")
     @OperationLogger(value = "添加字典")
-    public ResponseResult save(@RequestBody Dict dict){
-        return dictService.addSysDict(dict);
+    public ResponseResult insert(@RequestBody Dict dict){
+        return dictService.insertDict(dict);
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
@@ -54,15 +54,15 @@ public class DictController {
     @ApiOperation(value = "修改字典", httpMethod = "POST", response = ResponseResult.class, notes = "修改字典")
     @OperationLogger(value = "修改字典")
     public ResponseResult update(@RequestBody Dict dict){
-        return dictService.updateSysDict(dict);
+        return dictService.updateDict(dict);
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
     @SaCheckPermission("/system/dict/delete")
     @ApiOperation(value = "删除字典", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除字典")
     @OperationLogger(value = "删除字典")
-    public ResponseResult delete(int id){
-        return dictService.delete(id);
+    public ResponseResult deleteById(int id){
+        return dictService.deleteById(id);
     }
 
     @RequestMapping(value = "/deleteBatch",method = RequestMethod.DELETE)

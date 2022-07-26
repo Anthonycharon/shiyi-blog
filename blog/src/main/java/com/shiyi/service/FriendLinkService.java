@@ -16,13 +16,13 @@ import java.util.List;
  */
 public interface FriendLinkService extends IService<FriendLink> {
 
-    ResponseResult listData(String name, Integer status);
+    ResponseResult selectFriendLink(String name, Integer status);
 
-    ResponseResult addData(FriendLink friendLink);
+    ResponseResult insertFriendLink(FriendLink friendLink);
 
-    ResponseResult updateData(FriendLink friendLink);
+    ResponseResult updateFriendLink(FriendLink friendLink);
 
-    ResponseResult delete(List<Integer> ids);
+    ResponseResult deleteBatch(List<Integer> ids);
 
     ResponseResult top(Integer id);
 

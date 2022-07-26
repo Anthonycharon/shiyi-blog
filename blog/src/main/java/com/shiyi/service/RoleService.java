@@ -17,16 +17,16 @@ import java.util.List;
 public interface RoleService extends IService<Role> {
 
 
-    ResponseResult listData(String name);
+    ResponseResult selectRole(String name);
 
-     ResponseResult addRole(Role role);
+     ResponseResult insertRole(Role role);
 
     ResponseResult updateRole(Role role);
 
-    ResponseResult delete(List<Integer> ids);
+    ResponseResult deleteBatch(List<Integer> ids);
 
-    ResponseResult queryByUser();
+    ResponseResult getCurrentUserRole();
 
-    ResponseResult queryRoleId(Integer roleId);
+    ResponseResult selectById(Integer roleId);
 
 }

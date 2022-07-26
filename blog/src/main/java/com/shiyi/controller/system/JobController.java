@@ -34,8 +34,8 @@ public class JobController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "定时任务列表", httpMethod = "GET", response = ResponseResult.class, notes = "定时任务列表")
-    public ResponseResult query(String jobName, String jobGroup, String status) {
-        return jobService.listData(jobName,jobGroup,status);
+    public ResponseResult list(String jobName, String jobGroup, String status) {
+        return jobService.selectJob(jobName,jobGroup,status);
     }
 
     @GetMapping(value = "/info")
@@ -49,8 +49,8 @@ public class JobController {
     @SaCheckPermission("/system/job/add")
     @ApiOperation(value = "添加定时任务", httpMethod = "POST", response = ResponseResult.class, notes = "添加定时任务")
     @OperationLogger(value = "添加定时任务")
-    public ResponseResult add(@RequestBody Job job) throws SchedulerException, TaskException {
-        return jobService.addJob(job);
+    public ResponseResult insert(@RequestBody Job job) throws SchedulerException, TaskException {
+        return jobService.insertJob(job);
     }
 
     @PostMapping(value = "/update")
@@ -65,7 +65,7 @@ public class JobController {
     @SaCheckPermission("/system/job/delete")
     @ApiOperation(value = "删除定时任务", httpMethod = "GET", response = ResponseResult.class, notes = "删除定时任务")
     @OperationLogger(value = "删除定时任务")
-    public ResponseResult delete(Long jobId) throws SchedulerException, TaskException {
+    public ResponseResult deleteJob(Long jobId) throws SchedulerException, TaskException {
         return jobService.deleteJob(jobId);
     }
     @PostMapping(value = "/deleteBatch")

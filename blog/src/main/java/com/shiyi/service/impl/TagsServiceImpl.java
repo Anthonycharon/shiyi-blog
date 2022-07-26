@@ -34,7 +34,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      * @return
      */
     @Override
-    public ResponseResult listData(String name) {
+    public ResponseResult selectTags(String name) {
         Page<Tags> list = baseMapper.selectPageRecord(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),name);
         return ResponseResult.success(list);
     }
@@ -57,7 +57,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult addTag(Tags tags) {
+    public ResponseResult insertTag(Tags tags) {
         validateName(tags.getName());
         baseMapper.insert(tags);
         return ResponseResult.success();
@@ -84,7 +84,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult delete(Long id) {
+    public ResponseResult deleteById(Long id) {
         baseMapper.deleteById(id);
         return ResponseResult.success();
     }

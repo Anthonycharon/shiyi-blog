@@ -18,11 +18,11 @@ import java.util.List;
  */
 public interface JobService extends IService<Job> {
 
-    ResponseResult listData(String jobName, String jobGroup, String status);
+    ResponseResult selectJob(String jobName, String jobGroup, String status);
 
     ResponseResult info(Long jobId);
 
-    ResponseResult addJob(Job job) throws SchedulerException, TaskException;
+    ResponseResult insertJob(Job job) throws SchedulerException, TaskException;
 
     ResponseResult updateJob(Job job) throws SchedulerException, TaskException;
 

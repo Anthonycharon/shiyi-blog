@@ -29,16 +29,16 @@ public class UserController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "用户列表", httpMethod = "GET", response = ResponseResult.class, notes = "用户列表")
-    public ResponseResult listPage(String username, Integer loginType) {
-        return userService.listData(username,loginType);
+    public ResponseResult list(String username, Integer loginType) {
+        return userService.selectUser(username,loginType);
     }
 
     @PostMapping(value = "/create")
     @SaCheckPermission("/system/user/create")
     @ApiOperation(value = "添加用户", httpMethod = "POST", response = ResponseResult.class, notes = "添加用户")
     @OperationLogger(value = "添加用户")
-    public ResponseResult create(@RequestBody User user) {
-        return userService.saveUser(user);
+    public ResponseResult insert(@RequestBody User user) {
+        return userService.insertUser(user);
     }
 
     @GetMapping(value = "/info")
@@ -60,22 +60,22 @@ public class UserController {
     @SaCheckPermission("/system/user/remove")
     @ApiOperation(value = "删除用户", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除用户")
     @OperationLogger(value = "删除用户")
-    public ResponseResult remove(@RequestBody List<Integer> ids) {
-        return userService.delete(ids);
+    public ResponseResult deleteBatch(@RequestBody List<Integer> ids) {
+        return userService.deleteBatch(ids);
     }
 
     @PostMapping(value = "/getCurrentUserInfo")
     @SaCheckLogin
     @ApiOperation(value = "获取当前登录用户信息", httpMethod = "POST", response = ResponseResult.class, notes = "获取当前登录用户信息")
     public ResponseResult getCurrentUserInfo() {
-        return ResponseResult.success("获取当前登录用户信息成功", userService.getCurrentUserInfo());
+        return userService.getCurrentUserInfo();
     }
 
     @PostMapping(value = "/getUserMenu")
     @SaCheckLogin
     @ApiOperation(value = "获取用户菜单", httpMethod = "POST", response = ResponseResult.class, notes = "获取用户菜单")
-    public ResponseResult getUserMenu() {
-        return userService.getUserMenu();
+    public ResponseResult getCurrentUserMenu() {
+        return userService.getCurrentUserMenu();
     }
 
     @PostMapping(value = "/updatePassword")

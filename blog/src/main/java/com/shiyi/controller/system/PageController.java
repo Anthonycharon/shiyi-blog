@@ -31,16 +31,16 @@ public class PageController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "页面列表", httpMethod = "GET", response = ResponseResult.class, notes = "页面列表")
-    public ResponseResult query() {
-        return pageService.listData();
+    public ResponseResult list() {
+        return pageService.selectPage();
     }
 
     @PostMapping(value = "/add")
     @SaCheckPermission("/system/page/add")
     @ApiOperation(value = "新增页面", httpMethod = "POST", response = ResponseResult.class, notes = "新增页面")
     @OperationLogger(value = "新增页面")
-    public ResponseResult add(@RequestBody Page page) {
-        return pageService.addPage(page);
+    public ResponseResult insert(@RequestBody Page page) {
+        return pageService.insertPage(page);
     }
 
     @PostMapping(value = "/update")
@@ -55,7 +55,7 @@ public class PageController {
     @SaCheckPermission("/system/page/delete")
     @ApiOperation(value = "删除页面", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除页面")
     @OperationLogger(value = "删除页面")
-    public ResponseResult delete(Long id) {
+    public ResponseResult deletePage(Long id) {
         return pageService.deletePage(id);
     }
 }

@@ -14,9 +14,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PageService extends IService<Page> {
 
-    ResponseResult listData();
+    ResponseResult selectPage();
 
-    ResponseResult addPage(Page page);
+    ResponseResult insertPage(Page page);
 
     ResponseResult updatePage(Page page);
 

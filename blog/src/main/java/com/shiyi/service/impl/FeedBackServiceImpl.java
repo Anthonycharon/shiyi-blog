@@ -31,7 +31,7 @@ public class FeedBackServiceImpl extends ServiceImpl<FeedBackMapper, FeedBack> i
      * @return
      */
     @Override
-    public ResponseResult listData(Integer type) {
+    public ResponseResult selectFeedBack(Integer type) {
         QueryWrapper<FeedBack> queryWrapper = new QueryWrapper<FeedBack>()
                 .orderByDesc(SqlConf.CREATE_TIME).eq(type != null,SqlConf.TYPE,type);
         Page<FeedBack> feedBackPage = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), queryWrapper);
@@ -45,7 +45,7 @@ public class FeedBackServiceImpl extends ServiceImpl<FeedBackMapper, FeedBack> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult delete(List<Integer> ids) {
+    public ResponseResult deleteBatch(List<Integer> ids) {
         int rows = baseMapper.deleteBatchIds(ids);
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("删除反馈失败");
     }
@@ -57,7 +57,7 @@ public class FeedBackServiceImpl extends ServiceImpl<FeedBackMapper, FeedBack> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult addFeedback(FeedBack feedBack) {
+    public ResponseResult insertFeedback(FeedBack feedBack) {
         int rows = baseMapper.insert(feedBack);
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("添加反馈失败");
     }

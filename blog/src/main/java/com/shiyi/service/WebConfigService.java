@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface WebConfigService extends IService<WebConfig> {
 
-    ResponseResult listData();
+    ResponseResult selectWebConfig();
 
-    ResponseResult updateData(WebConfig webConfig);
+    ResponseResult updateWebConfig(WebConfig webConfig);
 }
