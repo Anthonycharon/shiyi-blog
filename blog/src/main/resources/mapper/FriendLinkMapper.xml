@@ -9,7 +9,7 @@
         update b_friend_link set sort=#{sort} where id=#{id}
     </update>
 
-    <select id="selectLinkList" resultType="com.shiyi.dto.FriendLinkVO">
+    <select id="selectLinkList" resultType="com.shiyi.vo.FriendLinkVO">
         select name,avatar,url,info,sort from b_friend_link where status=#{status} order by sort desc
     </select>
 </mapper>

@@ -1,6 +1,6 @@
 package com.shiyi.strategy;
 
-import com.shiyi.dto.ArticleSearchVO;
+import com.shiyi.vo.ArticleSearchVO;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package com.shiyi.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.Comment;
-import com.shiyi.vo.CommentDTO;
+import com.shiyi.dto.CommentDTO;
 
 import java.util.List;
 

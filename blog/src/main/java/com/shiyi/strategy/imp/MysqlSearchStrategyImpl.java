@@ -3,7 +3,7 @@ package com.shiyi.strategy.imp;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.shiyi.common.Constants;
-import com.shiyi.dto.ArticleSearchVO;
+import com.shiyi.vo.ArticleSearchVO;
 import com.shiyi.entity.BlogArticle;
 import com.shiyi.mapper.ArticleMapper;
 import com.shiyi.strategy.SearchStrategy;

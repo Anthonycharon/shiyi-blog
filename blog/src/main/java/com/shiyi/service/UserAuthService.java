@@ -3,10 +3,10 @@ package com.shiyi.service;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.UserAuth;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shiyi.vo.EmailLoginDTO;
-import com.shiyi.vo.EmailRegisterDTO;
-import com.shiyi.vo.QQLoginDTO;
-import com.shiyi.vo.UserAuthDTO;
+import com.shiyi.dto.EmailLoginDTO;
+import com.shiyi.dto.EmailRegisterDTO;
+import com.shiyi.dto.QQLoginDTO;
+import com.shiyi.dto.UserAuthDTO;
 
 /**
  * <p>

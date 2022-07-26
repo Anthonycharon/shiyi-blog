@@ -1,7 +1,7 @@
 package com.shiyi.strategy.imp;
 
 import com.shiyi.config.properties.GiteeConfigProperties;
-import com.shiyi.dto.*;
+import com.shiyi.vo.*;
 import com.shiyi.enums.LoginTypeEnum;
 import com.shiyi.exception.BusinessException;
 import lombok.RequiredArgsConstructor;

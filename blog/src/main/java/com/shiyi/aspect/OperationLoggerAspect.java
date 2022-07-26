@@ -4,7 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.shiyi.annotation.OperationLogger;
-import com.shiyi.dto.SystemUserVO;
+import com.shiyi.vo.SystemUserVO;
 import com.shiyi.entity.ExceptionLog;
 import com.shiyi.entity.AdminLog;
 import com.shiyi.mapper.ExceptionLogMapper;

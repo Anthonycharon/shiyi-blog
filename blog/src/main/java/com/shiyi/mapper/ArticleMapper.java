@@ -1,10 +1,10 @@
 package com.shiyi.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.dto.*;
+import com.shiyi.vo.*;
 import com.shiyi.entity.BlogArticle;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.shiyi.vo.ArticleDTO;
+import com.shiyi.dto.ArticleDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

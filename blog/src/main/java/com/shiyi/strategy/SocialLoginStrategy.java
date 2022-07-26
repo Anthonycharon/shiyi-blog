@@ -1,6 +1,6 @@
 package com.shiyi.strategy;
 
-import com.shiyi.dto.UserInfoVO;
+import com.shiyi.vo.UserInfoVO;
 
 /**
  * @author blue

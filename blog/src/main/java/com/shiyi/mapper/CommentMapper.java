@@ -1,10 +1,10 @@
 package com.shiyi.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.dto.CommentVO;
-import com.shiyi.dto.ReplyCountVO;
-import com.shiyi.dto.ReplyVO;
-import com.shiyi.dto.SystemCommentVO;
+import com.shiyi.vo.CommentVO;
+import com.shiyi.vo.ReplyCountVO;
+import com.shiyi.vo.ReplyVO;
+import com.shiyi.vo.SystemCommentVO;
 import com.shiyi.entity.Comment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;

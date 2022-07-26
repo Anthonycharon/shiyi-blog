@@ -1,6 +1,6 @@
 package com.shiyi.strategy.context;
 
-import com.shiyi.dto.ArticleSearchVO;
+import com.shiyi.vo.ArticleSearchVO;
 import com.shiyi.strategy.SearchStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

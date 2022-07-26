@@ -1,7 +1,7 @@
 package com.shiyi.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.dto.TagVO;
+import com.shiyi.vo.TagVO;
 import com.shiyi.entity.Tags;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.MapKey;

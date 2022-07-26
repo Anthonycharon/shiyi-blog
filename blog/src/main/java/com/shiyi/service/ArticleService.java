@@ -3,7 +3,7 @@ package com.shiyi.service;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.BlogArticle;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shiyi.vo.ArticleDTO;
+import com.shiyi.dto.ArticleDTO;
 
 import java.util.List;
 import java.util.Map;

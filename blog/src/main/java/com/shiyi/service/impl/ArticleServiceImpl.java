@@ -2,25 +2,31 @@ package com.shiyi.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.dto.*;
+import com.shiyi.vo.*;
 import com.shiyi.common.*;
 import com.shiyi.entity.*;
 import com.shiyi.enums.SearchModelEnum;
 import com.shiyi.enums.YesOrNoEnum;
+import com.shiyi.exception.BusinessException;
 import com.shiyi.mapper.*;
 import com.shiyi.service.ArticleService;
 import com.shiyi.service.SystemConfigService;
 import com.shiyi.strategy.context.SearchStrategyContext;
 import com.shiyi.utils.*;
-import com.shiyi.vo.ArticleDTO;
-import com.shiyi.webmagic.BlogPipeline;
-import com.shiyi.webmagic.CSDNPageProcessor;
+import com.shiyi.dto.ArticleDTO;
+import com.vladsch.flexmark.html2md.converter.FlexmarkHtmlConverter;
+import com.vladsch.flexmark.util.data.MutableDataSet;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -30,9 +36,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
-import us.codecraft.webmagic.Spider;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.*;
 
 import static com.shiyi.common.Constants.*;
@@ -48,6 +54,7 @@ import static com.shiyi.enums.PublishEnum.PUBLISH;
  * @author blue
  * @since 2021-08-18
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> implements ArticleService {
@@ -61,8 +68,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     private final TagsMapper tagsMapper;
 
     private final CommentMapper commentMapper;
-
-    private final BlogPipeline blogPipeline;
 
     private final SearchStrategyContext searchStrategyContext;
 
@@ -219,8 +224,46 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult reptile(String url) {
-        Spider  spider = Spider.create(new CSDNPageProcessor()).addUrl(url);
-        spider.addPipeline(blogPipeline).thread(5).run();
+        try {
+            Document document = Jsoup.connect(url).get();
+            Elements title  = document.getElementsByClass("title-article");
+            Elements tags  = document.getElementsByClass("tag-link");
+            Elements content  = document.getElementsByClass("article_content");
+            Assert.isTrue(StringUtils.isNotBlank(content.toString()),CRAWLING_ARTICLE_FAILED.getDesc());
+
+            //爬取的是HTML内容，需要转成MD格式的内容
+            String newContent = content.get(0).toString().replaceAll("<code>", "<code class=\"lang-java\">");
+            MutableDataSet options = new MutableDataSet();
+            String markdown = FlexmarkHtmlConverter.builder(options).build().convert(newContent)
+                    .replace("lang-java","java");
+
+            //文章封面图片 由https://api.btstu.cn/该网站随机获取
+            String strResult = restTemplate.getForObject(IMG_URL_API, String.class);
+            JSONObject jsonObject = JSON.parseObject(strResult);
+            Object imgUrl = jsonObject.get("imgurl");
+
+            BlogArticle entity = BlogArticle.builder().userId(7L).contentMd(markdown)
+                    .categoryId(OTHER_CATEGORY_ID).isOriginal(YesOrNoEnum.NO.getCode()).originalUrl(url)
+                    .title(title.get(0).text()).avatar(imgUrl.toString()).content(newContent).build();
+
+            baseMapper.insert(entity);
+            //为该文章添加标签
+            List<Long> tagsId = new ArrayList<>();
+            tags.forEach(item ->{
+                String tag = item.text();
+                Tags result = tagsMapper.selectOne(new QueryWrapper<Tags>().eq(SqlConf.NAME,tag ));
+                if (result == null){
+                    result = Tags.builder().name(tag).build();
+                    tagsMapper.insert(result);
+                }
+                tagsId.add(result.getId());
+            });
+            tagsMapper.saveArticleTags(entity.getId(),tagsId);
+
+            log.info("文章抓取成功，内容为:{}", JSON.toJSONString(entity));
+        } catch (IOException e) {
+            throw new BusinessException(e);
+        }
         return ResponseResult.success();
     }
 

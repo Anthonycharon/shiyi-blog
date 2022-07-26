@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
-import com.shiyi.dto.FriendLinkVO;
+import com.shiyi.vo.FriendLinkVO;
 import com.shiyi.entity.FriendLink;
 import com.shiyi.mapper.FriendLinkMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

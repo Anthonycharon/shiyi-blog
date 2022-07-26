@@ -3,7 +3,7 @@ package com.shiyi.controller.api;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.shiyi.annotation.BusinessLogger;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.vo.CommentDTO;
+import com.shiyi.dto.CommentDTO;
 import com.shiyi.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -5,7 +5,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.service.impl.HomeServiceImpl;
-import com.shiyi.dto.SystemHardwareInfoVO;
+import com.shiyi.vo.SystemHardwareInfoVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

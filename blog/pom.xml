@@ -201,22 +201,21 @@
             <artifactId>hutool-all</artifactId>
             <version>5.8.3</version>
         </dependency>
-        <!--webmagic爬虫-->
-        <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-core</artifactId>
-            <version>0.7.3</version>
-        </dependency>
-        <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-extension</artifactId>
-            <version>0.7.3</version>
-        </dependency>
         <!--Markdown 转 Html-->
         <dependency>
             <groupId>com.vladsch.flexmark</groupId>
             <artifactId>flexmark-all</artifactId>
             <version>0.62.2</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.14.3</version> <!-- or latest version -->
         </dependency>
         <dependency>
             <groupId>org.dom4j</groupId>

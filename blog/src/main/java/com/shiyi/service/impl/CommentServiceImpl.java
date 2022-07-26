@@ -5,15 +5,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.dto.ReplyCountVO;
-import com.shiyi.dto.ReplyVO;
+import com.shiyi.vo.ReplyCountVO;
+import com.shiyi.vo.ReplyVO;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
-import com.shiyi.dto.SystemCommentVO;
+import com.shiyi.vo.SystemCommentVO;
 import com.shiyi.entity.Comment;
 import com.shiyi.entity.UserAuth;
 import com.shiyi.utils.PageUtil;
-import com.shiyi.vo.CommentDTO;
+import com.shiyi.dto.CommentDTO;
 import com.shiyi.mapper.CommentMapper;
 import com.shiyi.mapper.UserAuthMapper;
 import com.shiyi.service.CommentService;
@@ -85,14 +85,14 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if (CollectionUtils.isEmpty(comments)) {
             return ResponseResult.success();
         }
-        List<com.shiyi.dto.CommentVO> commentVOList = new ArrayList<>();
+        List<com.shiyi.vo.CommentVO> commentVOList = new ArrayList<>();
         List<ReplyVO> replyVOList;
         for (Comment comment : comments) {
             UserAuth userAuth = userAuthMapper.getByUserId(comment.getUserId());
             // 根据评论id集合查询回复数据
             replyVOList = baseMapper.listReplies(comment.getId());
             ReplyCountVO replyCountVO = baseMapper.listReplyCountByCommentId(comment.getId());
-            com.shiyi.dto.CommentVO dto = new com.shiyi.dto.CommentVO();
+            com.shiyi.vo.CommentVO dto = new com.shiyi.vo.CommentVO();
             dto.setId(comment.getId());
             dto.setUserId(comment.getUserId());
             dto.setCommentContent(comment.getContent());

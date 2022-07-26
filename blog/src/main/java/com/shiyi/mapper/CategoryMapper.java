@@ -1,8 +1,8 @@
 package com.shiyi.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.dto.CategoryCountVO;
-import com.shiyi.dto.CategoryVO;
+import com.shiyi.vo.CategoryCountVO;
+import com.shiyi.vo.CategoryVO;
 import com.shiyi.entity.Category;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;

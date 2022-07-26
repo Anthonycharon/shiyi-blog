@@ -3,7 +3,7 @@ package com.shiyi.strategy.imp;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.shiyi.dto.ArticleSearchVO;
+import com.shiyi.vo.ArticleSearchVO;
 import com.shiyi.common.Constants;
 import com.shiyi.common.SqlConf;
 import com.shiyi.strategy.SearchStrategy;

@@ -1,6 +1,6 @@
 package com.shiyi.mapper;
 
-import com.shiyi.dto.FriendLinkVO;
+import com.shiyi.vo.FriendLinkVO;
 import com.shiyi.entity.FriendLink;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;

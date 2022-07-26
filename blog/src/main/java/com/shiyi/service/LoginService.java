@@ -2,7 +2,7 @@ package com.shiyi.service;
 
 
 import com.shiyi.common.ResponseResult;
-import com.shiyi.vo.LoginDTO;
+import com.shiyi.dto.LoginDTO;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

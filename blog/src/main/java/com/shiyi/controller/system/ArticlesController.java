@@ -5,7 +5,7 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.shiyi.service.ArticleService;
 import com.shiyi.annotation.OperationLogger;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.vo.ArticleDTO;
+import com.shiyi.dto.ArticleDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

@@ -11,7 +11,7 @@
            (select role_id from b_user_role where user_id=(select id from b_user where id=#{userId}))
     </select>
 
-    <select id="selectPageRecord" resultType="com.shiyi.dto.UserVO">
+    <select id="selectPageRecord" resultType="com.shiyi.vo.UserVO">
         select a.id,b.avatar,b.nickname,a.login_type,a.role_id,a.ip_address,a.ip_source,a.last_login_time,a.create_time,a.status from b_user a left join (select id,avatar,nickname from b_user_auth) b on a.user_auth_id=b.id
         <where>
             <if test="username != null and username != ''">
@@ -24,7 +24,7 @@
         order by a.create_time asc
     </select>
 
-    <select id="getById" resultType="com.shiyi.dto.SystemUserVO">
+    <select id="getById" resultType="com.shiyi.vo.SystemUserVO">
         select a.id,a.username,a.role_id,a.status,b.nickname,b.avatar from b_user a left join (select id,nickname,avatar from b_user_auth) b on a.user_auth_id=b.id
         where a.id = #{id}
     </select>

@@ -1,10 +1,10 @@
 package com.shiyi.strategy.imp;
 
 import com.shiyi.config.properties.WeiboConfigProperties;
-import com.shiyi.dto.SocialTokenVO;
-import com.shiyi.dto.SocialUserInfoVO;
-import com.shiyi.dto.WeiboTokenVO;
-import com.shiyi.dto.WeiboUserInfoVO;
+import com.shiyi.vo.SocialTokenVO;
+import com.shiyi.vo.SocialUserInfoVO;
+import com.shiyi.vo.WeiboTokenVO;
+import com.shiyi.vo.WeiboUserInfoVO;
 import com.shiyi.common.ResultCode;
 import com.shiyi.common.SocialLoginConst;
 import com.shiyi.enums.LoginTypeEnum;

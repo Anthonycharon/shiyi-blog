@@ -1,7 +1,7 @@
 package com.shiyi.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.shiyi.dto.ArticleSearchVO;
+import com.shiyi.vo.ArticleSearchVO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,6 @@
 package com.shiyi.strategy.context;
 
-import com.shiyi.dto.UserInfoVO;
+import com.shiyi.vo.UserInfoVO;
 import com.shiyi.enums.LoginTypeEnum;
 import com.shiyi.strategy.SocialLoginStrategy;
 import lombok.RequiredArgsConstructor;

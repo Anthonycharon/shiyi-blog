@@ -4,7 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.service.LoginService;
-import com.shiyi.vo.LoginDTO;
+import com.shiyi.dto.LoginDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

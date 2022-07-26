@@ -2,8 +2,8 @@ package com.shiyi.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.dto.SystemUserVO;
-import com.shiyi.dto.UserVO;
+import com.shiyi.vo.SystemUserVO;
+import com.shiyi.vo.UserVO;
 import com.shiyi.entity.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

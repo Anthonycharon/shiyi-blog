@@ -9,7 +9,7 @@ import com.shiyi.entity.User;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.service.LoginService;
 import com.shiyi.utils.PasswordUtil;
-import com.shiyi.vo.LoginDTO;
+import com.shiyi.dto.LoginDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
