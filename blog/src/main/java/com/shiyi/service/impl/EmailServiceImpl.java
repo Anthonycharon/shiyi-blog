@@ -6,6 +6,7 @@ import com.shiyi.service.EmailService;
 import com.shiyi.service.RedisService;
 import com.shiyi.service.SystemConfigService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -19,6 +20,7 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
@@ -86,7 +88,7 @@ public class EmailServiceImpl implements EmailService {
      * 发送邮箱验证码
      */
     @Override
-    public void sendRegisterCode(String email) throws MessagingException {
+    public void sendCode(String email) throws MessagingException {
         int code = (int) ((Math.random() * 9 + 1) * 100000);
         String content = "<html>\n" +
                 "\t<body><div id=\"contentDiv\" onmouseover=\"getTop().stopPropagation(event);\" onclick=\"getTop().preSwapLink(event, 'html', 'ZC0004_vDfNJayMtMUuKGIAzzsWvc8');\" style=\"position:relative;font-size:14px;height:auto;padding:15px 15px 10px 15px;z-index:1;zoom:1;line-height:1.7;\" class=\"body\">\n" +
@@ -106,9 +108,9 @@ public class EmailServiceImpl implements EmailService {
                 "            </tr>\n" +
                 "            <tr>\n" +
                 "              <td class=\"p-intro\">\n" +
-                "                <h1 style=\"font-size: 26px; font-weight: bold;\">验证您的注册邮箱地址</h1>\n" +
-                "                <p style=\"line-height:1.75em;\">感谢您注册 拾壹博客. </p>\n" +
-                "                <p style=\"line-height:1.75em;\">以下是您的邮箱注册验证码，请将它输入到 拾壹博客 的邮箱验证码输入框中:</p>\n" +
+                "                <h1 style=\"font-size: 26px; font-weight: bold;\">验证您的邮箱地址</h1>\n" +
+                "                <p style=\"line-height:1.75em;\">感谢您使用 拾壹博客. </p>\n" +
+                "                <p style=\"line-height:1.75em;\">以下是您的邮箱验证码，请将它输入到 拾壹博客 的邮箱验证码输入框中:</p>\n" +
                 "              </td>\n" +
                 "            </tr>\n" +
                 "            <tr>\n" +
@@ -141,21 +143,11 @@ public class EmailServiceImpl implements EmailService {
                 "</div></body>\n" +
                 "</html>\n";
        send(email,content);
-       setCache(email, code);
-    }
+       log.info("邮箱验证码发送成功,邮箱:{},验证码:{}",email,code);
 
-    @Override
-    public void sendBindEmailCode(String email) throws MessagingException {
-        int code = (int) ((Math.random() * 9 + 1) * 100000);
-        String content = "<span>您正在<a href=\"http://www.shiyit.com\" rel=\"noopener\" target=\"_blank\">拾壹博客</a>" +
-                "使用邮箱验证，验证码 | <span style=\"color:blue\">"+code+"</span>,有效期<span style=\"color:grey\">300s</span>。</span>";
-        send(email, content);
-        setCache(email, code);
-    }
+       redisService.setCacheObject(RedisConstants.EMAIL_CODE+ email, code +"");
+       redisService.expire(RedisConstants.EMAIL_CODE+ email,RedisConstants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
 
-    private void setCache(String email, int code) {
-        redisService.setCacheObject(RedisConstants.EMAIL_CODE+ email, code +"");
-        redisService.expire(RedisConstants.EMAIL_CODE+ email,RedisConstants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
     }
 
     private void send(String email, String template) throws MessagingException {

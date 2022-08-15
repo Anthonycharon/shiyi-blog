@@ -4,16 +4,11 @@ import javax.mail.MessagingException;
 
 public interface EmailService {
     /**
-     * 发送注册验证码
+     * 发送验证码
      * @param email 邮箱账号
      */
-    void sendRegisterCode(String email) throws MessagingException;
+    void sendCode(String email) throws MessagingException;
 
-    /**
-     * 发送一个普通的验证码
-     * @param email 邮箱账号
-     */
-    void sendBindEmailCode(String email) throws MessagingException;
 
     /**
      * 友链通过通知

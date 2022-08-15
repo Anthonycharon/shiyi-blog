@@ -165,7 +165,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
     @Override
     public ResponseResult sendEmailCode(String email) {
         try {
-            emailService.sendBindEmailCode(email);
+            emailService.sendCode(email);
             return ResponseResult.success("验证码已发送，请前往邮箱查看!!");
         } catch (MessagingException e) {
             e.printStackTrace();
