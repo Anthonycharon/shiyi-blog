@@ -6,14 +6,10 @@ import com.shiyi.service.EmailService;
 import com.shiyi.service.RedisService;
 import com.shiyi.service.SystemConfigService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -25,8 +21,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
-
-    private static final Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
 
     private final RedisService redisService;
 
@@ -81,21 +75,8 @@ public class EmailServiceImpl implements EmailService {
                 "<p>可前往<a href='http://www.shiyit.com/links'>本站友链</a>查阅您的站点。</p></body>\n" +
                 "</html>";
         //创建一个MINE消息
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {
-            MimeMessageHelper minehelper = new MimeMessageHelper(mimeMessage, true);
-            // 设置邮件主题
-            minehelper.setSubject("拾壹博客友链审核通知");
-            // 设置邮件发送者
-            minehelper.setFrom(Objects.requireNonNull(javaMailSender.getUsername()));
-            // 设置邮件接收者，可以有多个接收者，中间用逗号隔开
-            minehelper.setTo(email);
-            // 设置邮件发送日期
-            minehelper.setSentDate(new Date());
-            // 设置邮件的正文
-            minehelper.setText(content,true);
-            // 发送邮件
-            javaMailSender.send(mimeMessage);
+           send(email,content);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -159,7 +140,8 @@ public class EmailServiceImpl implements EmailService {
                 "  </style>\n" +
                 "</div></body>\n" +
                 "</html>\n";
-       send(email,content,code);
+       send(email,content);
+       setCache(email, code);
     }
 
     @Override
@@ -167,19 +149,22 @@ public class EmailServiceImpl implements EmailService {
         int code = (int) ((Math.random() * 9 + 1) * 100000);
         String content = "<span>您正在<a href=\"http://www.shiyit.com\" rel=\"noopener\" target=\"_blank\">拾壹博客</a>" +
                 "使用邮箱验证，验证码 | <span style=\"color:blue\">"+code+"</span>,有效期<span style=\"color:grey\">300s</span>。</span>";
-        send(email, content,code);
+        send(email, content);
+        setCache(email, code);
     }
 
+    private void setCache(String email, int code) {
+        redisService.setCacheObject(RedisConstants.EMAIL_CODE+ email, code +"");
+        redisService.expire(RedisConstants.EMAIL_CODE+ email,RedisConstants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
+    }
 
-    private void send(String email, String template,int code) throws MessagingException {
-
+    private void send(String email, String template) throws MessagingException {
 
         //创建一个MINE消息
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mineHelper = new MimeMessageHelper(mimeMessage, true);
         // 设置邮件主题
-        String SHI_YI_BLOG = "拾壹博客";
-        mineHelper.setSubject(SHI_YI_BLOG);
+        mineHelper.setSubject("拾壹博客");
         // 设置邮件发送者
         mineHelper.setFrom(Objects.requireNonNull(javaMailSender.getUsername()));
         // 设置邮件接收者，可以有多个接收者，中间用逗号隔开
@@ -190,9 +175,5 @@ public class EmailServiceImpl implements EmailService {
         mineHelper.setText(template,true);
         // 发送邮件
         javaMailSender.send(mimeMessage);
-
-        redisService.setCacheObject(RedisConstants.EMAIL_CODE+ email,code +"");
-        redisService.expire(RedisConstants.EMAIL_CODE+ email,RedisConstants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
-        logger.info("邮箱验证码发送成功,接收邮箱为：{},验证码为:{}", email,code);
     }
 }
