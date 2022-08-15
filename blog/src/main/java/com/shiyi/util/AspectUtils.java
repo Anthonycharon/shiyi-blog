@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  *
  * @date 2020年9月14日10:58:46
  */
-public enum AspectUtil {
+public enum AspectUtils {
     /**
      * 实例
      */

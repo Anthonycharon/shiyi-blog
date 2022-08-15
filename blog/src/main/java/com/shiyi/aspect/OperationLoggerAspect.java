@@ -9,7 +9,7 @@ import com.shiyi.entity.ExceptionLog;
 import com.shiyi.entity.AdminLog;
 import com.shiyi.mapper.ExceptionLogMapper;
 import com.shiyi.mapper.AdminLogMapper;
-import com.shiyi.util.AspectUtil;
+import com.shiyi.util.AspectUtils;
 import com.shiyi.util.DateUtils;
 import com.shiyi.util.IpUtils;
 import lombok.RequiredArgsConstructor;
@@ -89,7 +89,7 @@ public class OperationLoggerAspect {
 
         HttpServletRequest request = getHttpServletRequest();
         String ip = IpUtils.getIp(request);
-        String operationName = AspectUtil.INSTANCE.parseParams(joinPoint.getArgs(), operationLogger.value());
+        String operationName = AspectUtils.INSTANCE.parseParams(joinPoint.getArgs(), operationLogger.value());
         // 获取参数名称字符串
         String paramsJson = getParamsJson((ProceedingJoinPoint) joinPoint);
         SystemUserVO user = (SystemUserVO) StpUtil.getSession().get(CURRENT_USER);
@@ -109,14 +109,14 @@ public class OperationLoggerAspect {
      */
     private void handle(ProceedingJoinPoint point,HttpServletRequest request) throws Exception {
 
-        Method currentMethod = AspectUtil.INSTANCE.getMethod(point);
+        Method currentMethod = AspectUtils.INSTANCE.getMethod(point);
 
         //获取操作名称
         OperationLogger annotation = currentMethod.getAnnotation(OperationLogger.class);
 
         boolean save = annotation.save();
 
-        String operationName = AspectUtil.INSTANCE.parseParams(point.getArgs(), annotation.value());
+        String operationName = AspectUtils.INSTANCE.parseParams(point.getArgs(), annotation.value());
         if (!save) {
             return;
         }
