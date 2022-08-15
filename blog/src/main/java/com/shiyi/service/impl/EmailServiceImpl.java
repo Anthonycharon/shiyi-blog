@@ -1,7 +1,9 @@
-package com.shiyi.utils;
+package com.shiyi.service.impl;
 
 import com.shiyi.common.RedisConstants;
 import com.shiyi.entity.SystemConfig;
+import com.shiyi.service.EmailService;
+import com.shiyi.service.RedisService;
 import com.shiyi.service.SystemConfigService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -10,6 +12,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -18,13 +22,13 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class EmailUtil {
+public class EmailServiceImpl implements EmailService {
 
-    private static final Logger logger = LoggerFactory.getLogger(EmailUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
 
-    private final RedisCache redisCache;
+    private final RedisService redisService;
 
     private final SystemConfigService systemConfigService;
 
@@ -49,6 +53,7 @@ public class EmailUtil {
     /**
      * 通知我
      */
+    @Override
     public void emailNoticeMe(String subject,String content) {
 
         // 构建一个邮件对象
@@ -67,6 +72,7 @@ public class EmailUtil {
         javaMailSender.send(message);
     }
 
+    @Override
     public void friendPassSendEmail(String email){
         String content = "<html>\n" +
                 "<body>\n" +
@@ -98,7 +104,8 @@ public class EmailUtil {
     /**
      * 发送邮箱验证码
      */
-    public void sendCode(String email) throws MessagingException {
+    @Override
+    public void sendRegisterCode(String email) throws MessagingException {
         int code = (int) ((Math.random() * 9 + 1) * 100000);
         String content = "<html>\n" +
                 "\t<body><div id=\"contentDiv\" onmouseover=\"getTop().stopPropagation(event);\" onclick=\"getTop().preSwapLink(event, 'html', 'ZC0004_vDfNJayMtMUuKGIAzzsWvc8');\" style=\"position:relative;font-size:14px;height:auto;padding:15px 15px 10px 15px;z-index:1;zoom:1;line-height:1.7;\" class=\"body\">\n" +
@@ -152,24 +159,40 @@ public class EmailUtil {
                 "  </style>\n" +
                 "</div></body>\n" +
                 "</html>\n";
+       send(email,content,code);
+    }
+
+    @Override
+    public void sendBindEmailCode(String email) throws MessagingException {
+        int code = (int) ((Math.random() * 9 + 1) * 100000);
+        String content = "<span>您正在<a href=\"http://www.shiyit.com\" rel=\"noopener\" target=\"_blank\">拾壹博客</a>" +
+                "使用邮箱验证，验证码 | <span style=\"color:blue\">"+code+"</span>,有效期<span style=\"color:grey\">300s</span>。</span>";
+        send(email, content,code);
+    }
+
+
+    private void send(String email, String template,int code) throws MessagingException {
+
+
         //创建一个MINE消息
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper minehelper = new MimeMessageHelper(mimeMessage, true);
+        MimeMessageHelper mineHelper = new MimeMessageHelper(mimeMessage, true);
         // 设置邮件主题
-        minehelper.setSubject("拾壹博客邮箱验证");
+        String SHI_YI_BLOG = "拾壹博客";
+        mineHelper.setSubject(SHI_YI_BLOG);
         // 设置邮件发送者
-        minehelper.setFrom(Objects.requireNonNull(javaMailSender.getUsername()));
+        mineHelper.setFrom(Objects.requireNonNull(javaMailSender.getUsername()));
         // 设置邮件接收者，可以有多个接收者，中间用逗号隔开
-        minehelper.setTo(email);
+        mineHelper.setTo(email);
         // 设置邮件发送日期
-        minehelper.setSentDate(new Date());
+        mineHelper.setSentDate(new Date());
         // 设置邮件的正文
-        minehelper.setText(content,true);
+        mineHelper.setText(template,true);
         // 发送邮件
         javaMailSender.send(mimeMessage);
 
-        redisCache.setCacheObject(RedisConstants.EMAIL_CODE+email,code +"");
-        redisCache.expire(RedisConstants.EMAIL_CODE+email,RedisConstants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
-        logger.info("邮箱验证码发送成功,接收邮箱为：{},验证码为:{}",email,code);
+        redisService.setCacheObject(RedisConstants.EMAIL_CODE+ email,code +"");
+        redisService.expire(RedisConstants.EMAIL_CODE+ email,RedisConstants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
+        logger.info("邮箱验证码发送成功,接收邮箱为：{},验证码为:{}", email,code);
     }
 }

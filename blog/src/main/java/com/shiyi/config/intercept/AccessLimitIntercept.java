@@ -1,6 +1,6 @@
 package com.shiyi.config.intercept;
 
-import com.shiyi.utils.IpUtil;
+import com.shiyi.util.IpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class AccessLimitIntercept implements HandlerInterceptor {
                 if (requestURI.contains("searchArticle")) return true;
 
                 // 拼接redis key = IP + Api限流
-                String key = IpUtil.getIp(request) + request.getRequestURI();
+                String key = IpUtils.getIp(request) + request.getRequestURI();
                 // 获取redis的value
                 Integer maxTimes = null;
                 Object value = redisTemplate.opsForValue().get(key);

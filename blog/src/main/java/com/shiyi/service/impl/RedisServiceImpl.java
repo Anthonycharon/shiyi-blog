@@ -1,36 +1,28 @@
-package com.shiyi.utils;
+package com.shiyi.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.shiyi.common.RedisConstants;
-import com.shiyi.entity.SystemConfig;
-import com.shiyi.service.SystemConfigService;
+
+import com.shiyi.service.RedisService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static com.shiyi.common.SqlConf.LIMIT_ONE;
 
 /**
- * spring redis 工具类
+ *  redis 工具类
  *
  * @author blue
  **/
 @SuppressWarnings(value = { "unchecked", "rawtypes" })
-@Component
+@Service
 @RequiredArgsConstructor
-public class RedisCache {
+public class RedisServiceImpl implements RedisService {
 
     public final RedisTemplate redisTemplate;
-
-    private final SystemConfigService systemConfigService;
 
     /**
      * 缓存基本的对象，Integer、String、实体类等
@@ -38,7 +30,8 @@ public class RedisCache {
      * @param key 缓存的键值
      * @param value 缓存的值
      */
-    public <T> void setCacheObject(final String key, final T value)
+    @Override
+    public  void setCacheObject(final String key, final Object value)
     {
         redisTemplate.opsForValue().set(key, value);
     }
@@ -51,21 +44,10 @@ public class RedisCache {
      * @param timeout 时间
      * @param timeUnit 时间颗粒度
      */
-    public <T> void setCacheObject(final String key, final T value, final Integer timeout, final TimeUnit timeUnit)
+    @Override
+    public void setCacheObject(final String key, final Object value, final Integer timeout, final TimeUnit timeUnit)
     {
         redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
-    }
-
-    /**
-     * 设置有效时间
-     *
-     * @param key Redis键
-     * @param timeout 超时时间
-     * @return true=设置成功；false=设置失败
-     */
-    public boolean expire(final String key, final long timeout)
-    {
-        return expire(key, timeout, TimeUnit.SECONDS);
     }
 
     /**
@@ -76,6 +58,7 @@ public class RedisCache {
      * @param unit 时间单位
      * @return true=设置成功；false=设置失败
      */
+    @Override
     public boolean expire(final String key, final long timeout, final TimeUnit unit)
     {
         return redisTemplate.expire(key, timeout, unit);
@@ -87,9 +70,10 @@ public class RedisCache {
      * @param key 缓存键值
      * @return 缓存键值对应的数据
      */
-    public <T> T getCacheObject(final String key)
+    @Override
+    public Object getCacheObject(final String key)
     {
-        ValueOperations<String, T> operation = redisTemplate.opsForValue();
+        ValueOperations<String, Object> operation = redisTemplate.opsForValue();
         return operation.get(key);
     }
 
@@ -98,6 +82,7 @@ public class RedisCache {
      *
      * @param key
      */
+    @Override
     public boolean deleteObject(final String key)
     {
         return redisTemplate.delete(key);
@@ -121,7 +106,8 @@ public class RedisCache {
      * @param dataList 待缓存的List数据
      * @return 缓存的对象
      */
-    public <T> long setCacheList(final String key, final List<T> dataList)
+    @Override
+    public long setCacheList(final String key, final List<Object> dataList)
     {
         Long count = redisTemplate.opsForList().rightPushAll(key, dataList);
         return count == null ? 0 : count;
@@ -133,38 +119,10 @@ public class RedisCache {
      * @param key 缓存的键值
      * @return 缓存键值对应的数据
      */
-    public <T> List<T> getCacheList(final String key)
+    @Override
+    public List<Object> getCacheList(final String key)
     {
         return redisTemplate.opsForList().range(key, 0, -1);
-    }
-
-    /**
-     * 缓存Set
-     *
-     * @param key 缓存键值
-     * @param dataSet 缓存的数据
-     * @return 缓存数据的对象
-     */
-    public <T> BoundSetOperations<String, T> setCacheSet(final String key, final Set<T> dataSet)
-    {
-        BoundSetOperations<String, T> setOperation = redisTemplate.boundSetOps(key);
-        Iterator<T> it = dataSet.iterator();
-        while (it.hasNext())
-        {
-            setOperation.add(it.next());
-        }
-        return setOperation;
-    }
-
-    /**
-     * 获得缓存的set
-     *
-     * @param key
-     * @return
-     */
-    public <T> Set<T> getCacheSet(final String key)
-    {
-        return redisTemplate.opsForSet().members(key);
     }
 
     /**
@@ -173,7 +131,8 @@ public class RedisCache {
      * @param key
      * @param dataMap
      */
-    public <T> void setCacheMap(final String key, final Map<String, T> dataMap)
+    @Override
+    public void setCacheMap(final String key, final Map<String, Object> dataMap)
     {
         if (dataMap != null) {
             redisTemplate.opsForHash().putAll(key, dataMap);
@@ -186,7 +145,8 @@ public class RedisCache {
      * @param key
      * @return
      */
-    public <T> Map<String, T> getCacheMap(final String key)
+    @Override
+    public Map<String, Object> getCacheMap(final String key)
     {
         return redisTemplate.opsForHash().entries(key);
     }
@@ -246,102 +206,54 @@ public class RedisCache {
      * @param key2
      * @return
      */
+    @Override
     public Set<String> diff(String key1, String key2) {
         return redisTemplate.opsForSet().difference(key1, key2);
     }
 
-
-    public void deleteRedis(String param) {
-        Set<String> img = getImg(param);
-        assert img != null;
-        if (!img.isEmpty()) {
-            Set<Object> cacheSet = this.getCacheSet(RedisConstants.APPLY_IMG);
-            cacheSet.removeAll(img);
-            this.deleteObject(RedisConstants.APPLY_IMG);
-            this.setCacheSet(RedisConstants.APPLY_IMG, cacheSet);
-        }
-    }
-
-    public void saveToRedis(String param, String fileUrl) {
-        Set<String> img = getImg(param);
-        img.add(fileUrl);
-        Set<Object> cacheSet = this.getCacheSet(RedisConstants.APPLY_IMG);
-        if (cacheSet.isEmpty()) cacheSet = new HashSet<>();
-        cacheSet.addAll(img);
-        this.setCacheSet(RedisConstants.APPLY_IMG, cacheSet);
-    }
-
-    private Set<String> getImg(String htmlStr) {
-        QueryWrapper<SystemConfig> queryWrapper = new QueryWrapper<>();
-        queryWrapper.last(LIMIT_ONE);
-        SystemConfig systemConfig = systemConfigService.getOne(queryWrapper);
-        if (htmlStr == null) {
-            return null;
-        }
-        String img = "";
-        Pattern p_image;
-        Matcher m_image;
-        Set<String> pics = new HashSet<>();
-
-        String regEx_img = "<img.*src\\s*=\\s*(.*?)[^>]*?>";
-        p_image = Pattern.compile(regEx_img, Pattern.CASE_INSENSITIVE);
-        m_image = p_image.matcher(htmlStr);
-        while (m_image.find()) {
-            img = img + "," + m_image.group();
-            // Matcher m =
-            // Pattern.compile("src=\"?(.*?)(\"|>|\\s+)").matcher(img); //匹配src
-            Matcher m = Pattern.compile("src\\s*=\\s*\"?(.*?)(\"|>|\\s+)").matcher(img);
-
-            while (m.find()) {
-                String[] strs = m.group(1).split(systemConfig.getQiNiuPictureBaseUrl());
-                if (strs.length >= 2) {
-                    String imgUrl = strs[1];
-                    pics.add(imgUrl);
-                }
-
-            }
-        }
-        return pics;
-    }
-
+    @Override
     public Boolean sIsMember(String key, Object value) {
         return redisTemplate.opsForSet().isMember(key, value);
     }
 
+    @Override
     public Long hIncr(String key, String hashKey, Long delta) {
         return redisTemplate.opsForHash().increment(key, hashKey, delta);
     }
 
+    @Override
     public Long hDecr(String key, String hashKey, Long delta) {
         return redisTemplate.opsForHash().increment(key, hashKey, -delta);
     }
+
+    @Override
     public Set<Object> sMembers(String key) {
         return redisTemplate.opsForSet().members(key);
     }
 
+    @Override
     public Long sRemove(String key, Object... values) {
         return redisTemplate.opsForSet().remove(key, values);
     }
 
+    @Override
     public Object hGet(String key, String hashKey) {
         return redisTemplate.opsForHash().get(key, hashKey);
     }
 
+    @Override
     public Long incr(String key, long delta) {
         return redisTemplate.opsForValue().increment(key, delta);
     }
 
+    @Override
     public Long sAdd(String key, Object... values) {
         return redisTemplate.opsForSet().add(key, values);
     }
 
-    public void incr(String key) {
-        redisTemplate.getConnectionFactory().getConnection().incr(
-                redisTemplate.getKeySerializer().serialize(key)
-        );
+    @Override
+    public RedisTemplate getRedisTemplate() {
+        return this.redisTemplate;
     }
 
-    public Boolean hasKey(String key) {
-        return redisTemplate.hasKey(key);
-    }
 }

@@ -1,9 +1,9 @@
 package com.shiyi.controller.api;
 
 import com.shiyi.common.RedisConstants;
-import com.shiyi.utils.RandomUtil;
-import com.shiyi.utils.RedisCache;
-import com.shiyi.utils.WeChatUtil;
+import com.shiyi.service.RedisService;
+import com.shiyi.util.RandomUtils;
+import com.shiyi.util.WeChatUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class ApiWeChatController {
 
-    private final RedisCache redisCache;
+    private final RedisService redisService;
 
     @ApiOperation("微信公众号服务器配置校验token")
     @RequestMapping(value = "/wechat",method = RequestMethod.GET)
@@ -47,7 +47,7 @@ public class ApiWeChatController {
                 String nonce = request.getParameter("nonce");
                 String echostr = request.getParameter("echostr");
                 log.info("signature[{}], timestamp[{}], nonce[{}], echostr[{}]", signature, timestamp, nonce, echostr);
-                if (WeChatUtil.checkSignature(signature, timestamp, nonce)) {
+                if (WeChatUtils.checkSignature(signature, timestamp, nonce)) {
                     log.info("数据源为微信后台，将echostr[{}]返回！", echostr);
                     BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
                     out.write(echostr.getBytes());
@@ -66,7 +66,7 @@ public class ApiWeChatController {
     @PostMapping(value = "wechat")
     public String  wechat(HttpServletRequest request) throws Exception {
         // 调用parseXml方法解析请求消息
-        Map<String,String> requestMap = WeChatUtil.parseXml(request);
+        Map<String,String> requestMap = WeChatUtils.parseXml(request);
         // 消息类型
         String msgType = requestMap.get("MsgType");
         // xml格式的消息数据
@@ -74,10 +74,10 @@ public class ApiWeChatController {
         String mes = requestMap.get("Content");
         // 文本消息
         if ("text".equals(msgType) && "验证码".equals(mes)) {
-            String code = RandomUtil.generationNumber(6);
+            String code = RandomUtils.generationNumber(6);
             String msg = MessageFormat.format("您的本次验证码:{0},该验证码30分钟内有效。", code);
-            respXml=WeChatUtil.sendTextMsg(requestMap,msg);
-            redisCache.setCacheObject(RedisConstants.WECHAT_CODE+code,code,30, TimeUnit.MINUTES);
+            respXml= WeChatUtils.sendTextMsg(requestMap,msg);
+            redisService.setCacheObject(RedisConstants.WECHAT_CODE+code,code,30, TimeUnit.MINUTES);
         }
         return respXml;
     }

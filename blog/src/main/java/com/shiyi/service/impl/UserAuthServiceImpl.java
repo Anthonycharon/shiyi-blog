@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shiyi.common.*;
+import com.shiyi.service.*;
 import com.shiyi.vo.UserInfoVO;
 import com.shiyi.entity.User;
 import com.shiyi.entity.UserAuth;
@@ -12,11 +13,8 @@ import com.shiyi.enums.LoginTypeEnum;
 import com.shiyi.enums.UserStatusEnum;
 import com.shiyi.mapper.UserAuthMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.service.UserAuthService;
-import com.shiyi.service.UserService;
-import com.shiyi.service.WebConfigService;
 import com.shiyi.strategy.context.SocialLoginStrategyContext;
-import com.shiyi.utils.*;
+import com.shiyi.util.*;
 import com.shiyi.dto.EmailLoginDTO;
 import com.shiyi.dto.EmailRegisterDTO;
 import com.shiyi.dto.QQLoginDTO;
@@ -48,11 +46,11 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
 
     private final SocialLoginStrategyContext socialLoginStrategyContext;
 
-    private final EmailUtil emailUtil;
+    private final EmailService emailService;
 
     private final UserService userService;
 
-    private final RedisCache redisCache;
+    private final RedisService redisService;
 
     private final WebConfigService webConfigService;
 
@@ -77,10 +75,10 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         baseMapper.insert(auth);
 
         user = User.builder().username(vo.getEmail()).roleId(Constants.USER_ROLE_ID).userAuthId(auth.getId()).loginType(LoginTypeEnum.EMAIL.getType())
-                .password(PasswordUtil.aesEncrypt(vo.getPassword())).build();
+                .password(AesEncryptUtils.aesEncrypt(vo.getPassword())).build();
         boolean insert = userService.save(user);
 
-        redisCache.deleteObject(RedisConstants.EMAIL_CODE + vo.getEmail());
+        redisService.deleteObject(RedisConstants.EMAIL_CODE + vo.getEmail());
 
         return insert  ? ResponseResult.success("注册成功"): ResponseResult.error(ERROR_DEFAULT.getDesc());
     }
@@ -100,10 +98,10 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         User user = getByUserName(vo.getEmail());
         Assert.notNull(user,ERROR_MUST_REGISTER.getDesc());
 
-        user.setPassword(PasswordUtil.aesEncrypt(vo.getPassword()));
+        user.setPassword(AesEncryptUtils.aesEncrypt(vo.getPassword()));
         boolean update = userService.updateById(user);
 
-        redisCache.deleteObject(RedisConstants.EMAIL_CODE + vo.getEmail());
+        redisService.deleteObject(RedisConstants.EMAIL_CODE + vo.getEmail());
 
         return update  ? ResponseResult.success("修改成功"): ResponseResult.error(ERROR_DEFAULT.getDesc());
     }
@@ -126,7 +124,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         Assert.notNull(user, ERROR_MUST_REGISTER.getDesc());
         Assert.isTrue(user.getStatus() == UserStatusEnum.disable.code,EMAIL_DISABLE_LOGIN.getDesc());
 
-        boolean validate = PasswordUtil.isValidPassword(user.getPassword(),vo.getPassword());
+        boolean validate = AesEncryptUtils.validate(user.getPassword(),vo.getPassword());
         Assert.isTrue(validate,ERROR_PASSWORD.getDesc());
 
         UserAuth auth = baseMapper.selectById(user.getUserAuthId());
@@ -167,7 +165,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
     @Override
     public ResponseResult sendEmailCode(String email) {
         try {
-            emailUtil.sendCode(email);
+            emailService.sendBindEmailCode(email);
             return ResponseResult.success("验证码已发送，请前往邮箱查看!!");
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -190,7 +188,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         UserAuth userAuth = getUserAuth();
         userAuth.setEmail(vo.getEmail());
         boolean update = updateById(userAuth);
-        redisCache.deleteObject(key);
+        redisService.deleteObject(key);
         return update ? ResponseResult.success("绑定邮箱成功"): ResponseResult.error(ERROR_DEFAULT.getDesc());
     }
 
@@ -230,7 +228,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
     }
 
     private void checkCode(String key, String sourCode) {
-        Object code = redisCache.getCacheObject(key);
+        Object code = redisService.getCacheObject(key);
         Assert.isTrue(code != null && code.equals(sourCode), ERROR_EXCEPTION_MOBILE_CODE.getDesc());
     }
 }

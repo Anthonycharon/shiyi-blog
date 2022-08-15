@@ -3,15 +3,15 @@ package com.shiyi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shiyi.common.*;
+import com.shiyi.service.RedisService;
 import com.shiyi.vo.CategoryCountVO;
 import com.shiyi.vo.HomeDataVO;
 import com.shiyi.entity.*;
 import com.shiyi.mapper.*;
 import com.shiyi.service.SystemConfigService;
 import com.shiyi.service.WebConfigService;
-import com.shiyi.utils.DateUtil;
-import com.shiyi.utils.IpUtil;
-import com.shiyi.utils.RedisCache;
+import com.shiyi.util.DateUtils;
+import com.shiyi.util.IpUtils;
 import com.shiyi.vo.ContributeVO;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.OperatingSystem;
@@ -48,7 +48,7 @@ public class HomeServiceImpl {
 
     private final WebConfigService webConfigService;
 
-    private final RedisCache redisCache;
+    private final RedisService redisService;
 
     private final PageMapper pageMapper;
 
@@ -95,7 +95,7 @@ public class HomeServiceImpl {
      * @return
      */
     public ResponseResult getCacheInfo() {
-        RedisTemplate redisTemplate = redisCache.redisTemplate;
+        RedisTemplate redisTemplate = redisService.getRedisTemplate();
         Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info());
         Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
         Object dbSize = redisTemplate.execute((RedisCallback<Object>) connection -> connection.dbSize());
@@ -163,30 +163,30 @@ public class HomeServiceImpl {
      */
     public ResponseResult report(HttpServletRequest request) {
         // 获取ip
-        String ipAddress = IpUtil.getIp(request);
+        String ipAddress = IpUtils.getIp(request);
         // 获取访问设备
-        UserAgent userAgent = IpUtil.getUserAgent(request);
+        UserAgent userAgent = IpUtils.getUserAgent(request);
         Browser browser = userAgent.getBrowser();
         OperatingSystem operatingSystem = userAgent.getOperatingSystem();
         // 生成唯一用户标识
         String uuid = ipAddress + browser.getName() + operatingSystem.getName();
         String md5 = DigestUtils.md5DigestAsHex(uuid.getBytes());
         // 判断是否访问
-        if (!redisCache.sIsMember(RedisConstants.UNIQUE_VISITOR, md5)) {
+        if (!redisService.sIsMember(RedisConstants.UNIQUE_VISITOR, md5)) {
             // 统计游客地域分布
-            String ipSource = IpUtil.getCityInfo(ipAddress);
+            String ipSource = IpUtils.getCityInfo(ipAddress);
             if (StringUtils.isNotBlank(ipSource)) {
                 ipSource = ipSource.substring(0, 2)
                         .replaceAll(Constants.PROVINCE, "")
                         .replaceAll(Constants.CITY, "");
-                redisCache.hIncr(RedisConstants.VISITOR_AREA, ipSource, 1L);
+                redisService.hIncr(RedisConstants.VISITOR_AREA, ipSource, 1L);
             } else {
-                redisCache.hIncr(RedisConstants.VISITOR_AREA, Constants.UNKNOWN, 1L);
+                redisService.hIncr(RedisConstants.VISITOR_AREA, Constants.UNKNOWN, 1L);
             }
             // 访问量+1
-            redisCache.incr(RedisConstants.BLOG_VIEWS_COUNT, 1);
+            redisService.incr(RedisConstants.BLOG_VIEWS_COUNT, 1);
             // 保存唯一标识
-            redisCache.sAdd(RedisConstants.UNIQUE_VISITOR, md5);
+            redisService.sAdd(RedisConstants.UNIQUE_VISITOR, md5);
         }
         return ResponseResult.success();
     }
@@ -199,10 +199,10 @@ public class HomeServiceImpl {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -1);
-        dateList.add(DateUtil.formateDate(calendar.getTime(), DateUtil.YYYY_MM_DD));
+        dateList.add(DateUtils.formateDate(calendar.getTime(), DateUtils.YYYY_MM_DD));
         while (date.after(calendar.getTime())) { //倒序时间,顺序after改before其他相应的改动。
             calendar.add(Calendar.DAY_OF_MONTH, 1);
-            dateList.add(DateUtil.formateDate(calendar.getTime(), DateUtil.YYYY_MM_DD));
+            dateList.add(DateUtils.formateDate(calendar.getTime(), DateUtils.YYYY_MM_DD));
         }
         return dateList;
     }
@@ -253,7 +253,7 @@ public class HomeServiceImpl {
     public List<Map<String,Object>> userAccess() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - 7);
-        List<Map<String,Object>> userAccess = sysLogMapper.getUserAccess(DateUtil.formateDate(calendar.getTime(), DateUtil.YYYY_MM_DD));
+        List<Map<String,Object>> userAccess = sysLogMapper.getUserAccess(DateUtils.formateDate(calendar.getTime(), DateUtils.YYYY_MM_DD));
         return userAccess;
     }
 
@@ -262,7 +262,7 @@ public class HomeServiceImpl {
      * @return
      */
     private Object getViewsCount() {
-        Object count = redisCache.getCacheObject(RedisConstants.BLOG_VIEWS_COUNT);
+        Object count = redisService.getCacheObject(RedisConstants.BLOG_VIEWS_COUNT);
         Object viewsCount = Optional.ofNullable(count).orElse(0);
         return viewsCount;
     }

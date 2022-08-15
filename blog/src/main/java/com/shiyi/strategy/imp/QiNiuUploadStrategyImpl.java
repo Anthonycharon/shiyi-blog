@@ -15,7 +15,7 @@ import com.shiyi.entity.SystemConfig;
 import com.shiyi.enums.QiNiuAreaEnum;
 import com.shiyi.service.SystemConfigService;
 import com.shiyi.strategy.FileUploadStrategy;
-import com.shiyi.utils.UUIDUtil;
+import com.shiyi.util.UUIDUtils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +78,7 @@ public class QiNiuUploadStrategyImpl implements FileUploadStrategy {
         FileInputStream inputStream = null;
         try {
             inputStream = (FileInputStream) file.getInputStream();
-            Response response = uploadManager.put(inputStream, UUIDUtil.getUuid() + "." + suffix, upToken,null,null);
+            Response response = uploadManager.put(inputStream, UUIDUtils.getUuid() + "." + suffix, upToken,null,null);
             //解析上传成功的结果
             DefaultPutRet putRet = JSON.parseObject(response.bodyString(),DefaultPutRet.class);
             key =  qi_niu_url + putRet.key;

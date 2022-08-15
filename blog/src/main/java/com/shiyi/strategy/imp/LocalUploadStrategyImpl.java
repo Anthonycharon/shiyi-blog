@@ -3,7 +3,7 @@ package com.shiyi.strategy.imp;
 import com.shiyi.entity.SystemConfig;
 import com.shiyi.service.SystemConfigService;
 import com.shiyi.strategy.FileUploadStrategy;
-import com.shiyi.utils.UUIDUtil;
+import com.shiyi.util.UUIDUtils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,7 @@ public class LocalUploadStrategyImpl implements FileUploadStrategy {
             savePathFile.mkdir();
         }
         //通过UUID生成唯一文件名
-        String filename = UUIDUtil.getUuid() + "." + suffix;
+        String filename = UUIDUtils.getUuid() + "." + suffix;
         try {
             //将文件保存指定目录
             file.transferTo(new File(savePath + filename));

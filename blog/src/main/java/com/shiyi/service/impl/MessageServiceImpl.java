@@ -7,9 +7,9 @@ import com.shiyi.common.ResponseResult;
 import com.shiyi.entity.Message;
 import com.shiyi.mapper.MessageMapper;
 import com.shiyi.service.MessageService;
-import com.shiyi.utils.IpUtil;
+import com.shiyi.util.IpUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.utils.PageUtil;
+import com.shiyi.util.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     public ResponseResult selectMessage(String name) {
         LambdaQueryWrapper<Message> queryWrapper = new QueryWrapper<Message>().lambda()
                 .like(StringUtils.isNotBlank(name),Message::getNickname,name).orderByDesc(Message::getCreateTime);
-        Page<Message> list = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),queryWrapper);
+        Page<Message> list = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),queryWrapper);
         return ResponseResult.success(list);
     }
 
@@ -111,8 +111,8 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult webAddMessage(Message message) {
         // 获取用户ip
-        String ipAddress = IpUtil.getIp(request);
-        String ipSource = IpUtil.getCityInfo(ipAddress);
+        String ipAddress = IpUtils.getIp(request);
+        String ipSource = IpUtils.getCityInfo(ipAddress);
         message.setIpAddress(ipAddress);
         message.setIpSource(ipSource);
         baseMapper.insert(message);

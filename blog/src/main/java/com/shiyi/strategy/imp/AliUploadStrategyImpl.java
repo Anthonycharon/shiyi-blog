@@ -7,7 +7,7 @@ import com.aliyun.oss.OSSException;
 import com.shiyi.entity.SystemConfig;
 import com.shiyi.service.SystemConfigService;
 import com.shiyi.strategy.FileUploadStrategy;
-import com.shiyi.utils.UUIDUtil;
+import com.shiyi.util.UUIDUtils;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -54,7 +54,7 @@ public class AliUploadStrategyImpl implements FileUploadStrategy {
         try {
             inputStream = file.getInputStream();
             //在文件名称里面添加随机唯一值（因为如果上传文件名称相同的话，后面的文件会将前面的文件给覆盖了）
-            String newFileName = UUIDUtil.getUuid() + "." + suffix;
+            String newFileName = UUIDUtils.getUuid() + "." + suffix;
 
             // 调用oss方法实现上传
             // 参数一：Bucket名称  参数二：上传到oss文件路径和文件名称  比如 /aa/bb/1.jpg 或者直接使用文件名称  参数三：上传文件的流

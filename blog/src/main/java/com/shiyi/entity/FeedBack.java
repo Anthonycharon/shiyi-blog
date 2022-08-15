@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shiyi.utils.DateUtil;
+import com.shiyi.util.DateUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -47,7 +47,7 @@ public class FeedBack implements Serializable {
 
     @ApiModelProperty(value = "添加时间")
       @TableField(fill = FieldFill.INSERT)
-    @JsonFormat(pattern = DateUtil.FORMAT_STRING,timezone="GMT+8")
+    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
     private Date createTime;
 
     @ApiModelProperty(value = "图片地址")

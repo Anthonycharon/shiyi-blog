@@ -1,4 +1,4 @@
-package com.shiyi.utils;
+package com.shiyi.util;
 
 /**
  * HTML工具类
@@ -6,7 +6,7 @@ package com.shiyi.utils;
  * @author blue
  * @date 2021/07/27
  */
-public class HTMLUtil {
+public class HTMLUtils {
 
     /**
      * 删除标签
@@ -16,7 +16,7 @@ public class HTMLUtil {
      */
     public static String deleteTag(String source) {
         // 敏感词过滤
-        source = SensitiveUtil.filter(source);
+        source = SensitiveUtils.filter(source);
         // 保留图片标签
         source = source.replaceAll("(?!<(img).*?>)<.*?>", "")
                 .replaceAll("(on[^\"]+)", "");

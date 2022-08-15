@@ -3,6 +3,7 @@ package com.shiyi.strategy.imp;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.shiyi.service.RedisService;
 import com.shiyi.vo.SocialTokenVO;
 import com.shiyi.vo.SocialUserInfoVO;
 import com.shiyi.vo.UserDetailVO;
@@ -16,7 +17,7 @@ import com.shiyi.mapper.RoleMapper;
 import com.shiyi.mapper.UserAuthMapper;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.strategy.SocialLoginStrategy;
-import com.shiyi.utils.*;
+import com.shiyi.util.*;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
     @Resource
     private HttpServletRequest request;
     @Autowired
-    private RedisCache redisCache;
+    private RedisService redisService;
     @Autowired
     private RoleMapper roleMapper;
 
@@ -57,8 +58,8 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         // 获取第三方token信息
         SocialTokenVO socialToken = getSocialToken(data);
         // 获取用户ip信息
-        String ipAddress = IpUtil.getIp(request);
-        String ipSource = IpUtil.getCityInfo(ipAddress);
+        String ipAddress = IpUtils.getIp(request);
+        String ipSource = IpUtils.getCityInfo(ipAddress);
         // 获取第三方用户信息
         SocialUserInfoVO socialUserInfo = getSocialUserInfo(socialToken);
         if (socialToken.getLoginType().equals(LoginTypeEnum.GITEE.getType())){
@@ -77,7 +78,7 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         Assert.isTrue(!userDetailVO.getIsDisable().equals(disable.code),DISABLE_ACCOUNT.desc);
 
         // 返回用户信息
-        UserInfoVO userInfoVO = BeanCopyUtil.copyObject(userDetailVO, UserInfoVO.class);
+        UserInfoVO userInfoVO = BeanCopyUtils.copyObject(userDetailVO, UserInfoVO.class);
         StpUtil.login(userInfoVO.getId().longValue());
         userInfoVO.setToken(StpUtil.getTokenValue());
         return userInfoVO;
@@ -159,7 +160,7 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
                 .username(socialToken.getOpenId())
                 .password(socialToken.getAccessToken())
                 .loginType(socialToken.getLoginType())
-                .lastLoginTime(DateUtil.getNowDate())
+                .lastLoginTime(DateUtils.getNowDate())
                 .ipAddress(ipAddress)
                 .ipSource(ipSource)
                 .roleId(2)
@@ -173,11 +174,11 @@ public abstract class AbstractSocialLoginStrategyImpl implements SocialLoginStra
         // 查询账号信息
         UserAuth userAuth = userAuthMapper.selectById(user.getUserAuthId());
         // 查询账号点赞信息
-        Set<Object> articleLikeSet = redisCache.sMembers(RedisConstants.ARTICLE_USER_LIKE + user.getId());
+        Set<Object> articleLikeSet = redisService.sMembers(RedisConstants.ARTICLE_USER_LIKE + user.getId());
         // 获取设备信息
-        String ipAddress = IpUtil.getIp(request);
-        String ipSource = IpUtil.getCityInfo(ipAddress);
-        UserAgent userAgent = IpUtil.getUserAgent(request);
+        String ipAddress = IpUtils.getIp(request);
+        String ipSource = IpUtils.getCityInfo(ipAddress);
+        UserAgent userAgent = IpUtils.getUserAgent(request);
         // 查询账号角色
         Role role = roleMapper.selectById(user.getRoleId());
         List<String> roleList = new ArrayList<>();

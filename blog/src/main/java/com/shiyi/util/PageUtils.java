@@ -1,4 +1,4 @@
-package com.shiyi.utils;
+package com.shiyi.util;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -8,7 +8,7 @@ import java.util.Objects;
  * 分页工具类
  *
  **/
-public class PageUtil {
+public class PageUtils {
 
     private static final ThreadLocal<Page<?>> PAGE_HOLDER = new ThreadLocal<>();
 

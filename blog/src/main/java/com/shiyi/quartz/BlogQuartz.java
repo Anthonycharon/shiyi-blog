@@ -5,9 +5,9 @@ import com.shiyi.entity.BlogArticle;
 import com.shiyi.entity.Tags;
 import com.shiyi.service.ArticleService;
 import com.shiyi.common.RedisConstants;
+import com.shiyi.service.CloudOssService;
+import com.shiyi.service.RedisService;
 import com.shiyi.service.TagsService;
-import com.shiyi.utils.UploadUtil;
-import com.shiyi.utils.RedisCache;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.*;
@@ -22,11 +22,11 @@ import static com.shiyi.common.RedisConstants.TAG_CLICK_VOLUME;
 @Component("blogQuartz")
 @RequiredArgsConstructor
 public class BlogQuartz {
-    private final RedisCache redisCache;
+    private final RedisService redisService;
 
     private final ArticleService articleService;
 
-    private final UploadUtil uploadUtil;
+    private final CloudOssService cloudOssService;
 
     private final TagsService tagsService;
 
@@ -51,7 +51,7 @@ public class BlogQuartz {
     public void updateReadQuantity(){
         // 获取带阅读量的前缀key集合
         List<BlogArticle> blogArticles = new ArrayList<>();
-        Map<String, Object> map = redisCache.getCacheMap(ARTICLE_READING);
+        Map<String, Object> map = redisService.getCacheMap(ARTICLE_READING);
         // 取出所有数据更新到数据库
         for (Map.Entry<String, Object> stringEntry : map.entrySet()) {
             String id = stringEntry.getKey();
@@ -69,9 +69,9 @@ public class BlogQuartz {
      *
      */
     public void removeQiNiuImg(){
-        Set<String> imgArrays = redisCache.diff(RedisConstants.ALL_IMG, RedisConstants.APPLY_IMG);
+        Set<String> imgArrays = redisService.diff(RedisConstants.ALL_IMG, RedisConstants.APPLY_IMG);
         String[] keys = imgArrays.toArray(new String[0]);
-        uploadUtil.delBatchFile(keys);
+        cloudOssService.delBatchFile(keys);
     }
 
     /**
@@ -79,7 +79,7 @@ public class BlogQuartz {
      *
      */
     public void removeCodePassInIp(){
-        redisCache.deleteObject(RedisConstants.CHECK_CODE_IP);
+        redisService.deleteObject(RedisConstants.CHECK_CODE_IP);
     }
 
     /**
@@ -87,7 +87,7 @@ public class BlogQuartz {
      *
      */
     public void updateTagsClickVolume(){
-        Map<String, Object> map = redisCache.getCacheMap(TAG_CLICK_VOLUME);
+        Map<String, Object> map = redisService.getCacheMap(TAG_CLICK_VOLUME);
         List<Tags> tagsList = new ArrayList<>();
         for (Map.Entry<String, Object> stringEntry : map.entrySet()) {
             String id = stringEntry.getKey();

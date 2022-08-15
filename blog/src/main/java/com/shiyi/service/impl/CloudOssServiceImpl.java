@@ -1,24 +1,24 @@
-package com.shiyi.utils;
+package com.shiyi.service.impl;
 
 
 import com.shiyi.common.ResponseResult;
 
 import com.shiyi.enums.FileUploadModelEnum;
+import com.shiyi.service.CloudOssService;
 import com.shiyi.service.SystemConfigService;
 import com.shiyi.strategy.context.FileUploadStrategyContext;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class UploadUtil {
-
-    private static final Logger logger = LoggerFactory.getLogger(UploadUtil.class);
+public class CloudOssServiceImpl implements CloudOssService {
 
     private final SystemConfigService systemConfigService;
 
@@ -31,6 +31,7 @@ public class UploadUtil {
      * @param file
      * @return
      */
+    @Override
     public ResponseResult upload(MultipartFile file) {
         if (file.getSize() > 1024 * 1024 * 10) {
             return ResponseResult.error("文件大小不能大于10M");
@@ -51,6 +52,7 @@ public class UploadUtil {
      * @param key
      * @return
      */
+    @Override
     public ResponseResult delBatchFile(String ...key) {
         getFileUploadWay();
         Boolean isSuccess = fileUploadStrategyContext.executeDeleteFileStrategy(strategy, key);

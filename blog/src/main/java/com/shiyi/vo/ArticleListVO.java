@@ -1,7 +1,7 @@
 package com.shiyi.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shiyi.utils.DateUtil;
+import com.shiyi.util.DateUtils;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -37,7 +37,7 @@ public class ArticleListVO {
     private Integer quantity;
 
     @ApiModelProperty(value = "创建时间")
-    @JsonFormat(pattern = DateUtil.FORMAT_STRING,timezone="GMT+8")
+    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
     private Date createTime;
 
     @ApiModelProperty(value = "状态")

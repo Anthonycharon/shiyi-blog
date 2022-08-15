@@ -7,8 +7,8 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.shiyi.entity.UserAuth;
 import com.shiyi.mapper.UserAuthMapper;
 import com.shiyi.mapper.UserMapper;
-import com.shiyi.utils.DateUtil;
-import com.shiyi.utils.IpUtil;
+import com.shiyi.util.DateUtils;
+import com.shiyi.util.IpUtils;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -47,9 +47,9 @@ public class MySaTokenListener implements SaTokenListener {
     @Override
     public void doLogin(String loginType, Object loginId, SaLoginModel loginModel) {
         //修改登录信息
-        String ip = IpUtil.getIp(request);
-        String cityInfo = IpUtil.getCityInfo(ip);
-        UserAgent userAgent = IpUtil.getUserAgent(request);
+        String ip = IpUtils.getIp(request);
+        String cityInfo = IpUtils.getCityInfo(ip);
+        UserAgent userAgent = IpUtils.getUserAgent(request);
         userMapper.updateLoginInfo(loginId,ip,cityInfo,userAgent.getOperatingSystem().getName(),userAgent.getBrowser().getName());
         //暂时使用内存方式存储在线用户信息
         String token = StpUtil.getTokenValueByLoginId(loginId);
@@ -58,7 +58,7 @@ public class MySaTokenListener implements SaTokenListener {
                 .avatar(auth.getAvatar())
                 .ip(ip)
                 .city(cityInfo)
-                .loginTime(DateUtil.getNowDate())
+                .loginTime(DateUtils.getNowDate())
                 .os(userAgent.getOperatingSystem().getName())
                 .userId((Long) loginId)
                 .tokenValue(token)

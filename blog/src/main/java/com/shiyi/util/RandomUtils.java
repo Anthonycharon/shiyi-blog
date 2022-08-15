@@ -1,4 +1,4 @@
-package com.shiyi.utils;
+package com.shiyi.util;
 
 import java.util.Random;
 
@@ -7,7 +7,7 @@ import java.util.Random;
  * @date 2021-05-11
  * @author blue
  */
-public class RandomUtil {
+public class RandomUtils {
 
     private static final  Random RANDOM = new Random();
 

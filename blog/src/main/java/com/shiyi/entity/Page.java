@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shiyi.utils.DateUtil;
+import com.shiyi.util.DateUtils;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -41,11 +41,11 @@ public class Page implements Serializable {
     private String pageCover;
 
       @TableField(fill = FieldFill.INSERT)
-      @JsonFormat(pattern = DateUtil.FORMAT_STRING,timezone="GMT+8")
+      @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
     private Date createTime;
 
       @TableField(fill = FieldFill.UPDATE)
-      @JsonFormat(pattern = DateUtil.FORMAT_STRING,timezone="GMT+8")
+      @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
     private Date updateTime;
 
 

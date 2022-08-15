@@ -1,4 +1,4 @@
-package com.shiyi.utils;
+package com.shiyi.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -21,9 +21,9 @@ import java.util.Objects;
  * @since 1.0.0
  **/
 @Component
-public class SensitiveUtil {
+public class SensitiveUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(SensitiveUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(SensitiveUtils.class);
 
     /**
      * 敏感词文件

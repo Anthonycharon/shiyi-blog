@@ -1,4 +1,4 @@
-package com.shiyi.utils;
+package com.shiyi.util;
 
 import com.alibaba.fastjson.JSONObject;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -9,7 +9,6 @@ import org.lionsoul.ip2region.DbMakerConfigException;
 import org.lionsoul.ip2region.DbSearcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -19,16 +18,14 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import static com.shiyi.common.Constants.UNKNOWN;
 
-@Component
-public class IpUtil {
+public class IpUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(IpUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(IpUtils.class);
     private static final String dbPath;
     private static DbSearcher searcher;
     private static DbConfig config;
@@ -38,7 +35,7 @@ public class IpUtil {
     private final static String localIp = "127.0.0.1";
 
     static {
-        dbPath = Objects.requireNonNull(IpUtil.class.getResource("/ip2region.db")).getPath();
+        dbPath = Objects.requireNonNull(IpUtils.class.getResource("/ip2region.db")).getPath();
         try {
             config = new DbConfig();
         } catch (DbMakerConfigException e) {

@@ -12,13 +12,13 @@ import com.shiyi.common.SqlConf;
 import com.shiyi.vo.SystemCommentVO;
 import com.shiyi.entity.Comment;
 import com.shiyi.entity.UserAuth;
-import com.shiyi.utils.PageUtil;
+import com.shiyi.util.PageUtils;
 import com.shiyi.dto.CommentDTO;
 import com.shiyi.mapper.CommentMapper;
 import com.shiyi.mapper.UserAuthMapper;
 import com.shiyi.service.CommentService;
-import com.shiyi.utils.DateUtil;
-import com.shiyi.utils.HTMLUtil;
+import com.shiyi.util.DateUtils;
+import com.shiyi.util.HTMLUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      */
     @Override
     public ResponseResult selectComment(String keywords) {
-        Page<SystemCommentVO> dtoPage = baseMapper.selectPageList(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),keywords);
+        Page<SystemCommentVO> dtoPage = baseMapper.selectPageList(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),keywords);
         return ResponseResult.success(dtoPage);
     }
 
@@ -77,7 +77,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if (commentCount == 0) {
             return ResponseResult.success();
         }
-        Page<Comment> pages = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),
+        Page<Comment> pages = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),
                 new QueryWrapper<Comment>().eq(SqlConf.ARTICLE_ID, articleId).isNull(SqlConf.PARENT_ID)
                         .orderByDesc(SqlConf.ID));
         // 分页查询评论集合
@@ -113,13 +113,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult addComment(CommentDTO commentDTO) {
         // 过滤标签
-        commentDTO.setCommentContent(HTMLUtil.deleteTag(commentDTO.getCommentContent()));
+        commentDTO.setCommentContent(HTMLUtils.deleteTag(commentDTO.getCommentContent()));
         Comment comment = Comment.builder()
                 .userId(commentDTO.getUserId())
                 .replyUserId(commentDTO.getReplyUserId())
                 .articleId(commentDTO.getArticleId())
                 .content(commentDTO.getCommentContent())
-                .parentId(commentDTO.getParentId()).createTime(DateUtil.getNowDate())
+                .parentId(commentDTO.getParentId()).createTime(DateUtils.getNowDate())
                 .build();
         int rows = baseMapper.insert(comment);
        /* // 判断是否开启邮箱通知,通知用户
@@ -131,7 +131,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Override
     public ResponseResult repliesByComId(Integer commentId) {
-        Page<Comment> page = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), new QueryWrapper<Comment>().eq(SqlConf.PARENT_ID, commentId));
+        Page<Comment> page = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new QueryWrapper<Comment>().eq(SqlConf.PARENT_ID, commentId));
         List<ReplyVO> result = new ArrayList<>();
         for (Comment comment: page.getRecords()) {
             UserAuth userAuth = userAuthMapper.getByUserId(comment.getUserId());

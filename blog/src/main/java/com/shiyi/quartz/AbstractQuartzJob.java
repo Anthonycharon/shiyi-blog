@@ -4,7 +4,7 @@ import com.shiyi.entity.Job;
 import com.shiyi.entity.JobLog;
 import com.shiyi.enums.ScheduleConstants;
 import com.shiyi.mapper.JobLogMapper;
-import com.shiyi.utils.SpringUtil;
+import com.shiyi.util.SpringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -87,7 +87,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
         }
 
         // 写入数据库当中
-        SpringUtil.getBean(JobLogMapper.class).insert(jobLog);
+        SpringUtils.getBean(JobLogMapper.class).insert(jobLog);
     }
 
     /**

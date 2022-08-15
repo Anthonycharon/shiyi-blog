@@ -8,7 +8,7 @@ import com.shiyi.common.SqlConf;
 import com.shiyi.entity.UserLog;
 import com.shiyi.mapper.UserLogMapper;
 import com.shiyi.service.UserLogService;
-import com.shiyi.utils.PageUtil;
+import com.shiyi.util.PageUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +33,7 @@ public class LogServiceImpl extends ServiceImpl<UserLogMapper, UserLog> implemen
     public ResponseResult selectUserLog() {
         QueryWrapper<UserLog> queryWrapper = new QueryWrapper<UserLog>()
                 .orderByDesc(SqlConf.CREATE_TIME);
-        Page<UserLog> sysLogPage = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), queryWrapper);
+        Page<UserLog> sysLogPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
         return ResponseResult.success(sysLogPage);
     }
 

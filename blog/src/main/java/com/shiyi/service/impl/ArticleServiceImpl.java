@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shiyi.service.RedisService;
 import com.shiyi.vo.*;
 import com.shiyi.common.*;
 import com.shiyi.entity.*;
@@ -17,7 +18,7 @@ import com.shiyi.mapper.*;
 import com.shiyi.service.ArticleService;
 import com.shiyi.service.SystemConfigService;
 import com.shiyi.strategy.context.SearchStrategyContext;
-import com.shiyi.utils.*;
+import com.shiyi.util.*;
 import com.shiyi.dto.ArticleDTO;
 import com.vladsch.flexmark.html2md.converter.FlexmarkHtmlConverter;
 import com.vladsch.flexmark.util.data.MutableDataSet;
@@ -63,7 +64,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
 
     private final SystemConfigService systemConfigService;
 
-    private final RedisCache redisCache;
+    private final RedisService redisService;
 
     private final TagsMapper tagsMapper;
 
@@ -111,7 +112,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult insertArticle(ArticleDTO article) {
-        BlogArticle blogArticle = BeanCopyUtil.copyObject(article, BlogArticle.class);
+        BlogArticle blogArticle = BeanCopyUtils.copyObject(article, BlogArticle.class);
         blogArticle.setUserId(StpUtil.getLoginIdAsLong());
         //添加分类
         Long categoryId = savaCategory(article.getCategoryName());
@@ -142,7 +143,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         //添加标签
         List<Long> tagList = getTagsList(article);
 
-        blogArticle = BeanCopyUtil.copyObject(article, BlogArticle.class);
+        blogArticle = BeanCopyUtils.copyObject(article, BlogArticle.class);
         blogArticle.setCategoryId(categoryId);
         blogArticle.setUserId(StpUtil.getLoginIdAsLong());
         baseMapper.updateById(blogArticle);
@@ -293,7 +294,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult webArticleList() {
-        Page<ArticlePreviewVO> articlePreviewDTOPage = baseMapper.selectPreviewPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()), PUBLISH.code,null,null);
+        Page<ArticlePreviewVO> articlePreviewDTOPage = baseMapper.selectPreviewPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), PUBLISH.code,null,null);
         articlePreviewDTOPage.getRecords().forEach(item -> item.setTagVOList(tagsMapper.findByArticleIdToTags(item.getId())));
         return ResponseResult.success(articlePreviewDTOPage);
     }
@@ -333,12 +334,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         blogArticle.setRecommendArticleList(recommendArticleList);
 
         // 封装点赞量和浏览量
-        blogArticle.setLikeCount((Integer) redisCache.hGet(RedisConstants.ARTICLE_LIKE_COUNT, blogArticle.getId().toString()));
+        blogArticle.setLikeCount((Integer) redisService.hGet(RedisConstants.ARTICLE_LIKE_COUNT, blogArticle.getId().toString()));
 
         //校验私密文章是否已经进行过验证
         if(blogArticle.getIsSecret().equals(YesOrNoEnum.YES.getCode())){
-            List<Object> cacheList = redisCache.getCacheList(RedisConstants.CHECK_CODE_IP);
-            String ip = IpUtil.getIp(request);
+            List<Object> cacheList = redisService.getCacheList(RedisConstants.CHECK_CODE_IP);
+            String ip = IpUtils.getIp(request);
             if (cacheList.contains(ip)) blogArticle.setIsSecret(YesOrNoEnum.NO.getCode());
         }
 
@@ -355,7 +356,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     @Override
     public ResponseResult condition(Long categoryId, Long tagId, Integer pageSize) {
         Map<String,Object> result = new HashMap<>();
-        Page<ArticlePreviewVO>  blogArticlePage = baseMapper.selectPreviewPage(new Page<>(PageUtil.getPageNo(),pageSize),PUBLISH.getCode(),categoryId,tagId);
+        Page<ArticlePreviewVO>  blogArticlePage = baseMapper.selectPreviewPage(new Page<>(PageUtils.getPageNo(),pageSize),PUBLISH.getCode(),categoryId,tagId);
         blogArticlePage.getRecords().forEach(item -> {
             List<TagVO> tagList = tagsMapper.findByArticleIdToTags(item.getId());
             item.setTagVOList(tagList);
@@ -379,7 +380,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult archive() {
-        Page<ArticlePreviewVO> articlePage = baseMapper.selectArchivePage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),PUBLISH.code);
+        Page<ArticlePreviewVO> articlePage = baseMapper.selectArchivePage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),PUBLISH.code);
         return ResponseResult.success(articlePage);
     }
 
@@ -407,16 +408,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     public ResponseResult articleLike(Integer articleId) {
         // 判断是否点赞
         String articleLikeKey = ARTICLE_USER_LIKE + StpUtil.getLoginId();
-        if (redisCache.sIsMember(articleLikeKey, articleId)) {
+        if (redisService.sIsMember(articleLikeKey, articleId)) {
             // 点过赞则删除文章id
-            redisCache.sRemove(articleLikeKey, articleId);
+            redisService.sRemove(articleLikeKey, articleId);
             // 文章点赞量-1
-            redisCache.hDecr(ARTICLE_LIKE_COUNT, articleId.toString(), 1L);
+            redisService.hDecr(ARTICLE_LIKE_COUNT, articleId.toString(), 1L);
         } else {
             // 未点赞则增加文章id
-            redisCache.sAdd(articleLikeKey, articleId);
+            redisService.sAdd(articleLikeKey, articleId);
             // 文章点赞量+1
-            redisCache.hIncr(ARTICLE_LIKE_COUNT, articleId.toString(), 1L);
+            redisService.hIncr(ARTICLE_LIKE_COUNT, articleId.toString(), 1L);
         }
         return ResponseResult.success();
     }
@@ -429,18 +430,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     public ResponseResult checkSecret(String code) {
         //校验验证码
         String key = RedisConstants.WECHAT_CODE + code;
-        Object redisCode = redisCache.getCacheObject(key);
+        Object redisCode = redisService.getCacheObject(key);
         Assert.isTrue(redisCode != null, ERROR_EXCEPTION_MOBILE_CODE.getDesc());
 
         //将ip存在redis 有效期一天，当天无需再进行验证码校验
-        List<Object> cacheList = redisCache.getCacheList(CHECK_CODE_IP);
+        List<Object> cacheList = redisService.getCacheList(CHECK_CODE_IP);
         if (cacheList.isEmpty()) {
             cacheList = new ArrayList<>();
         }
-        cacheList.add(IpUtil.getIp(request));
-        redisCache.setCacheList(CHECK_CODE_IP,cacheList);
+        cacheList.add(IpUtils.getIp(request));
+        redisService.setCacheList(CHECK_CODE_IP,cacheList);
         //通过删除验证码
-        redisCache.deleteObject(key);
+        redisService.deleteObject(key);
         return ResponseResult.success("验证成功");
     }
 
@@ -451,7 +452,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @return
      */
     public void incr(Long id,String key) {
-        Map<String, Object> map = redisCache.getCacheMap(key);
+        Map<String, Object> map = redisService.getCacheMap(key);
         Integer value = (Integer) map.get(id.toString());
         // 如果key存在就直接加一
         if (value != null) {
@@ -459,7 +460,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         }else {
             map.put(id.toString(),1);
         }
-        redisCache.setCacheMap(key,map);
+        redisService.setCacheMap(key,map);
     }
 
     /**

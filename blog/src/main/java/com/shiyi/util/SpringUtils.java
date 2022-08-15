@@ -1,4 +1,4 @@
-package com.shiyi.utils;
+package com.shiyi.util;
 
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeansException;
@@ -7,15 +7,13 @@ import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 /**
  * @author blue
  * @date 2021/12/8
  * @apiNote
  */
-@Component
-public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextAware {
+public class SpringUtils implements BeanFactoryPostProcessor, ApplicationContextAware {
     /** Spring应用上下文环境 */
     private static ConfigurableListableBeanFactory beanFactory;
 
@@ -24,13 +22,13 @@ public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextA
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException
     {
-        SpringUtil.beanFactory = beanFactory;
+        SpringUtils.beanFactory = beanFactory;
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
     {
-        SpringUtil.applicationContext = applicationContext;
+        SpringUtils.applicationContext = applicationContext;
     }
 
     /**

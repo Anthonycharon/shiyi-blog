@@ -1,9 +1,9 @@
-package com.shiyi.utils;
+package com.shiyi.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HumpLineUtil {
+public class HumpLineUtils {
 
     private static Pattern humpPattern = Pattern.compile("[A-Z]");
     private static Pattern linePattern = Pattern.compile("_(\\w)");

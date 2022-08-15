@@ -1,4 +1,4 @@
-package com.shiyi.utils;
+package com.shiyi.util;
 
 import cn.dev33.satoken.secure.SaSecureUtil;
 
@@ -9,18 +9,14 @@ import cn.dev33.satoken.secure.SaSecureUtil;
  * @author: blue
  * @date: 2019/10/13 0013 15:25
  */
-public class PasswordUtil {
+public class AesEncryptUtils {
 
     final static String key = "shiyi2022";
     /**
-     * 校验密码是否一致
-     *
-     * @param newPassword: 前端传过来的密码
-     * @param oldPassword：数据库中储存加密过后的密码
-     * @return
+     * 校验内容是否一直
      */
-    public static boolean isValidPassword(String oldPassword, String newPassword) {
-        return oldPassword.equalsIgnoreCase(aesEncrypt(newPassword));
+    public static boolean validate(String target, String target1) {
+        return target.equalsIgnoreCase(aesEncrypt(target1));
     }
 
     /**

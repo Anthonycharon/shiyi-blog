@@ -1,7 +1,7 @@
 package com.shiyi.vo;
 
 import cn.hutool.core.util.NumberUtil;
-import com.shiyi.utils.IpUtil;
+import com.shiyi.util.IpUtils;
 import lombok.Data;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
@@ -107,8 +107,8 @@ public class SystemHardwareInfoVO implements Serializable {
      */
     private void setSysInfo() {
         Properties props = System.getProperties();
-        sys.setComputerName(IpUtil.getHostName());
-        sys.setComputerIp(IpUtil.getHostIp());
+        sys.setComputerName(IpUtils.getHostName());
+        sys.setComputerIp(IpUtils.getHostIp());
         sys.setOsName(props.getProperty("os.name"));
         sys.setOsArch(props.getProperty("os.arch"));
         sys.setUserDir(props.getProperty("user.dir"));

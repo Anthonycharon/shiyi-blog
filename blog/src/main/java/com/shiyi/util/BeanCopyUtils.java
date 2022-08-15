@@ -1,4 +1,4 @@
-package com.shiyi.utils;
+package com.shiyi.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
  * @author
  * @date 2021/08/10
  */
-public class BeanCopyUtil {
+public class BeanCopyUtils {
 
     /**
      * 复制对象
@@ -42,7 +42,7 @@ public class BeanCopyUtil {
         List<T> list = new ArrayList<>();
         if (null != source && source.size() > 0) {
             for (Object obj : source) {
-                list.add(BeanCopyUtil.copyObject(obj, target));
+                list.add(BeanCopyUtils.copyObject(obj, target));
             }
         }
         return list;

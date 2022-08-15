@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
+import com.shiyi.service.EmailService;
 import com.shiyi.vo.FriendLinkVO;
 import com.shiyi.entity.FriendLink;
 import com.shiyi.mapper.FriendLinkMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.service.FriendLinkService;
-import com.shiyi.utils.EmailUtil;
-import com.shiyi.utils.PageUtil;
+import com.shiyi.util.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ import static com.shiyi.enums.FriendLinkEnum.UP;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendLink> implements FriendLinkService {
 
-    private final EmailUtil emailUtil;
+    private final EmailService emailService;
 
     private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
@@ -51,7 +51,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         QueryWrapper<FriendLink> queryWrapper= new QueryWrapper<FriendLink>()
                 .orderByDesc(SqlConf.SORT).like(StringUtils.isNotBlank(name),SqlConf.NAME,name)
                 .eq(status != null,SqlConf.STATUS,status);
-        Page<FriendLink> friendLinkPage = baseMapper.selectPage(new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize()),queryWrapper);
+        Page<FriendLink> friendLinkPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),queryWrapper);
         return ResponseResult.success(friendLinkPage);
     }
 
@@ -78,7 +78,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         baseMapper.updateById(friendLink);
         //审核通过发送邮件通知
         if(friendLink.getStatus().equals(UP.getCode())){
-            emailUtil.friendPassSendEmail(friendLink.getEmail());
+            emailService.friendPassSendEmail(friendLink.getEmail());
         }
         return ResponseResult.success();
     }
@@ -142,7 +142,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         }
 
         //不影响用户体验 新一个线程操作邮箱发送
-        threadPoolTaskExecutor.execute(() -> emailUtil.emailNoticeMe("友链接入通知","网站有新的友链接入啦，快去审核吧!!!"));
+        threadPoolTaskExecutor.execute(() -> emailService.emailNoticeMe("友链接入通知","网站有新的友链接入啦，快去审核吧!!!"));
         return ResponseResult.success();
     }
 }

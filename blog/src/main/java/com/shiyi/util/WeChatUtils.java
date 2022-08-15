@@ -1,4 +1,4 @@
-package com.shiyi.utils;
+package com.shiyi.util;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -17,11 +17,11 @@ import java.util.*;
  * @date 2022/1/11
  * @apiNote
  */
-public class WeChatUtil {
+public class WeChatUtils {
 
     private static String token = "shiyi2022";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WeChatUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WeChatUtils.class);
 
     /**
      * 校验签名

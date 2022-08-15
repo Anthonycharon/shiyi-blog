@@ -1,7 +1,7 @@
 package com.shiyi.quartz;
 
 import com.shiyi.entity.Job;
-import com.shiyi.utils.SpringUtil;
+import com.shiyi.util.SpringUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -29,7 +29,7 @@ public class JobInvokeUtil {
 
         if (!isValidClassName(beanName))
         {
-            Object bean = SpringUtil.getBean(beanName);
+            Object bean = SpringUtils.getBean(beanName);
             invokeMethod(bean, methodName, methodParams);
         }
         else

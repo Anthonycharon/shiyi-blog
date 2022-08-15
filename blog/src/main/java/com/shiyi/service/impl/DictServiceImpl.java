@@ -9,9 +9,9 @@ import com.shiyi.entity.DictData;
 import com.shiyi.mapper.DictMapper;
 import com.shiyi.service.DictDataService;
 import com.shiyi.service.DictService;
-import com.shiyi.utils.HumpLineUtil;
+import com.shiyi.util.HumpLineUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shiyi.utils.PageUtil;
+import com.shiyi.util.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
@@ -52,16 +52,16 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
                 .like(StringUtils.isNotBlank(name),SqlConf.NAME,name);
         if(StringUtils.isNotEmpty(ascColumn)) {
             // 将驼峰转换成下划线
-            String column = HumpLineUtil.humpToLine2(ascColumn);
+            String column = HumpLineUtils.humpToLine2(ascColumn);
             queryWrapper.orderByAsc(StringUtils.isNotEmpty(ascColumn),column);
         }else if(StringUtils.isNotEmpty(descColumn)) {
             // 将驼峰转换成下划线
-            String column = HumpLineUtil.humpToLine2(descColumn);
+            String column = HumpLineUtils.humpToLine2(descColumn);
             queryWrapper.orderByDesc(column);
         } else {
             queryWrapper.orderByDesc(SqlConf.SORT, SqlConf.CREATE_TIME);
         }
-        Page<Dict> page = new Page<>(PageUtil.getPageNo(), PageUtil.getPageSize());
+        Page<Dict> page = new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize());
         Page<Dict> data = baseMapper.selectPage(page, queryWrapper);
         return ResponseResult.success(data);
     }

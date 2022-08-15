@@ -1,4 +1,4 @@
-package com.shiyi.utils;
+package com.shiyi.util;
 
 import java.util.UUID;
 
@@ -8,7 +8,7 @@ import java.util.UUID;
  * @author blue
  * @since 2021-05-24
  */
-public class UUIDUtil {
+public class UUIDUtils {
 
     /**
      * 去除UUID中的分割符

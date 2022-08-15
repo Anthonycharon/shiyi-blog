@@ -1,4 +1,4 @@
-package com.shiyi.utils;
+package com.shiyi.util;
 
 import com.alibaba.fastjson.JSON;
 import com.shiyi.vo.ArticleSearchVO;

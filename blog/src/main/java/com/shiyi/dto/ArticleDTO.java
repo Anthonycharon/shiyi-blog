@@ -3,7 +3,7 @@ package com.shiyi.dto;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shiyi.utils.DateUtil;
+import com.shiyi.util.DateUtils;
 import lombok.Data;
 
 import java.util.Date;
@@ -35,9 +35,9 @@ public class ArticleDTO {
     private List<String> tags;
 
     @TableField(fill = FieldFill.INSERT)
-    @JsonFormat(pattern = DateUtil.FORMAT_STRING,timezone="GMT+8")
+    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
     private Date createTime;
     @TableField(fill = FieldFill.UPDATE)
-    @JsonFormat(pattern = DateUtil.FORMAT_STRING,timezone="GMT+8")
+    @JsonFormat(pattern = DateUtils.FORMAT_STRING,timezone="GMT+8")
     private Date updateTime;
 }
