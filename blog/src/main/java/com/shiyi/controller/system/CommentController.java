@@ -27,7 +27,7 @@ public class CommentController {
     @SaCheckLogin
     @ApiOperation(value = "评论列表", httpMethod = "GET", response = ResponseResult.class, notes = "评论列表")
     public ResponseResult list(String keywords){
-        return commentService.selectComment(keywords);
+        return commentService.listComment(keywords);
     }
 
     @RequestMapping(value = "/deleteBatch",method = RequestMethod.DELETE)

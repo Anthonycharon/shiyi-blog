@@ -26,7 +26,7 @@ import java.util.List;
 public class ExceptionLogServiceImpl extends ServiceImpl<ExceptionLogMapper, ExceptionLog> implements ExceptionLogService {
 
     @Override
-    public ResponseResult selectExceptionLog() {
+    public ResponseResult listExceptionLog() {
         QueryWrapper<ExceptionLog> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc(SqlConf.CREATE_TIME);
         Page<ExceptionLog> pg = new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize());

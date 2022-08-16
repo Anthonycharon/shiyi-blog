@@ -30,7 +30,7 @@ public class UserController {
     @SaCheckLogin
     @ApiOperation(value = "用户列表", httpMethod = "GET", response = ResponseResult.class, notes = "用户列表")
     public ResponseResult list(String username, Integer loginType) {
-        return userService.selectUser(username,loginType);
+        return userService.listUser(username,loginType);
     }
 
     @PostMapping(value = "/create")
@@ -44,8 +44,8 @@ public class UserController {
     @GetMapping(value = "/info")
     @SaCheckPermission("/system/user/info")
     @ApiOperation(value = "用户详情", httpMethod = "GET", response = ResponseResult.class, notes = "用户详情")
-    public ResponseResult info(Integer id) {
-        return userService.info(id);
+    public ResponseResult getUserById(Integer id) {
+        return userService.getUserById(id);
     }
 
     @PostMapping(value = "/update")

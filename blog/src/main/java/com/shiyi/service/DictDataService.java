@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface DictDataService extends IService<DictData> {
 
-    ResponseResult selectDictData(Integer dictId, Integer isPublish);
+    ResponseResult listDictData(Integer dictId, Integer isPublish);
 
     ResponseResult insertDictData(DictData dictData);
 
@@ -24,7 +24,7 @@ public interface DictDataService extends IService<DictData> {
 
     ResponseResult deleteBatch(List<Long> ids);
 
-    ResponseResult deleteById(Long id);
+    ResponseResult deleteDictData(Long id);
 
     ResponseResult getDataByDictType(List<String> types);
 

@@ -27,7 +27,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @return
      */
     @Override
-    public ResponseResult selectRole(String name) {
+    public ResponseResult listRole(String name) {
         Page<Role> data = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new QueryWrapper<Role>()
                 .like(StringUtils.isNotBlank(name),SqlConf.NAME,name));
         return ResponseResult.success(data);

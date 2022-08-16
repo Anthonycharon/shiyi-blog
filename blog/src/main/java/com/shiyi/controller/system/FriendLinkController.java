@@ -38,7 +38,7 @@ public class FriendLinkController {
     @SaCheckLogin
     @ApiOperation(value = "友链列表", httpMethod = "GET", response = ResponseResult.class, notes = "友链列表")
     public ResponseResult list(String name, Integer status){
-        return friendLinkService.selectFriendLink(name,status);
+        return friendLinkService.listFriendLink(name,status);
     }
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)

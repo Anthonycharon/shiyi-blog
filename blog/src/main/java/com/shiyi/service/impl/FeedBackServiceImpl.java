@@ -31,7 +31,7 @@ public class FeedBackServiceImpl extends ServiceImpl<FeedBackMapper, FeedBack> i
      * @return
      */
     @Override
-    public ResponseResult selectFeedBack(Integer type) {
+    public ResponseResult listFeedBack(Integer type) {
         QueryWrapper<FeedBack> queryWrapper = new QueryWrapper<FeedBack>()
                 .orderByDesc(SqlConf.CREATE_TIME).eq(type != null,SqlConf.TYPE,type);
         Page<FeedBack> feedBackPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);

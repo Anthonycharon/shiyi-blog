@@ -34,7 +34,7 @@ public class TagsController {
     @SaCheckLogin
     @ApiOperation(value = "标签列表", httpMethod = "GET", response = ResponseResult.class, notes = "标签列表")
     public ResponseResult list(String name){
-        return tagsService.selectTags(name);
+        return tagsService.listTags(name);
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
@@ -48,8 +48,8 @@ public class TagsController {
     @RequestMapping(value = "/info",method = RequestMethod.GET)
     @SaCheckPermission("/system/tags/info")
     @ApiOperation(value = "标签详情", httpMethod = "GET", response = ResponseResult.class, notes = "标签详情")
-    public ResponseResult info(Long id){
-        return tagsService.info(id);
+    public ResponseResult getTagsById(Long id){
+        return tagsService.getTagsById(id);
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)

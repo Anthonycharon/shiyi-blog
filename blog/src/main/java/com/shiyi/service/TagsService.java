@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface TagsService extends IService<Tags> {
 
-    ResponseResult selectTags(String name);
+    ResponseResult listTags(String name);
 
     ResponseResult insertTag(Tags tags);
 
@@ -26,7 +26,7 @@ public interface TagsService extends IService<Tags> {
 
     ResponseResult deleteBatch(List<Long> ids);
 
-    ResponseResult info(Long id);
+    ResponseResult getTagsById(Long id);
 
     ResponseResult top(Long id);
 

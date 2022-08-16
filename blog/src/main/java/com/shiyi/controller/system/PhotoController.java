@@ -35,14 +35,14 @@ public class PhotoController {
     @SaCheckLogin
     @ApiOperation(value = "照片列表", httpMethod = "GET", response = ResponseResult.class, notes = "照片列表")
     public ResponseResult list(Integer albumId) {
-        return photoService.selectPhoto(albumId);
+        return photoService.listPhoto(albumId);
     }
 
     @GetMapping(value = "/info")
     @SaCheckPermission("/system/photo/info")
     @ApiOperation(value = "照片详情", httpMethod = "GET", response = ResponseResult.class, notes = "照片详情")
-    public ResponseResult infoAlbum(Integer id) {
-        return photoService.infoPhoto(id);
+    public ResponseResult getPhotoById(Integer id) {
+        return photoService.getPhotoById(id);
     }
 
     @PostMapping(value = "/add")

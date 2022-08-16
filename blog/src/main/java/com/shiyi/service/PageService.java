@@ -14,11 +14,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PageService extends IService<Page> {
 
-    ResponseResult selectPage();
+    ResponseResult listPage();
 
     ResponseResult insertPage(Page page);
 
     ResponseResult updatePage(Page page);
 
-    ResponseResult deletePage(Long id);
+    ResponseResult deletePageById(Long id);
 }

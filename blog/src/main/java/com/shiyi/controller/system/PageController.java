@@ -32,7 +32,7 @@ public class PageController {
     @SaCheckLogin
     @ApiOperation(value = "页面列表", httpMethod = "GET", response = ResponseResult.class, notes = "页面列表")
     public ResponseResult list() {
-        return pageService.selectPage();
+        return pageService.listPage();
     }
 
     @PostMapping(value = "/add")
@@ -55,8 +55,8 @@ public class PageController {
     @SaCheckPermission("/system/page/delete")
     @ApiOperation(value = "删除页面", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除页面")
     @OperationLogger(value = "删除页面")
-    public ResponseResult deletePage(Long id) {
-        return pageService.deletePage(id);
+    public ResponseResult deletePageById(Long id) {
+        return pageService.deletePageById(id);
     }
 }
 

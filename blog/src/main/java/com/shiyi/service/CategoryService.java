@@ -21,14 +21,14 @@ public interface CategoryService extends IService<Category> {
      * @param name 分类名
      * @return
      */
-    ResponseResult selectCategory(String name);
+    ResponseResult listCategory(String name);
 
     /**
      * 分类详情
      * @param id 分类id
      * @return
      */
-    ResponseResult infoCategory(Long id);
+    ResponseResult getCategoryById(Long id);
 
     /**
      * 添加分类

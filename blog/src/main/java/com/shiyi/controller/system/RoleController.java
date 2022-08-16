@@ -26,7 +26,7 @@ public class RoleController {
     @SaCheckLogin
     @ApiOperation(value = "角色列表", httpMethod = "GET", response = ResponseResult.class, notes = "角色列表")
     public ResponseResult list(String name) {
-        return roleService.selectRole(name);
+        return roleService.listRole(name);
     }
 
     @RequestMapping(value = "queryUserRole", method = RequestMethod.GET)

@@ -66,7 +66,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
      * @return
      */
     @Override
-    public ResponseResult selectJob(String jobName, String jobGroup, String status) {
+    public ResponseResult listJob(String jobName, String jobGroup, String status) {
         QueryWrapper<Job> queryWrapper = new QueryWrapper<Job>()
                 .like(StringUtils.isNotBlank(jobName),SqlConf.JOB_NAME,jobName)
                 .eq(StringUtils.isNotBlank(jobGroup),SqlConf.JOB_GROUP,jobGroup)
@@ -82,7 +82,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
      * @return
      */
     @Override
-    public ResponseResult info(Long jobId) {
+    public ResponseResult getJobById(Long jobId) {
         Job job = baseMapper.selectById(jobId);
         Date nextExecution = CronUtils.getNextExecution(job.getCronExpression());
         job.setNextValidTime(nextExecution);

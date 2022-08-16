@@ -28,7 +28,7 @@ public class WebConfigServiceImpl extends ServiceImpl<WebConfigMapper, WebConfig
      * @return
      */
     @Override
-    public ResponseResult selectWebConfig() {
+    public ResponseResult listWebConfig() {
         WebConfig webConfig = baseMapper.selectOne(new QueryWrapper<WebConfig>()
                 .last(LIMIT_ONE));
         return ResponseResult.success(webConfig);

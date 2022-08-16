@@ -17,9 +17,9 @@ import java.util.Map;
  */
 public interface PhotoService extends IService<Photo> {
 
-    ResponseResult selectPhoto(Integer albumId);
+    ResponseResult listPhoto(Integer albumId);
 
-    ResponseResult infoPhoto(Integer id);
+    ResponseResult getPhotoById(Integer id);
 
     ResponseResult insertAlbum(Photo photo);
 

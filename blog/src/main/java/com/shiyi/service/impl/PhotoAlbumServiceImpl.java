@@ -45,7 +45,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
      * @return
      */
     @Override
-    public ResponseResult selectAlbum(String name) {
+    public ResponseResult listAlbum(String name) {
         QueryWrapper<PhotoAlbum> queryWrapper = new QueryWrapper<PhotoAlbum>()
                 .like(StringUtils.isNotBlank(name),SqlConf.NAME,name);
         Page<PhotoAlbum> photoAlbumPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
@@ -62,7 +62,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
      * @return
      */
     @Override
-    public ResponseResult infoAlbum(Integer id) {
+    public ResponseResult getAlbumById(Integer id) {
         PhotoAlbum photoAlbum = baseMapper.selectById(id);
         Integer count = photoMapper.selectCount(new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, photoAlbum.getId()));
         photoAlbum.setPhotoCount(count);
@@ -100,7 +100,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult deleteAlbum(Integer id) {
+    public ResponseResult deleteAlbumById(Integer id) {
         baseMapper.deleteById(id);
         int rows = photoMapper.delete(new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, id));
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("删除相册失败");

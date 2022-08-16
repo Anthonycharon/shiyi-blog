@@ -32,7 +32,7 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
      * @return
      */
     @Override
-    public ResponseResult selectPhoto(Integer albumId) {
+    public ResponseResult listPhoto(Integer albumId) {
         Page<Photo> photoPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, albumId));
         return ResponseResult.success(photoPage);
     }
@@ -43,7 +43,7 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
      * @return
      */
     @Override
-    public ResponseResult infoPhoto(Integer id) {
+    public ResponseResult getPhotoById(Integer id) {
         Photo photo = baseMapper.selectById(id);
         return ResponseResult.success(photo);
     }

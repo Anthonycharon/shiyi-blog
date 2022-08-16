@@ -42,7 +42,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      * @return
      */
     @Override
-    public ResponseResult selectMessage(String name) {
+    public ResponseResult listMessage(String name) {
         LambdaQueryWrapper<Message> queryWrapper = new QueryWrapper<Message>().lambda()
                 .like(StringUtils.isNotBlank(name),Message::getNickname,name).orderByDesc(Message::getCreateTime);
         Page<Message> list = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),queryWrapper);
@@ -69,7 +69,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult deleteById(int id) {
+    public ResponseResult deleteMessageById(int id) {
         baseMapper.deleteById(id);
         return ResponseResult.success();
     }

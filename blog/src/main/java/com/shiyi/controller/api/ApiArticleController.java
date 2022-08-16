@@ -24,8 +24,8 @@ public class ApiArticleController {
     @BusinessLogger(value = "首页-用户访问首页",type = "查询",desc = "查询所有文章")
     @GetMapping(value = "/list")
     @ApiOperation(value = "文章列表", httpMethod = "GET", response = ResponseResult.class, notes = "文章列表")
-    public ResponseResult webArticleList() {
-        return  articleService.webArticleList();
+    public ResponseResult listWebArticle() {
+        return  articleService.listWebArticle();
     }
 
     @BusinessLogger(value = "首页-文章搜索",type = "查询",desc = "文章搜索")

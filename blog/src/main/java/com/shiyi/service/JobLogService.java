@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface JobLogService extends IService<JobLog> {
 
-    ResponseResult selectJobLog(String jobName, String jobGroup, String status, String startTime,
+    ResponseResult listJobLog(String jobName, String jobGroup, String status, String startTime,
                             String endTime, Long jobId);
 
     ResponseResult deleteBatch(List<Long> ids);

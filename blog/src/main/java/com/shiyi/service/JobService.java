@@ -18,9 +18,9 @@ import java.util.List;
  */
 public interface JobService extends IService<Job> {
 
-    ResponseResult selectJob(String jobName, String jobGroup, String status);
+    ResponseResult listJob(String jobName, String jobGroup, String status);
 
-    ResponseResult info(Long jobId);
+    ResponseResult getJobById(Long jobId);
 
     ResponseResult insertJob(Job job) throws SchedulerException, TaskException;
 

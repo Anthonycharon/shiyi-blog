@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface CommentService extends IService<Comment> {
 
-    ResponseResult selectComment(String keywords);
+    ResponseResult listComment(String keywords);
 
     ResponseResult deleteBatch(List<Integer> ids);
 

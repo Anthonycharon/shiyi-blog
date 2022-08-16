@@ -30,23 +30,23 @@ public class MenuController {
     @SaCheckLogin
     @ApiOperation(value = "获取菜单树", httpMethod = "GET", response = ResponseResult.class, notes = "获取菜单树")
     public ResponseResult getMenuTree() {
-        List<Menu> result = menuService.getMenuTree(menuService.list());
+        List<Menu> result = menuService.listMenuTree(menuService.list());
         return ResponseResult.success("获取菜单树成功", result);
     }
 
     @GetMapping(value = "/getMenuApi")
     @SaCheckLogin
     @ApiOperation(value = "获取所有接口", httpMethod = "GET", response = ResponseResult.class, notes = "获取所有接口")
-    public ResponseResult getMenuApi(Integer id) {
-         return menuService.getMenuApi(id);
+    public ResponseResult listMenuApi(Integer id) {
+         return menuService.listMenuApi(id);
     }
 
     @PostMapping(value = "/create")
     @SaCheckPermission("/system/menu/create")
     @ApiOperation(value = "添加菜单", httpMethod = "POST", response = ResponseResult.class, notes = "添加菜单")
     @OperationLogger(value = "添加菜单")
-    public ResponseResult create(@RequestBody Menu menu) {
-        return menuService.saveMenu(menu);
+    public ResponseResult insert(@RequestBody Menu menu) {
+        return menuService.insertMenu(menu);
     }
 
     @PostMapping(value = "/update")
@@ -61,7 +61,7 @@ public class MenuController {
     @SaCheckPermission("/system/menu/remove")
     @ApiOperation(value = "删除菜单", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除菜单")
     @OperationLogger(value = "删除菜单")
-    public ResponseResult remove(Integer id) {
-        return menuService.removeMenu(id);
+    public ResponseResult deleteMenuById(Integer id) {
+        return menuService.deleteMenuById(id);
     }
 }

@@ -30,7 +30,7 @@ public class AdminLogServiceImpl extends ServiceImpl<AdminLogMapper, AdminLog> i
      * @return
      */
     @Override
-    public ResponseResult selectAdminLog() {
+    public ResponseResult listAdminLog() {
         Page<AdminLog> sysLogPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),
                 new QueryWrapper<AdminLog>().orderByDesc(SqlConf.CREATE_TIME));
         return ResponseResult.success(sysLogPage);
@@ -43,7 +43,7 @@ public class AdminLogServiceImpl extends ServiceImpl<AdminLogMapper, AdminLog> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult delete(List<Long> ids) {
+    public ResponseResult deleteAdminLog(List<Long> ids) {
         int rows = baseMapper.deleteBatchIds(ids);
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("批量删除操作日志失败");
     }

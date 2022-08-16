@@ -34,14 +34,14 @@ public class CategoryController {
     @SaCheckLogin
     @ApiOperation(value = "分类列表", httpMethod = "GET", response = ResponseResult.class, notes = "分类列表")
     public ResponseResult list(String name){
-        return categoryService.selectCategory(name);
+        return categoryService.listCategory(name);
     }
 
     @RequestMapping(value = "/info",method = RequestMethod.GET)
     @SaCheckPermission("/system/category/info")
     @ApiOperation(value = "分类详情", httpMethod = "GET", response = ResponseResult.class, notes = "分类详情")
-    public ResponseResult info(@RequestParam() Long id){
-        return categoryService.infoCategory(id);
+    public ResponseResult getCategoryById(@RequestParam() Long id){
+        return categoryService.getCategoryById(id);
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)

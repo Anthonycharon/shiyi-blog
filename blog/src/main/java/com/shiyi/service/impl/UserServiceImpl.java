@@ -55,7 +55,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    public ResponseResult selectUser(String username, Integer loginType) {
+    public ResponseResult listUser(String username, Integer loginType) {
         Page<UserVO> page = baseMapper.selectPageRecord(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),username,loginType);
         return ResponseResult.success(page);
     }
@@ -66,7 +66,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    public ResponseResult info(Integer id) {
+    public ResponseResult getUserById(Integer id) {
         SystemUserVO user = baseMapper.getById(id);
         return ResponseResult.success(user);
     }
@@ -129,7 +129,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public ResponseResult getCurrentUserMenu() {
         List<Integer> menuIds = baseMapper.getMenuId(StpUtil.getLoginIdAsInt());
         List<Menu> menus = menuService.listByIds(menuIds);
-        List<Menu> menuTree = menuService.getMenuTree(menus);
+        List<Menu> menuTree = menuService.listMenuTree(menus);
         return ResponseResult.success(menuTree);
     }
 

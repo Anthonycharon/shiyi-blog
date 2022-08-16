@@ -30,7 +30,7 @@ public class LogServiceImpl extends ServiceImpl<UserLogMapper, UserLog> implemen
      * @return
      */
     @Override
-    public ResponseResult selectUserLog() {
+    public ResponseResult listUserLog() {
         QueryWrapper<UserLog> queryWrapper = new QueryWrapper<UserLog>()
                 .orderByDesc(SqlConf.CREATE_TIME);
         Page<UserLog> sysLogPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);

@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface ExceptionLogService extends IService<ExceptionLog> {
 
-    ResponseResult selectExceptionLog();
+    ResponseResult listExceptionLog();
 
     ResponseResult deleteBatch(List<Long> ids);
 }

@@ -18,12 +18,12 @@ public interface AdminLogService extends IService<AdminLog> {
      * 分页查询操作日志
      * @return
      */
-    ResponseResult selectAdminLog();
+    ResponseResult listAdminLog();
 
     /**
      * 批量删除操作日志
      * @param ids 操作日志id集合
      * @return
      */
-    ResponseResult delete(List<Long> ids);
+    ResponseResult deleteAdminLog(List<Long> ids);
 }

@@ -47,7 +47,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
      * @return
      */
     @Override
-    public ResponseResult selectFriendLink(String name, Integer status) {
+    public ResponseResult listFriendLink(String name, Integer status) {
         QueryWrapper<FriendLink> queryWrapper= new QueryWrapper<FriendLink>()
                 .orderByDesc(SqlConf.SORT).like(StringUtils.isNotBlank(name),SqlConf.NAME,name)
                 .eq(status != null,SqlConf.STATUS,status);

@@ -47,7 +47,7 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
      * @return
      */
     @Override
-    public ResponseResult selectDictData(Integer dictId, Integer isPublish) {
+    public ResponseResult listDictData(Integer dictId, Integer isPublish) {
         QueryWrapper<DictData> queryWrapper = new QueryWrapper<DictData>()
                 .eq(SqlConf.DICT_TYPE_ID,dictId).eq(isPublish != null,SqlConf.IS_PUBLISH,isPublish);
         Page<DictData> data = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
@@ -107,7 +107,7 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult deleteById(Long id) {
+    public ResponseResult deleteDictData(Long id) {
         baseMapper.deleteById(id);
         return ResponseResult.success();
     }

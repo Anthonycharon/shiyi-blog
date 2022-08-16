@@ -35,14 +35,14 @@ public class JobController {
     @SaCheckLogin
     @ApiOperation(value = "定时任务列表", httpMethod = "GET", response = ResponseResult.class, notes = "定时任务列表")
     public ResponseResult list(String jobName, String jobGroup, String status) {
-        return jobService.selectJob(jobName,jobGroup,status);
+        return jobService.listJob(jobName,jobGroup,status);
     }
 
     @GetMapping(value = "/info")
     @SaCheckPermission("/system/job/info")
     @ApiOperation(value = "定时任务详情", httpMethod = "GET", response = ResponseResult.class, notes = "定时任务详情")
-    public ResponseResult info(Long jobId) {
-        return jobService.info(jobId);
+    public ResponseResult getJobById(Long jobId) {
+        return jobService.getJobById(jobId);
     }
 
     @PostMapping(value = "/add")

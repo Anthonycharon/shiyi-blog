@@ -14,9 +14,9 @@ import java.util.Map;
  */
 public interface UserService extends IService<User> {
 
-    ResponseResult selectUser(String username, Integer loginType);
+    ResponseResult listUser(String username, Integer loginType);
 
-    ResponseResult info(Integer id);
+    ResponseResult getUserById(Integer id);
 
     ResponseResult insertUser(User user);
 

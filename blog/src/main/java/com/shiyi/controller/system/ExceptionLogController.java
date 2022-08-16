@@ -33,7 +33,7 @@ public class ExceptionLogController {
     @SaCheckLogin
     @ApiOperation(value = "异常日志列表", httpMethod = "GET", response = ResponseResult.class, notes = "异常日志列表")
     public ResponseResult list() {
-        return exceptionLogService.selectExceptionLog();
+        return exceptionLogService.listExceptionLog();
     }
 
     @DeleteMapping(value = "/delete")

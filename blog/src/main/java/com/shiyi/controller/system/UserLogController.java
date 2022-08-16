@@ -33,7 +33,7 @@ public class UserLogController {
     @SaCheckLogin
     @ApiOperation(value = "用户日志列表", httpMethod = "GET", response = ResponseResult.class, notes = "用户日志列表")
     public ResponseResult list() {
-        return userLogService.selectUserLog();
+        return userLogService.listUserLog();
     }
 
     @DeleteMapping(value = "/delete")

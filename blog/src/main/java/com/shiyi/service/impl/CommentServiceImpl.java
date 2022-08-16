@@ -46,7 +46,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      * @return
      */
     @Override
-    public ResponseResult selectComment(String keywords) {
+    public ResponseResult listComment(String keywords) {
         Page<SystemCommentVO> dtoPage = baseMapper.selectPageList(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),keywords);
         return ResponseResult.success(dtoPage);
     }

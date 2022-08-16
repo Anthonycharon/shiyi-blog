@@ -28,7 +28,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      * @return
      */
     @Override
-    public List<Menu> getMenuTree(List<Menu> list) {
+    public List<Menu> listMenuTree(List<Menu> list) {
         List<Menu> resultList = new ArrayList<>();
         for (Menu menu : list) {
             Integer parentId = menu.getParentId();
@@ -46,7 +46,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      * @return
      */
     @Override
-    public ResponseResult getMenuApi(Integer id) {
+    public ResponseResult listMenuApi(Integer id) {
         QueryWrapper<Menu> queryWrapper = new QueryWrapper<Menu>()
                 .eq("level",1).eq(id != null, SqlConf.ID,id);
         List<Menu> list = baseMapper.selectList(queryWrapper);
@@ -64,7 +64,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult saveMenu(Menu menu) {
+    public ResponseResult insertMenu(Menu menu) {
         int rows = baseMapper.insert(menu);
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("添加菜单失败");
     }
@@ -88,7 +88,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult removeMenu(Integer id) {
+    public ResponseResult deleteMenuById(Integer id) {
         int rows = baseMapper.deleteById(id);
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("删除菜单失败");
     }

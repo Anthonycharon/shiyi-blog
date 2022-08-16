@@ -42,7 +42,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * @return
      */
     @Override
-    public ResponseResult selectCategory(String name) {
+    public ResponseResult listCategory(String name) {
         Page<Category> categoryPage = baseMapper.selectCategory(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), name);
         return ResponseResult.success(categoryPage);
     }
@@ -53,7 +53,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * @return
      */
     @Override
-    public ResponseResult infoCategory(Long id) {
+    public ResponseResult getCategoryById(Long id) {
         Category category = baseMapper.selectById(id);
         return ResponseResult.success(category);
     }

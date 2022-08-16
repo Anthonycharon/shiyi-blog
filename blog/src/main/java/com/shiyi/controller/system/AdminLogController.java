@@ -32,8 +32,8 @@ public class AdminLogController {
     @GetMapping(value = "/list")
     @SaCheckLogin
     @ApiOperation(value = "操作日志列表", httpMethod = "GET", response = ResponseResult.class, notes = "操作日志列表")
-    public ResponseResult query() {
-        return adminLogService.selectAdminLog();
+    public ResponseResult list() {
+        return adminLogService.listAdminLog();
     }
 
     @DeleteMapping(value = "/delete")
@@ -41,7 +41,7 @@ public class AdminLogController {
     @SaCheckPermission("/system/adminLog/delete")
     @ApiOperation(value = "删除操作日志", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除操作日志")
     public ResponseResult delete(@RequestBody List<Long> ids) {
-        return adminLogService.delete(ids);
+        return adminLogService.deleteAdminLog(ids);
     }
 }
 

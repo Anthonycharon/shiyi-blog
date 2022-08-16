@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface FeedBackService extends IService<FeedBack> {
 
-    ResponseResult selectFeedBack(Integer type);
+    ResponseResult listFeedBack(Integer type);
 
     ResponseResult deleteBatch(List<Integer> ids);
 

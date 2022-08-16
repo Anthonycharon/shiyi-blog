@@ -26,7 +26,7 @@ public class PageServiceImpl extends ServiceImpl<PageMapper, Page> implements Pa
      * @return
      */
     @Override
-    public ResponseResult selectPage() {
+    public ResponseResult listPage() {
         List<Page> pages = baseMapper.selectList(null);
         return ResponseResult.success(pages);
     }
@@ -62,7 +62,7 @@ public class PageServiceImpl extends ServiceImpl<PageMapper, Page> implements Pa
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult deletePage(Long id) {
+    public ResponseResult deletePageById(Long id) {
         int rows = baseMapper.deleteById(id);
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("删除失败");
     }

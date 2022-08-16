@@ -89,7 +89,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @return
      */
     @Override
-    public ResponseResult selectArticle(Map<String,Object> map) {
+    public ResponseResult listArticle(Map<String,Object> map) {
         Page<ArticleListVO> data = baseMapper.selectArticle(new Page<>((Integer)map.get("pageNo"), (Integer)map.get("pageSize")),map);
         return ResponseResult.success(data);
     }
@@ -99,7 +99,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @return
      */
     @Override
-    public ResponseResult info(Long id) {
+    public ResponseResult getArticleById(Long id) {
         ArticleDTO articleDTO = baseMapper.selectPrimaryKey(id);
         articleDTO.setTags(tagsMapper.selectByArticleId(id));
         return ResponseResult.success(articleDTO);
@@ -162,7 +162,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult deleteById(Long id) {
+    public ResponseResult deleteArticle(Long id) {
         int row = baseMapper.deleteById(id);
         if (row > 0) {
             this.deleteAfter(Collections.singletonList(id));
@@ -177,7 +177,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult deleteBatch(List<Long> ids) {
+    public ResponseResult deleteBatchArticle(List<Long> ids) {
         int rows = baseMapper.deleteBatchIds(ids);
         if (rows > 0) {
             this.deleteAfter(ids);
@@ -202,7 +202,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @return
      */
     @Override
-    public ResponseResult baiduSeo(List<Long> ids) {
+    public ResponseResult articleSeo(List<Long> ids) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Host", "data.zz.baidu.com");
@@ -293,7 +293,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @return
      */
     @Override
-    public ResponseResult webArticleList() {
+    public ResponseResult listWebArticle() {
         Page<ArticlePreviewVO> articlePreviewDTOPage = baseMapper.selectPreviewPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), PUBLISH.code,null,null);
         articlePreviewDTOPage.getRecords().forEach(item -> item.setTagVOList(tagsMapper.findByArticleIdToTags(item.getId())));
         return ResponseResult.success(articlePreviewDTOPage);

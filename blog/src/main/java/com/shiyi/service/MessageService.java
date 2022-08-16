@@ -16,9 +16,9 @@ import java.util.List;
  */
 public interface MessageService extends IService<Message> {
 
-    ResponseResult selectMessage(String name);
+    ResponseResult listMessage(String name);
 
-    ResponseResult deleteById(int id);
+    ResponseResult deleteMessageById(int id);
 
     ResponseResult passBatch(List<Integer> ids);
 

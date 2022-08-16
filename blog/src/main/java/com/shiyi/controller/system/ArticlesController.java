@@ -25,14 +25,14 @@ public class ArticlesController {
     @SaCheckLogin
     @ApiOperation(value = "文章列表", httpMethod = "POST", response = ResponseResult.class, notes = "文章列表")
     public ResponseResult list(@RequestBody Map<String,Object> map) {
-        return articleService.selectArticle(map);
+        return articleService.listArticle(map);
     }
 
     @GetMapping(value = "/info")
     @SaCheckPermission("/system/article/info")
     @ApiOperation(value = "文章详情", httpMethod = "GET", response = ResponseResult.class, notes = "文章详情")
-    public ResponseResult info(Long id) {
-        return articleService.info(id);
+    public ResponseResult getArticleById(Long id) {
+        return articleService.getArticleById(id);
     }
 
     @PostMapping(value = "/add")
@@ -56,7 +56,7 @@ public class ArticlesController {
     @ApiOperation(value = "删除文章", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除文章")
     @OperationLogger(value = "删除文章")
     public ResponseResult delete(Long id) {
-        return articleService.deleteById(id);
+        return articleService.deleteArticle(id);
     }
 
     @DeleteMapping(value = "/deleteBatch")
@@ -64,7 +64,7 @@ public class ArticlesController {
     @ApiOperation(value = "批量删除文章", httpMethod = "DELETE", response = ResponseResult.class, notes = "批量删除文章")
     @OperationLogger(value = "批量删除文章")
     public ResponseResult deleteBatch(@RequestBody List<Long> ids) {
-        return articleService.deleteBatch(ids);
+        return articleService.deleteBatchArticle(ids);
     }
 
     @PostMapping(value = "/top")
@@ -87,8 +87,8 @@ public class ArticlesController {
     @SaCheckPermission("/system/article/baiduSeo")
     @ApiOperation(value = "文章SEO", httpMethod = "POST", response = ResponseResult.class, notes = "文章SEO")
     @OperationLogger(value = "文章SEO")
-    public ResponseResult baiduSeo(@RequestBody List<Long> ids) {
-        return articleService.baiduSeo(ids);
+    public ResponseResult articleSeo(@RequestBody List<Long> ids) {
+        return articleService.articleSeo(ids);
     }
 
     @GetMapping(value = "/reptile")

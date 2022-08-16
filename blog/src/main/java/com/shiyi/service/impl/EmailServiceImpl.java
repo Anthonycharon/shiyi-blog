@@ -28,12 +28,11 @@ public class EmailServiceImpl implements EmailService {
 
     private final SystemConfigService systemConfigService;
 
-    JavaMailSenderImpl javaMailSender;
+    private final JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
 
     @PostConstruct
     public void init(){
         SystemConfig systemConfig = systemConfigService.getCustomizeOne();
-        javaMailSender = new JavaMailSenderImpl();
         javaMailSender.setHost(systemConfig.getEmailHost());
         javaMailSender.setUsername(systemConfig.getEmailUsername());
         javaMailSender.setPassword(systemConfig.getEmailPassword());
@@ -76,9 +75,8 @@ public class EmailServiceImpl implements EmailService {
                 "<p style='padding: 20px;'>感谢您的选择，本站将会竭尽维护好站点稳定，分享高质量的文章，欢迎相互交流互访。</p>" +
                 "<p>可前往<a href='http://www.shiyit.com/links'>本站友链</a>查阅您的站点。</p></body>\n" +
                 "</html>";
-        //创建一个MINE消息
         try {
-           send(email,content);
+            send(email,content);
         }catch (Exception e){
             e.printStackTrace();
         }

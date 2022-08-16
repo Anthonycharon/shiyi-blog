@@ -33,14 +33,14 @@ public class PhotoAlbumController {
     @SaCheckLogin
     @ApiOperation(value = "相册列表", httpMethod = "GET", response = ResponseResult.class, notes = "相册列表")
     public ResponseResult list(String name) {
-        return albumService.selectAlbum(name);
+        return albumService.listAlbum(name);
     }
 
     @GetMapping(value = "/info")
     @SaCheckPermission("/system/album/info")
     @ApiOperation(value = "相册详情", httpMethod = "GET", response = ResponseResult.class, notes = "相册详情")
-    public ResponseResult infoAlbum(Integer id) {
-        return albumService.infoAlbum(id);
+    public ResponseResult getAlbumById(Integer id) {
+        return albumService.getAlbumById(id);
     }
 
     @PostMapping(value = "/add")
@@ -63,8 +63,8 @@ public class PhotoAlbumController {
     @SaCheckPermission("/system/album/delete")
     @ApiOperation(value = "删除相册", httpMethod = "DELETE", response = ResponseResult.class, notes = "删除相册")
     @OperationLogger(value = "删除相册")
-    public ResponseResult deleteAlbum(Integer id) {
-        return albumService.deleteAlbum(id);
+    public ResponseResult deleteAlbumById(Integer id) {
+        return albumService.deleteAlbumById(id);
     }
 }
 

@@ -34,7 +34,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      * @return
      */
     @Override
-    public ResponseResult selectTags(String name) {
+    public ResponseResult listTags(String name) {
         Page<Tags> list = baseMapper.selectPageRecord(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),name);
         return ResponseResult.success(list);
     }
@@ -45,7 +45,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
      * @return
      */
     @Override
-    public ResponseResult info(Long id) {
+    public ResponseResult getTagsById(Long id) {
         Tags tags = baseMapper.selectById(id);
         return ResponseResult.success(tags);
     }

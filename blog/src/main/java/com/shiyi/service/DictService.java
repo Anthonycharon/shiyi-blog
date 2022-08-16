@@ -16,13 +16,13 @@ import java.util.List;
  */
 public interface DictService extends IService<Dict> {
 
-    ResponseResult selectDict(String name, Integer isPublish, String descColumn, String ascColumn);
+    ResponseResult listDict(String name, Integer isPublish, String descColumn, String ascColumn);
 
     ResponseResult insertDict(Dict dict);
 
     ResponseResult updateDict(Dict dict);
 
-    ResponseResult deleteById(int id);
+    ResponseResult deleteDict(int id);
 
     ResponseResult deleteBatch(List<Long> list);
 

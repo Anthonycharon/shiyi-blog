@@ -17,7 +17,7 @@ import java.util.List;
 public interface RoleService extends IService<Role> {
 
 
-    ResponseResult selectRole(String name);
+    ResponseResult listRole(String name);
 
      ResponseResult insertRole(Role role);
 

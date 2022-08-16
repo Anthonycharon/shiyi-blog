@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface FriendLinkService extends IService<FriendLink> {
 
-    ResponseResult selectFriendLink(String name, Integer status);
+    ResponseResult listFriendLink(String name, Integer status);
 
     ResponseResult insertFriendLink(FriendLink friendLink);
 
