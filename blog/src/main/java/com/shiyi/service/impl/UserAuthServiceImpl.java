@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shiyi.common.*;
+import com.shiyi.exception.BusinessException;
 import com.shiyi.service.*;
 import com.shiyi.vo.UserInfoVO;
 import com.shiyi.entity.User;
@@ -112,17 +113,15 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      * @return
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public ResponseResult emailLogin(EmailLoginDTO vo) {
 
         checkEmail(vo.getEmail());
 
-        String password = vo.getPassword();
-        Assert.isTrue(StringUtils.isNotBlank(password),PASSWORD_ILLEGAL.getDesc());
-
         User user = getByUserName(vo.getEmail());
-        Assert.notNull(user, ERROR_MUST_REGISTER.getDesc());
-        Assert.isTrue(user.getStatus() == UserStatusEnum.disable.code,EMAIL_DISABLE_LOGIN.getDesc());
+        if (user == null) {
+            throw new BusinessException(ERROR_MUST_REGISTER.desc);
+        }
+        Assert.isTrue(user.getStatus() == UserStatusEnum.normal.code,EMAIL_DISABLE_LOGIN.getDesc());
 
         boolean validate = AesEncryptUtils.validate(user.getPassword(),vo.getPassword());
         Assert.isTrue(validate,ERROR_PASSWORD.getDesc());
