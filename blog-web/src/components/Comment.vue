@@ -296,7 +296,6 @@ export default {
       const arr = path.split("/");
       var comment = {
         articleId: arr[2],
-        userId:userId,
         commentContent: this.commentContent
       };
       this.commentContent = "";

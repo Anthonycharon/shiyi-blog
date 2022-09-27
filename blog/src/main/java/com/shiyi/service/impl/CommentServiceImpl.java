@@ -1,10 +1,12 @@
 package com.shiyi.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shiyi.exception.BusinessException;
 import com.shiyi.vo.ReplyCountVO;
 import com.shiyi.vo.ReplyVO;
 import com.shiyi.common.ResponseResult;
@@ -112,10 +114,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult addComment(CommentDTO commentDTO) {
+        if (commentDTO.getUserId() != null) {
+            throw new BusinessException("非法请求评论!");
+        }
         // 过滤标签
         commentDTO.setCommentContent(HTMLUtils.deleteTag(commentDTO.getCommentContent()));
         Comment comment = Comment.builder()
-                .userId(commentDTO.getUserId())
+                .userId(StpUtil.getLoginIdAsLong())
                 .replyUserId(commentDTO.getReplyUserId())
                 .articleId(commentDTO.getArticleId())
                 .content(commentDTO.getCommentContent())
