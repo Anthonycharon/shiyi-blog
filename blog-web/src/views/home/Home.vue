@@ -232,7 +232,6 @@
           <!-- 网站信息 -->
           <v-card class="blog-card animated zoomIn mt-5">
             <div class="web-info-title">
-              <v-icon size="18">mdi-chart-line</v-icon>
               标签云
             </div>
             <div class="web-info">
