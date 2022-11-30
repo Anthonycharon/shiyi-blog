@@ -131,6 +131,8 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         Assert.isTrue(StringUtils.isNotBlank(friendLink.getUrl()),"输入正确的网址!");
         friendLink.setStatus(APPLY.getCode());
 
+        Assert.isTrue(friendLink.getUrl().contains("shiyit.com"),"不合法的网址！");
+
         //如果已经申请过友链 再次接入则会进行下架处理 需重新审核
         FriendLink entity = baseMapper.selectOne(new QueryWrapper<FriendLink>()
                 .eq(SqlConf.URL,friendLink.getUrl()));
@@ -142,7 +144,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         }
 
         //不影响用户体验 新一个线程操作邮箱发送
-        threadPoolTaskExecutor.execute(() -> emailService.emailNoticeMe("友链接入通知","网站有新的友链接入啦，快去审核吧!!!"));
+        threadPoolTaskExecutor.execute(() -> emailService.emailNoticeMe("友链接入通知","网站有新的友链接入啦("+friendLink.getUrl()+")，快去审核吧!!!"));
         return ResponseResult.success();
     }
 }
