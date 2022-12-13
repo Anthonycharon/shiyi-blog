@@ -197,8 +197,11 @@ export default {
           {required: true, message: '网站地址不能为空', trigger: 'blur'},
           {pattern: /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/, message: '请输入有效的网站地址'},
         ],
+        info: [
+          {required: true, message: '网站简介不能为空', trigger: 'blur'}
+        ],
         email: [
-          {pattern: /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/, message: '请输入正确的邮箱'},
+          {required: true,pattern: /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/, message: '请输入正确的邮箱'},
         ],
         status: [
           {required: true, message: '网站状态不能为空', trigger: 'blur'}

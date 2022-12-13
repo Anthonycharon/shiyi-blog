@@ -103,7 +103,7 @@
 
     <el-dialog center :title="title" :visible.sync="dialogFormVisible">
       <el-form :rules="rules" ref="dataForm" :model="form">
-        <el-form-item prop="nickName" label="昵称" :label-width="formLabelWidth">
+        <el-form-item prop="nickname" label="昵称" :label-width="formLabelWidth">
           <el-input disabled="true" v-model="form.nickname" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="status" label="状态" :label-width="formLabelWidth">
@@ -171,7 +171,7 @@ export default {
           { required: true, message: '请输入账号', trigger: 'blur' },
           {min: 1, max: 20, message: '长度在1到20个字符'},
         ],
-        nickName: [
+        nickname: [
           { required: true, message: '请输入昵称', trigger: 'blur' },
           {min: 1, max: 20, message: '长度在1到20个字符'},
         ],
