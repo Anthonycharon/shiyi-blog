@@ -131,7 +131,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         Assert.isTrue(StringUtils.isNotBlank(friendLink.getUrl()),"输入正确的网址!");
         friendLink.setStatus(APPLY.getCode());
 
-        Assert.isTrue(friendLink.getUrl().contains("shiyit.com"),"不合法的网址！");
+        Assert.isTrue(!friendLink.getUrl().contains("shiyit.com"),"不合法的网址！");
 
         //如果已经申请过友链 再次接入则会进行下架处理 需重新审核
         FriendLink entity = baseMapper.selectOne(new QueryWrapper<FriendLink>()
