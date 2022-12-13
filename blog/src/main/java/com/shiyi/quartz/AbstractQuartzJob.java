@@ -33,7 +33,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
     private static final ThreadLocal<Date> THREAD_LOCAL = new ThreadLocal<>();
 
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException {
+    public void execute(JobExecutionContext context) {
         Job job = new Job();
         BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES), job);
         try {

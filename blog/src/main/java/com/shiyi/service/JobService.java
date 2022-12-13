@@ -32,7 +32,7 @@ public interface JobService extends IService<Job> {
 
     ResponseResult pauseJob(Job job) throws SchedulerException ;
 
-    ResponseResult run(Job job) throws SchedulerException;
+    ResponseResult run(Job job);
 
     ResponseResult changeStatus(Job job) throws SchedulerException;
 

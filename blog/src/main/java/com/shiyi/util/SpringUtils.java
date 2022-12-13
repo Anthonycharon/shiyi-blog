@@ -3,33 +3,37 @@ package com.shiyi.util;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 /**
  * @author blue
  * @date 2021/12/8
  * @apiNote
  */
-public class SpringUtils implements BeanFactoryPostProcessor, ApplicationContextAware {
+@Component
+public class SpringUtils implements ApplicationContextAware {
     /** Spring应用上下文环境 */
-    private static ConfigurableListableBeanFactory beanFactory;
-
     private static ApplicationContext applicationContext;
 
-    @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException
-    {
-        SpringUtils.beanFactory = beanFactory;
-    }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
     {
         SpringUtils.applicationContext = applicationContext;
     }
+
+
+    /**
+     * 获取applicationContext
+     *
+     * @return applicationContext
+     */
+    public static ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
 
     /**
      * 获取对象
@@ -42,7 +46,7 @@ public class SpringUtils implements BeanFactoryPostProcessor, ApplicationContext
     @SuppressWarnings("unchecked")
     public static <T> T getBean(String name) throws BeansException
     {
-        return (T) beanFactory.getBean(name);
+        return (T) getApplicationContext().getBean(name);
     }
 
     /**
@@ -55,7 +59,7 @@ public class SpringUtils implements BeanFactoryPostProcessor, ApplicationContext
      */
     public static <T> T getBean(Class<T> clz) throws BeansException
     {
-        T result = (T) beanFactory.getBean(clz);
+        T result = (T) getApplicationContext().getBean(clz);
         return result;
     }
 
@@ -67,7 +71,7 @@ public class SpringUtils implements BeanFactoryPostProcessor, ApplicationContext
      */
     public static boolean containsBean(String name)
     {
-        return beanFactory.containsBean(name);
+        return getApplicationContext().containsBean(name);
     }
 
     /**
@@ -80,7 +84,7 @@ public class SpringUtils implements BeanFactoryPostProcessor, ApplicationContext
      */
     public static boolean isSingleton(String name) throws NoSuchBeanDefinitionException
     {
-        return beanFactory.isSingleton(name);
+        return getApplicationContext().isSingleton(name);
     }
 
     /**
@@ -91,7 +95,7 @@ public class SpringUtils implements BeanFactoryPostProcessor, ApplicationContext
      */
     public static Class<?> getType(String name) throws NoSuchBeanDefinitionException
     {
-        return beanFactory.getType(name);
+        return getApplicationContext().getType(name);
     }
 
     /**
@@ -104,7 +108,7 @@ public class SpringUtils implements BeanFactoryPostProcessor, ApplicationContext
      */
     public static String[] getAliases(String name) throws NoSuchBeanDefinitionException
     {
-        return beanFactory.getAliases(name);
+        return getApplicationContext().getAliases(name);
     }
 
     /**

@@ -80,7 +80,7 @@ public class JobController {
     @SaCheckPermission("/system/job/run")
     @ApiOperation(value = "立即执行", httpMethod = "POST", response = ResponseResult.class, notes = "立即执行")
     @OperationLogger(value = "立即执行")
-    public ResponseResult run(@RequestBody Job job) throws SchedulerException, TaskException {
+    public ResponseResult run(@RequestBody Job job) {
         return jobService.run(job);
     }
 
@@ -88,7 +88,7 @@ public class JobController {
     @SaCheckPermission("/system/job/change")
     @ApiOperation(value = "修改状态", httpMethod = "POST", response = ResponseResult.class, notes = "修改状态")
     @OperationLogger(value = "修改状态")
-    public ResponseResult changeStatus(@RequestBody Job job) throws SchedulerException, TaskException {
+    public ResponseResult changeStatus(@RequestBody Job job) throws SchedulerException {
         return jobService.changeStatus(job);
     }
 }

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.SqlConf;
 import com.shiyi.entity.Job;
 import com.shiyi.enums.ScheduleConstants;
+import com.shiyi.exception.BusinessException;
 import com.shiyi.mapper.UserMapper;
 import com.shiyi.quartz.CronUtils;
 import com.shiyi.quartz.ScheduleUtils;
@@ -180,15 +181,18 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult run(Job job) throws SchedulerException {
-        Long jobId = job.getJobId();
-        String jobGroup = job.getJobGroup();
-        // 参数
-        JobDataMap dataMap = new JobDataMap();
-        dataMap.put(ScheduleConstants.TASK_PROPERTIES, job);
-        scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, jobGroup), dataMap);
-
-        return ResponseResult.success();
+    public ResponseResult run(Job job) {
+        try {
+            Long jobId = job.getJobId();
+            String jobGroup = job.getJobGroup();
+            // 参数
+            JobDataMap dataMap = new JobDataMap();
+            dataMap.put(ScheduleConstants.TASK_PROPERTIES, job);
+            scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, jobGroup), dataMap);
+            return ResponseResult.success();
+        } catch (Exception e) {
+            throw new BusinessException("定时任务运行失败！失败原因:" + e.getMessage());
+        }
     }
 
     /**
