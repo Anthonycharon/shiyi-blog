@@ -143,8 +143,12 @@
           </el-select>
         </el-form-item>
 
+        <el-form-item label="下架原因" :label-width="formLabelWidth" prop="reason">
+          <el-input v-model="form.reason"  auto-complete="off"></el-input>
+        </el-form-item>
+
         <el-form-item label="排序" :label-width="formLabelWidth" prop="sort">
-          <el-input v-model="form.sort" auto-complete="off"></el-input>
+          <el-input-number v-model="form.sort"></el-input-number>
         </el-form-item>
 
       </el-form>
@@ -205,6 +209,9 @@ export default {
         ],
         status: [
           {required: true, message: '网站状态不能为空', trigger: 'blur'}
+        ],
+        reason: [
+          {required: true, message: '下架原因不能为空', trigger: 'blur'}
         ],
         sort: [
           {required: true, message: '排序字段不能为空', trigger: 'blur'},
