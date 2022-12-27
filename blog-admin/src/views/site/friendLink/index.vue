@@ -143,8 +143,8 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="下架原因" :label-width="formLabelWidth" prop="reason">
-          <el-input v-model="form.reason"  auto-complete="off"></el-input>
+        <el-form-item v-if="form.status === 0" label="下架原因" :label-width="formLabelWidth" prop="reason">
+          <el-input v-model="form.reason" auto-complete="off"></el-input>
         </el-form-item>
 
         <el-form-item label="排序" :label-width="formLabelWidth" prop="sort">

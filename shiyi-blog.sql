@@ -244,6 +244,7 @@ CREATE TABLE `b_friend_link`  (
   `avatar` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '网站头像地址',
   `info` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '网站描述',
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '邮箱',
+  `reason` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL COMMENT '下架原因',
   `sort` int(11) NULL DEFAULT 0 COMMENT '排序',
   `status` int(11) NOT NULL DEFAULT 0 COMMENT 'ENUM-状态:\"0-待审核\",\"1-通过\"',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
