@@ -21,8 +21,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-import static com.shiyi.enums.FriendLinkEnum.APPLY;
-import static com.shiyi.enums.FriendLinkEnum.UP;
+import static com.shiyi.enums.FriendLinkEnum.*;
 
 /**
  * <p>
@@ -79,6 +78,10 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         //审核通过发送邮件通知
         if(friendLink.getStatus().equals(UP.getCode())){
             emailService.friendPassSendEmail(friendLink.getEmail());
+        }
+        //审核未通过发送邮件通知
+        if(friendLink.getStatus().equals(DOWN.getCode())){
+            emailService.friendFailedSendEmail(friendLink.getEmail(), friendLink.getReason());
         }
         return ResponseResult.success();
     }

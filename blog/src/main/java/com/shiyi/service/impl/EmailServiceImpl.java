@@ -67,11 +67,35 @@ public class EmailServiceImpl implements EmailService {
         javaMailSender.send(message);
     }
 
+    /**
+     * 友链通过发送通知
+     * @param email 邮箱账号
+     */
     @Override
     public void friendPassSendEmail(String email){
         String content = "<html>\n" +
                 "<body>\n" +
                 "    <p>您在"+"<a href='http://www.shiyit.com'>拾壹博客</a>"+"站点申请友链加入审核通过!!</span>\n" +
+                "<p style='padding: 20px;'>感谢您的选择，本站将会竭尽维护好站点稳定，分享高质量的文章，欢迎相互交流互访。</p>" +
+                "<p>可前往<a href='http://www.shiyit.com/links'>本站友链</a>查阅您的站点。</p></body>\n" +
+                "</html>";
+        try {
+            send(email,content);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 友链未通过发送通知
+     * @param email 邮箱账号
+     * @param reason 原因
+     */
+    @Override
+    public void friendFailedSendEmail(String email,String reason){
+        String content = "<html>\n" +
+                "<body>\n" +
+                "    <p>您在"+"<a href='http://www.shiyit.com'>拾壹博客</a>"+"站点申请的友链加入审核未通过!具体原因为:"+ reason +"</span>\n" +
                 "<p style='padding: 20px;'>感谢您的选择，本站将会竭尽维护好站点稳定，分享高质量的文章，欢迎相互交流互访。</p>" +
                 "<p>可前往<a href='http://www.shiyit.com/links'>本站友链</a>查阅您的站点。</p></body>\n" +
                 "</html>";
