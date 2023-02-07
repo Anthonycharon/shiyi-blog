@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.shiyi.annotation.OperationLogger;
+import com.shiyi.exception.BusinessException;
 import com.shiyi.vo.SystemUserVO;
 import com.shiyi.entity.ExceptionLog;
 import com.shiyi.entity.AdminLog;
@@ -24,9 +25,9 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
+
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -64,15 +65,17 @@ public class OperationLoggerAspect {
     @Around(value = "pointcut(operationLogger)")
     public Object doAround(ProceedingJoinPoint joinPoint, OperationLogger operationLogger) throws Throwable {
         //因给了演示账号所有权限以供用户观看，所以执行业务前需判断是否是管理员操作
-        Assert.isTrue(StpUtil.hasRole("admin"),"演示账号不允许操作!!");
+        if (!StpUtil.hasRole("admin")) {
+            throw new BusinessException("演示账号不允许操作!");
+        }
 
-        startTime = new Date();
+        startTime = DateUtils.getNowDate();
 
         //先执行业务
         Object result = joinPoint.proceed();
         try {
             // 日志收集
-            handle(joinPoint,getHttpServletRequest());
+            handle(joinPoint, getHttpServletRequest());
 
         } catch (Exception e) {
             logger.error("日志记录出错!", e);
@@ -84,9 +87,6 @@ public class OperationLoggerAspect {
 
     @AfterThrowing(value = "pointcut(operationLogger)", throwing = "e")
     public void doAfterThrowing(JoinPoint joinPoint, OperationLogger operationLogger, Throwable e) throws Exception {
-        //此异常不做保存日志的处理 因为此异常基本都是业务中Assert返回的异常
-        if (e.toString().contains("IllegalArgumentException")) return;
-
         HttpServletRequest request = getHttpServletRequest();
         String ip = IpUtils.getIp(request);
         String operationName = AspectUtils.INSTANCE.parseParams(joinPoint.getArgs(), operationLogger.value());
@@ -107,7 +107,7 @@ public class OperationLoggerAspect {
      * @param point
      * @throws Exception
      */
-    private void handle(ProceedingJoinPoint point,HttpServletRequest request) throws Exception {
+    private void handle(ProceedingJoinPoint point, HttpServletRequest request) throws Exception {
 
         Method currentMethod = AspectUtils.INSTANCE.getMethod(point);
 
@@ -121,7 +121,7 @@ public class OperationLoggerAspect {
             return;
         }
         // 获取参数名称字符串
-        String paramsJson = getParamsJson(point) ;
+        String paramsJson = getParamsJson(point);
 
         // 当前操作用户
         SystemUserVO user = (SystemUserVO) StpUtil.getSession().get(CURRENT_USER);
@@ -134,7 +134,7 @@ public class OperationLoggerAspect {
         Long spendTime = endTime.getTime() - startTime.getTime();
         AdminLog adminLog = new AdminLog(ip, IpUtils.getCityInfo(ip), type, url, user.getNickname(),
                 paramsJson, point.getTarget().getClass().getName(),
-                point.getSignature().getName(), operationName,spendTime);
+                point.getSignature().getName(), operationName, spendTime);
         adminLogMapper.insert(adminLog);
     }
 
@@ -146,21 +146,21 @@ public class OperationLoggerAspect {
         String[] parameterNames = methodSignature.getParameterNames();
 
         // 通过map封装参数和参数值
-        HashMap<String, Object> paramMap = new HashMap();
+        HashMap<String, Object> paramMap = new HashMap<>();
         for (int i = 0; i < parameterNames.length; i++) {
             paramMap.put(parameterNames[i], args[i]);
         }
 
         boolean isContains = paramMap.containsKey("request");
         if (isContains) paramMap.remove("request");
-        String paramsJson = JSONObject.toJSONString(paramMap);
-        return paramsJson;
+        return JSONObject.toJSONString(paramMap);
     }
 
     private HttpServletRequest getHttpServletRequest() {
         // 获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         // 从获取RequestAttributes中获取HttpServletRequest的信息
+        assert requestAttributes != null;
         return (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
     }
 }

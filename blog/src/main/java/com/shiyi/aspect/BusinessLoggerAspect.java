@@ -67,6 +67,7 @@ public class BusinessLoggerAspect {
         // 获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         // 从获取RequestAttributes中获取HttpServletRequest的信息
+        assert requestAttributes != null;
         HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
         try {
             // 从切面织入点处通过反射机制获取织入点处的方法
@@ -75,8 +76,11 @@ public class BusinessLoggerAspect {
             Method method = signature.getMethod();
             //获取操作
             BusinessLogger annotation = method.getAnnotation(BusinessLogger.class);
-            if (!annotation.save()) return;
+            if (!annotation.save()) {
+                return;
+            }
 
+            assert request != null;
             String ip = IpUtils.getIp(request);
             UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("user-agent"));
             String clientType = userAgent.getOperatingSystem().getDeviceType().toString();

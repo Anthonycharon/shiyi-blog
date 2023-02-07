@@ -1,6 +1,7 @@
 package com.shiyi.config.intercept;
 
 import com.shiyi.util.IpUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -27,8 +30,10 @@ public class AccessLimitIntercept implements HandlerInterceptor {
     private int count;
     @Value("${IpLimit.time}")
     private int time;
+
     /**
      * 接口调用前检查对方ip是否频繁调用接口
+     *
      * @param request
      * @param response
      * @param handler
@@ -42,7 +47,9 @@ public class AccessLimitIntercept implements HandlerInterceptor {
             if (handler instanceof HandlerMethod) {
                 //文章搜索则不进行限流,如需部分接口地址限流可自定义注解实现
                 String requestURI = request.getRequestURI();
-                if (requestURI.contains("searchArticle")) return true;
+                if (requestURI.contains("searchArticle")) {
+                    return true;
+                }
 
                 // 拼接redis key = IP + Api限流
                 String key = IpUtils.getIp(request) + request.getRequestURI();
@@ -60,8 +67,8 @@ public class AccessLimitIntercept implements HandlerInterceptor {
                     redisTemplate.opsForValue().set(key, maxTimes + 1, time, TimeUnit.SECONDS);
                 } else {
                     // 请求过于频繁
-                    logger.info("API请求限流拦截启动,{} 请求过于频繁",key);
-                    output(response,"{\"code\":\"8002\",\"message\":\"请求过于频繁，请稍后再试\"}");
+                    logger.info("API请求限流拦截启动,{} 请求过于频繁", key);
+                    output(response, "{\"code\":\"8002\",\"message\":\"请求过于频繁，请稍后再试\"}");
                 }
             }
         } catch (Exception e) {
@@ -86,12 +93,14 @@ public class AccessLimitIntercept implements HandlerInterceptor {
         ServletOutputStream outputStream = null;
         try {
             outputStream = response.getOutputStream();
-            outputStream.write(msg.getBytes("UTF-8"));
+            outputStream.write(msg.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            outputStream.flush();
-            outputStream.close();
+            if (ObjectUtils.isNotEmpty(outputStream)) {
+                outputStream.flush();
+                outputStream.close();
+            }
         }
     }
 }

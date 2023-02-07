@@ -1,8 +1,6 @@
 package com.shiyi.config.filter;
 
 
-import cn.hutool.http.HttpUtil;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;

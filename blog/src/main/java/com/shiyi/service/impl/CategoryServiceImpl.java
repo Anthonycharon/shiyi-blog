@@ -1,9 +1,11 @@
 package com.shiyi.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ResponseResult;
 import com.shiyi.common.SqlConf;
+import com.shiyi.exception.BusinessException;
 import com.shiyi.vo.CategoryVO;
 import com.shiyi.entity.Category;
 import com.shiyi.mapper.CategoryMapper;
@@ -66,7 +68,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult insertCategory(Category category) {
         Category vo = baseMapper.selectOne(new QueryWrapper<Category>().eq(SqlConf.NAME, category.getName()));
-        Assert.isNull(vo,"该分类名称已存在!");
+        if (ObjectUtil.isNull(vo)) {
+            throw new BusinessException("该分类名称已存在!");
+        }
         int rows = baseMapper.insert(category);
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("添加分类失败");
     }

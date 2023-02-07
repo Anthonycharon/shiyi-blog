@@ -1,6 +1,7 @@
 package com.shiyi.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -136,7 +137,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult updateArticle(ArticleDTO article) {
         BlogArticle blogArticle = baseMapper.selectById(article.getId());
-        Assert.notNull(blogArticle,ARTICLE_NOT_EXIST.getDesc());
+        if (ObjectUtil.isNull(blogArticle)) {
+            throw new BusinessException(ARTICLE_NOT_EXIST.getDesc());
+        }
 
         //添加分类
         Long categoryId = savaCategory(article.getCategoryName());
@@ -230,7 +233,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
             Elements title  = document.getElementsByClass("title-article");
             Elements tags  = document.getElementsByClass("tag-link");
             Elements content  = document.getElementsByClass("article_content");
-            Assert.isTrue(StringUtils.isNotBlank(content.toString()),CRAWLING_ARTICLE_FAILED.getDesc());
+            if (StringUtils.isBlank(content.toString())) {
+                throw new BusinessException(CRAWLING_ARTICLE_FAILED.getDesc());
+            }
 
             //爬取的是HTML内容，需要转成MD格式的内容
             String newContent = content.get(0).toString().replaceAll("<code>", "<code class=\"lang-java\">");
@@ -390,7 +395,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     public ResponseResult searchArticle(String keywords) {
-        Assert.isTrue(StringUtils.isNotBlank(keywords), PARAMS_ILLEGAL.getDesc());
+        if (StringUtils.isBlank(keywords)) {
+            throw new BusinessException(PARAMS_ILLEGAL.getDesc());
+        }
         //获取搜索模式（es搜索或mysql搜索）
         SystemConfig systemConfig = systemConfigService.getCustomizeOne();
         String strategy = SearchModelEnum.getStrategy(systemConfig.getSearchModel());
@@ -431,7 +438,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         //校验验证码
         String key = RedisConstants.WECHAT_CODE + code;
         Object redisCode = redisService.getCacheObject(key);
-        Assert.isTrue(redisCode != null, ERROR_EXCEPTION_MOBILE_CODE.getDesc());
+        if (ObjectUtil.isNull(redisCode)) {
+            throw new BusinessException(ERROR_EXCEPTION_MOBILE_CODE.getDesc());
+        }
 
         //将ip存在redis 有效期一天，当天无需再进行验证码校验
         List<Object> cacheList = redisService.getCacheList(CHECK_CODE_IP);

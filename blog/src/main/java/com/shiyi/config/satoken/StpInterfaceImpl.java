@@ -27,8 +27,7 @@ public class StpInterfaceImpl implements StpInterface {
      */
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
-        List<String> menus = menuMapper.getMenuByUserId(loginId);
-        return menus;
+        return menuMapper.getMenuByUserId(loginId);
     }
 
     /**
