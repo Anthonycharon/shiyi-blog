@@ -255,7 +255,7 @@ CREATE TABLE `b_friend_link`  (
 -- ----------------------------
 -- Records of b_friend_link
 -- ----------------------------
-INSERT INTO `b_friend_link` VALUES (1, '拾壹博客', 'https://www.shiyit.com', 'http://img.shiyit.com/FjzfvfWYZVED7eXMS4EL8KNR949K', '机会向来都是自己争取的。', '', 6, 2, '2021-08-27 11:53:31', '2021-12-20 17:28:16');
+INSERT INTO `b_friend_link` VALUES (1, '拾壹博客', 'https://www.shiyit.com', 'http://img.shiyit.com/FjzfvfWYZVED7eXMS4EL8KNR949K', '机会向来都是自己争取的。','', '', 6, 2, '2021-08-27 11:53:31', '2021-12-20 17:28:16');
 
 -- ----------------------------
 -- Table structure for b_job
