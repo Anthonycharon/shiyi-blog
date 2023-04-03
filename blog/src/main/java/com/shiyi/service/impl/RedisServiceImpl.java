@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -254,6 +255,24 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public RedisTemplate getRedisTemplate() {
         return this.redisTemplate;
+    }
+
+    /**
+     *  增加文字阅读量或标签点击量
+     * @return
+     */
+    @Override
+    @Async("threadPoolTaskExecutor")
+    public void incrArticle(Long id,String key) {
+        Map<String, Object> map = getCacheMap(key);
+        Integer value = (Integer) map.get(id.toString());
+        // 如果key存在就直接加一
+        if (value != null) {
+            map.put(id.toString(),value+1);
+        }else {
+            map.put(id.toString(),1);
+        }
+        setCacheMap(key,map);
     }
 
 }

@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableAsync;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -15,6 +17,7 @@ import java.net.UnknownHostException;
 @SpringBootApplication
 @MapperScan(basePackages = {"com.shiyi.mapper"})
 @ServletComponentScan
+@EnableAsync
 public class BlogApplication {
     public static void main(String[] args) throws UnknownHostException {
         ConfigurableApplicationContext application = SpringApplication.run(BlogApplication.class, args);

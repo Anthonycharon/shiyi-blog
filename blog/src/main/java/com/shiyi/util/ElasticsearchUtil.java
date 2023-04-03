@@ -11,7 +11,10 @@ import org.springframework.data.elasticsearch.core.document.Document;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.UpdateQuery;
 import org.springframework.data.elasticsearch.core.query.UpdateResponse;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author blue
@@ -37,10 +40,11 @@ public class ElasticsearchUtil {
 
     /**
      * 删除数据
-     * @param id 文章ID
+     * @param ids 文章ID集合
      */
-    public void delete(Long id) {
-        elasticsearchRestTemplate.delete(id.toString(), ArticleSearchVO.class);
+    @Async("threadPoolTaskExecutor")
+    public void delete(List<Long> ids) {
+        ids.forEach(id -> elasticsearchRestTemplate.delete(id.toString(), ArticleSearchVO.class));
     }
 
     /**

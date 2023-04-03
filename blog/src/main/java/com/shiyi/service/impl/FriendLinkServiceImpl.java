@@ -14,7 +14,6 @@ import com.shiyi.util.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -36,8 +35,6 @@ import static com.shiyi.enums.FriendLinkEnum.*;
 public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendLink> implements FriendLinkService {
 
     private final EmailService emailService;
-
-    private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     /**
      * 友链列表
@@ -75,14 +72,8 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult updateFriendLink(FriendLink friendLink) {
         baseMapper.updateById(friendLink);
-        //审核通过发送邮件通知
-        if(friendLink.getStatus().equals(UP.getCode())){
-            emailService.friendPassSendEmail(friendLink.getEmail());
-        }
-        //审核未通过发送邮件通知
-        if(friendLink.getStatus().equals(DOWN.getCode())){
-            emailService.friendFailedSendEmail(friendLink.getEmail(), friendLink.getReason());
-        }
+        //审核通过和未通过发送邮件通知
+        emailService.sendFriendEmail(friendLink);
         return ResponseResult.success();
     }
 
@@ -134,7 +125,8 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         Assert.isTrue(StringUtils.isNotBlank(friendLink.getUrl()),"输入正确的网址!");
         friendLink.setStatus(APPLY.getCode());
 
-        Assert.isTrue(!friendLink.getUrl().contains("shiyit.com"),"不合法的网址！");
+        Assert.isTrue(!friendLink.getUrl().contains("shiyit.com") &&
+                !friendLink.getUrl().contains("baidu.com"),"不合法的网址！");
 
         //如果已经申请过友链 再次接入则会进行下架处理 需重新审核
         FriendLink entity = baseMapper.selectOne(new QueryWrapper<FriendLink>()
@@ -145,9 +137,8 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         }else {
             baseMapper.insert(friendLink);
         }
-
-        //不影响用户体验 新一个线程操作邮箱发送
-        threadPoolTaskExecutor.execute(() -> emailService.emailNoticeMe("友链接入通知","网站有新的友链接入啦("+friendLink.getUrl()+")，快去审核吧!!!"));
+        //异步操作邮箱发送
+        emailService.emailNoticeMe("友链接入通知","网站有新的友链接入啦("+friendLink.getUrl()+")，快去审核吧!!!");
         return ResponseResult.success();
     }
 }

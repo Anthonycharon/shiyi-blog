@@ -33,10 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -79,8 +77,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
 
     private final ElasticsearchUtil elasticsearchUtil;
 
-    private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
-
     @Value("${baidu.url}")
     private String baiduUrl;
 
@@ -112,7 +108,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResponseResult insertArticle(ArticleDTO article) {
+    public ResponseResult  insertArticle(ArticleDTO article) {
         BlogArticle blogArticle = BeanCopyUtils.copyObject(article, BlogArticle.class);
         blogArticle.setUserId(StpUtil.getLoginIdAsLong());
         //添加分类
@@ -349,8 +345,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         }
 
         //增加文章阅读量
-        threadPoolTaskExecutor.execute(() -> this.incr(id.longValue(),ARTICLE_READING));
-
+        redisService.incrArticle(id.longValue(),ARTICLE_READING);
         return ResponseResult.success(blogArticle);
     }
 
@@ -371,8 +366,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
             name = categoryMapper.selectById(categoryId).getName();
         }else {
             name = tagsMapper.selectById(tagId).getName();
-
-            threadPoolTaskExecutor.execute(() ->this.incr(tagId,TAG_CLICK_VOLUME));
+            redisService.incrArticle(tagId,TAG_CLICK_VOLUME);
         }
         result.put(SqlConf.NAME,name);
         result.put(RECORDS,blogArticlePage.getRecords());
@@ -456,21 +450,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
 
 
     //    -----自定义方法开始-------
-    /**
-     *  增加文字阅读量或标签点击量
-     * @return
-     */
-    public void incr(Long id,String key) {
-        Map<String, Object> map = redisService.getCacheMap(key);
-        Integer value = (Integer) map.get(id.toString());
-        // 如果key存在就直接加一
-        if (value != null) {
-            map.put(id.toString(),value+1);
-        }else {
-            map.put(id.toString(),1);
-        }
-        redisService.setCacheMap(key,map);
-    }
 
     /**
      * 删除文章后的一些同步删除
@@ -478,15 +457,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      */
     private void deleteAfter(List<Long> ids){
         tagsMapper.deleteByArticleIds(ids);
-        threadPoolTaskExecutor.execute(()->this.deleteEsData(ids));
-    }
-
-    /**
-     * 删除es索引库的数据
-     * @param ids
-     */
-    private void deleteEsData(List<Long> ids){
-        ids.forEach(elasticsearchUtil::delete);
+        //异步删除es文章
+        elasticsearchUtil.delete(ids);
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.shiyi.service;
 
+import com.shiyi.entity.FriendLink;
+
 import javax.mail.MessagingException;
 
 public interface EmailService {
@@ -29,4 +31,10 @@ public interface EmailService {
      * @param content 内容
      */
     void emailNoticeMe(String subject,String content);
+
+    /**
+     *  审核友链通不通过发送通知
+     * @param friendLink 友链对象
+     */
+    void sendFriendEmail(FriendLink friendLink);
 }

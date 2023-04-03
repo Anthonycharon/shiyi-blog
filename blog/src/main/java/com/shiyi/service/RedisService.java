@@ -132,4 +132,9 @@ public interface RedisService {
 
     RedisTemplate getRedisTemplate();
 
+    /**
+     *  增加文字阅读量或标签点击量
+     */
+    void incrArticle(Long id,String key);
+
 }

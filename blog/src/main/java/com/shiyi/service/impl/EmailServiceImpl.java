@@ -1,23 +1,29 @@
 package com.shiyi.service.impl;
 
 import com.shiyi.common.RedisConstants;
+import com.shiyi.entity.FriendLink;
 import com.shiyi.entity.SystemConfig;
 import com.shiyi.service.EmailService;
 import com.shiyi.service.RedisService;
 import com.shiyi.service.SystemConfigService;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
+import static com.shiyi.enums.FriendLinkEnum.DOWN;
+import static com.shiyi.enums.FriendLinkEnum.UP;
 
 @Service
 @Slf4j
@@ -29,6 +35,8 @@ public class EmailServiceImpl implements EmailService {
     private final SystemConfigService systemConfigService;
 
     private final JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+
+    private final Map<Integer, Consumer<FriendLink>> map = new HashMap<>();
 
     @PostConstruct
     public void init(){
@@ -42,6 +50,10 @@ public class EmailServiceImpl implements EmailService {
         p.setProperty("mail.smtp.auth", "true");
         p.setProperty("mail.debug", "true");
         javaMailSender.setJavaMailProperties(p);
+
+        //初始化策略map
+        map.put(UP.getCode(),friendLink ->  friendPassSendEmail(friendLink.getEmail()));
+        map.put(DOWN.getCode(),friendLink ->  friendFailedSendEmail(friendLink.getEmail(),friendLink.getReason()));
     }
 
 
@@ -49,8 +61,8 @@ public class EmailServiceImpl implements EmailService {
      * 通知我
      */
     @Override
+    @Async("threadPoolTaskExecutor")
     public void emailNoticeMe(String subject,String content) {
-
         // 构建一个邮件对象
         SimpleMailMessage message = new SimpleMailMessage();
         // 设置邮件主题
@@ -65,6 +77,18 @@ public class EmailServiceImpl implements EmailService {
         message.setText(content);
         // 发送邮件
         javaMailSender.send(message);
+    }
+
+    /**
+     *  审核友链通不通过发送通知
+     * @param friendLink 友链对象
+     */
+    @Override
+    public void sendFriendEmail(FriendLink friendLink) {
+        Consumer<FriendLink> consumer = map.get(friendLink.getStatus());
+        if (consumer != null) {
+            consumer.accept(friendLink);
+        }
     }
 
     /**
