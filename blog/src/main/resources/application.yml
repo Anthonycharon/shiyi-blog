@@ -1,6 +1,4 @@
-server:
-  port: 8800
-  servlet:
+servlet:
     # 应用的访问路径
     context-path: /shiyi
 spring:
