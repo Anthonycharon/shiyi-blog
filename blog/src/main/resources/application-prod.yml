@@ -11,7 +11,7 @@ spring:
   application:
     name: shiyiblog
   datasource:
-    url: jdbc:mysql://42.192.150.44:3306/blog?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
+    url: jdbc:mysql://42.192.150.44:3306/blog_new?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password:
@@ -38,8 +38,6 @@ spring:
     port: 6379
     timeout: 3000
     password:
-  profiles:
-    active: dev
 
 #==============================IP限流次数和时间配置==============================
 IpLimit:
@@ -106,7 +104,7 @@ knife4j:
     # Basic认证用户名
     username: admin
     # Basic认证密码
-    password:
+    password: admin2022
 
 #============================第三方登录配置信息===================================
 qq:
