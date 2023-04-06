@@ -94,7 +94,7 @@ public class OperationLoggerAspect {
         String paramsJson = getParamsJson((ProceedingJoinPoint) joinPoint);
         SystemUserVO user = (SystemUserVO) StpUtil.getSession().get(CURRENT_USER);
 
-        ExceptionLog exception = ExceptionLog.builder().ip(ip).ipSource(IpUtils.getCityInfo(ip))
+        ExceptionLog exception = ExceptionLog.builder().ip(ip).ipSource(IpUtils.getIp2region(ip))
                 .params(paramsJson).username(user.getUsername()).method(joinPoint.getSignature().getName())
                 .exceptionJson(JSON.toJSONString(e)).exceptionMessage(e.getMessage()).operation(operationName)
                 .createTime(DateUtils.getNowDate()).build();
@@ -132,7 +132,7 @@ public class OperationLoggerAspect {
         // 存储日志
         Date endTime = new Date();
         Long spendTime = endTime.getTime() - startTime.getTime();
-        AdminLog adminLog = new AdminLog(ip, IpUtils.getCityInfo(ip), type, url, user.getNickname(),
+        AdminLog adminLog = new AdminLog(ip, IpUtils.getIp2region(ip), type, url, user.getNickname(),
                 paramsJson, point.getTarget().getClass().getName(),
                 point.getSignature().getName(), operationName, spendTime);
         adminLogMapper.insert(adminLog);

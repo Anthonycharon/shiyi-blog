@@ -112,7 +112,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     public ResponseResult webAddMessage(Message message) {
         // 获取用户ip
         String ipAddress = IpUtils.getIp(request);
-        String ipSource = IpUtils.getCityInfo(ipAddress);
+        String ipSource = IpUtils.getIp2region(ipAddress);
         message.setIpAddress(ipAddress);
         message.setIpSource(ipSource);
         baseMapper.insert(message);

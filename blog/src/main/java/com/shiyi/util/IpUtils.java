@@ -3,10 +3,7 @@ package com.shiyi.util;
 import com.alibaba.fastjson.JSONObject;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.apache.commons.lang3.StringUtils;
-import org.lionsoul.ip2region.DataBlock;
-import org.lionsoul.ip2region.DbConfig;
-import org.lionsoul.ip2region.DbMakerConfigException;
-import org.lionsoul.ip2region.DbSearcher;
+import org.lionsoul.ip2region.xdb.Searcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
@@ -26,25 +23,30 @@ import static com.shiyi.common.Constants.UNKNOWN;
 public class IpUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(IpUtils.class);
-    private static final String dbPath;
-    private static DbSearcher searcher;
-    private static DbConfig config;
-
     private final static String format_url = "https://apis.map.qq.com/ws/location/v1/ip?ip={}&key=XJIBZ-ZNUWU-ZHGVM-2Z3JG-VQKF2-HXFTB";
 
     private final static String localIp = "127.0.0.1";
 
+    private final static String resource_name = "ip2region.xdb";
+
+
+    private static Searcher searcher = null;
+
     static {
-        dbPath = Objects.requireNonNull(IpUtils.class.getResource("/ip2region.db")).getPath();
+        // 1、从 dbPath 加载整个 xdb 到内存。
+        byte[] cBuff = new byte[0];
         try {
-            config = new DbConfig();
-        } catch (DbMakerConfigException e) {
-            e.printStackTrace();
+            String path = Objects.requireNonNull(IpUtils.class.getClassLoader().getResource(resource_name)).getPath();
+            cBuff = Searcher.loadContentFromFile(path);
+        } catch (Exception e) {
+            System.out.printf("failed to load content from `%s`: %s\n", resource_name, e);
         }
+
+        // 2、使用上述的 cBuff 创建一个完全基于内存的查询对象。
         try {
-            searcher = new DbSearcher(config, dbPath);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            searcher = Searcher.newWithBuffer(cBuff);
+        } catch (Exception e) {
+            System.out.printf("failed to create content cached searcher: %s\n", e);
         }
     }
 
@@ -114,39 +116,26 @@ public class IpUtils {
 
     /**
      * 根据ip2region解析ip地址
-     *
      * @param ip ip地址
-     * @return 解析后的ip地址
+     * @return 解析后的ip地址信息
      */
     public static String getIp2region(String ip)  {
-        if (StringUtils.isEmpty(dbPath)) {
-            logger.error("Error: Invalid ip2region.db file");
-            return null;
-        }
-        if(config == null || searcher == null){
-            logger.error("Error: DbSearcher or DbConfig is null");
+
+        if(searcher == null){
+            logger.error("Error: DbSearcher is null");
             return null;
         }
 
         try {
-            //define the method
-            Method method = null;
-            //B-tree, B树搜索（更快）
-            method = searcher.getClass().getMethod("btreeSearch", String.class);
-
-            DataBlock dataBlock;
-            dataBlock = (DataBlock) method.invoke(searcher, ip);
-            String ipInfo = dataBlock.getRegion();
+            String ipInfo = searcher.search(ip);
             if (!StringUtils.isEmpty(ipInfo)) {
                 ipInfo = ipInfo.replace("|0", "");
                 ipInfo = ipInfo.replace("0|", "");
             }
             return ipInfo;
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
