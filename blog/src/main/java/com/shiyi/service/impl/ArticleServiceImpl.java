@@ -253,7 +253,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
             List<Long> tagsId = new ArrayList<>();
             tags.forEach(item ->{
                 String tag = item.text();
-                Tags result = tagsMapper.selectOne(new QueryWrapper<Tags>().eq(SqlConf.NAME,tag ));
+                Tags result = tagsMapper.selectOne(new QueryWrapper<Tags>().eq(FieldConstants.NAME,tag ));
                 if (result == null){
                     result = Tags.builder().name(tag).build();
                     tagsMapper.insert(result);
@@ -316,7 +316,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
         blogArticle.setCategory(category);
         //评论
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<Comment>()
-                .eq(SqlConf.ARTICLE_ID, blogArticle.getId()).orderByDesc(SqlConf.CREATE_TIME);
+                .eq(FieldConstants.ARTICLE_ID, blogArticle.getId()).orderByDesc(FieldConstants.CREATE_TIME);
         List<Comment> list = commentMapper.selectList(queryWrapper);
         blogArticle.setComments(list);
 
@@ -368,7 +368,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
             name = tagsMapper.selectById(tagId).getName();
             redisService.incrArticle(tagId,TAG_CLICK_VOLUME);
         }
-        result.put(SqlConf.NAME,name);
+        result.put(FieldConstants.NAME,name);
         result.put(RECORDS,blogArticlePage.getRecords());
         return ResponseResult.success(result);
     }
@@ -469,7 +469,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
     private List<Long> getTagsList(ArticleDTO article) {
         List<Long> tagList = new ArrayList<>();
         article.getTags().forEach(item ->{
-            Tags tags = tagsMapper.selectOne(new QueryWrapper<Tags>().eq(SqlConf.NAME, item));
+            Tags tags = tagsMapper.selectOne(new QueryWrapper<Tags>().eq(FieldConstants.NAME, item));
             if (tags == null){
                 tags = Tags.builder().name(item).sort(0).build();
                 tagsMapper.insert(tags);
@@ -485,7 +485,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, BlogArticle> 
      * @return
      */
     private Long savaCategory(String categoryName) {
-        Category category = categoryMapper.selectOne(new QueryWrapper<Category>().eq(SqlConf.NAME, categoryName));
+        Category category = categoryMapper.selectOne(new QueryWrapper<Category>().eq(FieldConstants.NAME, categoryName));
         if (category == null){
             category = Category.builder().name(categoryName).sort(0).build();
             categoryMapper.insert(category);

@@ -2,7 +2,7 @@ package com.shiyi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.entity.Menu;
 import com.shiyi.mapper.MenuMapper;
 import com.shiyi.service.MenuService;
@@ -48,10 +48,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     @Override
     public ResponseResult listMenuApi(Integer id) {
         QueryWrapper<Menu> queryWrapper = new QueryWrapper<Menu>()
-                .eq("level",1).eq(id != null, SqlConf.ID,id);
+                .eq("level",1).eq(id != null, FieldConstants.ID,id);
         List<Menu> list = baseMapper.selectList(queryWrapper);
         for (Menu menu : list) {
-            List<Menu> childrens = baseMapper.selectList(new QueryWrapper<Menu>().eq(SqlConf.PARENT_ID,menu.getId()));
+            List<Menu> childrens = baseMapper.selectList(new QueryWrapper<Menu>().eq(FieldConstants.PARENT_ID,menu.getId()));
             menu.setChildren(childrens);
         }
         return ResponseResult.success(list);

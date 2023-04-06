@@ -3,7 +3,7 @@ package com.shiyi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.entity.AdminLog;
 import com.shiyi.mapper.AdminLogMapper;
 import com.shiyi.service.AdminLogService;
@@ -32,7 +32,7 @@ public class AdminLogServiceImpl extends ServiceImpl<AdminLogMapper, AdminLog> i
     @Override
     public ResponseResult listAdminLog() {
         Page<AdminLog> sysLogPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),
-                new QueryWrapper<AdminLog>().orderByDesc(SqlConf.CREATE_TIME));
+                new QueryWrapper<AdminLog>().orderByDesc(FieldConstants.CREATE_TIME));
         return ResponseResult.success(sysLogPage);
     }
 

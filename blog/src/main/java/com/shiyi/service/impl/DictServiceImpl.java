@@ -3,7 +3,7 @@ package com.shiyi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.entity.Dict;
 import com.shiyi.entity.DictData;
 import com.shiyi.mapper.DictMapper;
@@ -21,7 +21,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-import static com.shiyi.common.SqlConf.LIMIT_ONE;
+import static com.shiyi.common.FieldConstants.LIMIT_ONE;
 
 /**
  * <p>
@@ -48,8 +48,8 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     @Override
     public ResponseResult listDict(String name, Integer isPublish, String descColumn, String ascColumn) {
         QueryWrapper<Dict> queryWrapper = new QueryWrapper<Dict>()
-                .eq(isPublish != null,SqlConf.IS_PUBLISH,isPublish)
-                .like(StringUtils.isNotBlank(name),SqlConf.NAME,name);
+                .eq(isPublish != null, FieldConstants.IS_PUBLISH,isPublish)
+                .like(StringUtils.isNotBlank(name), FieldConstants.NAME,name);
         if(StringUtils.isNotEmpty(ascColumn)) {
             // 将驼峰转换成下划线
             String column = HumpLineUtils.humpToLine2(ascColumn);
@@ -59,7 +59,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
             String column = HumpLineUtils.humpToLine2(descColumn);
             queryWrapper.orderByDesc(column);
         } else {
-            queryWrapper.orderByDesc(SqlConf.SORT, SqlConf.CREATE_TIME);
+            queryWrapper.orderByDesc(FieldConstants.SORT, FieldConstants.CREATE_TIME);
         }
         Page<Dict> page = new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize());
         Page<Dict> data = baseMapper.selectPage(page, queryWrapper);
@@ -101,7 +101,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult deleteDict(int id) {
-        int count  = dictDataService.count(new QueryWrapper<DictData>().eq(SqlConf.DICT_TYPE_ID,id));
+        int count  = dictDataService.count(new QueryWrapper<DictData>().eq(FieldConstants.DICT_TYPE_ID,id));
         Assert.isTrue(count==0,"该字典类型存在字典数据!");
         baseMapper.deleteById(id);
         return ResponseResult.success();
@@ -115,7 +115,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult deleteBatch(List<Long> ids) {
-        int count  = dictDataService.count(new QueryWrapper<DictData>().in(SqlConf.DICT_TYPE_ID,ids));
+        int count  = dictDataService.count(new QueryWrapper<DictData>().in(FieldConstants.DICT_TYPE_ID,ids));
         Assert.isTrue(count==0,"所选字典类型中存在字典数据!");
         baseMapper.deleteBatchIds(ids);
         return ResponseResult.success();
@@ -124,7 +124,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
     /* ---------自定义方法开始------------*/
     public void validateType(String type){
-        Dict temp  = baseMapper.selectOne(new QueryWrapper<Dict>().eq(SqlConf.TYPE, type).last(LIMIT_ONE));
+        Dict temp  = baseMapper.selectOne(new QueryWrapper<Dict>().eq(FieldConstants.TYPE, type).last(LIMIT_ONE));
         Assert.isNull(temp,"该字典类型已存在!");
     }
 }

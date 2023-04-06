@@ -3,7 +3,7 @@ package com.shiyi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.entity.FeedBack;
 import com.shiyi.mapper.FeedBackMapper;
 import com.shiyi.service.FeedBackService;
@@ -33,7 +33,7 @@ public class FeedBackServiceImpl extends ServiceImpl<FeedBackMapper, FeedBack> i
     @Override
     public ResponseResult listFeedBack(Integer type) {
         QueryWrapper<FeedBack> queryWrapper = new QueryWrapper<FeedBack>()
-                .orderByDesc(SqlConf.CREATE_TIME).eq(type != null,SqlConf.TYPE,type);
+                .orderByDesc(FieldConstants.CREATE_TIME).eq(type != null, FieldConstants.TYPE,type);
         Page<FeedBack> feedBackPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
         return ResponseResult.success(feedBackPage);
     }

@@ -21,7 +21,6 @@ import com.shiyi.dto.EmailRegisterDTO;
 import com.shiyi.dto.QQLoginDTO;
 import com.shiyi.dto.UserAuthDTO;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +30,7 @@ import java.util.regex.Pattern;
 
 import static com.shiyi.common.ResultCode.*;
 import static com.shiyi.common.ResultCode.ERROR_MUST_REGISTER;
-import static com.shiyi.common.SqlConf.LIMIT_ONE;
+import static com.shiyi.common.FieldConstants.LIMIT_ONE;
 
 /**
  * <p>
@@ -223,7 +222,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
     }
 
     public User getByUserName(String username){
-        return userService.getOne(new QueryWrapper<User>().eq(SqlConf.USERNAME, username));
+        return userService.getOne(new QueryWrapper<User>().eq(FieldConstants.USERNAME, username));
     }
 
     private void checkCode(String key, String sourCode) {

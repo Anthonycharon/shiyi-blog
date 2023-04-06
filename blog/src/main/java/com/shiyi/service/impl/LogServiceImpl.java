@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.entity.UserLog;
 import com.shiyi.mapper.UserLogMapper;
 import com.shiyi.service.UserLogService;
@@ -32,7 +32,7 @@ public class LogServiceImpl extends ServiceImpl<UserLogMapper, UserLog> implemen
     @Override
     public ResponseResult listUserLog() {
         QueryWrapper<UserLog> queryWrapper = new QueryWrapper<UserLog>()
-                .orderByDesc(SqlConf.CREATE_TIME);
+                .orderByDesc(FieldConstants.CREATE_TIME);
         Page<UserLog> sysLogPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
         return ResponseResult.success(sysLogPage);
     }

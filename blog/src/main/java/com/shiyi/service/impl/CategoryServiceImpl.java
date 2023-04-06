@@ -4,7 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.exception.BusinessException;
 import com.shiyi.vo.CategoryVO;
 import com.shiyi.entity.Category;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 import static com.shiyi.common.ResultCode.CATEGORY_IS_EXIST;
 import static com.shiyi.common.ResultCode.CATEGORY_IS_TOP;
-import static com.shiyi.common.SqlConf.LIMIT_ONE;
+import static com.shiyi.common.FieldConstants.LIMIT_ONE;
 
 /**
  * <p>
@@ -67,7 +67,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult insertCategory(Category category) {
-        Category vo = baseMapper.selectOne(new QueryWrapper<Category>().eq(SqlConf.NAME, category.getName()));
+        Category vo = baseMapper.selectOne(new QueryWrapper<Category>().eq(FieldConstants.NAME, category.getName()));
         if (ObjectUtil.isNull(vo)) {
             throw new BusinessException("该分类名称已存在!");
         }
@@ -83,7 +83,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult updateCategory(Category category) {
-        Category vo = baseMapper.selectOne(new QueryWrapper<Category>().eq(SqlConf.NAME, category.getName()));
+        Category vo = baseMapper.selectOne(new QueryWrapper<Category>().eq(FieldConstants.NAME, category.getName()));
         Assert.isTrue(!(vo != null && !vo.getId().equals(category.getId())),CATEGORY_IS_EXIST.getDesc());
 
         int rows = baseMapper.updateById(category);
@@ -123,7 +123,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult top(Long id) {
-        Category category = baseMapper.selectOne(new QueryWrapper<Category>().orderByDesc(SqlConf.SORT).last(LIMIT_ONE));
+        Category category = baseMapper.selectOne(new QueryWrapper<Category>().orderByDesc(FieldConstants.SORT).last(LIMIT_ONE));
         Assert.isTrue(!category.getId().equals(id), CATEGORY_IS_TOP.getDesc());
 
         Category vo = Category.builder()

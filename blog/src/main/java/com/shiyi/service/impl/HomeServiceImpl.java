@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.shiyi.common.SqlConf.LIMIT_ONE;
+import static com.shiyi.common.FieldConstants.LIMIT_ONE;
 import static com.shiyi.enums.PublishEnum.PUBLISH;
 
 @Service
@@ -132,7 +132,7 @@ public class HomeServiceImpl {
         .last(LIMIT_ONE));
 
         //文章分类标签
-        Integer articleCount = articleMapper.selectCount(new QueryWrapper<BlogArticle>().eq(SqlConf.IS_PUBLISH, PUBLISH.getCode()));
+        Integer articleCount = articleMapper.selectCount(new QueryWrapper<BlogArticle>().eq(FieldConstants.IS_PUBLISH, PUBLISH.getCode()));
         Integer tagCount = tagsMapper.selectCount(null);
         Integer categoryCount = categoryMapper.selectCount(null);
         // 查询访问量

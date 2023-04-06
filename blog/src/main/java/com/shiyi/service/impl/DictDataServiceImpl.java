@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.service.DictDataService;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.entity.Dict;
 import com.shiyi.entity.DictData;
 import com.shiyi.mapper.DictDataMapper;
@@ -23,7 +23,7 @@ import java.util.Map;
 
 import static com.shiyi.common.Constants.*;
 import static com.shiyi.common.ResultCode.DATA_TAG_IS_EXIST;
-import static com.shiyi.common.SqlConf.LIMIT_ONE;
+import static com.shiyi.common.FieldConstants.LIMIT_ONE;
 import static com.shiyi.enums.PublishEnum.PUBLISH;
 
 /**
@@ -49,7 +49,7 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
     @Override
     public ResponseResult listDictData(Integer dictId, Integer isPublish) {
         QueryWrapper<DictData> queryWrapper = new QueryWrapper<DictData>()
-                .eq(SqlConf.DICT_TYPE_ID,dictId).eq(isPublish != null,SqlConf.IS_PUBLISH,isPublish);
+                .eq(FieldConstants.DICT_TYPE_ID,dictId).eq(isPublish != null, FieldConstants.IS_PUBLISH,isPublish);
         Page<DictData> data = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
         data.getRecords().forEach(item ->{
             Dict dict = dictService.getById(item.getDictId());
@@ -81,7 +81,7 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult updateDictData(DictData sysDictData) {
 
-        DictData dictData = baseMapper.selectOne(new QueryWrapper<DictData>().eq(SqlConf.DICT_LABEL,sysDictData.getLabel()));
+        DictData dictData = baseMapper.selectOne(new QueryWrapper<DictData>().eq(FieldConstants.DICT_LABEL,sysDictData.getLabel()));
         if (dictData != null && !dictData.getId().equals(sysDictData.getId())) return ResponseResult.error("该标签已存在!");
 
         baseMapper.updateById(sysDictData);
@@ -121,13 +121,13 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
     public ResponseResult getDataByDictType(List<String> types) {
         Map<String, Map<String, Object>> map = new HashMap<>();
         QueryWrapper<Dict> queryWrapper = new QueryWrapper<>();
-        queryWrapper.in(SqlConf.TYPE,types).eq(SqlConf.IS_PUBLISH, PUBLISH.getCode());
+        queryWrapper.in(FieldConstants.TYPE,types).eq(FieldConstants.IS_PUBLISH, PUBLISH.getCode());
         List<Dict> dictList = dictService.list(queryWrapper);
         dictList.forEach(item ->{
             QueryWrapper<DictData> sysDictDataQueryWrapper = new QueryWrapper<>();
-            sysDictDataQueryWrapper.eq(SqlConf.IS_PUBLISH, PUBLISH.getCode());
-            sysDictDataQueryWrapper.eq(SqlConf.DICT_TYPE_ID, item.getId());
-            sysDictDataQueryWrapper.orderByAsc(SqlConf.SORT);
+            sysDictDataQueryWrapper.eq(FieldConstants.IS_PUBLISH, PUBLISH.getCode());
+            sysDictDataQueryWrapper.eq(FieldConstants.DICT_TYPE_ID, item.getId());
+            sysDictDataQueryWrapper.orderByAsc(FieldConstants.SORT);
             List<DictData> dataList = baseMapper.selectList(sysDictDataQueryWrapper);
             String defaultValue = null;
             for (DictData dictData : dataList) {
@@ -149,8 +149,8 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
     //-------------自定义方法开始-----------
     public void isExist(DictData dictData){
         DictData temp = baseMapper.selectOne(new QueryWrapper<DictData>()
-                .eq(SqlConf.DICT_LABEL, dictData.getLabel())
-                .eq(SqlConf.DICT_TYPE_ID, dictData.getDictId())
+                .eq(FieldConstants.DICT_LABEL, dictData.getLabel())
+                .eq(FieldConstants.DICT_TYPE_ID, dictData.getDictId())
                 .last(LIMIT_ONE));
         Assert.notNull(temp,DATA_TAG_IS_EXIST.getDesc());
     }

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.entity.JobLog;
 import com.shiyi.mapper.JobLogMapper;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.service.JobLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.util.PageUtils;
@@ -40,11 +40,11 @@ public class JobLogServiceImpl extends ServiceImpl<JobLogMapper, JobLog> impleme
     public ResponseResult listJobLog(String jobName, String jobGroup, String status, String startTime,
                                    String endTime, Long jobId) {
         QueryWrapper<JobLog> queryWrapper = new QueryWrapper<JobLog>()
-                .orderByDesc(SqlConf.CREATE_TIME).eq(jobId != null,SqlConf.JOB_ID,jobId)
-                .like(StringUtils.isNotBlank(jobName),SqlConf.JOB_NAME,jobName)
-                .like(StringUtils.isNotBlank(jobGroup),SqlConf.JOB_GROUP,jobGroup)
-                .eq(StringUtils.isNotBlank(status),SqlConf.STATUS,status)
-                .between(StringUtils.isNotBlank(startTime),SqlConf.START_TIME,startTime,endTime);
+                .orderByDesc(FieldConstants.CREATE_TIME).eq(jobId != null, FieldConstants.JOB_ID,jobId)
+                .like(StringUtils.isNotBlank(jobName), FieldConstants.JOB_NAME,jobName)
+                .like(StringUtils.isNotBlank(jobGroup), FieldConstants.JOB_GROUP,jobGroup)
+                .eq(StringUtils.isNotBlank(status), FieldConstants.STATUS,status)
+                .between(StringUtils.isNotBlank(startTime), FieldConstants.START_TIME,startTime,endTime);
         Page<JobLog> page = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
         return ResponseResult.success(page);
     }

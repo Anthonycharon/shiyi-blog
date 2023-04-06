@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.vo.TagVO;
 import com.shiyi.entity.Tags;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.mapper.TagsMapper;
 import com.shiyi.service.TagsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import java.util.List;
 
-import static com.shiyi.common.SqlConf.LIMIT_ONE;
+import static com.shiyi.common.FieldConstants.LIMIT_ONE;
 
 /**
  * <p>
@@ -110,7 +110,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult top(Long id) {
         Tags tags = baseMapper.selectOne(new QueryWrapper<Tags>()
-                .last(LIMIT_ONE).orderByDesc(SqlConf.SORT));
+                .last(LIMIT_ONE).orderByDesc(FieldConstants.SORT));
         Assert.isTrue(!tags.getId().equals(id),"改标签已在最顶端!");
         Tags entity = Tags.builder().id(id).sort(tags.getSort()+1).build();
         int rows = baseMapper.updateById(entity);
@@ -131,7 +131,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
 
     //-----------自定义方法开始------------
     public void validateName(String name){
-        Tags entity = baseMapper.selectOne(new QueryWrapper<Tags>().eq(SqlConf.NAME,name));
+        Tags entity = baseMapper.selectOne(new QueryWrapper<Tags>().eq(FieldConstants.NAME,name));
         Assert.isNull(entity,"标签名已存在!");
     }
 }

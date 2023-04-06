@@ -3,7 +3,7 @@ package com.shiyi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.entity.Photo;
 import com.shiyi.mapper.PhotoMapper;
 import com.shiyi.service.PhotoService;
@@ -33,7 +33,7 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
      */
     @Override
     public ResponseResult listPhoto(Integer albumId) {
-        Page<Photo> photoPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, albumId));
+        Page<Photo> photoPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new QueryWrapper<Photo>().eq(FieldConstants.ALBUM_ID, albumId));
         return ResponseResult.success(photoPage);
     }
 

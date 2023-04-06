@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.entity.Role;
 import com.shiyi.mapper.RoleMapper;
 import com.shiyi.service.RoleService;
@@ -29,7 +29,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public ResponseResult listRole(String name) {
         Page<Role> data = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new QueryWrapper<Role>()
-                .like(StringUtils.isNotBlank(name),SqlConf.NAME,name));
+                .like(StringUtils.isNotBlank(name), FieldConstants.NAME,name));
         return ResponseResult.success(data);
     }
 

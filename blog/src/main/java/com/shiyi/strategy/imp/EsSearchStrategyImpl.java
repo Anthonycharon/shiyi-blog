@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.shiyi.vo.ArticleSearchVO;
 import com.shiyi.common.Constants;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.strategy.SearchStrategy;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.index.query.*;
@@ -48,8 +48,8 @@ public class EsSearchStrategyImpl implements SearchStrategy {
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         // 根据关键词搜索文章标题或内容
-        boolQueryBuilder.must(QueryBuilders.boolQuery().should(QueryBuilders.matchQuery(SqlConf.TITLE, keywords))
-                .should(QueryBuilders.matchQuery(SqlConf.CONTENT, keywords)));
+        boolQueryBuilder.must(QueryBuilders.boolQuery().should(QueryBuilders.matchQuery(FieldConstants.TITLE, keywords))
+                .should(QueryBuilders.matchQuery(FieldConstants.CONTENT, keywords)));
         nativeSearchQueryBuilder.withQuery(boolQueryBuilder);
         return nativeSearchQueryBuilder;
     }
@@ -62,11 +62,11 @@ public class EsSearchStrategyImpl implements SearchStrategy {
      */
     private List<ArticleSearchVO> search(NativeSearchQueryBuilder nativeSearchQueryBuilder) {
         // 添加文章标题高亮
-        HighlightBuilder.Field titleField = new HighlightBuilder.Field(SqlConf.TITLE);
+        HighlightBuilder.Field titleField = new HighlightBuilder.Field(FieldConstants.TITLE);
         titleField.preTags(Constants.PRE_TAG);
         titleField.postTags(Constants.POST_TAG);
         // 添加文章内容高亮
-        HighlightBuilder.Field contentField = new HighlightBuilder.Field(SqlConf.CONTENT);
+        HighlightBuilder.Field contentField = new HighlightBuilder.Field(FieldConstants.CONTENT);
         contentField.preTags(Constants.PRE_TAG);
         contentField.postTags(Constants.POST_TAG);
         contentField.fragmentSize(200);
@@ -77,13 +77,13 @@ public class EsSearchStrategyImpl implements SearchStrategy {
             return search.getSearchHits().stream().map(hit -> {
                 ArticleSearchVO article = hit.getContent();
                 // 获取文章标题高亮数据
-                List<String> titleHighLightList = hit.getHighlightFields().get(SqlConf.TITLE);
+                List<String> titleHighLightList = hit.getHighlightFields().get(FieldConstants.TITLE);
                 if (CollectionUtils.isNotEmpty(titleHighLightList)) {
                     // 替换标题数据
                     article.setTitle(titleHighLightList.get(0));
                 }
                 // 获取文章内容高亮数据
-                List<String> contentHighLightList = hit.getHighlightFields().get(SqlConf.CONTENT);
+                List<String> contentHighLightList = hit.getHighlightFields().get(FieldConstants.CONTENT);
                 if (CollectionUtils.isNotEmpty(contentHighLightList)) {
                     // 替换内容数据
                     article.setContent(contentHighLightList.get(contentHighLightList.size() - 1));

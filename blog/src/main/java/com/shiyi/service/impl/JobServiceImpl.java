@@ -3,7 +3,7 @@ package com.shiyi.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.entity.Job;
 import com.shiyi.enums.ScheduleConstants;
 import com.shiyi.exception.BusinessException;
@@ -69,9 +69,9 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements JobSe
     @Override
     public ResponseResult listJob(String jobName, String jobGroup, String status) {
         QueryWrapper<Job> queryWrapper = new QueryWrapper<Job>()
-                .like(StringUtils.isNotBlank(jobName),SqlConf.JOB_NAME,jobName)
-                .eq(StringUtils.isNotBlank(jobGroup),SqlConf.JOB_GROUP,jobGroup)
-                .eq(StringUtils.isNotBlank(status),SqlConf.STATUS,status);
+                .like(StringUtils.isNotBlank(jobName), FieldConstants.JOB_NAME,jobName)
+                .eq(StringUtils.isNotBlank(jobGroup), FieldConstants.JOB_GROUP,jobGroup)
+                .eq(StringUtils.isNotBlank(status), FieldConstants.STATUS,status);
 
         Page<Job> sysJobPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
         return ResponseResult.success(sysJobPage);

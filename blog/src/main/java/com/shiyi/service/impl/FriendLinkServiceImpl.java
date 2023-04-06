@@ -3,7 +3,7 @@ package com.shiyi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.service.EmailService;
 import com.shiyi.vo.FriendLinkVO;
 import com.shiyi.entity.FriendLink;
@@ -45,8 +45,8 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
     @Override
     public ResponseResult listFriendLink(String name, Integer status) {
         QueryWrapper<FriendLink> queryWrapper= new QueryWrapper<FriendLink>()
-                .orderByDesc(SqlConf.SORT).like(StringUtils.isNotBlank(name),SqlConf.NAME,name)
-                .eq(status != null,SqlConf.STATUS,status);
+                .orderByDesc(FieldConstants.SORT).like(StringUtils.isNotBlank(name), FieldConstants.NAME,name)
+                .eq(status != null, FieldConstants.STATUS,status);
         Page<FriendLink> friendLinkPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),queryWrapper);
         return ResponseResult.success(friendLinkPage);
     }
@@ -130,7 +130,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
 
         //如果已经申请过友链 再次接入则会进行下架处理 需重新审核
         FriendLink entity = baseMapper.selectOne(new QueryWrapper<FriendLink>()
-                .eq(SqlConf.URL,friendLink.getUrl()));
+                .eq(FieldConstants.URL,friendLink.getUrl()));
         if (entity != null) {
             friendLink.setId(entity.getId());
             baseMapper.updateById(friendLink);

@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.shiyi.common.Constants.USER_ROLE_ID;
-import static com.shiyi.common.SqlConf.ID;
-import static com.shiyi.common.SqlConf.LIMIT_ONE;
+import static com.shiyi.common.FieldConstants.ID;
+import static com.shiyi.common.FieldConstants.LIMIT_ONE;
 
 /**
  * <p>

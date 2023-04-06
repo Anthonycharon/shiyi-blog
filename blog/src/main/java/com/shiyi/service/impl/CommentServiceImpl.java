@@ -10,7 +10,7 @@ import com.shiyi.exception.BusinessException;
 import com.shiyi.vo.ReplyCountVO;
 import com.shiyi.vo.ReplyVO;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.vo.SystemCommentVO;
 import com.shiyi.entity.Comment;
 import com.shiyi.entity.UserAuth;
@@ -80,8 +80,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             return ResponseResult.success();
         }
         Page<Comment> pages = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()),
-                new QueryWrapper<Comment>().eq(SqlConf.ARTICLE_ID, articleId).isNull(SqlConf.PARENT_ID)
-                        .orderByDesc(SqlConf.ID));
+                new QueryWrapper<Comment>().eq(FieldConstants.ARTICLE_ID, articleId).isNull(FieldConstants.PARENT_ID)
+                        .orderByDesc(FieldConstants.ID));
         // 分页查询评论集合
         List<Comment> comments = pages.getRecords();
         if (CollectionUtils.isEmpty(comments)) {
@@ -136,7 +136,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Override
     public ResponseResult repliesByComId(Integer commentId) {
-        Page<Comment> page = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new QueryWrapper<Comment>().eq(SqlConf.PARENT_ID, commentId));
+        Page<Comment> page = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), new QueryWrapper<Comment>().eq(FieldConstants.PARENT_ID, commentId));
         List<ReplyVO> result = new ArrayList<>();
         for (Comment comment: page.getRecords()) {
             UserAuth userAuth = userAuthMapper.getByUserId(comment.getUserId());

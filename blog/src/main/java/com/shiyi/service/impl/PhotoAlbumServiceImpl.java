@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiyi.common.ResponseResult;
-import com.shiyi.common.SqlConf;
+import com.shiyi.common.FieldConstants;
 import com.shiyi.entity.Photo;
 import com.shiyi.entity.PhotoAlbum;
 import com.shiyi.enums.YesOrNoEnum;
@@ -47,10 +47,10 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
     @Override
     public ResponseResult listAlbum(String name) {
         QueryWrapper<PhotoAlbum> queryWrapper = new QueryWrapper<PhotoAlbum>()
-                .like(StringUtils.isNotBlank(name),SqlConf.NAME,name);
+                .like(StringUtils.isNotBlank(name), FieldConstants.NAME,name);
         Page<PhotoAlbum> photoAlbumPage = baseMapper.selectPage(new Page<>(PageUtils.getPageNo(), PageUtils.getPageSize()), queryWrapper);
         photoAlbumPage.getRecords().forEach(item ->{
-            Integer count = photoMapper.selectCount(new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, item.getId()));
+            Integer count = photoMapper.selectCount(new QueryWrapper<Photo>().eq(FieldConstants.ALBUM_ID, item.getId()));
             item.setPhotoCount(count);
         });
         return ResponseResult.success(photoAlbumPage);
@@ -64,7 +64,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
     @Override
     public ResponseResult getAlbumById(Integer id) {
         PhotoAlbum photoAlbum = baseMapper.selectById(id);
-        Integer count = photoMapper.selectCount(new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, photoAlbum.getId()));
+        Integer count = photoMapper.selectCount(new QueryWrapper<Photo>().eq(FieldConstants.ALBUM_ID, photoAlbum.getId()));
         photoAlbum.setPhotoCount(count);
         return ResponseResult.success(photoAlbum);
     }
@@ -102,7 +102,7 @@ public class PhotoAlbumServiceImpl extends ServiceImpl<PhotoAlbumMapper, PhotoAl
     @Transactional(rollbackFor = Exception.class)
     public ResponseResult deleteAlbumById(Integer id) {
         baseMapper.deleteById(id);
-        int rows = photoMapper.delete(new QueryWrapper<Photo>().eq(SqlConf.ALBUM_ID, id));
+        int rows = photoMapper.delete(new QueryWrapper<Photo>().eq(FieldConstants.ALBUM_ID, id));
         return rows > 0 ? ResponseResult.success(): ResponseResult.error("删除相册失败");
     }
 
