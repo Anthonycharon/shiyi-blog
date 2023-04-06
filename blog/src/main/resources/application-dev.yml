@@ -29,8 +29,6 @@ spring:
     port: 6379
     timeout: 3000
     password:
-  profiles:
-    active: dev
 
 #==============================IP限流次数和时间配置==============================
 IpLimit:
