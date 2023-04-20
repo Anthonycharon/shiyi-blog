@@ -1,4 +1,5 @@
-servlet:
+server:
+  servlet:
     # 应用的访问路径
     context-path: /shiyi
 spring:
